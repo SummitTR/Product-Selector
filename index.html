@@ -107,9 +107,44 @@
   cursor: pointer;
 }
 .learn-more-btn:hover { opacity: 0.92; }
+</style><style>
+/* Unified button styles */
+.learn-more, .learn-more-btn, a.learn-more, a.learn-more-btn,
+.watch-video {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #254a4f;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-family: inherit;
+  line-height: 1.2;
+  min-height: 40px;
+  min-width: 140px;
+  margin: 8px 0 6px 0;
+}
+.learn-more:hover, .learn-more-btn:hover, a.learn-more:hover, a.learn-more-btn:hover,
+.watch-video:hover { opacity: 0.92; text-decoration: none; }
 </style></head>
 <body>
-<header>
+<div class="uploader" id="csv-tools" style="border:2px dashed #254a4f;border-radius:12px;padding:16px;margin:16px auto;max-width:1200px;">
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;">
+<strong style="font-size:16px;">CSV Import</strong>
+<label style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;">
+<input id="replaceImages" type="checkbox"/>
+<span>Replace images instead of append</span>
+</label>
+</div>
+<input accept=".csv" id="csvfile" style="display:block;margin:10px 0;" type="file"/>
+<div style="display:flex;gap:8px;flex-wrap:wrap;">
+<button id="applyBtn" style="background:#254a4f;color:#fff;border:0;border-radius:8px;padding:10px 12px;cursor:pointer;">Apply CSV</button>
+<button id="toggleLog" style="background:#6b7280;color:#fff;border:0;border-radius:8px;padding:10px 12px;cursor:pointer;">Show/Hide Log</button>
+</div>
+<pre id="csv-log" style="display:none;text-align:left;font-family:monospace;font-size:12px;white-space:pre-wrap;background:#f8fafc;border:1px solid #e5e7eb;padding:10px;border-radius:8px;max-height:260px;overflow:auto;margin-top:10px;"></pre>
+</div><header>
 <div class="header-inner">
 <h1>Summit Tractors — Product Selector</h1>
 </div>
@@ -145,8 +180,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>24.7 HP Mitsubishi Diesel Engine</li><li>3rd Function Hydraulics - Grapple Ready</li><li>Rear Hydraulic Remotes</li><li>Self-Leveling Loader</li></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="TX25HTRLDR" data-name="Summit TX25H Compact Tractor &amp; LX85 Loader" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -168,8 +202,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>All Features of The TX25H &amp; LX85 Loader</li><li>Mechanical Thumb</li><li>Independent Operator Seat</li><li>Standard 12" Bucket</li></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="TX25HTRLDRBH" data-name="Summit TX25H Tractor &amp; Loader w/BHX76 Backhoe" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 </div>
@@ -188,8 +221,7 @@
 <details><summary>Key Features</summary><ul class="features"></ul></details>
 <div class="select-container">
 <label><input backhoe="" bucket"="" class="select-checkbox" data-id="BB8" data-name="Summit BHBX8 Optional 8" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -203,8 +235,7 @@
 <details><summary>Key Features</summary><ul class="features"></ul></details>
 <div class="select-container">
 <label><input backhoe="" bucket"="" class="select-checkbox" data-id="BB16" data-name="Summit BHBX16 Optional 16" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -218,8 +249,7 @@
 <details><summary>Key Features</summary><ul class="features"></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="SPX1" data-name="Summit BHSPX1 Optional Street Pads" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 </div>
@@ -238,8 +268,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>Reversible cutting edges</li><li>Adjustable scarifiers</li><li>Cat 1 quick hitch compatible</li><li>Heavy‑gauge steel</li></ul></details>
 <div class="select-container">
 <label><input blade"="" box="" class="select-checkbox" data-id="BBX60" data-name="Summit Tractors 60" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -253,8 +282,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>Manual angle/tilt</li><li>Reversible cutting edge</li><li>Skid shoes available</li><li>Quick‑hitch ready</li></ul></details>
 <div class="select-container">
 <label><input blade"="" class="select-checkbox" data-id="RBX60" data-name="Summit Tractors 60" rear="" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -268,8 +296,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>Dual cutting blades</li><li>Side skids for consistent grade</li><li>Beginner friendly</li><li>Quick‑hitch compatible</li></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="LPX60" data-name="Summit Tractors 60" land="" plane"="" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -283,8 +310,7 @@
 <details><summary>Key Features</summary><ul class="features"></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="BPX60" data-name="Summit Tractors BPX60 BoxPlane" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 </div>
@@ -303,8 +329,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>Adjustable gang angles</li><li>Heavy disk blades</li><li>Greaseable bearings</li><li>Quick‑hitch compatible</li></ul></details>
 <div class="select-container">
 <label><input angle="" class="select-checkbox" data-id="AFDHX60" data-name="Summit Tractors 60" disc="" frame="" harrow"="" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -318,8 +343,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>Slip clutch PTO</li><li>Adjustable depth skids</li><li>Rear deflector</li><li>Chain/gear‑drive options</li></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="RTLRX54" data-name="Summit Tractors 54" rotary="" tiller"="" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -333,8 +357,7 @@
 <details><summary>Key Features</summary><ul class="features"></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="MBX1" data-name="Summit Tractors MBX1 Middle Buster" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -348,8 +371,7 @@
 <details><summary>Key Features</summary><ul class="features"></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="MBSSX1" data-name="Summit Tractors MBSSX1 Middle Buster Sub-Soiler Combo" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -363,8 +385,7 @@
 <details><summary>Key Features</summary><ul class="features"></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="SSX1" data-name="Summit Tractors SSX1 Sub-Soiler" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 </div>
@@ -383,8 +404,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>Adjustable fork spacing</li><li>High‑visibility frame</li><li>Quick‑attach</li><li>Rated for compact tractor loaders</li></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="PFX42" data-name="Summit Tractors 42" forks"="" pallet="" ssqa="" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -406,8 +426,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>Twin cylinders for strong clamp</li><li>Open‑bottom design sheds dirt</li><li>Wear‑resistant tips</li></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="GX54" data-name="Summit Tractors 54" grapple"="" ssqa="" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 </div>
@@ -426,8 +445,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>Slip clutch PTO</li><li>Stump jumper &amp; tailwheel</li><li>Deck baffles for cut quality</li><li>Quick‑hitch compatible</li></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" cutter"="" data-id="RCX48" data-name="Summit Tractors 48" rotary="" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -441,8 +459,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>Three‑blade floating deck</li><li>Anti‑scalp wheels</li><li>Easy‑service belt guards</li><li>Adjustable cut height</li></ul></details>
 <div class="select-container">
 <label><input 3-point="" class="select-checkbox" data-id="FMX60" data-name="Summit Tractors 60" finish="" mower"="" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -456,8 +473,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>Angling head with easy pins</li><li>Spring tines</li><li>Flip‑back smoothing</li><li>Quick‑hitch compatible</li></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="LRX60" data-name="Summit Tractors 60" landscape="" rake"="" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 </div>
@@ -476,8 +492,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>Replaceable UHMW wear edge</li><li>Heavy side plates</li><li>Loader quick‑attach</li><li>Optional back‑drag kit</li></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="SPX60" data-name="Summit Tractors 60" pusher"="" snow="" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -491,8 +506,7 @@
 <details><summary>Key Features</summary><ul class="features"><li>Two‑stage impeller</li><li>Adjustable chute</li><li>Shear‑bolt protected</li><li>Cat‑1 3‑pt, PTO driven</li></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="SPX60DRAG" data-name="Summit Tractors 60" drag="" kit"="" pusher="" snow="" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 </div>
@@ -511,8 +525,7 @@
 <details><summary>Key Features</summary><ul class="features"></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="BPX1" data-name="Summit Tractors BPX1 Boom Pole" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -526,8 +539,7 @@
 <details><summary>Key Features</summary><ul class="features"></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="TMX1" data-name="Summit Tractors TMX1 Trailer Mover" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -541,8 +553,7 @@
 <details><summary>Key Features</summary><ul class="features"></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="CAX1" data-name="Summit Tractors CAX1 Carry All" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 <article class="product-card">
@@ -556,8 +567,7 @@
 <details><summary>Key Features</summary><ul class="features"></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="QHX1" data-name="Summit Tractors QHX1 Quick Hitch" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 </div>
@@ -576,8 +586,7 @@
 <details><summary>Key Features</summary><ul class="features"></ul></details>
 <div class="select-container">
 <label><input class="select-checkbox" data-id="SSX500" data-name="Summit Tractors SSX500 Seeder/Spreader" type="checkbox"/> Select this product</label>
-</div><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
-
+</div><a class="watch-video" href="#" rel="noopener" target="_blank">Watch Video</a><a class="learn-more-btn" href="#" rel="noopener" target="_blank">Learn More</a>
 </div>
 </article>
 </div>
@@ -896,5 +905,196 @@ document.addEventListener('DOMContentLoaded', renderSelected);
   else { ensureButton(); }
 })();
 </script>
-</body>
+<script>
+(function(){
+  function logCSV(msg){
+    var log = document.getElementById('csv-log');
+    if (!log) return;
+    if (log.style.display === 'none') log.style.display = 'block';
+    log.textContent += msg + "\n";
+    log.scrollTop = log.scrollHeight;
+  }
+  var toggle = document.getElementById('toggleLog');
+  if (toggle){
+    toggle.addEventListener('click', function(){
+      var log = document.getElementById('csv-log');
+      if (!log) return;
+      log.style.display = (log.style.display === 'none' ? 'block' : 'none');
+    });
+  }
+
+  function parseCSV(text){
+    var rows=[],i=0,cur='',inQ=false,row=[];
+    while(i<text.length){
+      var c=text[i];
+      if(inQ){
+        if(c=='"'){ if(text[i+1]=='"'){cur+='"';i+=2;continue;} inQ=false;i++;continue; }
+        cur+=c;i++;continue;
+      } else {
+        if(c=='"'){inQ=true;i++;continue;}
+        if(c==','){row.push(cur);cur='';i++;continue;}
+        if(c=='\n'||c=='\r'){ if(c=='\r'&&text[i+1]=='\n')i++; row.push(cur); rows.push(row); row=[]; cur=''; i++; continue; }
+        cur+=c; i++;
+      }
+    }
+    if(cur.length||row.length){row.push(cur);rows.push(row);}
+    return rows;
+  }
+  function csvToObjects(text){
+    var rows = parseCSV(text).filter(function(r){return r.length&&r.some(function(v){return String(v).trim()!==''});});
+    if(!rows.length) return [];
+    var headers = rows[0].map(function(h){return String(h).trim();});
+    return rows.slice(1).map(function(r){
+      var o={};
+      headers.forEach(function(h,idx){ o[h] = (r[idx]==null?'':String(r[idx]).trim()); });
+      return o;
+    });
+  }
+
+  function placeImageInElement(el, src, alt, widthPx, replace){
+    if (!el) return;
+    if (replace) {
+      while (el.firstChild) el.removeChild(el.firstChild);
+      el.classList.remove('stack');
+    } else if (el.children.length > 0) {
+      el.classList.add('stack');
+    }
+    if (!replace) {
+      for (var i=0;i<el.children.length;i++){
+        var ch = el.children[i];
+        if (ch.tagName === 'IMG' && ch.getAttribute('src') === src) return;
+      }
+    }
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = (alt || '').replace(/"/g,'&quot;');
+    if (widthPx && isFinite(Number(widthPx))){
+      img.style.width = Number(widthPx) + 'px';
+      img.style.height = 'auto';
+      img.style.display = 'block';
+    }
+    el.appendChild(img);
+  }
+  function addImageToContainer(containerId, src, alt, widthPx, replace){
+    var el = document.getElementById(containerId);
+    if (!el){ logCSV('WARN: container not found: ' + containerId); return; }
+    placeImageInElement(el, src, alt, widthPx, !!replace);
+  }
+  function ensureFeaturesList(card){
+    if (!card) return null;
+    var ul = card.querySelector('ul.features');
+    if (!ul){
+      var body = card.querySelector('.body') || card;
+      ul = document.createElement('ul');
+      ul.className = 'features';
+      var desc = body.querySelector('.description');
+      if (desc && desc.parentNode === body) body.insertBefore(ul, desc.nextSibling);
+      else body.appendChild(ul);
+    }
+    return ul;
+  }
+  function applyFeaturesToCard(card, row){
+    var ul = ensureFeaturesList(card);
+    if (!ul) return;
+    var feats = [];
+    for (var i=1;i<=8;i++){
+      var key = 'feature_' + i;
+      if (row[key]) feats.push(row[key]);
+    }
+    if (!feats.length && row.key_features){
+      String(row.key_features).split(/[;\n\r]+/).forEach(function(s){ var t=s.trim(); if(t) feats.push(t); });
+    }
+    if (feats.length){
+      ul.innerHTML='';
+      feats.slice(0,8).forEach(function(f){
+        var li=document.createElement('li'); li.textContent=f; ul.appendChild(li);
+      });
+      logCSV('Features updated.');
+    }
+  }
+  function findProductCard(row){
+    var el, card=null;
+    if (row.product_id && (el=document.getElementById(row.product_id))) card = el.closest('article.product-card')||el;
+    if (!card && row.container_id && (el=document.getElementById(row.container_id))) card = el.closest('article.product-card');
+    var sels=['title_selector','desc_selector','image_container_selector','price_selector','learn_more_selector'];
+    for (var i=0;!card && i<sels.length;i++){
+      var sel=row[sels[i]]; if(!sel) continue;
+      try{ el=document.querySelector(sel);}catch(e){ el=null; }
+      if (el) card = el.closest('article.product-card')||card;
+    }
+    return card;
+  }
+
+  window.applyCSVText = async function(text){
+    var rows = csvToObjects(text);
+    if (!rows.length){ logCSV('No rows found.'); return; }
+    var globalReplace = !!(document.getElementById('replaceImages') && document.getElementById('replaceImages').checked);
+    logCSV('Parsed ' + rows.length + ' row(s). Replace mode: ' + (globalReplace ? 'ON' : 'OFF'));
+
+    for (var r=0; r<rows.length; r++){
+      var row = rows[r];
+      try{
+        var rowReplace = globalReplace;
+        var mode = (row.image_mode || row.replace_images || '').toString().toLowerCase();
+        if (['1','true','yes','replace'].indexOf(mode) !== -1) rowReplace = true;
+        if (['0','false','no','append'].indexOf(mode) !== -1) rowReplace = false;
+
+        if (row.image_src){
+          if (row.container_id){
+            addImageToContainer(row.container_id, row.image_src, row.image_alt || '', row.image_width_px ? Number(row.image_width_px) : undefined, rowReplace);
+            logCSV((rowReplace?'Replaced':'Appended') + ' image by id: ' + row.container_id);
+          } else if (row.image_container_selector){
+            var el = document.querySelector(row.image_container_selector);
+            if (el){
+              placeImageInElement(el, row.image_src, row.image_alt || '', row.image_width_px ? Number(row.image_width_px) : undefined, rowReplace);
+              logCSV((rowReplace?'Replaced':'Appended') + ' image via selector: ' + row.image_container_selector);
+            } else {
+              logCSV('WARN: image_container_selector not found: ' + row.image_container_selector);
+            }
+          }
+        }
+
+        if (row.title_selector && row.title_text){
+          var t = document.querySelector(row.title_selector); if (t){ t.textContent = row.title_text; logCSV('Title updated.'); }
+        }
+        if (row.desc_selector && row.desc_html){
+          var d = document.querySelector(row.desc_selector); if (d){ d.innerHTML = row.desc_html; logCSV('Description updated.'); }
+        }
+        if (row.price_selector && row.price_text){
+          var p = document.querySelector(row.price_selector); if (p){ p.textContent = row.price_text; logCSV('Price updated.'); }
+        }
+        if (row.learn_more_selector && row.learn_more_url){
+          var a = document.querySelector(row.learn_more_selector); if (a && a.tagName === 'A'){ a.href = row.learn_more_url; logCSV('Learn More URL set.'); }
+        }
+
+        var card = findProductCard(row);
+        if (card){
+          applyFeaturesToCard(card, row);
+          // Watch Video: set href if provided; button already exists statically
+          var watch = card.querySelector('a.watch-video');
+          if ((row.video_url || row.watch_video_url) && watch){
+            watch.href = (row.video_url || row.watch_video_url);
+            logCSV('Watch Video URL set.');
+          }
+        }
+
+      } catch(e){
+        logCSV('ERROR: ' + (e && e.message ? e.message : e));
+      }
+    }
+  };
+
+  var input = document.getElementById('csvfile');
+  var btn = document.getElementById('applyBtn');
+  if (btn && input){
+    btn.addEventListener('click', async function(){
+      if (input.files && input.files[0]){
+        var text = await input.files[0].text();
+        window.applyCSVText(text);
+      } else {
+        logCSV('Please choose a CSV file first.');
+      }
+    });
+  }
+})();</script></body>
 </html>
