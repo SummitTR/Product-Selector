@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <title>Summit Configurator — Inline Images + Polished Cards</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -319,6 +319,62 @@ button,
       -webkit-backdrop-filter: saturate(180%) blur(6px);
       backdrop-filter: saturate(180%) blur(6px);
     }
+  }
+}
+
+
+
+/* Responsive orientation tuning for mobile devices */
+@media (orientation: portrait) and (max-width: 900px) {
+  /* Single-column flow for tight vertical screens */
+  .container.grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* Keep images readable without overgrowing the viewport */
+  .media { 
+    max-height: 45vw; 
+  }
+  /* Keep the steps bar pinned at the top */
+  nav.steps {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 70 !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  /* Two columns in landscape on short screens */
+  .container.grid {
+    grid-template-columns: 1fr 1fr !important;
+    column-gap: 12px;
+  }
+  /* Cap media height to avoid overflow under sticky header */
+  .media {
+    max-height: 32vh;
+  }
+  /* Ensure steps remain visible */
+  nav.steps {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 70 !important;
+  }
+}
+
+/* Avoid content getting trapped under sticky elements on iOS */
+:root {
+  --safe-top: env(safe-area-inset-top);
+}
+nav.steps {
+  padding-top: calc(var(--safe-top));
+}
+
+/* Phones: header is NOT sticky; tablets/desktops keep sticky behavior */
+@media (max-width: 768px) {
+  header.sticky {
+    position: static !important;
+    top: auto !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
 }
 
