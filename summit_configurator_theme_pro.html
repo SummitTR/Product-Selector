@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Summit Configurator — Pro Theme</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #254A4F;
+      --primary-600: #1e3f43;
+      --accent: #8FD6C5;
+      --bg-start: #f3faf8;
+      --bg-end: #e9f3f1;
+      --text: #0d1b1e;
+      --muted: #4b6467;
+      --card: #ffffff;
+      --ring: rgba(37, 74, 79, .25);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin:0; padding:0; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 20% -10%, var(--bg-start), transparent 60%),
+                  radial-gradient(1200px 800px at 120% 10%, var(--bg-end), transparent 50%),
+                  #f7fbfa;
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+    .sticky-header {
+      position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(180%) blur(6px);
+      background: rgba(255,255,255,.85); border-bottom: 1px solid #dbe5e3;
+    }
+    .header-inner { display:flex; align-items:center; gap:12px; padding: 10px 0; }
+    .brand {
+      display:flex; align-items:center; gap:12px;
+      font-family: Poppins, Inter, sans-serif; font-weight:700; letter-spacing:.2px; color: var(--primary);
+    }
+    .brand-logo {
+      width: 40px; height: 40px; border-radius: 10px; overflow:hidden; border:2px solid var(--primary);
+      display:grid; place-items:center; background:#fff;
+    }
+    .brand-logo svg { width:26px; height:26px; }
+    .progress {
+      margin-left:auto; display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted);
+    }
+    .step { display:flex; align-items:center; gap:6px; }
+    .dot { width:8px; height:8px; border-radius:9999px; background:#cfe3e0; border:1px solid #b7cfcb; }
+    .step.active .dot { background: var(--accent); border-color: var(--primary); }
+    .grid { display:grid; gap: 18px; }
+    .stack { grid-template-columns: 1fr; }
+    .card {
+      background: var(--card);
+      border:2px solid var(--primary);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(20,40,38,0.06), 0 1px 1px rgba(20,40,38,0.06);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(20,40,38,0.10), 0 1px 1px rgba(20,40,38,0.06); }
+    h1 { font: 700 26px/1.2 Poppins, Inter, sans-serif; margin: 0; }
+    .subtitle { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .section-title { font: 700 18px/1.2 Inter, sans-serif; margin:0 0 12px; color:#082024; }
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      min-height:44px; min-width:44px; padding:10px 14px; border-radius: 9999px;
+      border:2px solid var(--primary); background: var(--primary); color: #fff;
+      font-weight:700; cursor:pointer; text-decoration:none; transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+      box-shadow: 0 2px 0 var(--primary-600);
+    }
+    .btn:active { transform: translateY(1px); box-shadow: 0 0 0 var(--primary-600); }
+    .btn.secondary { background:#fff; color: var(--primary); }
+    .btn.ghost { background:transparent; border-color:#254A4F; color:#0f172a; box-shadow:none; }
+    .btn.info-btn.active { background: var(--primary); color:#fff; }
+    .pill {
+      padding:10px 14px; border:2px solid var(--primary); border-radius:9999px; cursor:pointer; user-select:none;
+      min-height:40px; display:inline-flex; align-items:center; margin:6px; background:#fff; transition: background .12s ease, transform .12s ease, box-shadow .12s ease;
+      box-shadow: 0 1px 0 var(--ring);
+    }
+    .pill:hover { transform: translateY(-1px); }
+    .pill.selected { background: linear-gradient(180deg, #2b5a60, #254A4F); color:#fff; }
+    .list { display:flex; flex-wrap: wrap; gap: 8px; }
+    .product-grid { display:grid; grid-template-columns:1fr; gap:14px; }
+    @media (min-width:768px) { .product-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width:1200px) { .product-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    .product {
+      border:2px solid var(--primary); border-radius:16px; padding:12px; display:flex; flex-direction:column; gap:10px;
+      background: #ffffff;
+    }
+    .media {
+      width:100%; aspect-ratio: 16/9; border-radius:12px; overflow:hidden; background:#f2f6f6; border:1px solid #d6e3e0;
+      position:relative;
+    }
+    .media img { width:100%; height:100%; object-fit:cover; display:block; }
+    .placeholder {
+      position:absolute; inset:0; display:grid; place-items:center; color:#6d8a8c;
+    }
+    .placeholder svg { width:64px; height:64px; opacity:.7; }
+    .title { font-weight:700; font-size:16px; color:#0c2226; }
+    .badge { display:inline-block; padding:4px 10px; border-radius:9999px; background:#eef4f3; color:#2a4f52; font-size:12px; border:1px solid #c8dedb; }
+    .row { display:flex; flex-wrap:wrap; gap:8px; }
+    .toolbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .toolbar .spacer { flex:1; }
+    .muted { color:#4b6467; font-size:14px; }
+    .reading-pane { display:none; padding:12px; background:#f8fbfb; border-radius:12px; border:1px solid #dce9e6; box-shadow: inset 0 1px 0 rgba(0,0,0,.02); }
+    .reading-pane.open { display:block; animation: slideDown .18s ease; }
+    .section-block { display:none; margin-top:6px; }
+    .section-block.active { display:block; }
+    @keyframes slideDown { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform: translateY(0); } }
+    input, textarea {
+      width:100%; min-height:44px; padding:12px 14px; border:2px solid var(--primary); border-radius:12px; font-size:16px;
+      outline:none; transition: box-shadow .12s ease, border-color .12s ease;
+    }
+    input:focus, textarea:focus { box-shadow: 0 0 0 4px var(--ring); border-color: var(--primary); }
+    .foot-actions { display:flex; flex-wrap:wrap; gap:10px; padding:12px 0; }
+  </style>
+</head>
+<body>
+  <div class="sticky-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M8 12h8M12 8v8"></path>
+          </svg>
+        </div>
+        <h1>Summit Configurator</h1>
+      </div>
+      <div class="progress">
+        <div class="step"><span class="dot"></span> Tractor</div>
+        <div class="step"><span class="dot"></span> Categories</div>
+        <div class="step"><span class="dot"></span> Review</div>
+        <div class="step"><span class="dot"></span> Selected</div>
+        <div class="step"><span class="dot"></span> Contact</div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container grid stack" id="mainRoot" style="margin-top:8px;">
+    <section class="card" aria-labelledby="tractor-section-title">
+      <h2 id="tractor-section-title" class="section-title">1) Choose Your Tractor</h2>
+      <div id="tractorList" class="product-grid" role="list"></div>
+    </section>
+
+    <section class="card" aria-labelledby="cats-section-title">
+      <h2 id="cats-section-title" class="section-title">2) Choose Product Categories</h2>
+      <div id="catPills" class="list" role="group" aria-label="Categories"></div>
+      <div class="foot-actions">
+        <button id="reviewBtn" class="btn" aria-label="Review recommended products">Review Recommended Products</button>
+        <button id="resetAll" class="btn ghost" aria-label="Reset all selections">Reset</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="reco-section-title" id="recoSection">
+      <h2 id="reco-section-title" class="section-title">Recommended Products</h2>
+      <div class="toolbar">
+        <div class="muted">Empty until you press Review. Selected tractor (if any) appears first. Use Add to move items below.</div>
+        <div class="spacer"></div>
+        <input id="searchBox" type="search" placeholder="Filter by name or model…" aria-label="Filter recommended products" disabled>
+      </div>
+      <div id="recoGrid" class="product-grid" role="list"></div>
+    </section>
+
+    <section class="card" aria-labelledby="summary-section-title" id="selectedSection">
+      <h2 id="summary-section-title" class="section-title">Selected Products</h2>
+      <div id="selectedList" class="product-grid" role="list"></div>
+      <div class="foot-actions">
+        <button id="printBtn" class="btn" aria-label="Print or Save PDF">Save / Print</button>
+        <button id="saveProgressBtn" class="btn secondary" aria-label="Save progress locally">Save Progress</button>
+        <button id="shareLinkBtn" class="btn ghost" aria-label="Copy shareable link">Share Link</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="contact-section-title">
+      <h2 id="contact-section-title" class="section-title">Send Your Selections to a Summit Tractors Product Specialist</h2>
+      <p class="muted">We’ll assist with your selections and answer any questions you may have.</p>
+      <div class="row" style="gap:12px; flex-wrap:wrap;">
+        <div style="flex:1 1 240px;">
+          <label for="firstName">First Name</label>
+          <input id="firstName" required aria-required="true">
+        </div>
+        <div style="flex:1 1 240px;">
+          <label for="lastName">Last Name</label>
+          <input id="lastName" required aria-required="true">
+        </div>
+        <div style="flex:1 1 260px;">
+          <label for="email">Email</label>
+          <input id="email" type="email" required aria-required="true">
+        </div>
+        <div style="flex:1 1 220px;">
+          <label for="phone">Phone</label>
+          <input id="phone" type="tel" required aria-required="true">
+        </div>
+      </div>
+      <div style="margin-top:12px;">
+        <label for="comments">Comments (optional)</label>
+        <textarea id="comments" placeholder="Anything specific you want help with?" style="min-height:110px;"></textarea>
+      </div>
+      <div class="foot-actions">
+        <button id="emailBtn" class="btn" aria-label="Email selections to Summit Tractors">Email to support@summittractors.com</button>
+      </div>
+    </section>
+  </main>
+
+  <template id="placeholder-svg">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120">
+      <defs>
+        <linearGradient id="g" x1="0" x2="1">
+          <stop offset="0" stop-color="#e8f2f0"/>
+          <stop offset="1" stop-color="#d6e8e5"/>
+        </linearGradient>
+      </defs>
+      <rect width="200" height="120" fill="url(#g)"></rect>
+      <g fill="none" stroke="#6d8a8c" stroke-width="2">
+        <rect x="30" y="24" width="140" height="72" rx="6"></rect>
+        <circle cx="64" cy="84" r="8"></circle>
+        <circle cx="136" cy="84" r="8"></circle>
+        <path d="M72 74h56" />
+      </g>
+      <text x="100" y="20" text-anchor="middle" fill="#6d8a8c" font-family="Inter, sans-serif" font-size="10">Image</text>
+    </svg>
+  </template>
+
+  <script>
+    const RAW_DATA = [{"Model": "TX25HLX85BHX76", "Product Name": "Summit TX25H Tractor & LX85 Loader & BHX76 Backhoe", "Description": "Pairing the Summit BHX76 Backhoe with the Summit TX25H transforms the tractor into a true digging and excavation machine. The backhoe makes it easy to handle jobs like trenching for utilities, planting trees, removing stumps, and clearing ditchesâtasks a tractor alone canât tackle. Together, they create a powerful, all-in-one solution for year-round property maintenance and improvement.", "Common Uses": "PLACEHOLDER", "Image URL": "SUMMIT TX25HLX85BHX76.jpg (6304×4203)", "Video URL": "https://youtu.be/GmgAs2ao3sI?si=spAiZ1oiwAKpyiTE", "Brochure URL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "Seasonal Use - Spring": "The Summit TX25H Tractor, paired with the Summit BHX76 Backhoe, makes spring work simple and efficient. Use the tractor for soil preparation like tilling, cultivating, and discing, then hook up seeders and spreaders to get planting underway. The BHX76 Backhoe is ideal for digging trenches for irrigation lines, planting trees, or removing stubborn stumps. Together, they handle property cleanup by clearing branches, hauling brush, and repairing driveways after winter.ields, gardens, and landscaping projects", "Seasonal Use - Summer": "Through the summer months, the Summit TX25H takes care of mowing and pasture maintenance with rotary cutters, finishing mowers, or flail mowers. Its loader and forks move hay bales, feed, and building materials with ease. The Summit BHX76 Backhoe adds construction capability, making quick work of post hole digging, trenching for utilities, and small excavation projects around your property. With this combination, you can handle fencing, landscaping, and water system installations all season long.", "Seasonal Use - Fall": "When fall arrives, the Summit TX25H supports harvest with the strength to pull wagons, haul produce, and power augers. It also preps land for winter with cover crop planting, fertilizing, and tilling residue back into the soil. The BHX76 Backhoe extends your reach by digging drainage ditches, clearing out culverts, and helping with tree planting or removal. Together, they simplify leaf cleanup, property maintenance, and firewood preparation, from hauling logs to splitting wood with a PTO-powered splitter.", "Seasonal Use - Winter": "In winter, the Summit TX25H Tractor transforms into a dependable snow and ice management machine, using loaders, blades, pushers, or snow blowers to keep driveways and access roads clear. It also manages livestock chores by moving feed and bedding, and spreads sand or salt for ice control. With the Summit BHX76 Backhoe, you can dig out compacted snow piles, clear drainage areas, or handle utility repairs even in frozen ground. This pairing ensures your property stays productive and accessible all winter long.", "Key Features": "All Features of the Summit TX25H Tractor & LX85 Loader; Mechanical Thumb to Lift Boulders, Logs and Other Material; Independent Operator Seat - No Need to Pivot the Tractor Seat Around; Standard 12\" Bucket, Optional 8\" & 16\" Buckets; Backhoe On/Off the Tractor in Minutes; Locking Pin Keepers so They Don't Get Lost; ISO SAE Operator Controls; Full Subframe Mount, SMV Sign for Transport Safety on the Road", "Category": "Tractor"}, {"Model": "TX25HLX85", "Product Name": "Summit TX25H Tractor & LX85 Loader", "Description": "The Summit TX25H compact tractor is a versatile, year-round workhorse designed to handle a wide range of tasks with ease. With the right attachments, it can mow, grade, haul, dig, till, and clear snow, delivering the power of a larger tractor in a smaller, more maneuverable package. This adaptability makes the TX25H a smart investment for property owners who want one machine that can do it all.", "Common Uses": "", "Image URL": "Dump - Copy.jpg (6298×4085)", "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "Brochure URL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "Seasonal Use - Spring": "The Summit TX25H Tractor is built to get your property ready for the season. In spring, it handles soil preparation with ease, whether youâre tilling, cultivating, or discing gardens, fields, and food plots. Pair it with seeders and spreaders to make planting efficient, and use its loader and grading tools to clear branches, haul brush, and repair driveways after winter.", "Seasonal Use - Summer": "Through the summer months, the Summit TX25H shines as a mowing and maintenance machine. Attach a rotary cutter for pastures, a finishing mower for lawns, or a flail mower for roadside and ditch upkeep. With pallet forks and loaders, it moves hay bales, feed, and supplies, while also tackling fencing projects, gravel spreading, light construction, and crop irrigation with sprayers or tanks.", "Seasonal Use - Fall": "Through the summer months, the Summit TX25H shines as a mowing and maintenance machine. Attach a rotary cutter for pastures, a finishing mower for lawns, or a flail mower for roadside and ditch upkeep. With pallet forks and loaders, it moves hay bales, feed, and supplies, while also tackling fencing projects, gravel spreading, light construction, and crop irrigation with sprayers or tanks.", "Seasonal Use - Winter": "In winter, the Summit TX25H becomes a dependable snow and ice management solution. With front-end loaders, blades, pushers, or snow blowers, it clears driveways and access roads quickly and efficiently. It also manages livestock chores by moving feed and bedding, spreads salt or sand for ice control, and keeps your property accessible in all conditions.", "Key Features": "24.7 HP Mitsubishi 3-Cyl. EPA Tier 4 Diesel Engine; 3rd Function Hydraulics - Grapple Ready; Rear Hydraulic Remotes; Self-Leveling SSQA Loader; Goodyear All-Condition R14T Tires; RimGuard Liquid Tire Ballast in the Rears; Premium Suspension Seat With Backrest Extension; Toolbox, Rear Work Light, Swinging Drawbar, Cross Drawbar, Front Tow hook", "Category": "Tractor"}, {"Model": "TMX1", "Product Name": "Summit Tractors TMX1 Trailer Mover", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Pull a Trailer"}, {"Model": "SSX500", "Product Name": "Summit Tractors SSX500 Seeder/Spreader", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Seeding & Spreading"}, {"Model": "SSX1", "Product Name": "Summit Tractors SSX1 Sub-Soiler", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Seedbed Preparation"}, {"Model": "SPX60DR", "Product Name": "Summit Tractors 60\" Snow Pusher Drag Kit", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Snow Removal"}, {"Model": "SPX60", "Product Name": "Summit Tractors 60\" Snow Pusher", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Snow Removal"}, {"Model": "RTLRX48", "Product Name": "Summit Tractors 48\" Rotary Tiller", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Tilling & Soil Preparation"}, {"Model": "RCX48", "Product Name": "Summit Tractors 48\" Rotary Cutter", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Brush Cutting"}, {"Model": "RBX60", "Product Name": "Summit Tractors 60\" Rear Blade", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Grading"}, {"Model": "QHX1", "Product Name": "Summit Tractors QHX1 Quick Hitch", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Quick Hitch "}, {"Model": "PFX42", "Product Name": "Summit Tractors 42\" SSQA Pallet Forks", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Material Handling - Pallet Forks"}, {"Model": "MBX1", "Product Name": "Summit Tractors MBX1 Middle Buster", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Seedbed Preparation"}, {"Model": "MBSSX1", "Product Name": "Summit Tractors MBSSX1 Middle Buster Sub-Soiler Combo", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Seedbed Preparation"}, {"Model": "LRX60", "Product Name": "Summit Tractors 60\" Landscape Rake", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Landscaping"}, {"Model": "LPX60", "Product Name": "Summit Tractors 60\" Land Plane", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Grading"}, {"Model": "GX54", "Product Name": "Summit Tractors 54\" SSQA Grapple", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Material Handling - Grapple"}, {"Model": "FMX60", "Product Name": "Summit Tractors 60\" 3-Point Finish Mower", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Mowing"}, {"Model": "CAX1", "Product Name": "Summit Tractors CAX1 Carry All", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Carry-All"}, {"Model": "BPX60", "Product Name": "Summit Tractors BPX1 Boom Pole", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Grading - Box Blade & Land Plane in One"}, {"Model": "BPX1", "Product Name": "Summit Tractors BPX60 BoxPlane", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Carry-Boom Pole"}, {"Model": "BHXX16", "Product Name": "Summit Tractors Optional 16\" Backhoe Bucket", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Additional Backhoe Buckets"}, {"Model": "BHXPX1", "Product Name": "Summit Tractors Optional Street Pads", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Backhoe Street Pads"}, {"Model": "BHBX8", "Product Name": "Summit Tractors Optional 8\" Backhoe Bucket", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Additional Backhoe Buckets"}, {"Model": "BBX60", "Product Name": "Summit Tractors 60\" Box Blade", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Grading"}, {"Model": "AFDHX60", "Product Name": "Summit Tractors 60\" Angle Frame Disc Harrow", "Description": "", "Common Uses": "", "Image URL": "", "Video URL": "", "Brochure URL": "", "Seasonal Use - Spring": "", "Seasonal Use - Summer": "", "Seasonal Use - Fall": "", "Seasonal Use - Winter": "", "Key Features": "", "Category": "Tilling & Soil Preparation"}];
+    const CAT_LIST = ["Additional Backhoe Buckets", "Backhoe Street Pads", "Brush Cutting", "Carry-All", "Carry-Boom Pole", "Grading", "Grading - Box Blade & Land Plane in One", "Landscaping", "Material Handling - Grapple", "Material Handling - Pallet Forks", "Mowing", "Pull a Trailer", "Quick Hitch", "Seedbed Preparation", "Seeding & Spreading", "Snow Removal", "Tilling & Soil Preparation"];
+
+    function norm(s) { return (s || '').toString().trim(); }
+    const tractors = RAW_DATA.filter(r => norm(r.Category).toLowerCase() === 'tractor');
+    const nonTractors = RAW_DATA.filter(r => norm(r.Category).toLowerCase() !== 'tractor');
+
+    const state = {
+      selectedTractorModel: null,
+      selectedCategories: new Set(),
+      selectedItems: new Map(),
+      hasReviewed: false,
+      lastRecommendedModels: []
+    };
+
+    const tractorList = document.getElementById("tractorList");
+    const catPills = document.getElementById("catPills");
+    const selectedList = document.getElementById("selectedList");
+    const recoGrid = document.getElementById("recoGrid");
+    const recoSection = document.getElementById("recoSection");
+    const searchBox = document.getElementById("searchBox");
+
+    function htmlEscape(s) {
+      return (s ?? '').toString().replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&#34;","'":"&#39;"})[c]);
+    }
+
+    function mediaHTML(url) {
+      const safe = (url||'').trim();
+      if (safe) {
+        return `<div class="media"><img src="${htmlEscape(safe)}" alt="Product image" onerror="this.replaceWith(placeholderClone())"></div>`;
+      }
+      return `<div class="media">${placeholderClone()}</div>`;
+    }
+    function placeholderClone() {
+      const t = document.getElementById('placeholder-svg');
+      return t ? t.innerHTML : '';
+    }
+
+    function featuresHTML(rec) {
+      return (rec["Key Features"] || "").split(";").map(f => f.trim()).filter(Boolean).map(f => `<li>${htmlEscape(f)}</li>`).join("");
+    }
+
+    function sectionHTML(rec) {
+      return `
+        <div class="reading-pane">
+          <div class="section-block section-desc active">
+            <strong>Description</strong>
+            <div>${htmlEscape(rec.Description) || "—"}</div>
+          </div>
+          <div class="section-block section-uses">
+            <strong>Common Uses</strong>
+            <div>${htmlEscape(rec["Common Uses"]) || "—"}</div>
+          </div>
+          <div class="section-block section-seasons">
+            <strong>Seasonal Uses</strong>
+            <ul style="margin-top:6px;">
+              <li><em>Spring:</em> ${htmlEscape(rec["Seasonal Use - Spring"])}</li>
+              <li><em>Summer:</em> ${htmlEscape(rec["Seasonal Use - Summer"])}</li>
+              <li><em>Fall:</em> ${htmlEscape(rec["Seasonal Use - Fall"])}</li>
+              <li><em>Winter:</em> ${htmlEscape(rec["Seasonal Use - Winter"])}</li>
+            </ul>
+          </div>
+          <div class="section-block section-features">
+            <strong>Key Features</strong>
+            <ul style="margin-top:6px;">${featuresHTML(rec) || "<li>—</li>"}</ul>
+          </div>
+        </div>
+      `;
+    }
+
+    function productButtons(rec, includeAdd) {
+      const addHTML = includeAdd ? `<button class="btn secondary add-btn" data-model="${htmlEscape(rec.Model)}" aria-pressed="false">Add</button>` : "";
+      return `
+        <div class="row">
+          ${addHTML}
+          <button class="btn ghost info-btn" data-target="desc">Description</button>
+          <button class="btn ghost info-btn" data-target="uses">Common Uses</button>
+          <button class="btn ghost info-btn" data-target="seasons">Season Uses</button>
+          <button class="btn ghost info-btn" data-target="features">Key Features</button>
+          ${rec["Image URL"] ? `<a class="btn ghost" href="${htmlEscape(rec["Image URL"])}" target="_blank" rel="noopener">Image</a>` : ""}
+          ${rec["Video URL"] ? `<a class="btn ghost" href="${htmlEscape(rec["Video URL"])}" target="_blank" rel="noopener">Video</a>` : ""}
+          ${rec["Brochure URL"] ? `<a class="btn ghost" href="${htmlEscape(rec["Brochure URL"])}" target="_blank" rel="noopener">Brochure</a>` : ""}
+        </div>
+      `;
+    }
+
+    // TRACTORS
+    function renderTractors() {
+      tractorList.innerHTML = "";
+      tractors.forEach(rec => {
+        const selected = state.selectedTractorModel === rec.Model;
+        const el = document.createElement("div");
+        el.className = "product";
+        el.setAttribute("role","listitem");
+        el.innerHTML = `
+          ${mediaHTML(rec["Image URL"])}
+          <div class="title">${htmlEscape(rec["Product Name"])}</div>
+          <div class="badge">Model: ${htmlEscape(rec.Model)} (Tractor)</div>
+          <div class="row" style="margin-top:8px;">
+            <button class="btn ${selected ? "" : "secondary"} tractor-select" data-model="${htmlEscape(rec.Model)}">
+              ${selected ? "Selected" : "Select Tractor"}
+            </button>
+          </div>
+          ${productButtons(rec, false)}
+          ${sectionHTML(rec)}
+        `;
+        tractorList.appendChild(el);
+      });
+    }
+
+    // CATEGORY PILLS
+    function renderCategoryPills() {
+      catPills.innerHTML = "";
+      CAT_LIST.forEach(cat => {
+        const selected = state.selectedCategories.has(cat);
+        const el = document.createElement("button");
+        el.className = "pill" + (selected ? " selected" : "");
+        el.setAttribute("aria-pressed", selected);
+        el.dataset.cat = cat;
+        el.textContent = cat;
+        el.addEventListener("click", () => {
+          if (state.selectedCategories.has(cat)) state.selectedCategories.delete(cat);
+          else state.selectedCategories.add(cat);
+          renderCategoryPills();
+        });
+        catPills.appendChild(el);
+      });
+    }
+
+    // BUILD RECOMMENDED
+    function buildRecommendedModels() {
+      const models = [];
+      if (state.selectedTractorModel) models.push(state.selectedTractorModel); // tractor first
+      if (state.selectedCategories.size > 0) {
+        nonTractors.forEach(r => { if (state.selectedCategories.has(norm(r.Category))) models.push(r.Model); });
+      }
+      state.lastRecommendedModels = models;
+    }
+
+    // RECOMMENDED
+    function renderRecommended() {
+      recoGrid.innerHTML = "";
+      if (!state.hasReviewed) return;
+      const filter = (searchBox.value || "").toLowerCase();
+      const byModel = new Map(RAW_DATA.map(r => [String(r.Model), r]));
+      const models = state.lastRecommendedModels.filter(m => byModel.has(String(m)));
+
+      models.forEach(m => {
+        const rec = byModel.get(String(m));
+        if (filter && !(String(rec["Product Name"]).toLowerCase().includes(filter) || String(rec.Model).toLowerCase().includes(filter))) return;
+
+        const added = state.selectedItems.has(rec.Model);
+        const special = norm(rec.Category).toLowerCase() === "tractor" ? " • Selected Tractor" : "";
+        const el = document.createElement("div");
+        el.className = "product";
+        el.setAttribute("role","listitem");
+        el.innerHTML = `
+          ${mediaHTML(rec["Image URL"])}
+          <div class="title">${htmlEscape(rec["Product Name"])}</div>
+          <div class="badge">Model: ${htmlEscape(rec.Model)} • Category: ${htmlEscape(norm(rec.Category))}${special}</div>
+          ${productButtons(rec, true)}
+          ${sectionHTML(rec)}
+        `;
+        recoGrid.appendChild(el);
+
+        // sync Add button state
+        const addBtn = el.querySelector(".add-btn");
+        if (addBtn) {
+          addBtn.textContent = added ? "Added" : "Add";
+          addBtn.classList.toggle("secondary", !added);
+          addBtn.setAttribute("aria-pressed", String(added));
+        }
+      });
+    }
+
+    // SELECTED
+    function renderSelected() {
+      selectedList.innerHTML = "";
+      const items = [...state.selectedItems.values()];
+      if (!items.length) {
+        const p = document.createElement("div");
+        p.className = "muted";
+        p.textContent = "No products selected yet. Use Add in the list above.";
+        selectedList.appendChild(p);
+        return;
+      }
+      items.forEach(rec => {
+        const el = document.createElement("div");
+        el.className = "product";
+        el.setAttribute("role","listitem");
+        el.innerHTML = `
+          ${mediaHTML(rec["Image URL"])}
+          <div class="title">${htmlEscape(rec["Product Name"])}</div>
+          <div class="badge">Model: ${htmlEscape(rec.Model)} • Category: ${htmlEscape(norm(rec.Category))}</div>
+          <div class="row" style="margin-top:8px;">
+            <button class="btn ghost remove-btn" data-model="${htmlEscape(rec.Model)}">Remove</button>
+            ${rec["Image URL"] ? `<a class="btn ghost" href="${htmlEscape(rec["Image URL"])}" target="_blank" rel="noopener">Image</a>` : ""}
+            ${rec["Video URL"] ? `<a class="btn ghost" href="${htmlEscape(rec["Video URL"])}" target="_blank" rel="noopener">Video</a>` : ""}
+            ${rec["Brochure URL"] ? `<a class="btn ghost" href="${htmlEscape(rec["Brochure URL"])}" target="_blank" rel="noopener">Brochure</a>` : ""}
+          </div>
+        `;
+        selectedList.appendChild(el);
+      });
+    }
+
+    function renderAll() {
+      renderTractors();
+      renderCategoryPills();
+      renderRecommended();
+      renderSelected();
+    }
+
+    // INFO BUTTON TOGGLING + HIGHLIGHT
+    function setActiveInfoButton(card, targetOrNull) {
+      card.querySelectorAll('.info-btn').forEach(b => b.classList.remove('active'));
+      if (!targetOrNull) return;
+      const btn = card.querySelector(`.info-btn[data-target="${CSS.escape(targetOrNull)}"]`);
+      if (btn) btn.classList.add('active');
+    }
+
+    function toggleSection(card, target) {
+      const pane = card.querySelector(".reading-pane");
+      if (!pane) return;
+      const blocks = pane.querySelectorAll(".section-block");
+      const map = {"desc": ".section-desc", "uses": ".section-uses", "seasons": ".section-seasons", "features": ".section-features"};
+      const sel = map[target] || ".section-desc";
+      const show = pane.querySelector(sel);
+
+      const alreadyOpen = pane.classList.contains("open");
+      const isActive = show && show.classList.contains("active");
+      if (alreadyOpen && isActive) {
+        pane.classList.remove("open");
+        blocks.forEach(b => b.classList.remove("active"));
+        setActiveInfoButton(card, null);
+        return;
+      }
+
+      blocks.forEach(b => b.classList.remove("active"));
+      if (show) show.classList.add("active");
+      pane.classList.add("open");
+      setActiveInfoButton(card, target);
+    }
+
+    // EVENTS
+    const mainRoot = document.getElementById("mainRoot");
+    function updateProgress(stepIndex) {
+      const steps = document.querySelectorAll('.progress .step');
+      steps.forEach((s,i)=> s.classList.toggle('active', i <= stepIndex));
+    }
+
+    document.getElementById("reviewBtn").addEventListener("click", () => {
+      state.hasReviewed = true;
+      buildRecommendedModels();
+      searchBox.disabled = false;
+      renderRecommended();
+      recoSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      updateProgress(2);
+    });
+
+    document.getElementById("resetAll").addEventListener("click", () => {
+      state.selectedTractorModel = null;
+      state.selectedCategories.clear();
+      state.selectedItems.clear();
+      state.hasReviewed = false;
+      state.lastRecommendedModels = [];
+      searchBox.value = "";
+      searchBox.disabled = true;
+      renderAll();
+      updateProgress(0);
+    });
+
+    // Delegation for tractor list
+    document.getElementById("tractorList").addEventListener("click", (e) => {
+      const selectBtn = e.target.closest(".tractor-select");
+      const infoBtn = e.target.closest(".info-btn");
+      const card = e.target.closest(".product");
+      if (selectBtn) {
+        const model = selectBtn.dataset.model;
+        state.selectedTractorModel = (state.selectedTractorModel === model) ? null : model;
+        renderTractors();
+        updateProgress(0);
+        return;
+      }
+      if (infoBtn && card) {
+        toggleSection(card, infoBtn.getAttribute("data-target"));
+      }
+    });
+
+    // Delegation for recommended grid
+    document.getElementById("recoGrid").addEventListener("click", (e) => {
+      const addBtn = e.target.closest(".add-btn");
+      const infoBtn = e.target.closest(".info-btn");
+      const card = e.target.closest(".product");
+      if (addBtn) {
+        const model = addBtn.dataset.model;
+        const rec = RAW_DATA.find(r => String(r.Model) === String(model));
+        if (!rec) return;
+        if (state.selectedItems.has(model)) { state.selectedItems.delete(model); }
+        else { state.selectedItems.set(model, rec); }
+        renderSelected();
+        const isAdded = state.selectedItems.has(model);
+        addBtn.textContent = isAdded ? "Added" : "Add";
+        addBtn.classList.toggle("secondary", !isAdded);
+        addBtn.setAttribute("aria-pressed", String(isAdded));
+        updateProgress(3);
+        return;
+      }
+      if (infoBtn && card) {
+        toggleSection(card, infoBtn.getAttribute("data-target"));
+      }
+    });
+
+    // Delegation for selected list
+    document.getElementById("selectedList").addEventListener("click", (e) => {
+      const rem = e.target.closest(".remove-btn");
+      if (!rem) return;
+      const model = rem.dataset.model;
+      state.selectedItems.delete(model);
+      renderSelected();
+      const btn = document.querySelector(`.add-btn[data-model="${CSS.escape(model)}"]`);
+      if (btn) {
+        btn.textContent = "Add";
+        btn.classList.add("secondary");
+        btn.setAttribute("aria-pressed", "false");
+      }
+    });
+
+    searchBox.addEventListener("input", () => renderRecommended());
+
+    // Email compose
+    function buildEmailBody() {
+      const items = [...state.selectedItems.values()].map(r => `- ${r.Model} – ${r["Product Name"]}`).join("%0A");
+      const cats = [...state.selectedCategories].join(", ");
+      return [
+        "Selected Products:%0A",
+        items || "None",
+        "%0A%0A",
+        "Selected Categories:%0A",
+        encodeURIComponent(cats || "None"),
+        "%0A%0A",
+        "Comments:%0A",
+        encodeURIComponent(document.getElementById("comments").value || "")
+      ].join("");
+    }
+    document.getElementById("emailBtn").addEventListener("click", () => {
+      const f = document.getElementById("firstName").value.trim();
+      const l = document.getElementById("lastName").value.trim();
+      const e = document.getElementById("email").value.trim();
+      const p = document.getElementById("phone").value.trim();
+      if (!f || !l || !e || !p) {
+        alert("First name, last name, email, and phone are required.");
+        return;
+      }
+      const subject = encodeURIComponent("Summit Configurator Selections");
+      const intro = encodeURIComponent(
+        `Name: ${f} ${l}\nEmail: ${e}\nPhone: ${p}\n`
+      ).replace(/%0A/g, "%0A");
+      const body = intro + buildEmailBody();
+      const mailto = `mailto:support@summittractors.com?subject=${subject}&body=${body}`;
+      window.location.href = mailto;
+      updateProgress(4);
+    });
+
+    // Initialize clean
+    window.addEventListener("load", () => {
+      state.selectedTractorModel = null;
+      state.selectedCategories.clear();
+      state.selectedItems.clear();
+      state.hasReviewed = false;
+      state.lastRecommendedModels = [];
+      searchBox.value = "";
+      searchBox.disabled = true;
+      renderAll();
+      updateProgress(0);
+    }, { once: true });
+  </script>
+</body>
+</html>
