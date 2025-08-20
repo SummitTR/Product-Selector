@@ -1,0 +1,2702 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Summit Configurator — Inline Images + Polished Cards</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+    :root { --primary: #254A4F; --secondary: #ffffff; --muted:#475569; }
+    * { box-sizing: border-box; }
+    html, body { margin:0; padding:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:#0a0a0a; }
+    body { background: linear-gradient(180deg,#f3f7f7, #eef4f4); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+    header.sticky { position: sticky; top:0; z-index: 50; background: rgba(247,249,249,.9); backdrop-filter: blur(6px); border-bottom: 1px solid #e5e7eb; }
+    h1 { font-size: 24px; font-weight: 700; color: var(--primary); margin: 0 0 4px; letter-spacing:.2px; }
+    .subtitle { font-size: 14px; color:#334155; }
+    .grid { display: grid; gap: 16px; }
+    .stack { grid-template-columns: 1fr; }
+    .card { background:#fff; border:4px solid var(--primary); border-radius: 20px; padding: 16px; box-shadow: 0 8px 24px rgba(16,24,40,0.08); transition: transform .15s ease, box-shadow .15s ease; }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(16,24,40,0.12); }
+    .card h2 { font-size: 20px; font-weight: 700; color:#0f172a; margin:0 0 12px; }
+    .section-title { font-size: 18px; font-weight:700; margin:0 0 12px; color:#0f172a; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; min-height:44px; min-width:44px; padding:10px 14px; border-radius: 9999px; border:4px solid var(--primary); background: var(--primary); color: var(--secondary); font-weight:700; cursor:pointer; text-decoration:none; transition: transform .1s ease, box-shadow .1s ease, background .2s;  min-width:160px; flex:1; background:#f2f9f9; color:#254a4f; border-color:#254a4f; font-weight:700;}
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(37,74,79,.16); }
+    .btn:active { transform: translateY(0); box-shadow:none; }
+    .btn.secondary { background:#f2f9f9; color:#254a4f; border-color:#254a4f; }
+    .btn.ghost { background:#f2f9f9; color:#254a4f; border-color:#254a4f; }
+    .btn.info-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .pill { padding:8px 12px; border:2px solid #254a4f; border-radius:9999px; cursor:pointer; user-select:none; min-height:40px; display:inline-flex; align-items:center; margin:6px; background:#f2f9f9; box-shadow: 0 2px 8px rgba(16,24,40,0.06); transition: transform .1s ease, box-shadow .1s;  color:#254a4f;  font-weight:700;}
+    .pill:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(16,24,40,0.12); }
+    .pill.selected { background:#254a4f; color:#f2f9f9; border-color:#254a4f; }
+    .list { display:flex; flex-wrap: wrap; gap: 8px; }
+    .product-grid { display:grid; grid-template-columns:1fr; gap:16px; }
+    @media (min-width:768px) { .product-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width:1200px) { .product-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    .product { border:4px solid var(--primary); border-radius:16px; padding:12px; display:flex; flex-direction:column; gap:10px; background:#fff; box-shadow: 0 4px 14px rgba(16,24,40,0.08); transition: transform .12s ease, box-shadow .12s ease; }
+    .product:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(16,24,40,0.12); }
+    .media {
+  display: inline-block;
+  background: none;
+  border: 2px solid #254a4f;
+  border-radius: 12px;
+  overflow: hidden;
+}
+    .media img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+    .product .title { font-weight:700; font-size:16px; color:#0f172a; }
+    .badge { display:inline-block; padding:4px 8px; border-radius:8px; background:#f0f6f7; color:#0f3a3f; font-size:12px; border:1px solid #cbd5e1; }
+    .row { display:flex; flex-wrap:wrap; gap:8px; }
+    .row > * { flex: 1 1 auto; }
+    .toolbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .toolbar .spacer { flex:1; }
+    .muted { color:var(--muted); font-size:14px; }
+    .reading-pane { display:none; padding:12px; background:#f8fafc; border-radius:12px; border:1px solid #e2e8f0; }
+    .reading-pane.open { display:block; }
+    .section-block { display:none; margin-top:6px; }
+    .section-block.active { display:block; }
+    /* Contact form */
+    label { font-weight:600; font-size:14px; color:#0f172a; }
+    input, textarea { width:100%; min-height:44px; padding:10px 12px; border:4px solid var(--primary); border-radius:12px; font-size:16px; transition: box-shadow .15s, border-color .15s; }
+    input:focus, textarea:focus { outline:none; border-color:#1f3f44; box-shadow: 0 0 0 4px rgba(37,74,79,.16); }
+  
+.btn[aria-pressed="true"], .btn.active { background:#254a4f !important; color:#f2f9f9 !important; border-color:#254a4f !important; box-shadow: 0 0 0 3px rgba(37,74,79,0.4);}
+
+
+.pill[aria-pressed="true"] {
+  background:#254a4f;
+  color:#f2f9f9;
+  border-color:#254a4f;
+  box-shadow: 0 0 0 3px rgba(37,74,79,0.25);
+}
+
+
+/* Ensure anchor navigation brings section headers fully into view */
+#tractor-section-title, 
+#cats-section-title, 
+#reco-section-title, 
+#summary-section-title, 
+#contact-section-title {
+  scroll-margin-top: 80px;
+}
+
+
+/* Ensure in-page links never hide under the sticky header */
+html { scroll-behavior: smooth; scroll-padding-top: 120px; }
+
+#tractor-section-title, 
+#cats-section-title, 
+#reco-section-title, 
+#summary-section-title, 
+#contact-section-title {
+  scroll-margin-top: 120px;
+}
+
+
+/* Compact style for step navigation buttons */
+.steps .btn {
+  font-size: 12px;
+  min-height: 32px;
+  padding: 6px 10px;
+}
+
+
+/* Override colors for Review, Reset, and Email buttons */
+#reviewBtn, #resetAll, #emailBtn {
+  background:#254a4f !important;
+  color:#ffffff !important;
+  border-color:#254a4f !important;
+}
+  background:#254a4f !important;
+  color:#ffffff !important;
+  border-color:#254a4f !important;
+}
+
+
+@media print {
+  /* Hide everything by default */
+  body * { visibility: hidden; }
+  /* Show only the Selected Products section */
+  #selectedSection, #selectedSection * { visibility: visible; }
+  /* Position Selected Products at top-left for clean print */
+  #selectedSection { position: absolute; left: 0; top: 0; width: 100%; }
+  /* Within selected list: hide everything except image and product name */
+  #selectedList .badge,
+  #selectedList .row,
+  #selectedList button,
+  #selectedList .reading-pane { display: none !important; }
+  /* Ensure image and title are visible */
+  #selectedList .media,
+  #selectedList .title { display: block !important; visibility: visible !important; }
+}
+
+
+@media print {
+  body * { display: none !important; }
+  #selectedSection { display: block !important; position: static !important; }
+  #selectedList { display: block !important; }
+  #selectedList .product { display: block !important; border: none !important; box-shadow: none !important; margin-bottom: 20px; }
+  #selectedList .media { display: block !important; width: 100% !important; max-width: 400px !important; margin-bottom: 8px; }
+  #selectedList .media img { display: block !important; width: 100% !important; height: auto !important; }
+  #selectedList .title { display: block !important; font-size: 16px !important; font-weight: 700 !important; color: #000 !important; margin: 4px 0; }
+}
+
+
+/* Shorter header step buttons */
+.steps .btn {
+  min-height: 26px !important;
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+}
+
+
+/* Share modal (fallback when Web Share API is unavailable) */
+.share-modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.35); display:none; align-items:center; justify-content:center; z-index: 1000; }
+.share-modal { background:#fff; border:2px solid #254a4f; border-radius:16px; padding:14px; max-width: 520px; width: 92%; box-shadow: 0 10px 32px rgba(16,24,40,.22); }
+.share-modal h3 { margin: 0 0 10px; font-size: 18px; color:#0f172a; }
+.share-grid { display:flex; flex-wrap:wrap; gap:8px; }
+.share-grid a, .share-grid button { text-decoration:none; }
+.share-close { float:right; cursor:pointer; }
+.copy-status { font-size:12px; margin-left:8px; color:#254a4f; display:none; }
+
+
+/* Ensure selected products images fully fit within their image box */
+#selectedList .media img { width: 100% !important; height: 100% !important; object-fit: contain !important; }
+
+
+/* Ensure all section headers use Summit green (#254a4f) */
+.section-title,
+.section-block > strong {
+  color: #254a4f !important;
+}
+
+
+/* Style product names */
+.product-name {
+  color: #254a4f !important;
+}
+
+/* Bold model and category labels under images */
+.product-model,
+.product-category {
+  font-weight: bold !important;
+}
+
+
+/* Ensure all pills in Section 2 are equal size */
+#section2 .pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+#section2 .pill {
+  flex: 1 1 auto;
+  text-align: center;
+  min-width: 140px;
+}
+
+
+/* Equal-size pills specifically for Section 2 (Categories) */
+#catPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+#catPills .pill {
+  flex: 1 1 200px;   /* equal basis per pill */
+  text-align: center;
+  justify-content: center;
+}
+
+
+/* Make Section 2 pills match button borders */
+#catPills .pill {
+  border: 2px solid var(--primary) !important;
+  border-radius: 8px !important;
+  background: #fff !important;
+  padding: 6px 12px !important;
+}
+
+
+/* Make all buttons rectangular with slightly rounded corners to match Section 2 pills */
+button,
+.btn {
+  border-radius: 8px !important;
+}
+
+
+/* Match Section 2 pills to product button colors */
+#catPills .pill {
+  background-color: var(--primary) !important;
+  color: #ffffff !important;
+  border: 2px solid var(--primary) !important;
+}
+#catPills .pill.active,
+#catPills .pill[aria-pressed="true"] {
+  background-color: #ffffff !important;
+  color: var(--primary) !important;
+}
+
+
+/* Section 2 pills custom colors */
+#catPills .pill {
+  background-color: #f2f9f9 !important;
+  color: #254a4f !important;
+  border: 2px solid #254a4f !important;
+}
+#catPills .pill.active,
+#catPills .pill[aria-pressed="true"] {
+  background-color: #254a4f !important;
+  color: #ffffff !important;
+}
+
+
+/* Match button border width to image card borders */
+button,
+.btn {
+  border-width: 4px !important;
+}
+
+
+/* Standardize all borders to match Section 2 pills (2px) */
+button,
+.btn,
+.card,
+.product img,
+.product,
+.section {
+  border-width: 2px !important;
+}
+
+
+/* Force all element borders to 2px */
+* {
+  border-width: 2px !important;
+}
+
+
+/* Invert colors when a tractor is selected */
+.tractor-card.selected,
+.tractor-card.selected .btn {
+  background-color: #254a4f !important;
+  color: #ffffff !important;
+  border: 2px solid #254a4f !important;
+}
+
+
+
+/* Invert only the Select Tractor button when pressed/selected */
+.tractor-select.selected,
+.tractor-select.active,
+.tractor-select[aria-pressed="true"] {
+  background-color: #254a4f !important;
+  color: #ffffff !important;
+  border: 2px solid #254a4f !important;
+}
+
+
+/* iPhone/mobile fix: make ONLY the 5-step nav sticky; release the main header */
+@supports (position: sticky) {
+  @media (max-width: 768px) {
+    header.sticky {
+      position: static !important;
+      top: auto !important;
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+    }
+    nav.steps {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 70 !important;
+      background: rgba(255,255,255,0.96) !important;
+      border-bottom: 1px solid #e5e7eb !important;
+      -webkit-backdrop-filter: saturate(180%) blur(6px);
+      backdrop-filter: saturate(180%) blur(6px);
+    }
+  }
+}
+
+
+
+/* Responsive orientation tuning for mobile devices */
+@media (orientation: portrait) and (max-width: 900px) {
+  /* Single-column flow for tight vertical screens */
+  .container.grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* Keep images readable without overgrowing the viewport */
+  .media { 
+    max-height: 45vw; 
+  }
+  /* Keep the steps bar pinned at the top */
+  nav.steps {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 70 !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  /* Two columns in landscape on short screens */
+  .container.grid {
+    grid-template-columns: 1fr 1fr !important;
+    column-gap: 12px;
+  }
+  /* Cap media height to avoid overflow under sticky header */
+  .media {
+    max-height: 32vh;
+  }
+  /* Ensure steps remain visible */
+  nav.steps {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 70 !important;
+  }
+}
+
+/* Avoid content getting trapped under sticky elements on iOS */
+:root {
+  --safe-top: env(safe-area-inset-top);
+}
+nav.steps {
+  padding-top: calc(var(--safe-top));
+}
+
+/* Phones: header is NOT sticky; tablets/desktops keep sticky behavior */
+@media (max-width: 768px) {
+  header.sticky {
+    position: static !important;
+    top: auto !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+
+/* Make header non-sticky on all devices */
+header.sticky {
+  position: static !important;
+  top: auto !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+
+/* Larger font sizes for better readability on phones */
+button,
+.btn,
+.pill {
+  font-size: 16px !important;
+}
+
+
+/* Make only the steps container sticky */
+.steps-container.sticky {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+  background: rgba(255,255,255,0.96) !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  -webkit-backdrop-filter: saturate(180%) blur(6px);
+  backdrop-filter: saturate(180%) blur(6px);
+}
+
+
+/* === UX Upgrades: Progress Indicator & Mobile Actions === */
+.steps .btn.is-current {
+  background: #2563eb !important; /* blue */
+  color: #fff !important;
+  border-color: #2563eb !important;
+}
+.steps .btn.is-complete {
+  background: #10b981 !important; /* emerald */
+  color: #fff !important;
+  border-color: #10b981 !important;
+  position: relative;
+}
+.steps .btn.is-complete::before {
+  content: "✓";
+  margin-right: 6px;
+}
+
+/* Collapsible step sections */
+.step-section {
+  transition: max-height 0.25s ease, opacity 0.25s ease;
+  overflow: hidden;
+}
+.step-section.collapsed {
+  max-height: 0 !important;
+  opacity: 0.0 !important;
+  pointer-events: none;
+}
+
+/* Sticky footer actions (mobile only) */
+.mobile-actions {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 12px;
+  display: flex;
+  gap: 10px;
+  background: rgba(255,255,255,0.96);
+  border-top: 1px solid #e5e7eb;
+  z-index: 120;
+  -webkit-backdrop-filter: saturate(180%) blur(6px);
+  backdrop-filter: saturate(180%) blur(6px);
+}
+.mobile-actions .btn {
+  flex: 1;
+}
+@media (min-width: 769px) {
+  .mobile-actions { display: none; }
+}
+
+
+/* Fix: Ensure 'Review Your Selections' is never blank */
+#selectedList {
+  min-height: 48px;
+}
+#selectedList:empty::before {
+  content: "No products selected yet. Use Add in the list above.";
+  display: block;
+  padding: 8px 0;
+  color: #6b7280; /* muted */
+  font-style: italic;
+}
+
+
+/* Review Your Selections list item styling */
+#selectedList .selected-item .remove-btn { margin-left: 12px; }
+#selectedList .selected-item + .selected-item { margin-top: 6px; }
+
+
+/* Hotfix: neutralize collapsed state so content is visible */
+.step-section.collapsed { 
+  max-height: none !important; 
+  opacity: 1 !important; 
+  pointer-events: auto !important; 
+}
+
+
+/* Selected Products panel rendering */
+#selectedList { list-style: none; padding-left: 0; margin: 0; }
+#selectedList .selected-item { margin: 6px 0; }
+#selectedList .selected-item .remove-btn { margin-left: 12px; }
+#selectedList:empty::before {
+  content: "No products selected yet. Use Add in the list above.";
+  display: block;
+  padding: 8px 0;
+  color: #6b7280;
+  font-style: italic;
+}
+
+
+/* === Checkmark overlay for selected Tractor and selected Recommended products === */
+.media { position: relative; }
+.product:has(.tractor-select[aria-pressed="true"]) .media::after,
+.product:has(.add-btn[aria-pressed="true"]) .media::after {
+  content: "✓";
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background: #10b981; /* emerald */
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,.2);
+  pointer-events: none;
+}
+
+
+/* Tractor Select toggle: match the Added style for consistency */
+.btn.added, .btn.is-selected {
+  background: #10b981 !important; /* emerald */
+  color: #ffffff !important;
+  border-color: #10b981 !important;
+}
+
+
+#reviewBtn {
+  background-color: #10b981 !important; /* emerald green */
+  color: #ffffff !important;
+  border-color: #10b981 !important;
+}
+
+#resetAll {
+  background-color: #ef4444 !important; /* red */
+  color: #ffffff !important;
+  border-color: #ef4444 !important;
+}
+
+
+/* Updated color for See Recommended Products button */
+#reviewBtn {
+  background-color: #254A4F !important;
+  color: #ffffff !important;
+  border-color: #254A4F !important;
+}
+
+
+/* spacing for Save/Print buttons */
+#saveBtn, #printBtn { margin-right: 0.5rem; }
+
+</style>
+</head>
+<body>
+<header class="sticky">
+<div class="container">
+<img alt="Summit Tractors Logo" src="data:image/jpeg;base64,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" style="height:60px; margin-right:12px; vertical-align:middle;"/><h1>Summit Tractors Configurator</h1>
+
+</div>
+</header>
+<div class="steps-container sticky">
+<nav class="steps" style="margin-top:8px; display:flex; flex-wrap:wrap; gap:8px;">
+<a class="btn" href="#tractor-section-title">Step 1: Choose Your Tractor</a>
+<a class="btn" href="#cats-section-title">Step 2: Choose Your Applications</a>
+<a class="btn" href="#reco-section-title">Step 3: Review Recommendations</a>
+<a class="btn" href="#summary-section-title">Step 4: Review Your Selections</a>
+<a class="btn" href="#contact-section-title">Step 5: Share With Summit?</a>
+</nav>
+</div>
+<main class="container grid stack">
+<section aria-labelledby="tractor-section-title" class="card">
+<h2 class="section-title" id="tractor-section-title">1) Choose Your Tractor</h2>
+<div class="product-grid" id="tractorList" role="list"></div>
+</section>
+<section aria-labelledby="cats-section-title" class="card">
+<h2 class="section-title" id="cats-section-title">2) Choose Applications &amp; Equipment Needs</h2>
+<div aria-label="Categories" class="list" id="catPills" role="group"></div>
+<div class="foot-actions" style="display:flex; gap:8px; margin-top:8px;">
+<button aria-label="See recommended products" class="btn" id="reviewBtn">See Recommended Products</button>
+<button aria-label="Reset all selections" class="btn ghost" id="resetAll">Reset</button>
+</div>
+</section>
+<section aria-labelledby="reco-section-title" class="card" id="recoSection">
+<h2 class="section-title" id="reco-section-title">3) Recommended Products</h2>
+<div class="toolbar">
+<div class="muted">Empty until you press Review. Selected tractor (if any) appears first. Use Add to move items below.</div>
+<div class="spacer"></div>
+<input aria-label="Filter recommended products" disabled="" id="searchBox" placeholder="Filter by name or model…" type="search"/>
+</div>
+<div class="product-grid" id="recoGrid" role="list"></div>
+</section>
+<section aria-labelledby="summary-section-title" class="card" id="selectedSection">
+<h2 class="section-title" id="summary-section-title">4) Selected Products</h2>
+<div class="product-grid" id="selectedList" role="list"></div>
+<div class="foot-actions" style="display:flex; gap:8px; margin-top:8px;">
+<button id="saveBtn" class="btn secondary" aria-label="Save selections">Save As PDF</button>
+<button id="printBtn" class="btn" aria-label="Print selections">Find a Retailer</button>
+<button aria-label="Save progress locally" class="btn secondary" id="saveProgressBtn">Share My Selections</button>
+<button aria-label="Copy shareable link" class="btn ghost" id="shareLinkBtn">Share The Summit Tractors Configurator</button>
+</div>
+</section>
+<section aria-labelledby="contact-section-title" class="card">
+<h2 class="section-title" id="contact-section-title">(Optional) Send Your Selections to a Summit Tractors Product Specialist</h2>
+<p class="muted">We’ll assist with your selections and answer any questions you may have.</p>
+<div class="row">
+<div style="flex:1 1 250px;">
+<label for="firstName">First Name <span style="color:red">*</span></label>
+<input aria-required="true" id="firstName" required="True"/>
+</div>
+<div style="flex:1 1 250px;">
+<label for="lastName">Last Name <span style="color:red">*</span></label>
+<input aria-required="true" id="lastName" required="True"/>
+</div>
+<div style="flex:1 1 250px;">
+<label for="email">Email <span style="color:red">*</span></label>
+<input aria-required="true" id="email" required="True" type="email"/>
+</div>
+<div style="flex:1 1 250px;">
+<label for="phone">Phone <span style="color:red">*</span></label>
+<input aria-required="true" id="phone" required="True" type="tel"/>
+</div>
+</div>
+<div style="margin-top:12px;">
+<label for="comments">Comments (optional)</label>
+<textarea id="comments" placeholder="Anything specific you want help with?"></textarea>
+</div>
+<div class="foot-actions" style="display:flex; gap:8px; margin-top:8px;">
+<button aria-label="Email selections to Summit Tractors" class="btn" id="emailBtn">Email to support@summittractors.com</button>
+</div>
+</section>
+</main>
+<script>
+    const RAW_DATA = [
+  {
+    "Model": "TX25HLX85BHX76",
+    "Product Name": "Summit TX25H Tractor & LX85 Loader & BHX76 Backhoe",
+    "Description": "Pairing the Summit BHX76 Backhoe with the Summit TX25H transforms the tractor into a true digging and excavation machine. The backhoe makes it easy to handle jobs like trenching for utilities, planting trees, removing stumps, and clearing ditchesâtasks a tractor alone canât tackle. Together, they create a powerful, all-in-one solution for year-round property maintenance and improvement.",
+    "Common Uses": "PLACEHOLDER",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20TX25HLX85BHX76.jpg",
+    "Video URL": "https://youtu.be/GmgAs2ao3sI?si=spAiZ1oiwAKpyiTE",
+    "Brochure URL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf",
+    "Seasonal Use - Spring": "The Summit TX25H Tractor, paired with the Summit BHX76 Backhoe, makes spring work simple and efficient. Use the tractor for soil preparation like tilling, cultivating, and discing, then hook up seeders and spreaders to get planting underway. The BHX76 Backhoe is ideal for digging trenches for irrigation lines, planting trees, or removing stubborn stumps. Together, they handle property cleanup by clearing branches, hauling brush, and repairing driveways after winter.ields, gardens, and landscaping projects",
+    "Seasonal Use - Summer": "Through the summer months, the Summit TX25H takes care of mowing and pasture maintenance with rotary cutters, finishing mowers, or flail mowers. Its loader and forks move hay bales, feed, and building materials with ease. The Summit BHX76 Backhoe adds construction capability, making quick work of post hole digging, trenching for utilities, and small excavation projects around your property. With this combination, you can handle fencing, landscaping, and water system installations all season long.",
+    "Seasonal Use - Fall": "When fall arrives, the Summit TX25H supports harvest with the strength to pull wagons, haul produce, and power augers. It also preps land for winter with cover crop planting, fertilizing, and tilling residue back into the soil. The BHX76 Backhoe extends your reach by digging drainage ditches, clearing out culverts, and helping with tree planting or removal. Together, they simplify leaf cleanup, property maintenance, and firewood preparation, from hauling logs to splitting wood with a PTO-powered splitter.",
+    "Seasonal Use - Winter": "In winter, the Summit TX25H Tractor transforms into a dependable snow and ice management machine, using loaders, blades, pushers, or snow blowers to keep driveways and access roads clear. It also manages livestock chores by moving feed and bedding, and spreads sand or salt for ice control. With the Summit BHX76 Backhoe, you can dig out compacted snow piles, clear drainage areas, or handle utility repairs even in frozen ground. This pairing ensures your property stays productive and accessible all winter long.",
+    "Key Features": "All Features of the Summit TX25H Tractor & LX85 Loader; Mechanical Thumb to Lift Boulders, Logs and Other Material; Independent Operator Seat - No Need to Pivot the Tractor Seat Around; Standard 12\" Bucket, Optional 8\" & 16\" Buckets; Backhoe On/Off the Tractor in Minutes; Locking Pin Keepers so They Don't Get Lost; ISO SAE Operator Controls; Full Subframe Mount, SMV Sign for Transport Safety on the Road",
+    "Category": "Tractor"
+  },
+  {
+    "Model": "TX25HLX85",
+    "Product Name": "Summit TX25H Tractor & LX85 Loader",
+    "Description": "The Summit TX25H compact tractor is a versatile, year-round workhorse designed to handle a wide range of tasks with ease. With the right attachments, it can mow, grade, haul, dig, till, and clear snow, delivering the power of a larger tractor in a smaller, more maneuverable package. This adaptability makes the TX25H a smart investment for property owners who want one machine that can do it all.",
+    "Common Uses": "Mowing and Lawn Care - Running a mid-mount mower deck or rear finish mower for large lawns and fields. - Maintaining acreage more efficiently than a riding mower. Landscaping and Property Maintenance - Front-end loader work: moving dirt, mulch, gravel, or snow. - Box blade or rear blade: grading driveways, spreading gravel, leveling soil. - Landscape rake: clearing debris, grooming soil, or maintaining trails. Light Agricultural Work - Rotary tiller: preparing gardens, food plots, or small fields. - Disc harrow: breaking up soil for planting. - Seeder or spreader: applying seed, fertilizer, or lime. Material Handling - With a pallet fork attachment, moving pallets, firewood, fencing, and small building supplies. - Using a carry-all platform to haul materials around the property. Snow Removal - Front loader bucket: pushing or lifting snow. - Rear blade or snow pusher: clearing driveways and private roads. - Optional snow blower for heavy or frequent snow regions. Light Construction & Utility Work - Digging small trenches with a backhoe attachment (often available for 25HP tractors). - Installing posts using a post hole digger/auger. - Supporting small-scale landscaping or construction projects. General Homestead Tasks - Pulling small wagons, trailers, or log splitters. - Assisting with fencing, gardening, firewood hauling, and light forestry work.",
+    "Image URL": "https://summittractors.com/summitpics/Dump%20-%20Copy.jpg",
+    "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
+    "Brochure URL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf",
+    "Seasonal Use - Spring": "The Summit TX25H Tractor is built to get your property ready for the season. In spring, it handles soil preparation with ease, whether you are tilling, cultivating, or discing gardens, fields, and food plots. Pair it with seeders and spreaders to make planting efficient, and use its loader and grading tools to clear branches, haul brush, and repair driveways after winter.",
+    "Seasonal Use - Summer": "Through the summer months, the Summit TX25H shines as a mowing and maintenance machine. Attach a rotary cutter for pastures, a finishing mower for lawns, or a flail mower for roadside and ditch upkeep. With pallet forks and loaders, it moves hay bales, feed, and supplies, while also tackling fencing projects, gravel spreading, light construction, and crop irrigation with sprayers or tanks.",
+    "Seasonal Use - Fall": "Through the summer months, the Summit TX25H shines as a mowing and maintenance machine. Attach a rotary cutter for pastures, a finishing mower for lawns, or a flail mower for roadside and ditch upkeep. With pallet forks and loaders, it moves hay bales, feed, and supplies, while also tackling fencing projects, gravel spreading, light construction, and crop irrigation with sprayers or tanks.",
+    "Seasonal Use - Winter": "In winter, the Summit TX25H becomes a dependable snow and ice management solution. With front-end loaders, blades, pushers, or snow blowers, it clears driveways and access roads quickly and efficiently. It also manages livestock chores by moving feed and bedding, spreads salt or sand for ice control, and keeps your property accessible in all conditions.",
+    "Key Features": "24.7 HP Mitsubishi 3-Cyl. EPA Tier 4 Diesel Engine; 3rd Function Hydraulics - Grapple Ready; Rear Hydraulic Remotes; Self-Leveling SSQA Loader; Goodyear All-Condition R14T Tires; RimGuard Liquid Tire Ballast in the Rears; Premium Suspension Seat With Backrest Extension; Toolbox, Rear Work Light, Swinging Drawbar, Cross Drawbar, Front Tow hook",
+    "Category": "Tractor"
+  },
+  {
+    "Model": "TMX1",
+    "Product Name": "Summit Tractors TMX1 Trailer Mover",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20TMX1%20TRAILER%20MOVER.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Pull a Trailer"
+  },
+  {
+    "Model": "SSX500",
+    "Product Name": "Summit Tractors SSX500 Seeder/Spreader",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20SSX500%20SEEDER-SPREADER.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Seeding & Spreading"
+  },
+  {
+    "Model": "SSX1",
+    "Product Name": "Summit Tractors SSX1 Sub-Soiler",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20SSX1%20SUB-SOILER.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Seedbed Preparation"
+  },
+  {
+    "Model": "SPX60DR",
+    "Product Name": "Summit Tractors 60\" Snow Pusher Drag Kit",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20SPX60%20SNOW%20PUSHER%20WITH%20DRAG.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Snow Removal"
+  },
+  {
+    "Model": "SPX60",
+    "Product Name": "Summit Tractors 60\" Snow Pusher",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20SPX60%20SNOW%20PUSHER.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Snow Removal"
+  },
+  {
+    "Model": "RTLRX48",
+    "Product Name": "Summit Tractors 48\" Rotary Tiller",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20RTLRX48%20ROTARY%20TILLER.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Tilling & Soil Preparation"
+  },
+  {
+    "Model": "RCX48",
+    "Product Name": "Summit Tractors 48\" Rotary Cutter",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20RCX48%20ROTARY%20CUTTER.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Brush Cutting"
+  },
+  {
+    "Model": "RBX60",
+    "Product Name": "Summit Tractors 60\" Rear Blade",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20RBX60%20REAR%20BLADE.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Grading"
+  },
+  {
+    "Model": "QHX1",
+    "Product Name": "Summit Tractors QHX1 Quick Hitch",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20QHX1%20QUICK%20HITCH.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Quick Hitch "
+  },
+  {
+    "Model": "PFX42",
+    "Product Name": "Summit Tractors 42\" SSQA Pallet Forks",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20PFX42%20SSQA%20PALLETS%20FORKS%20-%202.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Material Handling - Pallet Forks"
+  },
+  {
+    "Model": "MBX1",
+    "Product Name": "Summit Tractors MBX1 Middle Buster",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20MBX1%20MIDDLE%20BUSTER.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Seedbed Preparation"
+  },
+  {
+    "Model": "MBSSX1",
+    "Product Name": "Summit Tractors MBSSX1 Middle Buster Sub-Soiler Combo",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20MBSSX1%20MIDDLE%20BUSTER-SUB%20SOILER%20COMBO%20-%20SS%20IMAGE.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Seedbed Preparation"
+  },
+  {
+    "Model": "LRX60",
+    "Product Name": "Summit Tractors 60\" Landscape Rake",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20LRX60%20LANDSCAPE%20RAKE.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Landscaping"
+  },
+  {
+    "Model": "LPX60",
+    "Product Name": "Summit Tractors 60\" Land Plane",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20LPX60%20LAND%20PLANE.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Grading"
+  },
+  {
+    "Model": "GX54",
+    "Product Name": "Summit Tractors 54\" SSQA Grapple",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/GRAPPLE%20LOG%20TIGHT%20-%20Copy.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Material Handling - Grapple"
+  },
+  {
+    "Model": "FMX60",
+    "Product Name": "Summit Tractors 60\" 3-Point Finish Mower",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20FMX60%20FINISH%20MOWER.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Mowing"
+  },
+  {
+    "Model": "CAX1",
+    "Product Name": "Summit Tractors CAX1 Carry All",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20CAX1%20CARRY%20ALL.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Carry-All"
+  },
+  {
+    "Model": "BPX60",
+    "Product Name": "Summit Tractors BPX60 BoxPlane",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/Boxplane%202%20-%20Copy.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Grading - Box Blade & Land Plane in One"
+  },
+  {
+    "Model": "BPX1",
+    "Product Name": "Summit Tractors BPX1 Boom Pole",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20BPX1%20BOOM%20POLE.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Carry-Boom Pole"
+  },
+  {
+    "Model": "BHXX16",
+    "Product Name": "Summit Tractors Optional 16\" Backhoe Bucket",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/Summit%20BHBX16%20Optional%20Backhoe%20Bucket%20(1).jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Additional Backhoe Buckets"
+  },
+  {
+    "Model": "BHXPX1",
+    "Product Name": "Summit Tractors Optional Street Pads",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/Summit%20BHSPX1%20Optional%20Street%20Pads.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Backhoe Street Pads"
+  },
+  {
+    "Model": "BHBX8",
+    "Product Name": "Summit Tractors Optional 8\" Backhoe Bucket",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/Summit%20BHBX8%20Optional%20Backhoe%20Bucket%20copy.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Additional Backhoe Buckets"
+  },
+  {
+    "Model": "BBX60",
+    "Product Name": "Summit Tractors 60\" Box Blade",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20BPX60%20BOX%20BLADE.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Grading"
+  },
+  {
+    "Model": "AFDHX60",
+    "Product Name": "Summit Tractors 60\" Angle Frame Disc Harrow",
+    "Description": "",
+    "Common Uses": "",
+    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20AFDHX60%20ANGLE%20FRAME%20DISC%20HARROW.jpg",
+    "Video URL": "",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "",
+    "Seasonal Use - Summer": "",
+    "Seasonal Use - Fall": "",
+    "Seasonal Use - Winter": "",
+    "Key Features": "",
+    "Category": "Tilling & Soil Preparation"
+  }
+];
+window.RAW_DATA = RAW_DATA; // expose for PDF builder
+    const CAT_LIST = ["Additional Backhoe Buckets", "Backhoe Street Pads", "Brush Cutting", "Carry-All", "Carry-Boom Pole", "Grading", "Grading - Box Blade & Land Plane in One", "Landscaping", "Material Handling - Grapple", "Material Handling - Pallet Forks", "Mowing", "Pull a Trailer", "Quick Hitch", "Seedbed Preparation", "Seeding & Spreading", "Snow Removal", "Tilling & Soil Preparation"];
+    const PLACEHOLDER = "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%0A%20%20%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23e6f0f1%22/%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23cbdadd%22/%3E%0A%20%20%3C/linearGradient%3E%3C/defs%3E%0A%20%20%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%3Cg%20fill%3D%22%23254A4F%22%3E%0A%20%20%20%20%3Crect%20x%3D%22360%22%20y%3D%22160%22%20width%3D%2280%22%20height%3D%2280%22%20rx%3D%2212%22%20opacity%3D%220.2%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22400%22%20cy%3D%22190%22%20r%3D%2224%22%20opacity%3D%220.25%22/%3E%0A%20%20%20%20%3Crect%20x%3D%22300%22%20y%3D%22260%22%20width%3D%22200%22%20height%3D%2212%22%20rx%3D%226%22%20opacity%3D%220.35%22/%3E%0A%20%20%3C/g%3E%0A%20%20%3Ctext%20x%3D%2250%25%22%20y%3D%2288%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%23254A4F%22%20font-family%3D%22Inter%2C%20Arial%22%20font-size%3D%2222%22%3ENo%20Image%3C/text%3E%0A%3C/svg%3E";
+
+    function norm(s) { return (s || '').toString().trim(); }
+    const tractors = RAW_DATA.filter(r => norm(r.Category).toLowerCase() === 'tractor');
+    const nonTractors = RAW_DATA.filter(r => norm(r.Category).toLowerCase() !== 'tractor');
+
+    const state = {
+      selectedTractorModel: null,
+      selectedCategories: new Set(),
+      selectedItems: new Map(),
+      hasReviewed: false,
+      lastRecommendedModels: []
+    };
+window.state = state; // expose globally for PDF builder
+window.state = state; // expose state for Save As PDF preview
+    window.state = state; // expose for Save/Print PDF builder
+
+    const tractorList = document.getElementById("tractorList");
+    const catPills = document.getElementById("catPills");
+    const selectedList = document.getElementById("selectedList");
+    const recoGrid = document.getElementById("recoGrid");
+    const recoSection = document.getElementById("recoSection");
+    const searchBox = document.getElementById("searchBox");
+
+    function htmlEscape(s) {
+      return (s ?? '').toString().replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&#34;","'":"&#39;"})[c]);
+    }
+
+    function sectionHTML(rec) {
+      const features = (rec["Key Features"] || "").split(";").map(f => f.trim()).filter(Boolean).map(f => '<li>' + htmlEscape(f) + '</li>').join("");
+      return [
+        '<div class="reading-pane">',
+          '<button class="btn ghost close-info" style="margin-bottom:8px;">Close</button>',
+          '<div class="section-block section-desc active">',
+            '<strong>Description</strong>',
+            '<div>', (htmlEscape(rec.Description) || "—"), '</div>',
+          '</div>',
+          '<div class="section-block section-uses">',
+            '<strong>Common Uses</strong>',
+            '<div>', (htmlEscape(rec["Common Uses"]) || "—"), '</div>',
+          '</div>',
+          '<div class="section-block section-seasons">',
+            '<strong>Seasonal Uses</strong>',
+            '<ul style="margin-top:6px;">',
+              '<li><strong>Spring:</strong> ', htmlEscape(rec["Seasonal Use - Spring"]), '</li>',
+              '<li><strong>Summer:</strong> ', htmlEscape(rec["Seasonal Use - Summer"]), '</li>',
+              '<li><strong>Fall:</strong> ', htmlEscape(rec["Seasonal Use - Fall"]), '</li>',
+              '<li><strong>Winter:</strong> ', htmlEscape(rec["Seasonal Use - Winter"]), '</li>',
+            '</ul>',
+          '</div>',
+          '<div class="section-block section-features">',
+            '<strong>Key Features</strong>',
+            '<ul style="margin-top:6px;">', (features || "<li>—</li>"), '</ul>',
+          '</div>',
+        '</div>'
+      ].join('');
+    }
+
+    function imgTag(url) {
+      const src = (url && url.trim()) ? url : PLACEHOLDER;
+      return '<div class="media"><img src="' + htmlEscape(src) + '" alt="Product image" loading="lazy"></div>';
+    }
+
+    // --- TRACTOR RENDER ---
+    function renderTractors() {
+      tractorList.innerHTML = "";
+      [...tractors].reverse().forEach(rec => {
+        const selected = state.selectedTractorModel === rec.Model;
+        const parts = [];
+        parts.push('<div class="product" role="listitem">');
+        parts.push(imgTag(rec["Image URL"]));
+        parts.push('<div class="badge">Model: ' + htmlEscape(rec.Model) + ' (Tractor)</div>');
+        parts.push('<div class="title">' + htmlEscape(rec["Product Name"]) + '</div>');
+        parts.push('<div class="row">');
+        parts.push('<button class="btn ' + (selected ? '' : 'secondary') + ' tractor-select" data-model="' + htmlEscape(rec.Model) + '">' + (selected ? 'Selected' : 'Select Tractor') + '</button>');
+        parts.push('<button class="btn ghost info-btn" data-target="desc">Description</button>');
+        parts.push('<button class="btn ghost info-btn" data-target="uses">Common Uses</button>');
+        parts.push('<button class="btn ghost info-btn" data-target="seasons">Seasonal Uses</button>');
+        parts.push('<button class="btn ghost info-btn" data-target="features">Key Features</button>');
+        if (rec["Video URL"]) parts.push('<a class="btn ghost" href="' + htmlEscape(rec["Video URL"]) + '" target="_blank" rel="noopener">Video</a>');
+        if (rec["Brochure URL"]) parts.push('<a class="btn ghost" href="' + htmlEscape(rec["Brochure URL"]) + '" target="_blank" rel="noopener">Brochure</a>');
+        parts.push('</div>');
+        parts.push(sectionHTML(rec));
+        parts.push('</div>');
+        const el = document.createElement("div");
+        el.innerHTML = parts.join('');
+        // move child out to avoid extra wrapper div
+        while (el.firstChild) tractorList.appendChild(el.firstChild);
+      });
+    }
+
+    // --- CATEGORY PILLS ---
+    function renderCategoryPills() {
+      catPills.innerHTML = "";
+      CAT_LIST.forEach(cat => {
+        const selected = state.selectedCategories.has(cat);
+        const el = document.createElement("button");
+        el.className = "pill" + (selected ? " selected" : "");
+        el.setAttribute("aria-pressed", selected);
+        el.dataset.cat = cat;
+        el.textContent = cat;
+        el.addEventListener("click", () => {
+          if (state.selectedCategories.has(cat)) state.selectedCategories.delete(cat);
+          else state.selectedCategories.add(cat);
+          renderCategoryPills();
+        });
+        catPills.appendChild(el);
+      });
+    }
+
+    // --- BUILD RECOMMENDED ---
+    function buildRecommendedModels() {
+      const models = [];
+      if (state.selectedTractorModel) models.push(state.selectedTractorModel);
+      if (state.selectedCategories.size > 0) {
+        nonTractors.forEach(r => { if (state.selectedCategories.has(norm(r.Category))) models.push(r.Model); });
+      }
+      state.lastRecommendedModels = models;
+    }
+
+    // --- RECOMMENDED RENDER ---
+    function renderRecommended() {
+      recoGrid.innerHTML = "";
+      if (!state.hasReviewed) return;
+      const filter = (searchBox.value || "").toLowerCase();
+      const byModel = new Map(RAW_DATA.map(r => [String(r.Model), r]));
+      const models = state.lastRecommendedModels.filter(m => byModel.has(String(m)));
+
+      models.forEach(m => {
+        const rec = byModel.get(String(m));
+        if (filter && !(String(rec["Product Name"]).toLowerCase().includes(filter) || String(rec.Model).toLowerCase().includes(filter))) return;
+
+        const added = state.selectedItems.has(rec.Model);
+        const parts = [];
+        parts.push('<div class="product" role="listitem">');
+        parts.push(imgTag(rec["Image URL"]));
+        parts.push('<div class="badge">Model: ' + htmlEscape(rec.Model) + ' • Category: ' + htmlEscape(norm(rec.Category)) + (norm(rec.Category).toLowerCase()==='tractor' ? ' • Selected Tractor' : '') + '</div>');
+        parts.push('<div class="title">' + htmlEscape(rec["Product Name"]) + '</div>');
+        parts.push('<div class="row">');
+        parts.push('<button class="btn ' + (added ? '' : 'secondary') + ' add-btn" data-model="' + htmlEscape(rec.Model) + '" aria-pressed="' + added + '">' + (added ? 'Added' : 'Add') + '</button>');
+        parts.push('<button class="btn ghost info-btn" data-target="desc">Description</button>');
+        parts.push('<button class="btn ghost info-btn" data-target="uses">Common Uses</button>');
+        parts.push('<button class="btn ghost info-btn" data-target="seasons">Seasonal Uses</button>');
+        parts.push('<button class="btn ghost info-btn" data-target="features">Key Features</button>');
+        if (rec["Video URL"]) parts.push('<a class="btn ghost" href="' + htmlEscape(rec["Video URL"]) + '" target="_blank" rel="noopener">Video</a>');
+        if (rec["Brochure URL"]) parts.push('<a class="btn ghost" href="' + htmlEscape(rec["Brochure URL"]) + '" target="_blank" rel="noopener">Brochure</a>');
+        parts.push('</div>');
+        parts.push(sectionHTML(rec));
+        parts.push('</div>');
+        const el = document.createElement("div");
+        el.innerHTML = parts.join('');
+        while (el.firstChild) recoGrid.appendChild(el.firstChild);
+      });
+    }
+
+    // --- SELECTED RENDER ---
+    function renderSelected() {
+      selectedList.innerHTML = "";
+      const items = [...state.selectedItems.values()];
+      if (!items.length) {
+        const p = document.createElement("div");
+        p.className = "muted";
+        p.textContent = "No products selected yet. Use Add in the list above.";
+        selectedList.appendChild(p);
+        return;
+      }
+      items.forEach(rec => {
+        const parts = [];
+        parts.push('<div class="product" role="listitem">');
+        parts.push('<div class="row" style="gap:12px; align-items:flex-start;">');
+        parts.push('<div class="media" style="flex:0 0 160px; max-width:160px; aspect-ratio:16/9;">');
+        parts.push('<img src="' + htmlEscape(((rec["Image URL"]||'').trim() || PLACEHOLDER)) + '" alt="Product image" loading="lazy">');
+        parts.push('</div>');
+        parts.push('<div style="flex:1 1 auto;">');
+        parts.push('<div class="badge">Model: ' + htmlEscape(rec.Model) + ' • Category: ' + htmlEscape(norm(rec.Category)) + '</div>');
+        parts.push('<div class="title" style="margin-top:6px;">' + htmlEscape(rec["Product Name"]) + '</div>');
+        parts.push('<div class="row" style="margin-top:8px;">');
+        parts.push('<button class="btn ghost remove-btn" data-model="' + htmlEscape(rec.Model) + '">Remove</button>');
+        parts.push('</div>'); // row
+        parts.push('</div>'); // right col
+        parts.push('</div>'); // row wrapper
+        parts.push('</div>'); // product
+        const el = document.createElement("div");
+        el.innerHTML = parts.join('');
+        while (el.firstChild) selectedList.appendChild(el.firstChild);
+      });
+    }
+
+    function renderAll() {
+      renderTractors();
+      renderCategoryPills();
+      renderRecommended();
+      renderSelected();
+    }
+
+    // --- INFO BUTTON TOGGLING + HIGHLIGHT ---
+    function setActiveInfoButton(card, targetOrNull) {
+      card.querySelectorAll('.info-btn').forEach(b => b.classList.remove('active'));
+      if (!targetOrNull) return;
+      const btn = card.querySelector('.info-btn[data-target="' + CSS.escape(targetOrNull) + '"]');
+      if (btn) btn.classList.add('active');
+    }
+
+    function toggleSection(card, target) {
+      const pane = card.querySelector(".reading-pane");
+      if (!pane) return;
+      const blocks = pane.querySelectorAll(".section-block");
+      const map = { "desc": ".section-desc", "uses": ".section-uses", "seasons": ".section-seasons", "features": ".section-features" };
+      const sel = map[target] || ".section-desc";
+      const show = pane.querySelector(sel);
+
+      const alreadyOpen = pane.classList.contains("open");
+      const isActive = show && show.classList.contains("active");
+      if (alreadyOpen && isActive) {
+        pane.classList.remove("open");
+        blocks.forEach(b => b.classList.remove("active"));
+        setActiveInfoButton(card, null);
+        return;
+      }
+
+      blocks.forEach(b => b.classList.remove("active"));
+      if (show) show.classList.add("active");
+      
+  // Close any other open info panes before opening this one
+  try {
+    document.querySelectorAll('.reading-pane.open').forEach(otherPane => {
+      if (otherPane !== pane) {
+        otherPane.classList.remove('open');
+        otherPane.querySelectorAll('.section-block').forEach(b => b.classList.remove('active'));
+        const otherCard = otherPane.closest('.product');
+        if (otherCard && typeof setActiveInfoButton === "function") {
+          setActiveInfoButton(otherCard, null);
+        }
+      }
+    });
+  } catch (e) { /* no-op */ }
+
+pane.classList.add("open");
+      setActiveInfoButton(card, target);
+  // Ensure expanded content is visible in the viewport
+  setTimeout(() => {
+    pane.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, 100);
+
+    }
+
+    // --- EVENTS ---
+    tractorList.addEventListener("click", (e) => {
+      const selectBtn = e.target.closest(".tractor-select");
+      const infoBtn = e.target.closest(".info-btn");
+      if (selectBtn) {
+        const model = selectBtn.dataset.model;
+        state.selectedTractorModel = (state.selectedTractorModel === model) ? null : model;
+        renderTractors();
+        return;
+      }
+      if (infoBtn) {
+        const card = infoBtn.closest(".product");
+        const target = infoBtn.getAttribute("data-target");
+        toggleSection(card, target);
+      }
+    });
+
+    recoGrid.addEventListener("click", (e) => {
+      const addBtn = e.target.closest(".add-btn");
+      const infoBtn = e.target.closest(".info-btn");
+      const card = e.target.closest(".product");
+      if (!card) return;
+
+      if (addBtn) {
+        const model = addBtn.dataset.model;
+        const rec = RAW_DATA.find(r => String(r.Model) === String(model));
+        if (!rec) return;
+        if (state.selectedItems.has(model)) {
+          state.selectedItems.delete(model);
+        } else {
+          state.selectedItems.set(model, rec);
+        }
+        renderSelected();
+        const isAdded = state.selectedItems.has(model);
+        addBtn.textContent = isAdded ? "Added" : "Add";
+        addBtn.classList.toggle("secondary", !isAdded);
+        addBtn.setAttribute("aria-pressed", String(isAdded));
+        return;
+      }
+
+      if (infoBtn) {
+        const target = infoBtn.getAttribute("data-target");
+        toggleSection(card, target);
+      }
+    });
+
+    // Remove from Selected
+    selectedList.addEventListener("click", (e) => {
+      const rem = e.target.closest(".remove-btn");
+      if (!rem) return;
+      const model = rem.dataset.model;
+      state.selectedItems.delete(model);
+      renderSelected();
+      const btn = recoGrid.querySelector('.add-btn[data-model="' + CSS.escape(model) + '"]');
+      if (btn) {
+        btn.textContent = "Add";
+        btn.classList.add("secondary");
+        btn.setAttribute("aria-pressed", "false");
+      }
+    });
+
+    // Review / Reset / Search
+    document.getElementById("reviewBtn").addEventListener("click", () => {
+      state.hasReviewed = true;
+      buildRecommendedModels();
+      searchBox.disabled = false;
+      renderRecommended();
+      recoSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    document.getElementById("resetAll").addEventListener("click", () => {
+      state.selectedTractorModel = null;
+      state.selectedCategories.clear();
+      state.selectedItems.clear();
+      state.hasReviewed = false;
+      state.lastRecommendedModels = [];
+      searchBox.value = "";
+      searchBox.disabled = true;
+      renderAll();
+    });
+
+    searchBox.addEventListener("input", () => renderRecommended());
+
+    // Email compose
+    
+function buildEmailBody() {
+  // Build items list including tractor (if any) and all selected implements
+  const lines = [];
+
+  // Tractor (if chosen)
+  if (state.selectedTractorModel) {
+    try {
+      lines.push('- Tractor: ' + state.selectedTractorModel);
+    } catch (e) { /* ignore */ }
+  }
+
+  // Implements / accessories
+  try {
+    const selItems = [...state.selectedItems.values()].map(r => '- ' + r.Model + ' – ' + r["Product Name"]);
+    lines.push(...selItems);
+  } catch (e) { /* ignore */ }
+
+  const itemsText = lines.join("\n");
+  const cats = [...state.selectedCategories].join(", ");
+  const comments = document.getElementById("comments").value || "";
+
+  // Encode each dynamic section to preserve full content in mailto body
+  return [
+    "Selected Products:%0A",
+    encodeURIComponent(itemsText || "None"),
+    "%0A%0A",
+    "Selected Categories:%0A",
+    encodeURIComponent(cats || "None"),
+    "%0A%0A",
+    "Comments:%0A",
+    encodeURIComponent(comments)
+  ].join("");
+}
+    document.getElementById("emailBtn").addEventListener("click", () => {
+      const f = document.getElementById("firstName").value.trim();
+      const l = document.getElementById("lastName").value.trim();
+      const e = document.getElementById("email").value.trim();
+      const p = document.getElementById("phone").value.trim();
+      if (!f || !l || !e || !p) {
+        alert("First name, last name, email, and phone are required.");
+        return;
+      }
+      const subject = encodeURIComponent("Summit Configurator Selections");
+      const intro = encodeURIComponent(
+        `Name: ${f} ${l}\nEmail: ${e}\nPhone: ${p}\n`
+      ).replace(/%0A/g, "%0A");
+      const body = intro + buildEmailBody();
+      const mailto = `mailto:support@summittractors.com?subject=${subject}&body=${body}`;
+      window.location.href = mailto;
+    });
+
+    // Start clean
+    window.addEventListener("load", () => {
+      state.selectedTractorModel = null;
+      state.selectedCategories.clear();
+      state.selectedItems.clear();
+      state.hasReviewed = false;
+      state.lastRecommendedModels = [];
+      searchBox.value = "";
+      searchBox.disabled = true;
+      renderAll();
+    }, { once: true });
+  
+// Save / Print action
+const printBtnEl = document.getElementById("printBtn");
+// Hybrid Share: use Web Share API if available, else show fallback modal with options
+(function(){
+  const shareBtn = document.getElementById("shareLinkBtn");
+  const backdrop = document.getElementById("shareBackdrop");
+  const closeBtn = document.getElementById("shareClose");
+  const copyBtn = document.getElementById("copyLinkBtn");
+  const copyStatus = document.getElementById("copyStatus");
+  const emailShare = document.getElementById("emailShare");
+  const smsShare = document.getElementById("smsShare");
+  const waShare = document.getElementById("waShare");
+  const fbShare = document.getElementById("fbShare");
+  const twShare = document.getElementById("twShare");
+  const url = window.location.href;
+  const encUrl = encodeURIComponent(url);
+  const text = encodeURIComponent("Check out the Summit Tractors Configurator");
+  const title = "Summit Tractors Configurator";
+
+  function populateLinks(){
+    emailShare.href = `mailto:?subject=${encodeURIComponent(title)}&body=${text}%0A${encUrl}`;
+    smsShare.href = `sms:?&body=${text}%20${encUrl}`;
+    waShare.href = `https://wa.me/?text=${text}%20${encUrl}`;
+    fbShare.href = `https://www.facebook.com/sharer/sharer.php?u=${encUrl}`;
+    twShare.href = `https://twitter.com/intent/tweet?url=${encUrl}&text=${text}`;
+  }
+
+  function openModal(){
+    populateLinks();
+    backdrop.style.display = "flex";
+  }
+  function closeModal(){
+    backdrop.style.display = "none";
+  }
+
+  if (shareBtn) {
+    shareBtn.addEventListener("click", async () => {
+      const shareData = { title, text: "Check out the Summit Tractors Configurator", url };
+      try {
+        if (navigator.share) {
+          await navigator.share(shareData);
+        } else {
+          openModal();
+        }
+      } catch (e) {
+        // If user cancels or share fails, try fallback
+        openModal();
+      }
+    });
+  }
+
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+  if (backdrop) backdrop.addEventListener("click", (e) => { if (e.target === backdrop) closeModal(); });
+
+  if (copyBtn) {
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        copyStatus.style.display = "inline";
+        setTimeout(()=> copyStatus.style.display = "none", 1800);
+      } catch (err) {
+        alert("Copy failed. Please copy this link manually:\n" + url);
+      }
+    });
+  }
+})();
+
+
+// Close info pane
+document.body.addEventListener("click", (e) => {
+  const closeBtn = e.target.closest(".close-info");
+  if (!closeBtn) return;
+  const card = closeBtn.closest(".product");
+  if (!card) return;
+  const pane = card.querySelector(".reading-pane");
+  if (pane) {
+    pane.classList.remove("open");
+    pane.querySelectorAll(".section-block").forEach(b => b.classList.remove("active"));
+    setActiveInfoButton(card, null);
+  }
+});
+
+
+// --- Replace top Close button with bottom Close button ---
+(function() {
+  function adjustCloseButtons(root) {
+    const scope = root && root.querySelectorAll ? root : document;
+    scope.querySelectorAll('.reading-pane').forEach(pane => {
+      const topBtn = pane.querySelector('.close-info');
+      if (topBtn) {
+        // remove the top button
+        topBtn.remove();
+      }
+      // ensure one bottom close button exists
+      const alreadyBottom = Array.from(pane.querySelectorAll('.close-info')).pop();
+      if (!alreadyBottom) {
+        const btn = document.createElement('button');
+        btn.className = 'btn ghost close-info';
+        btn.textContent = 'Close';
+        btn.style.marginTop = '8px';
+        pane.appendChild(btn);
+      }
+    });
+  }
+
+  // Run once on load
+  adjustCloseButtons(document);
+
+  // Observe future dynamic content
+  const mo = new MutationObserver(mutations => {
+    for (const m of mutations) {
+      m.addedNodes.forEach(node => {
+        if (node.nodeType === 1) { // ELEMENT_NODE
+          adjustCloseButtons(node);
+        }
+      });
+    }
+  });
+  mo.observe(document.body, { childList: true, subtree: true });
+})();
+
+
+// --- Ensure Close buttons return to the product's info menu ---
+document.body.addEventListener("click", (ev) => {
+  const btn = ev.target.closest(".close-info");
+  if (!btn) return;
+  const card = btn.closest(".product");
+  if (!card) return;
+
+  // Make sure pane is closed and section state is cleared (idempotent)
+  const pane = card.querySelector(".reading-pane");
+  if (pane) {
+    pane.classList.remove("open");
+    pane.querySelectorAll(".section-block").forEach(b => b.classList.remove("active"));
+  }
+  if (typeof setActiveInfoButton === "function") {
+    setActiveInfoButton(card, null); // back to info menu (no active content tab)
+  }
+
+  // Scroll the info menu (row of info buttons) into view and focus the first button
+  const menu = card.querySelector(".info-buttons") || card.querySelector(".info-menu") || card.querySelector(".info");
+  if (menu) {
+    menu.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    const firstBtn = menu.querySelector("button, [role='button'], a");
+    if (firstBtn && typeof firstBtn.focus === "function") {
+      try { firstBtn.focus({ preventScroll: true }); } catch(e) { /* ignore */ }
+    }
+  } else {
+    // Fallback: scroll the product card header into view
+    card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+});
+
+</script>
+<div aria-labelledby="shareTitle" aria-modal="true" class="share-modal-backdrop" id="shareBackdrop" role="dialog">
+<div class="share-modal">
+<span aria-label="Close" class="share-close btn ghost" id="shareClose">Close</span>
+<h3 id="shareTitle">Share this configurator</h3>
+<div class="share-grid">
+<button class="btn" id="copyLinkBtn">Copy Link</button><span class="copy-status" id="copyStatus">Copied</span>
+<a class="btn" id="emailShare" rel="noopener" target="_blank">Email</a>
+<a class="btn" id="smsShare" rel="noopener" target="_blank">SMS</a>
+<a class="btn" id="waShare" rel="noopener" target="_blank">WhatsApp</a>
+<a class="btn" id="fbShare" rel="noopener" target="_blank">Facebook</a>
+<a class="btn" id="twShare" rel="noopener" target="_blank">X (Twitter)</a>
+</div>
+</div>
+</div>
+
+<div class="mobile-actions">
+  <button type="button" class="btn" id="goToRecsBtn">Recommendations</button>
+  <button type="button" class="btn" id="savePrintProxyBtn">Save / Print</button>
+</div>
+
+
+<script>
+(function() {
+  function ready(fn){ if(document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+  ready(function() {
+    const stepLinks = Array.from(document.querySelectorAll('.steps a.btn[href^="#"]'));
+    if (!stepLinks.length) return;
+
+    // Collect targets and ensure unique order
+    const targets = stepLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+    // Wrap each step section content into .step-section blocks
+    const sections = [];
+    for (let i = 0; i < targets.length; i++) {
+      const startEl = targets[i];
+      const endEl = targets[i+1] || null;
+
+      // Build a wrapper
+      const wrapper = document.createElement('div');
+      wrapper.className = 'step-section';
+      wrapper.dataset.stepIndex = String(i);
+
+      // Insert wrapper before startEl
+      startEl.parentNode.insertBefore(wrapper, startEl);
+
+      // Move nodes from startEl up to (but not including) endEl
+      let cursor = startEl;
+      while (cursor && cursor !== endEl) {
+        const next = cursor.nextSibling;
+        wrapper.appendChild(cursor);
+        cursor = next;
+      }
+      sections.push(wrapper);
+    }
+
+    // Collapse all except first by default
+    sections.forEach((sec, idx) => {
+      if (idx === 0) {
+        sec.classList.remove('collapsed');
+      } else {
+        sec.classList.add('collapsed');
+      }
+    });
+
+    // Progress UI helpers
+    function setProgress(currentIdx) {
+      stepLinks.forEach((a, idx) => {
+        a.classList.remove('is-current', 'is-complete');
+        if (idx < currentIdx) a.classList.add('is-complete');
+        if (idx === currentIdx) a.classList.add('is-current');
+      });
+      sections.forEach((sec, idx) => {
+        if (idx === currentIdx) sec.classList.remove('collapsed');
+        else if (idx < currentIdx) sec.classList.add('collapsed'); // collapse previous by default
+        else sec.classList.add('collapsed'); // keep future collapsed
+      });
+    }
+
+    // Click behavior for steps: scroll & set progress
+    stepLinks.forEach((a, idx) => {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        setProgress(idx);
+        const topEl = sections[idx];
+        if (topEl) topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Observe scroll to update 'current' indicator
+    let currentIdx = 0;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = parseInt(entry.target.dataset.stepIndex, 10);
+          currentIdx = idx;
+          stepLinks.forEach((a, i) => {
+            a.classList.toggle('is-current', i === idx);
+            a.classList.toggle('is-complete', i < idx);
+          });
+        }
+      });
+    }, { rootMargin: "-20% 0px -70% 0px", threshold: [0.01, 0.25, 0.6] });
+    sections.forEach(sec => obs.observe(sec));
+
+    // Mobile footer actions
+    const printProxy = document.getElementById('savePrintProxyBtn');
+    const recsBtn = document.getElementById('goToRecsBtn');
+    if (printProxy) {
+      printProxy.addEventListener('click', function() {
+        const real = document.getElementById('printBtn');
+        if (real) real.click();
+        else window.print();
+      });
+    }
+    if (recsBtn) {
+      recsBtn.addEventListener('click', function() {
+        // Find a step link whose href points to #reco-section-title
+        const link = stepLinks.find(a => a.getAttribute('href') === '#reco-section-title');
+        const idx = stepLinks.indexOf(link);
+        if (idx >= 0) {
+          setProgress(idx);
+          sections[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          const el = document.querySelector('#reco-section-title');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }
+
+    // Initialize progress on first step
+    setProgress(0);
+  });
+})();
+</script>
+
+
+<script>
+(function() {
+  function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+  ready(function() {
+    try {
+      var list = document.getElementById('selectedList');
+      if (list && list.children.length === 0 && typeof renderSelected === 'function') {
+        renderSelected();
+      }
+    } catch(e) { /* no-op */ }
+  });
+})();
+</script>
+
+
+
+<script>
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    if (typeof renderSelected === 'function') renderSelected();
+  });
+
+  // Hook common selection events if present
+  const possibleEvents = ['selection:changed','items:selected','cart:updated'];
+  possibleEvents.forEach(evt => {
+    document.addEventListener(evt, function(){
+      if (typeof renderSelected === 'function') renderSelected();
+    });
+  });
+
+  // Fallback: monkey patch add/remove buttons to re-render
+  setTimeout(function(){
+    document.querySelectorAll('[data-action="add"], .add-btn, .btn-add').forEach(btn => {
+      btn.addEventListener('click', function(){ setTimeout(function(){ if (typeof renderSelected==='function') renderSelected(); }, 50); });
+    });
+    document.querySelectorAll('[data-action="remove"], .remove-btn, .btn-remove').forEach(btn => {
+      btn.addEventListener('click', function(){ setTimeout(function(){ if (typeof renderSelected==='function') renderSelected(); }, 50); });
+    });
+  }, 300);
+})();
+</script>
+
+
+<script>
+/* ===== Ultra-defensive fix for 'Review Your Selections' =====
+   - Builds a unified selection store by listening to clicks, class changes, and custom events.
+   - Renders the #selectedList from either RAW_DATA matches or card DOM extraction.
+   - Keeps styling/UX unchanged elsewhere.
+*/
+(function(){
+  function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+
+  ready(function(){
+    const listEl = document.getElementById('selectedList');
+    if (!listEl) return;
+
+    // Canonical store
+    const store = {
+      set: new Set(),
+      add(id){ if(id) { this.set.add(String(id)); persist(); render(); } },
+      remove(id){ if(id) { this.set.delete(String(id)); persist(); render(); } },
+      has(id){ return this.set.has(String(id)); },
+      toArray(){ return Array.from(this.set); }
+    };
+
+    // Persist to localStorage so refresh keeps state
+    const LS_KEY = '__uxSelectedItems';
+    function persist(){ try { localStorage.setItem(LS_KEY, JSON.stringify(store.toArray())); } catch(e){} }
+    function restore(){ try { const arr = JSON.parse(localStorage.getItem(LS_KEY)||'[]'); arr.forEach(x=>store.set.add(String(x))); } catch(e){} }
+
+    // Try to bootstrap from any known state
+    function bootstrapFromKnownState(){
+      // 1) window.state.selected
+      if (window.state && Array.isArray(window.state.selected)) {
+        window.state.selected.forEach(x => store.add(x.id || x.product_id || x));
+      }
+      // 2) getSelectedItems()
+      if (typeof getSelectedItems === 'function') {
+        const items = getSelectedItems() || [];
+        items.forEach(x => store.add(x.id || x.product_id || x));
+      }
+      // 3) window.SELECTED_ITEMS
+      if (Array.isArray(window.SELECTED_ITEMS)) {
+        window.SELECTED_ITEMS.forEach(x => store.add(x.id || x.product_id || x));
+      }
+      // 4) DOM cues (cards already marked selected)
+      document.querySelectorAll('[data-selected="true"], .selected, .is-selected, .added').forEach(el => {
+        const id = extractIdFromCard(el);
+        if (id) store.add(id);
+      });
+    }
+
+    function extractIdFromCard(node){
+      const card = node.closest('.product-card, .card, [data-product-id]') || node;
+      let id = card?.getAttribute('data-product-id') || card?.dataset?.id || null;
+      if (!id) {
+        // Try to find a SKU/ID attribute on descendants
+        const el = card?.querySelector('[data-product-id],[data-id],[data-sku]');
+        id = el?.getAttribute?.('data-product-id') || el?.getAttribute?.('data-id') || el?.getAttribute?.('data-sku') || null;
+      }
+      if (!id) {
+        // fall back to image src or title text hash (last resort)
+        const img = card?.querySelector('img');
+        id = img?.src || card?.textContent?.trim()?.slice(0,64) || null;
+      }
+      return id;
+    }
+
+    function extractDisplayFromId(id){
+      // Map from RAW_DATA if possible
+      const all = (window.RAW_DATA || []);
+      let row = null;
+      // Try direct match on likely keys
+      for (let i=0;i<all.length;i++){
+        const r = all[i];
+        const key = String(r.id || r.product_id || r.ProductID || r['Product ID'] || r.sku || r.SKU || '');
+        if (key && String(key) === String(id)) { row = r; break; }
+        // Also try image or name matches if id is src
+        if (!row && typeof id === 'string' && (r.image === id || r.image_url === id || r['Image'] === id)) row = r;
+      }
+      if (row){
+        return {
+          id: id,
+          name: row.name || row.product_name || row['Product Name'] || row.title || 'Selected Item',
+          img: row.image || row.img || row.image_url || row['Image'] || ''
+        };
+      }
+      // Fallback: query a card that matches this id and extract
+      const card = document.querySelector(`[data-product-id="${CSS.escape(String(id))}"], [data-id="${CSS.escape(String(id))}"], [data-sku="${CSS.escape(String(id))}"]`);
+      const name = card?.querySelector('.product-name, .title, h3, h4, [data-name]')?.textContent?.trim() || 'Selected Item';
+      const img = card?.querySelector('img')?.src || '';
+      return { id, name, img };
+    }
+
+    function render(){
+      if (!listEl) return;
+      // Clear
+      listEl.innerHTML = '';
+      const ids = store.toArray();
+      if (!ids.length){
+        const empty = document.createElement('div');
+        empty.textContent = 'No products selected yet. Use Add in the list above.';
+        empty.style.color = '#6b7280';
+        empty.style.fontStyle = 'italic';
+        listEl.appendChild(empty);
+        return;
+      }
+      const frag = document.createDocumentFragment();
+      ids.forEach(id => {
+        const data = extractDisplayFromId(id);
+        const li = document.createElement('li');
+        li.className = 'selected-item';
+        li.innerHTML = `
+          <div class="sel-card" style="display:flex; gap:12px; align-items:center; padding:8px 0; border-bottom:1px solid #e5e7eb;">
+            ${data.img ? `<img src="${data.img}" alt="${data.name}" style="width:64px;height:64px;object-fit:cover;border-radius:8px;">` : ''}
+            <div style="flex:1;">
+              <div class="sel-name" style="font-weight:600;">${data.name}</div>
+            </div>
+            <button class="btn remove-btn" data-id="${String(id)}" type="button">Remove</button>
+          </div>`;
+        frag.appendChild(li);
+      });
+      listEl.appendChild(frag);
+
+      // remove wiring
+      listEl.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', function(){
+          const id = this.getAttribute('data-id');
+          store.remove(id);
+          // If an app-level remove function exists, call it so the rest of UI stays in sync
+          if (typeof removeSelectedItem === 'function') removeSelectedItem(id);
+        });
+      });
+    }
+
+    // Global hooks: clicks on add/remove buttons
+    document.addEventListener('click', function(e){
+      const tgt = e.target.closest('button, a');
+      if (!tgt) return;
+
+      // Standard data-action
+      const action = tgt.getAttribute('data-action');
+      if (action === 'add' || action === 'select') {
+        const id = tgt.getAttribute('data-id') || extractIdFromCard(tgt);
+        if (id) store.add(id);
+      } else if (action === 'remove' || action === 'deselect') {
+        const id = tgt.getAttribute('data-id') || extractIdFromCard(tgt);
+        if (id) store.remove(id);
+      } else {
+        // Heuristic: look at button text
+        const txt = (tgt.textContent || '').toLowerCase();
+        if (txt.includes('add') && !txt.includes('added')) {
+          const id = tgt.getAttribute('data-id') || extractIdFromCard(tgt);
+          if (id) store.add(id);
+        } else if (txt.includes('remove') || txt.includes('added')) {
+          const id = tgt.getAttribute('data-id') || extractIdFromCard(tgt);
+          if (id) store.remove(id);
+        }
+      }
+    }, true);
+
+    // Listen to app-level events if fired
+    ['selection:changed','items:selected','cart:updated'].forEach(evt => {
+      document.addEventListener(evt, function(ev){
+        // If event carries detail with ids, sync to store
+        try {
+          const detail = ev.detail;
+          if (detail && Array.isArray(detail.ids)) {
+            store.set = new Set(detail.ids.map(String));
+            persist(); render();
+          } else if (detail && Array.isArray(detail.items)) {
+            store.set = new Set(detail.items.map(x => String(x.id || x.product_id || x)));
+            persist(); render();
+          } else {
+            // unknown payload, just re-render
+            render();
+          }
+        } catch(e){}
+      });
+    });
+
+    // MutationObserver to pick up class/attribute changes that imply selection
+    const mo = new MutationObserver((muts)=>{
+      let changed = false;
+      muts.forEach(m => {
+        if (m.type === 'attributes' && (m.attributeName === 'class' || m.attributeName === 'data-selected')) {
+          const el = m.target;
+          if (el.matches('[data-selected="true"], .selected, .is-selected, .added')) {
+            const id = extractIdFromCard(el);
+            if (id && !store.has(id)) { store.add(id); changed = true; }
+          }
+        }
+      });
+      if (changed) render();
+    });
+    mo.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class','data-selected'] });
+
+    // Restore/pull initial state and render
+    restore();
+    bootstrapFromKnownState();
+    render();
+
+    // Expose a tiny API (non-invasive)
+    window.__uxSelections = {
+      add: (id)=>store.add(id),
+      remove: (id)=>store.remove(id),
+      all: ()=>store.toArray()
+    };
+  });
+})();
+</script>
+
+
+<script>
+/* === Hotfix: Ensure Recommendations & all steps remain visible === */
+(function(){
+  function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+  ready(function(){
+    // 1) Expand all step sections
+    document.querySelectorAll('.step-section').forEach(sec => {
+      sec.classList.remove('collapsed');
+      sec.style.maxHeight = 'none';
+      sec.style.opacity = '1';
+      sec.style.pointerEvents = 'auto';
+    });
+
+    // 2) Override setProgress to only style buttons and not collapse sections
+    if (typeof window.setProgress === 'function') {
+      const orig = window.setProgress;
+      window.setProgress = function(currentIdx){
+        try {
+          // Call original to keep button styling, then immediately expand all
+          try { orig(currentIdx); } catch(e) {}
+          document.querySelectorAll('.step-section').forEach(sec => {
+            sec.classList.remove('collapsed');
+            sec.style.maxHeight = 'none';
+            sec.style.opacity = '1';
+            sec.style.pointerEvents = 'auto';
+          });
+        } catch(e){}
+      };
+    }
+
+    // 3) Disconnect IntersectionObserver if we created one earlier (prevent auto-advance)
+    if (window.__uxObserver && typeof window.__uxObserver.disconnect === 'function') {
+      try { window.__uxObserver.disconnect(); } catch(e){}
+    }
+
+    // 4) Make sure the Recommendations section anchor is scrolled into view on demand
+    const recLink = document.querySelector('.steps a.btn[href="#reco-section-title"]');
+    if (recLink) {
+      recLink.addEventListener('click', function(e){
+        e.preventDefault();
+        const target = document.querySelector('#reco-section-title');
+        if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    }
+  });
+})();
+</script>
+
+
+<script>
+(function() {
+  function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+
+  ready(function(){
+    const listEl = document.getElementById('selectedList');
+    if (!listEl) return;
+
+    const LS_KEY = '__uxSelectedItems_v2';
+
+    const store = {
+      items: [],
+      load(){
+        try { this.items = JSON.parse(localStorage.getItem(LS_KEY) || '[]'); } catch(e){ this.items = []; }
+      },
+      save(){
+        try { localStorage.setItem(LS_KEY, JSON.stringify(this.items)); } catch(e){}
+      },
+      add(obj){
+        const id = String(obj.id || obj.product_id || obj.sku || obj.SKU || obj.name || obj.title || '');
+        if (!id) return;
+        if (!this.items.find(x => String(x.id) === String(id))) {
+          this.items.push({ id, name: obj.name || obj.title || 'Selected Item', img: obj.img || obj.image || '' });
+          this.save(); render();
+        }
+      },
+      remove(id){
+        const sid = String(id);
+        this.items = this.items.filter(x => String(x.id) !== sid);
+        this.save(); render();
+      }
+    };
+
+    function getRowFromRAW(id) {
+      const all = (window.RAW_DATA || []);
+      for (let i = 0; i < all.length; i++) {
+        const r = all[i];
+        const key = String(r.id || r.product_id || r.ProductID || r['Product ID'] || r.sku || r.SKU || '');
+        if (key && key === String(id)) {
+          return { id: key, name: r.name || r.product_name || r['Product Name'] || r.title || 'Selected Item', img: r.image || r.img || r.image_url || r['Image'] || '' };
+        }
+      }
+      return null;
+    }
+
+    function extractFromCard(el){
+      const card = el.closest('.product-card, .card, [data-product-id]') || el;
+      const id = card.getAttribute('data-product-id') || card.getAttribute('data-id') || card.getAttribute('data-sku') || '';
+      const name = (card.querySelector('.product-name, .title, h3, h4, [data-name]') || {}).textContent || '';
+      const img = (card.querySelector('img') || {}).src || '';
+      return { id, name: name.trim(), img };
+    }
+
+    function render(){
+      if (!listEl) return;
+      listEl.innerHTML = '';
+      if (!store.items.length) return; // CSS empty message handles UX
+      const frag = document.createDocumentFragment();
+      store.items.forEach(data => {
+        const li = document.createElement('li');
+        li.className = 'selected-item';
+        li.innerHTML = `
+          <div class="sel-card" style="display:flex; gap:12px; align-items:center; padding:8px 0; border-bottom:1px solid #e5e7eb;">
+            ${data.img ? `<img src="${data.img}" alt="${data.name}" style="width:64px;height:64px;object-fit:cover;border-radius:8px;">` : ''}
+            <div style="flex:1;">
+              <div class="sel-name" style="font-weight:600;">${data.name}</div>
+            </div>
+            <button class="btn remove-btn" data-id="${String(data.id)}" type="button">Remove</button>
+          </div>`;
+        frag.appendChild(li);
+      });
+      listEl.appendChild(frag);
+      listEl.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', function(){
+          const id = this.getAttribute('data-id');
+          store.remove(id);
+          if (typeof window.removeSelectedItem === 'function') window.removeSelectedItem(id);
+        });
+      });
+    }
+
+    // Wire add/remove on the page
+    document.addEventListener('click', function(e){
+      const btn = e.target.closest('button, a');
+      if (!btn) return;
+
+      const action = (btn.getAttribute('data-action') || '').toLowerCase();
+      const txt = (btn.textContent || '').toLowerCase();
+      const isAdd = action === 'add' || action === 'select' || (txt.includes('add') && !txt.includes('added'));
+      const isRemove = action === 'remove' || action === 'deselect' || txt.includes('remove') || txt.includes('added');
+
+      if (isAdd) {
+        // Prefer RAW_DATA match by id if present
+        const id = btn.getAttribute('data-id');
+        let obj = null;
+        if (id) obj = getRowFromRAW(id);
+        if (!obj) obj = extractFromCard(btn);
+        if (obj && (obj.id || obj.name)) store.add(obj);
+      } else if (isRemove) {
+        const id = btn.getAttribute('data-id') || extractFromCard(btn).id;
+        if (id) store.remove(id);
+      }
+    }, true);
+
+    // Listen to app-level events if your app fires them
+    ['selection:changed','items:selected','cart:updated'].forEach(evt => {
+      document.addEventListener(evt, function(ev){
+        try {
+          const d = ev.detail;
+          if (d && Array.isArray(d.items)) {
+            store.items = d.items.map(x => ({
+              id: x.id || x.product_id || x.sku || x.SKU || '',
+              name: x.name || x.title || 'Selected Item',
+              img: x.img || x.image || ''
+            }));
+            store.save(); render();
+          } else if (d && Array.isArray(d.ids)) {
+            store.items = d.ids.map(id => getRowFromRAW(id) || { id, name: 'Selected Item', img: '' });
+            store.save(); render();
+          } else {
+            render();
+          }
+        } catch(e){}
+      });
+    });
+
+    // Initial load
+    store.load();
+    // If empty, try to hydrate from any existing selection indicators in DOM
+    if (!store.items.length) {
+      document.querySelectorAll('[data-selected="true"], .selected, .is-selected, .added').forEach(el => {
+        const obj = extractFromCard(el);
+        if (obj && (obj.id || obj.name)) store.add(obj);
+      });
+    }
+    render();
+
+    // Expose tiny helper for debugging if needed
+    window.__UX_SELECTED_DEBUG__ = {
+      list: () => store.items.slice(),
+      clear: () => { store.items = []; store.save(); render(); },
+      add: (o) => store.add(o),
+      remove: (id) => store.remove(id)
+    };
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+
+  ready(function(){
+    // Heuristic locators for tractor cards & select buttons
+    // We will mark any button we detect as a tractor select with data-role="tractor-select" (non-invasive)
+    function isTractorSection(el){
+      // If the page has a known tractor section container, try those first
+      return !!(el.closest('#tractor-section, #tractor-section-title, [data-section="tractors"], .tractor-section, #tractors'));
+    }
+
+    function looksLikeTractorSelect(btn){
+      const cls = btn.className || '';
+      const role = btn.getAttribute('data-role') || '';
+      const t = (btn.textContent || '').trim().toLowerCase();
+      // Common signals
+      if (role === 'tractor-select') return true;
+      if (cls.includes('tractor-select')) return true;
+      if (btn.matches('[data-tractor-select], [data-tractor="true"]')) return true;
+      // Fallback: buttons in tractor-like cards with label "select" or "selected"
+      if ((t === 'select' || t === 'selected') && isTractorSection(btn)) return true;
+      // Or a button in a card that looks like a tractor (data-product-type="tractor")
+      const card = btn.closest('[data-product-type="tractor"], .tractor-card, .tractor');
+      if (card && (t === 'select' || t === 'selected')) return true;
+      return false;
+    }
+
+    function ensureMarkers(){
+      document.querySelectorAll('button, a').forEach(btn => {
+        if (looksLikeTractorSelect(btn)) {
+          btn.setAttribute('data-role','tractor-select');
+          const card = btn.closest('[data-product-id], .card, .product-card, .tractor-card') || btn;
+          card.setAttribute('data-item-scope', 'tractor');
+        }
+      });
+    }
+
+    function getAllTractorButtons(){
+      return Array.from(document.querySelectorAll('[data-role="tractor-select"]'));
+    }
+
+    function setSelectedState(btn, selected){
+      // Update button label + state
+      btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      btn.classList.toggle('added', !!selected);
+      btn.classList.toggle('is-selected', !!selected);
+      const txt = (btn.textContent || '').trim().toLowerCase();
+      if (selected && txt !== 'selected') btn.textContent = 'Selected';
+      if (!selected && txt !== 'select') btn.textContent = 'Select';
+
+      // Update containing card for possible CSS hooks
+      const card = btn.closest('[data-item-scope="tractor"]');
+      if (card) {
+        card.classList.toggle('selected', !!selected);
+        card.setAttribute('data-selected', selected ? 'true' : 'false');
+      }
+
+      // Dispatch a small event so any dependent UI can react (non-breaking if no listeners)
+      const ev = new CustomEvent('tractor:selection-changed', { detail: { button: btn, selected } });
+      document.dispatchEvent(ev);
+    }
+
+    function clearOthers(exceptBtn){
+      getAllTractorButtons().forEach(b => {
+        if (b !== exceptBtn) setSelectedState(b, false);
+      });
+    }
+
+    // Initial mark
+    ensureMarkers();
+
+    // Click handling: only one selected at a time; toggle when clicking the same
+    document.addEventListener('click', function(e){
+      const btn = e.target.closest('[data-role="tractor-select"]');
+      if (!btn) return;
+      e.preventDefault(); // keep behavior consistent and avoid accidental navigation
+
+      const isActive = (btn.getAttribute('aria-pressed') === 'true') || btn.classList.contains('added') || btn.classList.contains('is-selected') || (btn.textContent || '').trim().toLowerCase() === 'selected';
+
+      if (isActive){
+        // Toggle off if the same tractor is pressed again
+        setSelectedState(btn, false);
+      } else {
+        // Make this the only selected tractor
+        clearOthers(btn);
+        setSelectedState(btn, true);
+      }
+    }, true);
+
+    // If the app programmatically marks a tractor, keep our visual state in sync
+    document.addEventListener('selection:changed', function(ev){
+      const d = ev.detail || {};
+      if (!d || !d.tractorId) return;
+      const btns = getAllTractorButtons();
+      let matched = false;
+      btns.forEach(b => {
+        const card = b.closest('[data-product-id]');
+        const id = card ? (card.getAttribute('data-product-id') || '') : '';
+        const eq = id && String(id) === String(d.tractorId);
+        setSelectedState(b, eq);
+        if (eq) matched = true;
+      });
+      if (!matched){
+        // If no IDs, approximate: first tractor button on page gets selected
+        if (btns[0]) { clearOthers(btns[0]); setSelectedState(btns[0], true); }
+      }
+    });
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+  ready(function(){
+    // Conditions: show dev controls if ?admin=1 or hash contains 'dev' or localStorage flag is set
+    var params = new URLSearchParams(location.search);
+    var isDev = params.get('admin') === '1' || (location.hash||'').toLowerCase().includes('dev') || localStorage.getItem('summit_dev_tools') === 'on';
+
+    // Target: a CSV import button or any element marked data-dev-only
+    var importBtn = document.getElementById('importCsvBtn');
+    var devEls = Array.from(document.querySelectorAll('[data-dev-only="true"]'));
+    function setVis(show){
+      var els = [];
+      if (importBtn) els.push(importBtn);
+      els = els.concat(devEls);
+      els.forEach(function(el){
+        if (!el) return;
+        if (show) {
+          el.style.display = '';
+          el.removeAttribute('aria-hidden');
+        } else {
+          el.style.display = 'none';
+          el.setAttribute('aria-hidden', 'true');
+        }
+      });
+    }
+    setVis(isDev);
+
+    // Keyboard toggle: Ctrl/Cmd + Shift + I to toggle visibility this session
+    document.addEventListener('keydown', function(e){
+      var isMac = navigator.platform.indexOf('Mac') >= 0;
+      var cmd = isMac ? e.metaKey : e.ctrlKey;
+      if (cmd && e.shiftKey && (e.key === 'I' || e.key === 'i')) {
+        isDev = !isDev;
+        // Store preference for the session only
+        if (isDev) sessionStorage.setItem('summit_dev_tools_session', 'on');
+        else sessionStorage.removeItem('summit_dev_tools_session');
+        setVis(isDev);
+        e.preventDefault();
+      }
+    });
+
+    // If session toggle previously set, respect it
+    if (sessionStorage.getItem('summit_dev_tools_session') === 'on') {
+      setVis(true);
+    }
+  });
+})();
+
+// === Save selections to TXT ===
+(function(){
+  const saveBtnEl = document.getElementById("saveBtn");
+  if (saveBtnEl && !saveBtnEl.dataset.boundSave) {
+    saveBtnEl.dataset.boundSave = "true";
+    
+  }
+})();
+
+
+// === Find a Retailer button: open locator URL in new tab ===
+(function(){
+  const retailerBtn = document.getElementById("printBtn");
+  if (retailerBtn && !retailerBtn.dataset.boundRetailer) {
+    retailerBtn.dataset.boundRetailer = "true";
+    retailerBtn.addEventListener("click", () => {
+      window.open("https://summittractors.bullseyelocations.com/local/ALLSUMMITLOCATIONS", "_blank");
+    });
+  }
+})();
+
+</script>
+
+<script>
+// === Clean re-bind: Find a Retailer opens locator URL ===
+(function(){
+  var btn = document.getElementById('printBtn');
+  if (btn) {
+    // Remove inline/on* handlers if present
+    btn.onclick = null;
+    btn.onmouseup = null;
+    btn.onpointerup = null;
+    // Remove any prior event listeners by cloning
+    var newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+    newBtn.addEventListener('click', function(){
+      window.open('https://summittractors.bullseyelocations.com/local/ALLSUMMITLOCATIONS', '_blank');
+    });
+  }
+})();</script>
+
+
+<script>
+</script>
+<script>
+// === Patch: ensure tractor image appears by looking it up in RAW_DATA ===
+(function(){
+  var original = window.buildBrandedDoc;
+  if (typeof original === "function") {
+    window.buildBrandedDoc = function(state){
+      var html = original(state);
+      try {
+        var model = state && state.selectedTractorModel ? String(state.selectedTractorModel) : null;
+        if (model && typeof RAW_DATA !== "undefined" && Array.isArray(RAW_DATA)) {
+          var rec = RAW_DATA.find(function(r){
+            var norm = function(s){ return (s||'').toString().trim().toLowerCase(); };
+            return norm(r.Category) === 'tractor' && String(r.Model) === model;
+          });
+          var url = rec && rec["Image URL"];
+          if (url) {
+            // Replace the first .thumb block with the tractor image
+            var esc = function(s){ return (s||'').toString().replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); };
+            var imgHtml = '<div class="thumb"><img src="' + esc(url) + '" alt="Tractor" /></div>';
+            html = html.replace(/<div class="thumb">[\s\S]*?<\/div>/, imgHtml);
+          }
+        }
+      } catch(e){ console.warn('Tractor image patch failed', e); }
+      return html;
+    }
+  }
+})();
+</script>
+<script>
+</script>
+<script>
+// === Global Summit branded document builder ===
+(function(){ 
+  window.buildBrandedDoc = function(state){ 
+    var primary = "#254A4F";
+    function esc(s){return (s||'').toString().replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);}
+    function tdImg(url){ 
+      if(url) return '<img src="'+esc(url)+'" alt="" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid #e2e8f0;" />';
+      return '<div style="width:80px;height:60px;border-radius:6px;border:1px dashed #cbd5e1;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:10px;color:#94a3b8;">Image</div>';
+    }
+    function link(label, url){ return url ? '<a href="'+esc(url)+'" target="_blank" rel="noopener">'+esc(label)+'</a>' : ''; }
+
+    var items = Array.from(state && state.selectedItems ? state.selectedItems.values() : []);
+    var tractorModel = state && state.selectedTractorModel ? String(state.selectedTractorModel) : null;
+
+    var tractorImg = "";
+    try {
+      if (tractorModel && typeof RAW_DATA !== "undefined" && Array.isArray(RAW_DATA)) {
+        for (var i=0;i<RAW_DATA.length;i++) {
+          var r = RAW_DATA[i] || {}, cat = (r.Category||'').toString().toLowerCase().trim();
+          if (cat === 'tractor' && String(r.Model) === tractorModel) { 
+            tractorImg = r["Image URL"] || ""; 
+            break; 
+          }
+        }
+      }
+    } catch(e){ console.warn('tractor lookup failed', e); }
+
+    var rows = items.map(function(rec){
+      var name = rec["Product Name"] || rec["Product"] || "";
+      var model = rec["Model"] || "";
+      var img = rec["Image URL"] || "";
+      var links = [link('Video', rec["Video URL"]), link('Brochure', rec["Brochure URL"])].filter(Boolean).join(' &middot; ');
+      return '<tr>' +
+        '<td style="width:86px">'+ tdImg(img) +'</td>' +
+        '<td>'+ esc(name) +'</td>' +
+        '<td>'+ esc(model) +'</td>' +
+        '<td class="links">'+ links +'</td>' +
+      '</tr>';
+    }).join('');
+
+    var now = new Date();
+    var css = [
+      '@page { size: Letter; margin: 0.6in; }',
+      'html, body { padding:0; margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:#0f172a; }',
+      '.doc { display:block; }',
+      '.hdr { display:flex; align-items:center; justify-content:space-between; border-bottom: 3px solid '+primary+'; padding-bottom: 10px; }',
+      '.brand img { height: 38px; }',
+      '.meta { text-align:right; font-size: 12px; color:#475569; }',
+      'h1 { font-size: 20px; margin: 18px 0 8px; color:'+primary+'; }',
+      '.summary { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; margin:8px 0 16px; display:flex; gap:16px; align-items:center; }',
+      '.summary .thumb { width:160px;height:110px; border-radius:10px; border:1px solid #e2e8f0; background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden; }',
+      '.summary .thumb img { width:100%; height:100%; object-fit:cover; }',
+      '.summary .info { display:flex; flex-direction:column; gap:4px; }',
+      '.hint { font-size: 11px; color:#64748b; margin-top:6px; }',
+      '@media print { .hint { display:none !important; } }',
+      'table { width:100%; border-collapse: collapse; }',
+      'th, td { font-size: 12px; text-align:left; padding:8px 10px; border-bottom:1px solid #e2e8f0; vertical-align:top; }',
+      'th { background:#f1f5f9; color:#0f172a; }',
+      'td.links a { text-decoration:none; color:'+primary+'; }',
+      '.ft { margin-top:14px; border-top: 3px solid '+primary+'; padding-top: 10px; font-size:11px; color:#475569; }',
+      '.contact { line-height:1.4; }',
+      '.qr img { width:120px; height:120px; }'
+    ].join('\n');
+
+    var doc = [
+      '<!doctype html><html><head><meta charset="utf-8" />',
+      '<title>Summit_Selections_'+ now.getFullYear()+'-'+ String(now.getMonth()+1).padStart(2,'0') +'-'+ String(now.getDate()).padStart(2,'0') +'</title>',
+      '<style>'+ css +'</style></head><body>',
+      '<div class="doc">',
+        '<div class="hdr">',
+          '<div class="brand"><img src="data:image/jpeg;base64,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" alt="Summit Tractors" /></div>',
+          '<div class="meta"><div>Selections Summary</div><div>'+ esc(now.toLocaleString()) +'</div></div>',
+        '</div>',
+        '<h1>Selected Tractor & Equipment</h1>',
+        '<div class="summary">',
+          '<div class="thumb">'+ (tractorImg ? '<img src="'+esc(tractorImg)+'" alt="Tractor" />' : '<div style="color:#94a3b8;font-size:12px;">No Image</div>') +'</div>',
+          '<div class="info">',
+            '<div><strong>Selected Tractor:</strong> '+ (tractorModel ? esc(tractorModel) : 'None') +'</div>',
+            '<div><strong>Total Selected Products:</strong> '+ items.length +'</div>',
+            '<div class="hint">Tip: Use your browser\'s Print menu, then choose “Save as PDF”.</div>',
+          '</div>',
+        '</div>',
+        '<table aria-label="Selected products">',
+          '<thead><tr><th style="width:86px">Image</th><th>Product</th><th>Model</th><th>Links</th></tr></thead>',
+          '<tbody>'+ (rows || '<tr><td colspan="4">No products selected.</td></tr>') + '</tbody>',
+        '</table>',
+        '<div class="ft">',
+          '<div class="contact">',
+            '<div>&copy; '+ now.getFullYear() +' Summit Tractors</div>',
+            '<div>www.summittractors.com</div>',
+            '<div>Call or Text: 770-209-3390</div>',
+            '<div>Email: support@summittractors.com</div>',
+          '</div>',
+          '<div class="qr"><img alt="Contact Summit QR" src="https://chart.googleapis.com/chart?chs=120x120&cht=qr&chl='+ encodeURIComponent('https://summittractors.com/contact-summit.php') +'" /></div>',
+        '</div>',
+      '</div>',
+      '</body></html>'
+    ].join('');
+
+    return doc;
+  };
+})();
+
+
+// === Smooth "Save As PDF" — open branded preview (no auto print) ===
+(function(){
+  var btn = document.getElementById('saveBtn');
+  if (!btn) return;
+  var fresh = btn.cloneNode(true);
+  btn.parentNode.replaceChild(fresh, btn);
+  fresh.addEventListener('click', function(){
+    try {
+      if (typeof window.buildBrandedDoc !== 'function') { throw new Error('builder missing'); }
+      var docHtml = window.buildBrandedDoc(window.state || {});
+      var w = window.open('', '_blank');
+      if (!w) { alert('Please allow pop-ups to preview the PDF.'); return; }
+      w.document.open();
+      w.document.write(docHtml);
+      w.document.close();
+      w.focus();
+    } catch (e) {
+      console.error('Save As PDF failed', e);
+      alert('Sorry, could not prepare the PDF preview.');
+    }
+  });
+})();
+</script>
+</body></html>'
+      ].join('');
+
+      return doc;
+    } catch (e) {
+      console.error('buildBrandedDoc error', e);
+      throw e;
+    }
+  }
+})();
+</script>
+
+<script>
+</script>
+<script>
+// === Patch: ensure tractor image appears by looking it up in RAW_DATA ===
+(function(){
+  var original = window.buildBrandedDoc;
+  if (typeof original === "function") {
+    window.buildBrandedDoc = function(state){
+      var html = original(state);
+      try {
+        var model = state && state.selectedTractorModel ? String(state.selectedTractorModel) : null;
+        if (model && typeof RAW_DATA !== "undefined" && Array.isArray(RAW_DATA)) {
+          var rec = RAW_DATA.find(function(r){
+            var norm = function(s){ return (s||'').toString().trim().toLowerCase(); };
+            return norm(r.Category) === 'tractor' && String(r.Model) === model;
+          });
+          var url = rec && rec["Image URL"];
+          if (url) {
+            // Replace the first .thumb block with the tractor image
+            var esc = function(s){ return (s||'').toString().replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); };
+            var imgHtml = '<div class="thumb"><img src="' + esc(url) + '" alt="Tractor" /></div>';
+            html = html.replace(/<div class="thumb">[\s\S]*?<\/div>/, imgHtml);
+          }
+        }
+      } catch(e){ console.warn('Tractor image patch failed', e); }
+      return html;
+    }
+  }
+})();
+</script>
+<script>
+</script>
+<script>
+// === Global Summit branded document builder ===
+(function(){ 
+  window.buildBrandedDoc = function(state){ 
+    var primary = "#254A4F";
+    function esc(s){return (s||'').toString().replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);}
+    function tdImg(url){ 
+      if(url) return '<img src="'+esc(url)+'" alt="" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid #e2e8f0;" />';
+      return '<div style="width:80px;height:60px;border-radius:6px;border:1px dashed #cbd5e1;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:10px;color:#94a3b8;">Image</div>';
+    }
+    function link(label, url){ return url ? '<a href="'+esc(url)+'" target="_blank" rel="noopener">'+esc(label)+'</a>' : ''; }
+
+    var items = Array.from(state && state.selectedItems ? state.selectedItems.values() : []);
+    var tractorModel = state && state.selectedTractorModel ? String(state.selectedTractorModel) : null;
+
+    var tractorImg = "";
+    try {
+      if (tractorModel && typeof RAW_DATA !== "undefined" && Array.isArray(RAW_DATA)) {
+        for (var i=0;i<RAW_DATA.length;i++) {
+          var r = RAW_DATA[i] || {}, cat = (r.Category||'').toString().toLowerCase().trim();
+          if (cat === 'tractor' && String(r.Model) === tractorModel) { 
+            tractorImg = r["Image URL"] || ""; 
+            break; 
+          }
+        }
+      }
+    } catch(e){ console.warn('tractor lookup failed', e); }
+
+    var rows = items.map(function(rec){
+      var name = rec["Product Name"] || rec["Product"] || "";
+      var model = rec["Model"] || "";
+      var img = rec["Image URL"] || "";
+      var links = [link('Video', rec["Video URL"]), link('Brochure', rec["Brochure URL"])].filter(Boolean).join(' &middot; ');
+      return '<tr>' +
+        '<td style="width:86px">'+ tdImg(img) +'</td>' +
+        '<td>'+ esc(name) +'</td>' +
+        '<td>'+ esc(model) +'</td>' +
+        '<td class="links">'+ links +'</td>' +
+      '</tr>';
+    }).join('');
+
+    var now = new Date();
+    var css = [
+      '@page { size: Letter; margin: 0.6in; }',
+      'html, body { padding:0; margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:#0f172a; }',
+      '.doc { display:block; }',
+      '.hdr { display:flex; align-items:center; justify-content:space-between; border-bottom: 3px solid '+primary+'; padding-bottom: 10px; }',
+      '.brand img { height: 38px; }',
+      '.meta { text-align:right; font-size: 12px; color:#475569; }',
+      'h1 { font-size: 20px; margin: 18px 0 8px; color:'+primary+'; }',
+      '.summary { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; margin:8px 0 16px; display:flex; gap:16px; align-items:center; }',
+      '.summary .thumb { width:160px;height:110px; border-radius:10px; border:1px solid #e2e8f0; background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden; }',
+      '.summary .thumb img { width:100%; height:100%; object-fit:cover; }',
+      '.summary .info { display:flex; flex-direction:column; gap:4px; }',
+      '.hint { font-size: 11px; color:#64748b; margin-top:6px; }',
+      '@media print { .hint { display:none !important; } }',
+      'table { width:100%; border-collapse: collapse; }',
+      'th, td { font-size: 12px; text-align:left; padding:8px 10px; border-bottom:1px solid #e2e8f0; vertical-align:top; }',
+      'th { background:#f1f5f9; color:#0f172a; }',
+      'td.links a { text-decoration:none; color:'+primary+'; }',
+      '.ft { margin-top:14px; border-top: 3px solid '+primary+'; padding-top: 10px; font-size:11px; color:#475569; }',
+      '.contact { line-height:1.4; }',
+      '.qr img { width:120px; height:120px; }'
+    ].join('\n');
+
+    var doc = [
+      '<!doctype html><html><head><meta charset="utf-8" />',
+      '<title>Summit_Selections_'+ now.getFullYear()+'-'+ String(now.getMonth()+1).padStart(2,'0') +'-'+ String(now.getDate()).padStart(2,'0') +'</title>',
+      '<style>'+ css +'</style></head><body>',
+      '<div class="doc">',
+        '<div class="hdr">',
+          '<div class="brand"><img src="data:image/jpeg;base64,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" alt="Summit Tractors" /></div>',
+          '<div class="meta"><div>Selections Summary</div><div>'+ esc(now.toLocaleString()) +'</div></div>',
+        '</div>',
+        '<h1>Selected Tractor & Equipment</h1>',
+        '<div class="summary">',
+          '<div class="thumb">'+ (tractorImg ? '<img src="'+esc(tractorImg)+'" alt="Tractor" />' : '<div style="color:#94a3b8;font-size:12px;">No Image</div>') +'</div>',
+          '<div class="info">',
+            '<div><strong>Selected Tractor:</strong> '+ (tractorModel ? esc(tractorModel) : 'None') +'</div>',
+            '<div><strong>Total Selected Products:</strong> '+ items.length +'</div>',
+            '<div class="hint">Tip: Use your browser\'s Print menu, then choose “Save as PDF”.</div>',
+          '</div>',
+        '</div>',
+        '<table aria-label="Selected products">',
+          '<thead><tr><th style="width:86px">Image</th><th>Product</th><th>Model</th><th>Links</th></tr></thead>',
+          '<tbody>'+ (rows || '<tr><td colspan="4">No products selected.</td></tr>') + '</tbody>',
+        '</table>',
+        '<div class="ft">',
+          '<div class="contact">',
+            '<div>&copy; '+ now.getFullYear() +' Summit Tractors</div>',
+            '<div>www.summittractors.com</div>',
+            '<div>Call or Text: 770-209-3390</div>',
+            '<div>Email: support@summittractors.com</div>',
+          '</div>',
+          '<div class="qr"><img alt="Contact Summit QR" src="https://chart.googleapis.com/chart?chs=120x120&cht=qr&chl='+ encodeURIComponent('https://summittractors.com/contact-summit.php') +'" /></div>',
+        '</div>',
+      '</div>',
+      '</body></html>'
+    ].join('');
+
+    return doc;
+  };
+})();
+
+
+// === Smooth "Save As PDF" — open branded preview (no auto print) ===
+(function(){
+  var btn = document.getElementById('saveBtn');
+  if (!btn) return;
+  var fresh = btn.cloneNode(true);
+  btn.parentNode.replaceChild(fresh, btn);
+  fresh.addEventListener('click', function(){
+    try {
+      if (typeof window.buildBrandedDoc !== 'function') { throw new Error('builder missing'); }
+      var docHtml = window.buildBrandedDoc(window.state || {});
+      var w = window.open('', '_blank');
+      if (!w) { alert('Please allow pop-ups to preview the PDF.'); return; }
+      w.document.open();
+      w.document.write(docHtml);
+      w.document.close();
+      w.focus();
+    } catch (e) {
+      console.error('Save As PDF failed', e);
+      alert('Sorry, could not prepare the PDF preview.');
+    }
+  });
+})();
+</script>
+</body>
+</html>
