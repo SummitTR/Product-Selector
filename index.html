@@ -818,6 +818,31 @@ button[aria-label="Reset all selections"]:hover {
 }
 
 </style>
+
+<style>
+/* Make all product card buttons equal width and nicely spaced */
+.product-card button,
+.card button,
+.selected-item button {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin: 4px 0;
+  box-sizing: border-box;
+}
+
+/* Style metadata field with border */
+.product-card .meta,
+.card .meta,
+.selected-item .meta,
+.card-meta {
+  border: 2px solid #254A4F;
+  padding: 4px 6px;
+  border-radius: 6px;
+  margin: 6px 0;
+  display: block;
+}
+</style>
 </head>
 <body>
 <header class="sticky">
@@ -2037,6 +2062,8 @@ document.body.addEventListener("click", (ev) => {
 
 
 
+
+
 <script>
 (function(){
   function fmtPrice(p){
@@ -2044,24 +2071,29 @@ document.body.addEventListener("click", (ev) => {
     let s = String(p).trim();
     if(!s) return "";
     if(!/^\$/.test(s)) s = "$" + s;
-    s = s.replace(/^\$(\d+)(\.\d+)?$/, function(_, n, dec){ 
+    s = s.replace(/^\$(\d+)(\.\d+)?$/, function(_, n, dec){
       return "$" + n.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (dec||"");
     });
     return s;
   }
-  function metaFromRow(row){
+  window.metaLine = function(row){
     if(!row) return "";
-    const price = row["Price"] ? ("Price: " + fmtPrice(row["Price"])) : "";
-    const sku = row["SKU"] ? ("SKU: " + String(row["SKU"]).trim()) : "";
+    var price = row["Price"] ? ("Price: " + fmtPrice(row["Price"])) : "";
+    var sku = row["SKU"] ? ("SKU: " + String(row["SKU"]).trim()) : "";
     return [price, sku].filter(Boolean).join(" • ");
-  }
+  };
+})();
+</script>
+
+<script>
+(function(){
   function buildIndex(){
-    const data = (window.RAW_DATA || []);
+    const data = (window.RAW_DATA||[]);
     const byModel = new Map();
     const byName = new Map();
-    data.forEach(r => {
-      const m = (r && r.Model!=null ? String(r.Model).trim() : "");
-      const n = (r && r["Product Name"]!=null ? String(r["Product Name"]).trim() : "");
+    data.forEach(r=>{
+      const m = r && r.Model!=null ? String(r.Model).trim() : "";
+      const n = r && r["Product Name"]!=null ? String(r["Product Name"]).trim() : "";
       if(m) byModel.set(m, r);
       if(n) byName.set(n, r);
     });
@@ -2070,62 +2102,42 @@ document.body.addEventListener("click", (ev) => {
   const IDX = buildIndex();
 
   function findRowForCard(card){
-    if(!card) return null;
     const dm = card.getAttribute && card.getAttribute("data-model");
     if(dm && IDX.byModel.has(dm)) return IDX.byModel.get(dm);
-    const text = card.textContent || "";
-    const m = text.match(/Model:\s*([A-Za-z0-9\-\._]+)/);
-    if(m && IDX.byModel.has(m[1])) return IDX.byModel.get(m[1]);
     const titleEl = card.querySelector && card.querySelector(".title, .card-title, h3, h4");
     const title = titleEl ? titleEl.textContent.trim() : "";
     if(title && IDX.byName.has(title)) return IDX.byName.get(title);
     return null;
   }
 
-  function enforceMeta(container){
-    if(!container) return;
-    const cards = container.querySelectorAll(".product-card, .card, .selected-item");
-    cards.forEach(card => {
-      if(card.dataset.metaFixed) return; // avoid re-patching
+  function applyMeta(){
+    document.querySelectorAll(".product-card, .card, .selected-item").forEach(card=>{
       const row = findRowForCard(card);
-      const metaStr = metaFromRow(row);
-      let metaEl = card.querySelector(".meta, .badge, .card-meta");
-      if(!metaEl){
-        metaEl = document.createElement("div");
-        metaEl.className = "meta";
+      const metaStr = window.metaLine ? window.metaLine(row) : "";
+      let meta = card.querySelector(".meta, .card-meta, .badge");
+      if(!meta){
+        meta = document.createElement("div");
+        meta.className = "meta";
         const titleEl = card.querySelector(".title, .card-title, h3, h4");
         if(titleEl && titleEl.parentNode){
-          titleEl.parentNode.insertBefore(metaEl, titleEl.nextSibling);
+          titleEl.parentNode.insertBefore(meta, titleEl.nextSibling);
         } else {
-          card.insertBefore(metaEl, card.firstChild);
+          card.insertBefore(meta, card.firstChild);
         }
       }
-      metaEl.textContent = metaStr;
-      card.dataset.metaFixed = "1";
+      meta.textContent = metaStr;
     });
   }
 
-  function runAll(){
-    enforceMeta(document);
-  }
-
+  // Run once after DOM ready, and again after a small delay to catch async renders.
   if(document.readyState === "loading"){
     document.addEventListener("DOMContentLoaded", function(){
-      runAll();
-      setTimeout(runAll, 200);
+      applyMeta();
+      setTimeout(applyMeta, 150);
     });
   } else {
-    runAll();
-    setTimeout(runAll, 200);
-  }
-
-  if(window.MutationObserver){
-    const mo = new MutationObserver(() => {
-      mo.disconnect();
-      runAll();
-      setTimeout(()=>mo.observe(document.body,{childList:true,subtree:true}),100);
-    });
-    mo.observe(document.body,{childList:true,subtree:true});
+    applyMeta();
+    setTimeout(applyMeta, 150);
   }
 })();
 </script>
