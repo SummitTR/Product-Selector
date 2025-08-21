@@ -553,6 +553,246 @@ button,
 #saveBtn, #printBtn { margin-right: 0.5rem; }
 
 </style>
+
+<!-- Injected Summit brand theme -->
+<style id="summit-brand-theme">
+
+/* ===== Summit Configurator Brand Theme =====
+   Primary brand: #254A4F
+   Neutral background commonly used by the user: #F2F9F9
+   Drop this file after your existing CSS, or link as the last stylesheet.
+*/
+
+:root{
+  /* Brand palette */
+  --brand-900:#0f1f22;
+  --brand-800:#183236;
+  --brand-700:#1e3e42;
+  --brand-600:#254a4f; /* primary */
+  --brand-500:#2f5e64;
+  --brand-400:#3e7a81;
+  --brand-300:#5a9ca3;
+  --brand-200:#8ac0c6;
+  --brand-100:#cde8ea;
+  --brand-50:#f2f9f9;
+
+  /* Semantic tokens */
+  --bg:#ffffff;
+  --bg-subtle:#f7fafb;
+  --surface:#ffffff;
+  --surface-alt:#f7fafb;
+  --text:#0f1a1b;
+  --text-muted:#475a5c;
+  --border:#e6efef;
+  --ring: var(--brand-300);
+
+  --success-600:#1e7a42;
+  --warning-600:#9c6f1f;
+  --danger-600:#b23a3a;
+
+  /* Radius & shadow */
+  --radius-xs:8px;
+  --radius-sm:12px;
+  --radius-md:16px;
+  --radius-lg:20px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:0 6px 16px rgba(0,0,0,.10);
+  --shadow-lg:0 12px 24px rgba(0,0,0,.14);
+
+  /* Typography scale */
+  --font-body: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  --font-head: var(--font-body);
+  --size-xs:12px;
+  --size-sm:14px;
+  --size-md:16px; /* base */
+  --size-lg:18px;
+  --size-xl:22px;
+  --size-2xl:28px;
+  --line:1.45;
+}
+
+/* Base */
+html,body{
+  font-family:var(--font-body);
+  font-size:var(--size-md);
+  line-height:var(--line);
+  color:var(--text);
+  background:var(--bg);
+}
+h1,h2,h3{
+  font-family:var(--font-head);
+  color:var(--brand-800);
+  line-height:1.2;
+  margin:0 0 .5rem 0;
+}
+h1{font-size:var(--size-2xl);}
+h2{font-size:var(--size-xl);}
+h3{font-size:var(--size-lg);}
+p{margin:.5rem 0; color:var(--text);}
+small, .muted{color:var(--text-muted);}
+
+/* Links */
+a{color:var(--brand-600); text-decoration:underline; text-underline-offset:2px;}
+a:hover{color:var(--brand-700);}
+
+/* Buttons */
+.btn{
+  --btn-bg: var(--brand-600);
+  --btn-text:#fff;
+  --btn-border: transparent;
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:.5rem;
+  padding:.625rem 1rem;
+  border-radius:var(--radius-md);
+  border:1px solid var(--btn-border);
+  background:var(--btn-bg);
+  color:var(--btn-text);
+  box-shadow:var(--shadow-sm);
+  cursor:pointer;
+  transition:transform .06s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+}
+.btn:hover{ transform:translateY(-1px); box-shadow:var(--shadow-md); }
+.btn:active{ transform:translateY(0); box-shadow:var(--shadow-sm); }
+.btn:focus-visible{ outline:2px solid var(--ring); outline-offset:2px; }
+
+.btn--primary{ --btn-bg: var(--brand-600); --btn-text:#fff; }
+.btn--primary:hover{ --btn-bg: var(--brand-700); }
+.btn--outline{ --btn-bg: #fff; --btn-text: var(--brand-700); --btn-border: var(--brand-300); }
+.btn--outline:hover{ --btn-bg: var(--brand-50); }
+.btn--ghost{ --btn-bg: transparent; --btn-text: var(--brand-700); --btn-border: transparent; }
+.btn--ghost:hover{ --btn-bg: var(--brand-50); }
+
+/* "Selected" state (matches user's prior requirement) */
+.is-selected.btn--toggle{
+  --btn-bg: var(--brand-600);
+  --btn-text: #fff;
+  --btn-border: var(--brand-600);
+}
+
+/* Pills / chips */
+.pill{
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.375rem .75rem;
+  border-radius:999px;
+  background:var(--brand-50);
+  color:var(--brand-700);
+  border:1px solid var(--brand-200);
+}
+.pill.is-active{ background:var(--brand-600); color:#fff; border-color:var(--brand-600); }
+.pill.is-complete{ background:var(--brand-700); color:#fff; }
+
+/* Cards */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);
+  overflow:hidden;
+}
+.card__header{ padding:1rem 1rem .5rem; }
+.card__media{ position:relative; background:var(--brand-50); display:block; }
+.card__media img{ width:100%; height:auto; display:block; object-fit:contain; }
+.card__body{ padding:1rem; }
+.card__footer{ padding: .75rem 1rem; background:var(--surface-alt); display:flex; gap:.5rem; }
+
+/* Stepper (sticky pills only) */
+.stepper{
+  position:sticky; top:0; z-index:50;
+  background:rgba(255,255,255,.9); backdrop-filter:saturate(180%) blur(6px);
+  border-bottom:1px solid var(--border);
+}
+.stepper__inner{
+  display:flex; gap:.5rem; padding:.5rem; overflow:auto;
+}
+.step{
+  padding:.5rem .875rem; border-radius:999px;
+  border:1px solid var(--brand-200); color:var(--brand-700); background:#fff;
+  white-space:nowrap; font-weight:600;
+}
+.step.is-current{ background:var(--brand-600); color:#fff; border-color:var(--brand-600); }
+.step.is-complete{ background:var(--brand-700); color:#fff; }
+
+/* Badges */
+.badge{ font-size:var(--size-sm); padding:.125rem .5rem; border-radius:6px; background:var(--brand-100); color:var(--brand-700);}
+
+/* Grids */
+.grid{ display:grid; gap:1rem; }
+.grid--cards{ grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); }
+@media (min-width: 1200px){
+  .grid--cards{ grid-template-columns:repeat(3, 1fr); }
+}
+
+/* Forms */
+input,select,textarea{
+  border:1px solid var(--border); border-radius:10px; padding:.55rem .7rem; width:100%;
+  background:#fff; color:var(--text);
+}
+input:focus,select:focus,textarea:focus{ outline:2px solid var(--ring); outline-offset:2px; border-color:var(--ring); }
+
+/* Image placeholders */
+.img-empty{
+  display:grid; place-items:center; background:var(--brand-50); color:var(--text-muted);
+  height:240px; border:1px dashed var(--brand-200); border-radius:var(--radius-md);
+}
+
+/* Utilities */
+.container{ max-width:1200px; margin:0 auto; padding: 0 1rem; }
+.mt-1{margin-top:.25rem;} .mt-2{margin-top:.5rem;} .mt-3{margin-top:1rem;} .mt-4{margin-top:1.5rem;}
+.mb-1{margin-bottom:.25rem;} .mb-2{margin-bottom:.5rem;} .mb-3{margin-bottom:1rem;} .mb-4{margin-bottom:1.5rem;}
+.flex{display:flex;} .items-center{align-items:center;} .justify-between{justify-content:space-between;} .gap-2{gap:.5rem;} .gap-3{gap:1rem;}
+.rounded{border-radius:var(--radius-md);} .shadow{box-shadow:var(--shadow-md);} .shadow-sm{box-shadow:var(--shadow-sm);}
+
+/* Focus ring helper */
+.focusable:focus-visible{ outline:2px solid var(--ring); outline-offset:2px; border-radius:10px; }
+
+/* Print tweaks (for Save as PDF) */
+@media print{
+  .stepper, .btn, .no-print{ display:none !important; }
+  .card{ box-shadow:none; border-color:#ddd; }
+  a{ text-decoration:none; color:#000; }
+}
+
+</style>
+
+<!-- Injected responsive typography -->
+<style id="responsive-typography">
+
+/* ===== Responsive Typography (Injected) =====
+   Scales smoothly across mobile, tablet, desktop.
+   - Body text: clamp 15px–18px, line-height 1.5
+   - Headings scale with viewport using clamp()
+   - Brand color applied to headings/links for consistency
+*/
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  font-size: clamp(15px, 1.1vw, 18px);
+  line-height: 1.5;
+  color: #0F1A1B;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #254A4F;
+  line-height: 1.2;
+  margin: 0 0 .5rem 0;
+}
+h1 { font-size: clamp(28px, 4vw, 42px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: clamp(18px, 2.5vw, 26px); }
+h4 { font-size: clamp(16px, 2vw, 22px); }
+h5 { font-size: clamp(15px, 1.8vw, 20px); }
+h6 { font-size: clamp(14px, 1.6vw, 18px); }
+p, li {
+  letter-spacing: 0.01em;
+}
+a { color: #254A4F; text-underline-offset: 2px; }
+a:hover { color: #1E3E42; }
+
+/* Ensure adequate contrast in muted text */
+.muted, .subtle, .hint { color: #475a5c; }
+
+/* Optional helper: apply to long-form text blocks when needed
+.readable { max-width: 70ch; } */
+
+</style>
 </head>
 <body>
 <header class="sticky">
@@ -637,7 +877,7 @@ button,
   {
     "Model": "TX25HLX85BHX76",
     "Product Name": "Summit TX25H Tractor & LX85 Loader & BHX76 Backhoe",
-    "Description": "Pairing the Summit BHX76 Backhoe with the Summit TX25H transforms the tractor into a true digging and excavation machine. The backhoe makes it easy to handle jobs like trenching for utilities, planting trees, removing stumps, and clearing ditchesâtasks a tractor alone canât tackle. Together, they create a powerful, all-in-one solution for year-round property maintenance and improvement.",
+    "Description": "Pairing the Summit BHX76 Backhoe with the Summit TX25H transforms the tractor into a true digging and excavation machine. The backhoe makes it easy to handle jobs like trenching for utilities, planting trees, removing stumps, and clearing ditches, tasks a tractor alone cannot tackle. Together, they create a powerful, all-in-one solution for year-round property maintenance and improvement.",
     "Common Uses": "PLACEHOLDER",
     "Image URL": "https://summittractors.com/summitpics/SUMMIT%20TX25HLX85BHX76.jpg",
     "Video URL": "https://youtu.be/GmgAs2ao3sI?si=spAiZ1oiwAKpyiTE",
@@ -646,7 +886,7 @@ button,
     "Seasonal Use - Summer": "Through the summer months, the Summit TX25H takes care of mowing and pasture maintenance with rotary cutters, finishing mowers, or flail mowers. Its loader and forks move hay bales, feed, and building materials with ease. The Summit BHX76 Backhoe adds construction capability, making quick work of post hole digging, trenching for utilities, and small excavation projects around your property. With this combination, you can handle fencing, landscaping, and water system installations all season long.",
     "Seasonal Use - Fall": "When fall arrives, the Summit TX25H supports harvest with the strength to pull wagons, haul produce, and power augers. It also preps land for winter with cover crop planting, fertilizing, and tilling residue back into the soil. The BHX76 Backhoe extends your reach by digging drainage ditches, clearing out culverts, and helping with tree planting or removal. Together, they simplify leaf cleanup, property maintenance, and firewood preparation, from hauling logs to splitting wood with a PTO-powered splitter.",
     "Seasonal Use - Winter": "In winter, the Summit TX25H Tractor transforms into a dependable snow and ice management machine, using loaders, blades, pushers, or snow blowers to keep driveways and access roads clear. It also manages livestock chores by moving feed and bedding, and spreads sand or salt for ice control. With the Summit BHX76 Backhoe, you can dig out compacted snow piles, clear drainage areas, or handle utility repairs even in frozen ground. This pairing ensures your property stays productive and accessible all winter long.",
-    "Key Features": "All Features of the Summit TX25H Tractor & LX85 Loader; Mechanical Thumb to Lift Boulders, Logs and Other Material; Independent Operator Seat - No Need to Pivot the Tractor Seat Around; Standard 12\" Bucket, Optional 8\" & 16\" Buckets; Backhoe On/Off the Tractor in Minutes; Locking Pin Keepers so They Don't Get Lost; ISO SAE Operator Controls; Full Subframe Mount, SMV Sign for Transport Safety on the Road",
+    "Key Features": "All Features of the Summit TX25H Tractor & LX85 Loader; Mechanical Thumb to Lift Boulders; Logs and Other Material; Independent Operator Seat - No Need to Pivot the Tractor Seat Around; Standard 12\" Bucket; Optional 8\" & 16\" Buckets; Backhoe On/Off the Tractor in Minutes; Locking Pin Keepers so They Don't Get Lost; ISO SAE Operator Controls; Full Subframe Mount; SMV Sign for Transport Safety on the Road",
     "Category": "Tractor"
   },
   {
@@ -659,374 +899,383 @@ button,
     "Brochure URL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf",
     "Seasonal Use - Spring": "The Summit TX25H Tractor is built to get your property ready for the season. In spring, it handles soil preparation with ease, whether you are tilling, cultivating, or discing gardens, fields, and food plots. Pair it with seeders and spreaders to make planting efficient, and use its loader and grading tools to clear branches, haul brush, and repair driveways after winter.",
     "Seasonal Use - Summer": "Through the summer months, the Summit TX25H shines as a mowing and maintenance machine. Attach a rotary cutter for pastures, a finishing mower for lawns, or a flail mower for roadside and ditch upkeep. With pallet forks and loaders, it moves hay bales, feed, and supplies, while also tackling fencing projects, gravel spreading, light construction, and crop irrigation with sprayers or tanks.",
-    "Seasonal Use - Fall": "Through the summer months, the Summit TX25H shines as a mowing and maintenance machine. Attach a rotary cutter for pastures, a finishing mower for lawns, or a flail mower for roadside and ditch upkeep. With pallet forks and loaders, it moves hay bales, feed, and supplies, while also tackling fencing projects, gravel spreading, light construction, and crop irrigation with sprayers or tanks.",
+    "Seasonal Use - Fall": "Summit TX25H Tractor & LX85 Loader supports harvest, cleanup, and drainage improvements.",
     "Seasonal Use - Winter": "In winter, the Summit TX25H becomes a dependable snow and ice management solution. With front-end loaders, blades, pushers, or snow blowers, it clears driveways and access roads quickly and efficiently. It also manages livestock chores by moving feed and bedding, spreads salt or sand for ice control, and keeps your property accessible in all conditions.",
-    "Key Features": "24.7 HP Mitsubishi 3-Cyl. EPA Tier 4 Diesel Engine; 3rd Function Hydraulics - Grapple Ready; Rear Hydraulic Remotes; Self-Leveling SSQA Loader; Goodyear All-Condition R14T Tires; RimGuard Liquid Tire Ballast in the Rears; Premium Suspension Seat With Backrest Extension; Toolbox, Rear Work Light, Swinging Drawbar, Cross Drawbar, Front Tow hook",
+    "Key Features": "24.7 HP Mitsubishi 3-Cyl. EPA Tier 4 Diesel Engine; 3rd Function Hydraulics - Grapple Ready; Rear Hydraulic Remotes; Self-Leveling SSQA Loader; Goodyear All-Condition R14T Tires; RimGuard Liquid Tire Ballast in the Rears; Premium Suspension Seat With Backrest Extension; Toolbox; Rear Work Light; Swinging Drawbar; Cross Drawbar; Front Tow hook",
     "Category": "Tractor"
   },
   {
-    "Model": "TMX1",
-    "Product Name": "Summit Tractors TMX1 Trailer Mover",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20TMX1%20TRAILER%20MOVER.jpg",
-    "Video URL": "",
+    "Model": "AFDHX60",
+    "Product Name": "Summit Tractors 60\" Angle Frame Disc Harrow",
+    "Description": "The Summit Tractors 60\" Angle Frame Disc Harrow breaks up soil clods and incorporates residue, prepping ground for planting or leveling.",
+    "Common Uses": "Break up clods, incorporate residue, and prep ground after plowing or tilling.",
+    "Image URL": "https://summittractors.com/summitpics/AFDHX60_BR.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+60%22+Angle+Frame+Disc+Harrow+compact+tractor+implement+attachment+demonstration",
     "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Pull a Trailer"
-  },
-  {
-    "Model": "SSX500",
-    "Product Name": "Summit Tractors SSX500 Seeder/Spreader",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20SSX500%20SEEDER-SPREADER.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Seeding & Spreading"
-  },
-  {
-    "Model": "SSX1",
-    "Product Name": "Summit Tractors SSX1 Sub-Soiler",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20SSX1%20SUB-SOILER.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Seedbed Preparation"
-  },
-  {
-    "Model": "SPX60DR",
-    "Product Name": "Summit Tractors 60\" Snow Pusher Drag Kit",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20SPX60%20SNOW%20PUSHER%20WITH%20DRAG.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Snow Removal"
-  },
-  {
-    "Model": "SPX60",
-    "Product Name": "Summit Tractors 60\" Snow Pusher",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20SPX60%20SNOW%20PUSHER.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Snow Removal"
-  },
-  {
-    "Model": "RTLRX48",
-    "Product Name": "Summit Tractors 48\" Rotary Tiller",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20RTLRX48%20ROTARY%20TILLER.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
+    "Seasonal Use - Spring": "Prepare gardens and food plots with Summit Tractors 60\" Angle Frame Disc Harrow—break ground, mix amendments, and create seedbeds.",
+    "Seasonal Use - Summer": "Use Summit Tractors 60\" Angle Frame Disc Harrow for mid-season cultivation and weed control where appropriate.",
+    "Seasonal Use - Fall": "Incorporate residues and prep beds for spring using Summit Tractors 60\" Angle Frame Disc Harrow.",
+    "Seasonal Use - Winter": "Clean, grease, and store Summit Tractors 60\" Angle Frame Disc Harrow under cover to prevent rust.",
+    "Key Features": "Strong tines; Soil preparation; Easy depth adjustment",
     "Category": "Tilling & Soil Preparation"
   },
   {
-    "Model": "RCX48",
-    "Product Name": "Summit Tractors 48\" Rotary Cutter",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20RCX48%20ROTARY%20CUTTER.jpg",
-    "Video URL": "",
+    "Model": "BBX60",
+    "Product Name": "Summit Tractors 60\" Box Blade",
+    "Description": "The Summit Tractors 60\" Box Blade is designed for grading, leveling, and pulling material, equipped with scarifiers for tougher jobs.",
+    "Common Uses": "Grade and level soil, repair driveways, and pull material with scarifiers for light earthwork.",
+    "Image URL": "https://summittractors.com/summitpics/BOX-BLADE.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+60%22+Box+Blade+compact+tractor+implement+attachment+demonstration",
     "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Brush Cutting"
-  },
-  {
-    "Model": "RBX60",
-    "Product Name": "Summit Tractors 60\" Rear Blade",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20RBX60%20REAR%20BLADE.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
+    "Seasonal Use - Spring": "Repair washouts and re-crown driveways with Summit Tractors 60\" Box Blade after winter weather.",
+    "Seasonal Use - Summer": "Summit Tractors 60\" Box Blade maintains lanes, pads, and work areas during dry months.",
+    "Seasonal Use - Fall": "Touch up grades and improve drainage paths with Summit Tractors 60\" Box Blade before freeze.",
+    "Seasonal Use - Winter": "Use Summit Tractors 60\" Box Blade for light snow windrows or to manage runoff when thawing.",
+    "Key Features": "Levels surfaces; Robust steel; Easy to use",
     "Category": "Grading"
-  },
-  {
-    "Model": "QHX1",
-    "Product Name": "Summit Tractors QHX1 Quick Hitch",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20QHX1%20QUICK%20HITCH.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Quick Hitch "
-  },
-  {
-    "Model": "PFX42",
-    "Product Name": "Summit Tractors 42\" SSQA Pallet Forks",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20PFX42%20SSQA%20PALLETS%20FORKS%20-%202.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Material Handling - Pallet Forks"
-  },
-  {
-    "Model": "MBX1",
-    "Product Name": "Summit Tractors MBX1 Middle Buster",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20MBX1%20MIDDLE%20BUSTER.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Seedbed Preparation"
-  },
-  {
-    "Model": "MBSSX1",
-    "Product Name": "Summit Tractors MBSSX1 Middle Buster Sub-Soiler Combo",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20MBSSX1%20MIDDLE%20BUSTER-SUB%20SOILER%20COMBO%20-%20SS%20IMAGE.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Seedbed Preparation"
-  },
-  {
-    "Model": "LRX60",
-    "Product Name": "Summit Tractors 60\" Landscape Rake",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20LRX60%20LANDSCAPE%20RAKE.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Landscaping"
-  },
-  {
-    "Model": "LPX60",
-    "Product Name": "Summit Tractors 60\" Land Plane",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20LPX60%20LAND%20PLANE.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Grading"
-  },
-  {
-    "Model": "GX54",
-    "Product Name": "Summit Tractors 54\" SSQA Grapple",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/GRAPPLE%20LOG%20TIGHT%20-%20Copy.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Material Handling - Grapple"
-  },
-  {
-    "Model": "FMX60",
-    "Product Name": "Summit Tractors 60\" 3-Point Finish Mower",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20FMX60%20FINISH%20MOWER.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Mowing"
-  },
-  {
-    "Model": "CAX1",
-    "Product Name": "Summit Tractors CAX1 Carry All",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20CAX1%20CARRY%20ALL.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Carry-All"
-  },
-  {
-    "Model": "BPX60",
-    "Product Name": "Summit Tractors BPX60 BoxPlane",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/Boxplane%202%20-%20Copy.jpg",
-    "Video URL": "",
-    "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Grading - Box Blade & Land Plane in One"
   },
   {
     "Model": "BPX1",
     "Product Name": "Summit Tractors BPX1 Boom Pole",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20BPX1%20BOOM%20POLE.jpg",
-    "Video URL": "",
+    "Description": "The Summit Tractors BPX1 Boom Pole lifts engines, materials, or supplies, extending tractor reach for loading and handling.",
+    "Common Uses": "Lift engines, implements, and materials; reach into trailers or tight spaces.",
+    "Image URL": "https://summittractors.com/summitpics/BOOM-POLE.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+BPX1+Boom+Pole+compact+tractor+implement+attachment+demonstration",
     "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
+    "Seasonal Use - Spring": "Move planters, fencing, tools, and materials with Summit Tractors BPX1 Boom Pole to launch projects.",
+    "Seasonal Use - Summer": "Summit Tractors BPX1 Boom Pole hauls supplies and equipment where you need them—fast.",
+    "Seasonal Use - Fall": "Use Summit Tractors BPX1 Boom Pole for firewood and harvest-season handling.",
+    "Seasonal Use - Winter": "Relocate bundled goods and keep supplies organized with Summit Tractors BPX1 Boom Pole.",
+    "Key Features": "Summit Tractors BPX1 Boom Pole is durable; Easy to use; Reliable performance",
     "Category": "Carry-Boom Pole"
+  },
+  {
+    "Model": "BPX60",
+    "Product Name": "Summit Tractors BPX60 BoxPlane",
+    "Description": "The Summit Tractors BPX60 BoxPlane is a compact‑tractor attachment designed to improve productivity for property maintenance and farm tasks.",
+    "Common Uses": "Handle common property maintenance tasks such as grading, hauling, mowing, and cleanup with a compact‑tractor‑sized attachment.",
+    "Image URL": "https://summittractors.com/summitpics/Boxplane%202%20-%20Copy.jpg",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+BPX60+BoxPlane+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Repair washouts and re-crown driveways with Summit Tractors BPX60 BoxPlane after winter weather.",
+    "Seasonal Use - Summer": "Summit Tractors BPX60 BoxPlane maintains lanes, pads, and work areas during dry months.",
+    "Seasonal Use - Fall": "Touch up grades and improve drainage paths with Summit Tractors BPX60 BoxPlane before freeze.",
+    "Seasonal Use - Winter": "Use Summit Tractors BPX60 BoxPlane for light snow windrows or to manage runoff when thawing.",
+    "Key Features": "Levels surfaces; Robust steel; Easy to use",
+    "Category": "Grading - Box Blade & Land Plane in One"
+  },
+  {
+    "Model": "CAX1",
+    "Product Name": "Summit Tractors CAX1 Carry All",
+    "Description": "The Summit Tractors CAX1 Carry All carries tools, supplies, and firewood, making transport around the property simple.",
+    "Common Uses": "Transport tools, firewood, and supplies; mount small boxes or platforms for chores.",
+    "Image URL": "https://summittractors.com/summitpics/CARRY-ALL.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+CAX1+Carry+All+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Move planters, fencing, tools, and materials with Summit Tractors CAX1 Carry All to launch projects.",
+    "Seasonal Use - Summer": "Summit Tractors CAX1 Carry All hauls supplies and equipment where you need them—fast.",
+    "Seasonal Use - Fall": "Use Summit Tractors CAX1 Carry All for firewood and harvest-season handling.",
+    "Seasonal Use - Winter": "Relocate bundled goods and keep supplies organized with Summit Tractors CAX1 Carry All.",
+    "Key Features": "Summit Tractors CAX1 Carry All is durable; Easy to use; Reliable performance",
+    "Category": "Carry-All"
+  },
+  {
+    "Model": "FMX60",
+    "Product Name": "Summit Tractors 60\" 3-Point Finish Mower",
+    "Description": "The Summit Tractors 60\" 3-Point Finish Mower delivers a smooth, lawn‑quality cut across large turf areas, ideal for estates and grounds maintenance.",
+    "Common Uses": "Produce lawn‑quality cuts on large areas such as estates, parks, and sports fields.",
+    "Image URL": "https://summittractors.com/summitpics/FINISH-MOWER.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+60%22+3-Point+Finish+Mower+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Mount Summit Tractors 60\" 3-Point Finish Mower early to knock down fast-growing grass and restore lawns and acreage.",
+    "Seasonal Use - Summer": "Summit Tractors 60\" 3-Point Finish Mower maintains lawns, pastures, and road edges through peak growth.",
+    "Seasonal Use - Fall": "Use Summit Tractors 60\" 3-Point Finish Mower for final cuts and to mulch leaves before winter.",
+    "Seasonal Use - Winter": "Service and store Summit Tractors 60\" 3-Point Finish Mower; sharpen blades and check belts for the next season.",
+    "Key Features": "Sharp cutting deck; Adjustable height; Durable construction",
+    "Category": "Mowing"
+  },
+  {
+    "Model": "LPX60",
+    "Product Name": "Summit Tractors 60\" Land Plane",
+    "Description": "The Summit Tractors 60\" Land Plane levels and smooths gravel driveways and surfaces, quickly removing ruts and washboards.",
+    "Common Uses": "Recondition gravel driveways, remove washboards, and level pads and trails quickly.",
+    "Image URL": "https://summittractors.com/summitpics/LAND-PLANE.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+60%22+Land+Plane+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Repair washouts and re-crown driveways with Summit Tractors 60\" Land Plane after winter weather.",
+    "Seasonal Use - Summer": "Summit Tractors 60\" Land Plane maintains lanes, pads, and work areas during dry months.",
+    "Seasonal Use - Fall": "Touch up grades and improve drainage paths with Summit Tractors 60\" Land Plane before freeze.",
+    "Seasonal Use - Winter": "Use Summit Tractors 60\" Land Plane for light snow windrows or to manage runoff when thawing.",
+    "Key Features": "Levels surfaces; Robust steel; Easy to use",
+    "Category": "Grading"
+  },
+  {
+    "Model": "LRX60",
+    "Product Name": "Summit Tractors 60\" Landscape Rake",
+    "Description": "The Summit Tractors 60\" Landscape Rake collects rocks and debris, smooths topsoil, and grooms gravel for a clean, finished look.",
+    "Common Uses": "Collect rocks and debris, smooth topsoil, and groom trails and gravel.",
+    "Image URL": "https://summittractors.com/summitpics/LANDSCAPE-RAKE.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+60%22+Landscape+Rake+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Rake out debris and prep beds and trails with Summit Tractors 60\" Landscape Rake.",
+    "Seasonal Use - Summer": "Summit Tractors 60\" Landscape Rake grooms gravel, trails, and grounds for a clean finish.",
+    "Seasonal Use - Fall": "Windrow leaves and surface debris with Summit Tractors 60\" Landscape Rake for quick cleanup.",
+    "Seasonal Use - Winter": "Store and service Summit Tractors 60\" Landscape Rake so it’s ready for spring.",
+    "Key Features": "Smooth raking; Durable tines; Easy attachment",
+    "Category": "Landscaping"
+  },
+  {
+    "Model": "MBSSX1",
+    "Product Name": "Summit Tractors MBSSX1 Middle Buster Sub-Soiler Combo",
+    "Description": "The Summit Tractors MBSSX1 Middle Buster Sub-Soiler Combo breaks hardpan, improves drainage, and opens furrows for planting.",
+    "Common Uses": "Break hardpan, improve drainage, and open shallow furrows.",
+    "Image URL": "https://summittractors.com/summitpics/MIDDLE-BUSTER-SUB-SOILER-COMBO.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+MBSSX1+Middle+Buster+Sub-Soiler+Combo+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Apply seed and fertilizer precisely with Summit Tractors MBSSX1 Middle Buster Sub-Soiler Combo to jump-start growth.",
+    "Seasonal Use - Summer": "Summit Tractors MBSSX1 Middle Buster Sub-Soiler Combo shines in routine maintenance and productivity—keep projects moving and properties looking great.",
+    "Seasonal Use - Fall": "Overseed lawns or apply lime/fertilizer with Summit Tractors MBSSX1 Middle Buster Sub-Soiler Combo for strong spring emergence.",
+    "Seasonal Use - Winter": "Summit Tractors MBSSX1 Middle Buster Sub-Soiler Combo stays useful in cold weather—storage, upkeep, or snow-related tasks where applicable.",
+    "Key Features": "Summit Tractors MBSSX1 Middle Buster Sub-Soiler Combo is durable; Easy to use; Reliable performance",
+    "Category": "Seedbed Preparation"
+  },
+  {
+    "Model": "MBX1",
+    "Product Name": "Summit Tractors MBX1 Middle Buster",
+    "Description": "The Summit Tractors MBX1 Middle Buster breaks hardpan, improves drainage, and opens furrows for planting.",
+    "Common Uses": "Break hardpan, improve drainage, and open shallow furrows.",
+    "Image URL": "https://summittractors.com/summitpics/MIDDLE-BUSTER.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+MBX1+Middle+Buster+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Apply seed and fertilizer precisely with Summit Tractors MBX1 Middle Buster to jump-start growth.",
+    "Seasonal Use - Summer": "Summit Tractors MBX1 Middle Buster shines in routine maintenance and productivity—keep projects moving and properties looking great.",
+    "Seasonal Use - Fall": "Overseed lawns or apply lime/fertilizer with Summit Tractors MBX1 Middle Buster for strong spring emergence.",
+    "Seasonal Use - Winter": "Summit Tractors MBX1 Middle Buster stays useful in cold weather—storage, upkeep, or snow-related tasks where applicable.",
+    "Key Features": "Summit Tractors MBX1 Middle Buster is durable; Easy to use; Reliable performance",
+    "Category": "Seedbed Preparation"
+  },
+  {
+    "Model": "PFX42",
+    "Product Name": "Summit Tractors 42\" SSQA Pallet Forks",
+    "Description": "The Summit Tractors 42\" SSQA Pallet Forks lifts and transports pallets, feed, and materials, turning a compact tractor into a handy forklift.",
+    "Common Uses": "Lift and move pallets, feed, seed, and building materials around the property.",
+    "Image URL": "https://summittractors.com/summitpics/PALLET-FORKS.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+42%22+SSQA+Pallet+Forks+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Unload mulch, soil, and building supplies with Summit Tractors 42\" SSQA Pallet Forks to start projects.",
+    "Seasonal Use - Summer": "Summit Tractors 42\" SSQA Pallet Forks moves pallets, feed, and materials around the property.",
+    "Seasonal Use - Fall": "Shift totes, firewood, and supplies with Summit Tractors 42\" SSQA Pallet Forks for winter prep.",
+    "Seasonal Use - Winter": "Use Summit Tractors 42\" SSQA Pallet Forks to handle salt, sand, or bundled materials in cold weather.",
+    "Key Features": "Move pallets; Adjustable spacing; Heavy-duty frame",
+    "Category": "Material Handling - Pallet Forks"
+  },
+  {
+    "Model": "QHX1",
+    "Product Name": "Summit Tractors QHX1 Quick Hitch",
+    "Description": "The Summit Tractors QHX1 Quick Hitch attachment makes maneuvering trailers and implements quick and precise.",
+    "Common Uses": "Speed up implement changes, improve alignment, and reduce manual lifting on the 3‑point.",
+    "Image URL": "https://summittractors.com/summitpics/QUICK-HITCH.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+QHX1+Quick+Hitch+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Summit Tractors QHX1 Quick Hitch helps kick off the season—setup, repairs, and soil prep so you’re ready for busy months ahead.",
+    "Seasonal Use - Summer": "Summit Tractors QHX1 Quick Hitch shines in routine maintenance and productivity—keep projects moving and properties looking great.",
+    "Seasonal Use - Fall": "Summit Tractors QHX1 Quick Hitch supports cleanup and prep—manage residue, move materials, and button things up before winter.",
+    "Seasonal Use - Winter": "Summit Tractors QHX1 Quick Hitch stays useful in cold weather—storage, upkeep, or snow-related tasks where applicable.",
+    "Key Features": "Summit Tractors QHX1 Quick Hitch is durable; Easy to use; Reliable performance",
+    "Category": "Quick Hitch"
+  },
+  {
+    "Model": "RBX60",
+    "Product Name": "Summit Tractors 60\" Rear Blade",
+    "Description": "The Summit Tractors 60\" Rear Blade is a versatile blade for driveways and ditches, capable of grading, crowning, and light snow removal.",
+    "Common Uses": "Maintain driveways, ditch and crown, windrow material, and push light snow.",
+    "Image URL": "https://summittractors.com/summitpics/REAR-BLADE.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+60%22+Rear+Blade+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Repair washouts and re-crown driveways with Summit Tractors 60\" Rear Blade after winter weather.",
+    "Seasonal Use - Summer": "Summit Tractors 60\" Rear Blade maintains lanes, pads, and work areas during dry months.",
+    "Seasonal Use - Fall": "Touch up grades and improve drainage paths with Summit Tractors 60\" Rear Blade before freeze.",
+    "Seasonal Use - Winter": "Use Summit Tractors 60\" Rear Blade for light snow windrows or to manage runoff when thawing.",
+    "Key Features": "Levels surfaces; Robust steel; Easy to use",
+    "Category": "Grading"
+  },
+  {
+    "Model": "RCX48",
+    "Product Name": "Summit Tractors 48\" Rotary Cutter",
+    "Description": "The Summit Tractors 48\" Rotary Cutter is built to mow fields, pastures, and road edges, handling tall grass and brush with durable blades.",
+    "Common Uses": "Mow fields, pastures, and road edges; knock down tall grass and light brush to maintain acreage.",
+    "Image URL": "https://summittractors.com/summitpics/ROTARY-CUTTER.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+48%22+Rotary+Cutter+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Start clearing overgrowth with Summit Tractors 48\" Rotary Cutter after wet conditions subside.",
+    "Seasonal Use - Summer": "Summit Tractors 48\" Rotary Cutter handles tall grass and brush along fields, trails, and fence lines.",
+    "Seasonal Use - Fall": "Cut back seasonal growth and tidy property edges with Summit Tractors 48\" Rotary Cutter.",
+    "Seasonal Use - Winter": "Inspect and store Summit Tractors 48\" Rotary Cutter; grease pivots and check driveline components.",
+    "Key Features": "Summit Tractors 48\" Rotary Cutter is durable; Easy to use; Reliable performance",
+    "Category": "Brush Cutting"
+  },
+  {
+    "Model": "GX54",
+    "Product Name": "Summit Tractors 54\" SSQA Grapple",
+    "Description": "The Summit Tractors 54\" SSQA Grapple grips logs, brush, and debris securely, making land clearing and storm cleanup more efficient.",
+    "Common Uses": "Grip and move logs, brush, and debris; streamline storm cleanup and land clearing.",
+    "Image URL": "https://summittractors.com/summitpics/GRAPPLE%20LOG%20TIGHT%20-%20Copy.jpg",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+54%22+SSQA+Grapple+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Use Summit Tractors 54\" SSQA Grapple to lift and stack limbs from storms and winter pruning.",
+    "Seasonal Use - Summer": "Summit Tractors 54\" SSQA Grapple moves logs, brush, and debris during landscaping and clearing.",
+    "Seasonal Use - Fall": "Load firewood and clean fence lines with Summit Tractors 54\" SSQA Grapple.",
+    "Seasonal Use - Winter": "Stage Summit Tractors 54\" SSQA Grapple for storm cleanup or move logs/firewood as needed.",
+    "Key Features": "High lift capacity; Secure grip; Works with logs and debris",
+    "Category": "Material Handling - Grapple"
+  },
+  {
+    "Model": "RTLRX48",
+    "Product Name": "Summit Tractors 48\" Rotary Tiller",
+    "Description": "The Summit Tractors 48\" Rotary Tiller prepares soil for planting by breaking ground, mixing amendments, and cultivating gardens and plots.",
+    "Common Uses": "Prepare seedbeds, mix in amendments, and cultivate gardens and food plots.",
+    "Image URL": "https://summittractors.com/summitpics/TILLER.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+48%22+Rotary+Tiller+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Prepare gardens and food plots with Summit Tractors 48\" Rotary Tiller—break ground, mix amendments, and create seedbeds.",
+    "Seasonal Use - Summer": "Use Summit Tractors 48\" Rotary Tiller for mid-season cultivation and weed control where appropriate.",
+    "Seasonal Use - Fall": "Incorporate residues and prep beds for spring using Summit Tractors 48\" Rotary Tiller.",
+    "Seasonal Use - Winter": "Clean, grease, and store Summit Tractors 48\" Rotary Tiller under cover to prevent rust.",
+    "Key Features": "Strong tines; Soil preparation; Easy depth adjustment",
+    "Category": "Tilling & Soil Preparation"
+  },
+  {
+    "Model": "SPX60",
+    "Product Name": "Summit Tractors 60\" Snow Pusher",
+    "Description": "The Summit Tractors 60\" Snow Pusher is built for efficient snow clearing, pushing heavy accumulations from driveways and lots.",
+    "Common Uses": "Clear snow from driveways and lots quickly; manage drifts and piles after storms.",
+    "Image URL": "https://summittractors.com/summitpics/SNOW-PUSHER.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+60%22+Snow+Pusher+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Use Summit Tractors 60\" Snow Pusher to push late-season slush and tidy piles; then rinse and store for next winter.",
+    "Seasonal Use - Summer": "Off-season care for Summit Tractors 60\" Snow Pusher: inspect wear parts, repaint as needed, and store out of weather.",
+    "Seasonal Use - Fall": "Stage Summit Tractors 60\" Snow Pusher for the first snow—inspect edges, check hardware, and position it for quick deployment.",
+    "Seasonal Use - Winter": "Summit Tractors 60\" Snow Pusher is built for winter—clear driveways and lots, push heavy snow, and keep access open when storms hit.",
+    "Key Features": "Heavy-duty blade; Clears snow quickly; Built for winter use",
+    "Category": "Snow Removal"
+  },
+  {
+    "Model": "SPX60DR",
+    "Product Name": "Summit Tractors 60\" Snow Pusher Drag Kit",
+    "Description": "The Summit Tractors 60\" Snow Pusher Drag Kit is built for efficient snow clearing, pushing heavy accumulations from driveways and lots.",
+    "Common Uses": "Clear snow from driveways and lots quickly; manage drifts and piles after storms.",
+    "Image URL": "https://summittractors.com/summitpics/SNOW-PUSHER-DRAG.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+60%22+Snow+Pusher+Drag+Kit+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Use Summit Tractors 60\" Snow Pusher Drag Kit to push late-season slush and tidy piles; then rinse and store for next winter.",
+    "Seasonal Use - Summer": "Off-season care for Summit Tractors 60\" Snow Pusher Drag Kit: inspect wear parts, repaint as needed, and store out of weather.",
+    "Seasonal Use - Fall": "Stage Summit Tractors 60\" Snow Pusher Drag Kit for the first snow—inspect edges, check hardware, and position it for quick deployment.",
+    "Seasonal Use - Winter": "Summit Tractors 60\" Snow Pusher Drag Kit is built for winter—clear driveways and lots, push heavy snow, and keep access open when storms hit.",
+    "Key Features": "Heavy-duty blade; Clears snow quickly; Built for winter use",
+    "Category": "Snow Removal"
+  },
+  {
+    "Model": "SSX1",
+    "Product Name": "Summit Tractors SSX1 Sub-Soiler",
+    "Description": "The Summit Tractors SSX1 Sub-Soiler is a compact‑tractor attachment designed to improve productivity for property maintenance and farm tasks.",
+    "Common Uses": "Handle common property maintenance tasks such as grading, hauling, mowing, and cleanup with a compact‑tractor‑sized attachment.",
+    "Image URL": "https://summittractors.com/summitpics/SUBSOILER.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+SSX1+Sub-Soiler+compact+tractor+implement+attachment+demonstration",
+    "Brochure URL": "",
+    "Seasonal Use - Spring": "Apply seed and fertilizer precisely with Summit Tractors SSX1 Sub-Soiler to jump-start growth.",
+    "Seasonal Use - Summer": "Summit Tractors SSX1 Sub-Soiler shines in routine maintenance and productivity—keep projects moving and properties looking great.",
+    "Seasonal Use - Fall": "Overseed lawns or apply lime/fertilizer with Summit Tractors SSX1 Sub-Soiler for strong spring emergence.",
+    "Seasonal Use - Winter": "Summit Tractors SSX1 Sub-Soiler stays useful in cold weather—storage, upkeep, or snow-related tasks where applicable.",
+    "Key Features": "Summit Tractors SSX1 Sub-Soiler is durable; Easy to use; Reliable performance",
+    "Category": "Seedbed Preparation"
   },
   {
     "Model": "BHXX16",
     "Product Name": "Summit Tractors Optional 16\" Backhoe Bucket",
-    "Description": "",
-    "Common Uses": "",
+    "Description": "The Summit Tractors Optional 16\" Backhoe Bucket attachment allows compact tractors to dig trenches, plant trees, and tackle light excavation with ease.",
+    "Common Uses": "Dig trenches, plant trees, and handle small excavations; ideal for drainage, utilities, and landscape work.",
     "Image URL": "https://summittractors.com/summitpics/Summit%20BHBX16%20Optional%20Backhoe%20Bucket%20(1).jpg",
-    "Video URL": "",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+Optional+16%22+Backhoe+Bucket+compact+tractor+implement+attachment+demonstration",
     "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
+    "Seasonal Use - Spring": "Summit Tractors Optional 16\" Backhoe Bucket helps kick off the season—setup, repairs, and soil prep so you’re ready for busy months ahead.",
+    "Seasonal Use - Summer": "Summit Tractors Optional 16\" Backhoe Bucket shines in routine maintenance and productivity—keep projects moving and properties looking great.",
+    "Seasonal Use - Fall": "Summit Tractors Optional 16\" Backhoe Bucket supports cleanup and prep—manage residue, move materials, and button things up before winter.",
+    "Seasonal Use - Winter": "Summit Tractors Optional 16\" Backhoe Bucket stays useful in cold weather—storage, upkeep, or snow-related tasks where applicable.",
+    "Key Features": "Summit Tractors Optional 16\" Backhoe Bucket is durable; Easy to use; Reliable performance",
     "Category": "Additional Backhoe Buckets"
   },
   {
     "Model": "BHXPX1",
     "Product Name": "Summit Tractors Optional Street Pads",
-    "Description": "",
-    "Common Uses": "",
+    "Description": "The Summit Tractors Optional Street Pads is a compact‑tractor attachment designed to improve productivity for property maintenance and farm tasks.",
+    "Common Uses": "Handle common property maintenance tasks such as grading, hauling, mowing, and cleanup with a compact‑tractor‑sized attachment.",
     "Image URL": "https://summittractors.com/summitpics/Summit%20BHSPX1%20Optional%20Street%20Pads.jpg",
-    "Video URL": "",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+Optional+Street+Pads+compact+tractor+implement+attachment+demonstration",
     "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
+    "Seasonal Use - Spring": "Summit Tractors Optional Street Pads helps kick off the season—setup, repairs, and soil prep so you’re ready for busy months ahead.",
+    "Seasonal Use - Summer": "Summit Tractors Optional Street Pads shines in routine maintenance and productivity—keep projects moving and properties looking great.",
+    "Seasonal Use - Fall": "Summit Tractors Optional Street Pads supports cleanup and prep—manage residue, move materials, and button things up before winter.",
+    "Seasonal Use - Winter": "Summit Tractors Optional Street Pads stays useful in cold weather—storage, upkeep, or snow-related tasks where applicable.",
+    "Key Features": "Summit Tractors Optional Street Pads is durable; Easy to use; Reliable performance",
     "Category": "Backhoe Street Pads"
   },
   {
     "Model": "BHBX8",
     "Product Name": "Summit Tractors Optional 8\" Backhoe Bucket",
-    "Description": "",
-    "Common Uses": "",
+    "Description": "The Summit Tractors Optional 8\" Backhoe Bucket attachment allows compact tractors to dig trenches, plant trees, and tackle light excavation with ease.",
+    "Common Uses": "Dig trenches, plant trees, and handle small excavations; ideal for drainage, utilities, and landscape work.",
     "Image URL": "https://summittractors.com/summitpics/Summit%20BHBX8%20Optional%20Backhoe%20Bucket%20copy.jpg",
-    "Video URL": "",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+Optional+8%22+Backhoe+Bucket+compact+tractor+implement+attachment+demonstration",
     "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
+    "Seasonal Use - Spring": "Summit Tractors Optional 8\" Backhoe Bucket helps kick off the season—setup, repairs, and soil prep so you’re ready for busy months ahead.",
+    "Seasonal Use - Summer": "Summit Tractors Optional 8\" Backhoe Bucket shines in routine maintenance and productivity—keep projects moving and properties looking great.",
+    "Seasonal Use - Fall": "Summit Tractors Optional 8\" Backhoe Bucket supports cleanup and prep—manage residue, move materials, and button things up before winter.",
+    "Seasonal Use - Winter": "Summit Tractors Optional 8\" Backhoe Bucket stays useful in cold weather—storage, upkeep, or snow-related tasks where applicable.",
+    "Key Features": "Summit Tractors Optional 8\" Backhoe Bucket is durable; Easy to use; Reliable performance",
     "Category": "Additional Backhoe Buckets"
   },
   {
-    "Model": "BBX60",
-    "Product Name": "Summit Tractors 60\" Box Blade",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20BPX60%20BOX%20BLADE.jpg",
-    "Video URL": "",
+    "Model": "SSX500",
+    "Product Name": "Summit Tractors SSX500 Seeder/Spreader",
+    "Description": "The Summit Tractors SSX500 Seeder/Spreader distributes seed, fertilizer, or lime evenly to promote uniform growth.",
+    "Common Uses": "Spread seed, fertilizer, and lime evenly over lawns and fields.",
+    "Image URL": "https://summittractors.com/summitpics/SEEDER-SPREADER.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+SSX500+Seeder%2FSpreader+compact+tractor+implement+attachment+demonstration",
     "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Grading"
+    "Seasonal Use - Spring": "Apply seed and fertilizer precisely with Summit Tractors SSX500 Seeder/Spreader to jump-start growth.",
+    "Seasonal Use - Summer": "Summit Tractors SSX500 Seeder/Spreader shines in routine maintenance and productivity—keep projects moving and properties looking great.",
+    "Seasonal Use - Fall": "Overseed lawns or apply lime/fertilizer with Summit Tractors SSX500 Seeder/Spreader for strong spring emergence.",
+    "Seasonal Use - Winter": "Summit Tractors SSX500 Seeder/Spreader stays useful in cold weather—storage, upkeep, or snow-related tasks where applicable.",
+    "Key Features": "Summit Tractors SSX500 Seeder/Spreader is durable; Easy to use; Reliable performance",
+    "Category": "Seeding & Spreading"
   },
   {
-    "Model": "AFDHX60",
-    "Product Name": "Summit Tractors 60\" Angle Frame Disc Harrow",
-    "Description": "",
-    "Common Uses": "",
-    "Image URL": "https://summittractors.com/summitpics/SUMMIT%20AFDHX60%20ANGLE%20FRAME%20DISC%20HARROW.jpg",
-    "Video URL": "",
+    "Model": "TMX1",
+    "Product Name": "Summit Tractors TMX1 Trailer Mover",
+    "Description": "The Summit Tractors TMX1 Trailer Mover attachment makes maneuvering trailers and implements quick and precise.",
+    "Common Uses": "Spot and maneuver trailers precisely around the property.",
+    "Image URL": "https://summittractors.com/summitpics/TRAILER-MOVER.png",
+    "Video URL": "https://www.youtube.com/results?search_query=Summit+Tractors+TMX1+Trailer+Mover+compact+tractor+implement+attachment+demonstration",
     "Brochure URL": "",
-    "Seasonal Use - Spring": "",
-    "Seasonal Use - Summer": "",
-    "Seasonal Use - Fall": "",
-    "Seasonal Use - Winter": "",
-    "Key Features": "",
-    "Category": "Tilling & Soil Preparation"
+    "Seasonal Use - Spring": "Move planters, fencing, tools, and materials with Summit Tractors TMX1 Trailer Mover to launch projects.",
+    "Seasonal Use - Summer": "Summit Tractors TMX1 Trailer Mover hauls supplies and equipment where you need them—fast.",
+    "Seasonal Use - Fall": "Use Summit Tractors TMX1 Trailer Mover for firewood and harvest-season handling.",
+    "Seasonal Use - Winter": "Relocate bundled goods and keep supplies organized with Summit Tractors TMX1 Trailer Mover.",
+    "Key Features": "Summit Tractors TMX1 Trailer Mover is durable; Easy to use; Reliable performance",
+    "Category": "Pull a Trailer"
   }
 ];
 window.RAW_DATA = RAW_DATA; // expose for PDF builder
-    const CAT_LIST = ["Additional Backhoe Buckets", "Backhoe Street Pads", "Brush Cutting", "Carry-All", "Carry-Boom Pole", "Grading", "Grading - Box Blade & Land Plane in One", "Landscaping", "Material Handling - Grapple", "Material Handling - Pallet Forks", "Mowing", "Pull a Trailer", "Quick Hitch", "Seedbed Preparation", "Seeding & Spreading", "Snow Removal", "Tilling & Soil Preparation"];
+
+
+
+
+
+
+
+
+    
+    const CAT_LIST = ["Additional Backhoe Buckets", "Backhoe Street Pads", "Brush Cutting", "Carry-All", "Carry-Boom Pole", "Grading", "Grading - Box Blade & Land Plane in One", "Landscaping", "Material Handling - Grapple", "Material Handling - Pallet Forks", "Mowing", "Pull a Trailer", "Quick Hitch", "Seedbed Preparation", "Seeding & Spreading", "Snow Removal", "Tilling & Soil Preparation", "Tractor"];
     const PLACEHOLDER = "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%0A%20%20%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23e6f0f1%22/%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23cbdadd%22/%3E%0A%20%20%3C/linearGradient%3E%3C/defs%3E%0A%20%20%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%3Cg%20fill%3D%22%23254A4F%22%3E%0A%20%20%20%20%3Crect%20x%3D%22360%22%20y%3D%22160%22%20width%3D%2280%22%20height%3D%2280%22%20rx%3D%2212%22%20opacity%3D%220.2%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22400%22%20cy%3D%22190%22%20r%3D%2224%22%20opacity%3D%220.25%22/%3E%0A%20%20%20%20%3Crect%20x%3D%22300%22%20y%3D%22260%22%20width%3D%22200%22%20height%3D%2212%22%20rx%3D%226%22%20opacity%3D%220.35%22/%3E%0A%20%20%3C/g%3E%0A%20%20%3Ctext%20x%3D%2250%25%22%20y%3D%2288%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%23254A4F%22%20font-family%3D%22Inter%2C%20Arial%22%20font-size%3D%2222%22%3ENo%20Image%3C/text%3E%0A%3C/svg%3E";
 
     function norm(s) { return (s || '').toString().trim(); }
@@ -2466,7 +2715,47 @@ document.body.addEventListener("click", (ev) => {
     var doc = [
       '<!doctype html><html><head><meta charset="utf-8" />',
       '<title>Summit_Selections_'+ now.getFullYear()+'-'+ String(now.getMonth()+1).padStart(2,'0') +'-'+ String(now.getDate()).padStart(2,'0') +'</title>',
-      '<style>'+ css +'</style></head><body>',
+      '<style>'+ css +'</style>
+<!-- Injected responsive typography -->
+<style id="responsive-typography">
+
+/* ===== Responsive Typography (Injected) =====
+   Scales smoothly across mobile, tablet, desktop.
+   - Body text: clamp 15px–18px, line-height 1.5
+   - Headings scale with viewport using clamp()
+   - Brand color applied to headings/links for consistency
+*/
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  font-size: clamp(15px, 1.1vw, 18px);
+  line-height: 1.5;
+  color: #0F1A1B;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #254A4F;
+  line-height: 1.2;
+  margin: 0 0 .5rem 0;
+}
+h1 { font-size: clamp(28px, 4vw, 42px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: clamp(18px, 2.5vw, 26px); }
+h4 { font-size: clamp(16px, 2vw, 22px); }
+h5 { font-size: clamp(15px, 1.8vw, 20px); }
+h6 { font-size: clamp(14px, 1.6vw, 18px); }
+p, li {
+  letter-spacing: 0.01em;
+}
+a { color: #254A4F; text-underline-offset: 2px; }
+a:hover { color: #1E3E42; }
+
+/* Ensure adequate contrast in muted text */
+.muted, .subtle, .hint { color: #475a5c; }
+
+/* Optional helper: apply to long-form text blocks when needed
+.readable { max-width: 70ch; } */
+
+</style>
+</head><body>',
       '<div class="doc">',
         '<div class="hdr">',
           '<div class="brand"><img src="data:image/jpeg;base64,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" alt="Summit Tractors" /></div>',
@@ -2638,7 +2927,47 @@ document.body.addEventListener("click", (ev) => {
     var doc = [
       '<!doctype html><html><head><meta charset="utf-8" />',
       '<title>Summit_Selections_'+ now.getFullYear()+'-'+ String(now.getMonth()+1).padStart(2,'0') +'-'+ String(now.getDate()).padStart(2,'0') +'</title>',
-      '<style>'+ css +'</style></head><body>',
+      '<style>'+ css +'</style>
+<!-- Injected responsive typography -->
+<style id="responsive-typography">
+
+/* ===== Responsive Typography (Injected) =====
+   Scales smoothly across mobile, tablet, desktop.
+   - Body text: clamp 15px–18px, line-height 1.5
+   - Headings scale with viewport using clamp()
+   - Brand color applied to headings/links for consistency
+*/
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  font-size: clamp(15px, 1.1vw, 18px);
+  line-height: 1.5;
+  color: #0F1A1B;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #254A4F;
+  line-height: 1.2;
+  margin: 0 0 .5rem 0;
+}
+h1 { font-size: clamp(28px, 4vw, 42px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: clamp(18px, 2.5vw, 26px); }
+h4 { font-size: clamp(16px, 2vw, 22px); }
+h5 { font-size: clamp(15px, 1.8vw, 20px); }
+h6 { font-size: clamp(14px, 1.6vw, 18px); }
+p, li {
+  letter-spacing: 0.01em;
+}
+a { color: #254A4F; text-underline-offset: 2px; }
+a:hover { color: #1E3E42; }
+
+/* Ensure adequate contrast in muted text */
+.muted, .subtle, .hint { color: #475a5c; }
+
+/* Optional helper: apply to long-form text blocks when needed
+.readable { max-width: 70ch; } */
+
+</style>
+</head><body>',
       '<div class="doc">',
         '<div class="hdr">',
           '<div class="brand"><img src="data:image/jpeg;base64,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" alt="Summit Tractors" /></div>',
