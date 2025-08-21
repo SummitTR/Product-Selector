@@ -2784,7 +2784,228 @@ a:hover { color: #1E3E42; }
           '<div class="qr"><img alt="Contact Summit QR" src="https://chart.googleapis.com/chart?chs=120x120&cht=qr&chl='+ encodeURIComponent('https://summittractors.com/contact-summit.php') +'" /></div>',
         '</div>',
       '</div>',
-      '</body></html>'
+      '
+<!-- Injected: Mobile Step Navigation -->
+<style id="mobile-stepnav-css">
+/* ===== Mobile Step Navigation (inject) ===== */
+@media (max-width: 640px){
+  /* Hide existing stepper/pills to free space */
+  .stepper, .steps, .steps-container { display: none !important; }
+
+  /* Bottom nav container */
+  .mobile-stepbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 100;
+    background: #fff; border-top: 1px solid #e6efef;
+    box-shadow: 0 -10px 24px rgba(0,0,0,.08);
+  }
+  .mobile-stepbar__inner {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    gap: .5rem; padding: .5rem .75rem .25rem;
+  }
+  .mobile-stepbar__btn {
+    appearance: none; border: 1px solid #254a4f; background: #254a4f; color: #fff;
+    padding: .55rem .75rem; border-radius: 12px; font-weight: 600;
+  }
+  .mobile-stepbar__btn--ghost {
+    background: #fff; color: #1e3e42; border-color: #cfe1e3;
+  }
+  .mobile-stepbar__meta {
+    text-align: center; font-size: 14px; color: #254a4f; font-weight: 700;
+  }
+  .mobile-stepbar__progress {
+    height: 4px; width: 100%; background: #f2f9f9; border-top: 1px solid #e6efef;
+    position: relative; overflow: hidden;
+  }
+  .mobile-stepbar__progress > i {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 25%;
+    background: #3e7a81; transition: width .25s ease;
+  }
+
+  /* Steps drawer (bottom sheet) */
+  .steps-drawer__scrim { position: fixed; inset: 0; background: rgba(0,0,0,.25); backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity .2s ease; z-index: 110; }
+  .steps-drawer { position: fixed; left: 0; right: 0; bottom: -70vh; height: 60vh; border-radius: 16px 16px 0 0; background: #fff; box-shadow: 0 -20px 40px rgba(0,0,0,.24); transition: bottom .28s ease; z-index: 111; display: grid; grid-template-rows: auto 1fr; }
+  .steps-drawer__handle { width: 44px; height: 4px; background: #e0ecee; border-radius: 999px; margin: 8px auto; }
+  .steps-drawer__title { text-align: center; font-weight: 700; color: #254a4f; padding: .25rem 0 .5rem; }
+  .steps-drawer__list { overflow: auto; padding: .5rem .75rem 1rem; display: grid; gap: .5rem; }
+  .steps-drawer__item { display: flex; align-items: center; gap: .5rem; padding: .6rem .75rem; border: 1px solid #e6efef; border-radius: 12px; }
+  .steps-drawer__item.is-current { border-color: #254a4f; background: #f2f9f9; }
+  .steps-drawer__item strong { color: #254a4f; }
+
+  .steps-chip {
+    position: fixed; right: .75rem; bottom: 64px; z-index: 101;
+    background: #f2f9f9; color: #1e3e42; border: 1px solid #cfe1e3; border-radius: 999px;
+    padding: .4rem .7rem; font-weight: 700;
+  }
+
+  /* Push page content above bar */
+  body { padding-bottom: 76px; }
+  .no-mobile-stepbar { padding-bottom: 0 !important; }
+  .steps-drawer--open .steps-drawer { bottom: 0; }
+  .steps-drawer--open .steps-drawer__scrim { opacity: 1; pointer-events: auto; }
+}
+</style>
+
+<div class="steps-drawer__scrim" data-steps-scrim></div>
+<div class="steps-drawer" data-steps-drawer>
+  <div class="steps-drawer__handle"></div>
+  <div class="steps-drawer__title">Steps</div>
+  <div class="steps-drawer__list" data-steps-list>
+    <!-- Filled by script -->
+  </div>
+</div>
+
+<button class="steps-chip" data-steps-open aria-label="Open steps">Steps</button>
+
+<nav class="mobile-stepbar" data-mobile-stepbar>
+  <div class="mobile-stepbar__inner">
+    <button class="mobile-stepbar__btn mobile-stepbar__btn--ghost" data-step-prev>Back</button>
+    <div class="mobile-stepbar__meta" aria-live="polite"><span data-step-label>Step</span></div>
+    <button class="mobile-stepbar__btn" data-step-next>Next</button>
+  </div>
+  <div class="mobile-stepbar__progress"><i data-step-progress></i></div>
+</nav>
+
+<script id="mobile-stepnav-js">
+(function(){
+  const BRAND = '#254a4f';
+  const drawer = document.querySelector('[data-steps-drawer]');
+  const scrim = document.querySelector('[data-steps-scrim]');
+  const list = document.querySelector('[data-steps-list]');
+  const chip = document.querySelector('[data-steps-open]');
+  const meta = document.querySelector('[data-step-label]');
+  const bar = document.querySelector('[data-mobile-stepbar]');
+  const nextBtn = document.querySelector('[data-step-next]');
+  const prevBtn = document.querySelector('[data-step-prev]');
+  const prog = document.querySelector('[data-step-progress]');
+
+  function getStepsFromDOM(){
+    // Prefer existing step pills if present in desktop DOM
+    const pills = Array.from(document.querySelectorAll('.stepper .step, .steps .step, .steps button, .steps .pill')).map((el,i)=>{
+      const label = (el.getAttribute('data-label') || el.textContent || '').trim() || ('Step ' + (i+1));
+      const current = el.classList.contains('is-current') || el.getAttribute('aria-current') === 'step';
+      const complete = el.classList.contains('is-complete') || el.classList.contains('complete');
+      return { label, node: el, current, complete };
+    }).filter(s => s.label);
+
+    if (pills.length){
+      return pills;
+    }
+    // Fallback: infer from body data attributes or app sections
+    const sections = Array.from(document.querySelectorAll('[data-step]'));
+    if (sections.length){
+      return sections.map((el,i)=>({ label: el.getAttribute('data-step') || ('Step ' + (i+1)), node: el, current: el.classList.contains('is-current'), complete: el.classList.contains('is-complete') }));
+    }
+    // Absolute fallback
+    return [
+      {label:'Tractor', current:true},
+      {label:'Tasks'},
+      {label:'Recommendations'},
+      {label:'Review'}
+    ];
+  }
+
+  let steps = getStepsFromDOM();
+  let idx = Math.max(0, steps.findIndex(s => s.current));
+  if (idx === -1) idx = 0;
+
+  function renderDrawer(){
+    if (!list) return;
+    list.innerHTML = '';
+    steps.forEach((s,i)=>{
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'steps-drawer__item' + (i===idx ? ' is-current' : '');
+      item.innerHTML = '<strong>'+(i+1)+'.</strong> <span>'+s.label+'</span>';
+      item.addEventListener('click', ()=>{
+        goTo(i);
+        closeDrawer();
+      });
+      list.appendChild(item);
+    });
+  }
+
+  function updateBar(){
+    if (!meta || !prog) return;
+    const total = steps.length || 1;
+    const label = steps[idx] ? steps[idx].label : ('Step ' + (idx+1));
+    meta.textContent = 'Step ' + (idx+1) + ' of ' + total + ': ' + label;
+    const pct = Math.max(0, Math.min(100, ((idx) / (total-1 || 1)) * 100));
+    prog.style.width = pct + '%';
+  }
+
+  function openDrawer(){ document.documentElement.classList.add('steps-drawer--open'); }
+  function closeDrawer(){ document.documentElement.classList.remove('steps-drawer--open'); }
+
+  chip && chip.addEventListener('click', openDrawer);
+  scrim && scrim.addEventListener('click', closeDrawer);
+
+  function tryInvoke(fnName){
+    try{
+      if (typeof window[fnName] === 'function'){ window[fnName](); return true; }
+    }catch(e){}
+    return false;
+  }
+
+  function clickByText(texts){
+    const btns = Array.from(document.querySelectorAll('button, a[role="button"]'));
+    const tnorm = s => s.toLowerCase();
+    for (const b of btns){
+      const t = tnorm((b.textContent||'').trim());
+      for (const needle of texts){
+        if (t.includes(tnorm(needle))){ b.click(); return true; }
+      }
+    }
+    return false;
+  }
+
+  function goNext(){
+    if (tryInvoke('nextStep')) return;
+    if (clickByText(['next','continue','see recommendations','review','finish'])) return;
+    // If your app uses data attributes:
+    const el = document.querySelector('[data-action="next"], .next-step, [data-next]');
+    if (el){ el.click(); return; }
+    // Local index advance as last resort:
+    idx = Math.min((steps.length-1), idx+1);
+    updateBar(); renderDrawer();
+  }
+
+  function goPrev(){
+    if (tryInvoke('prevStep')) return;
+    if (clickByText(['back','previous','prev'])) return;
+    const el = document.querySelector('[data-action="prev"], .prev-step, [data-prev]');
+    if (el){ el.click(); return; }
+    idx = Math.max(0, idx-1);
+    updateBar(); renderDrawer();
+  }
+
+  function goTo(i){
+    // If your app exposes goToStep(n), call it; else click the matching desktop pill if available
+    if (typeof window.goToStep === 'function'){ window.goToStep(i); }
+    else {
+      const pill = steps[i] && steps[i].node;
+      pill && pill.click && pill.click();
+      idx = i;
+      updateBar(); renderDrawer();
+    }
+  }
+
+  nextBtn && nextBtn.addEventListener('click', goNext);
+  prevBtn && prevBtn.addEventListener('click', goPrev);
+
+  // Observe desktop step changes and sync index
+  const obs = new MutationObserver(()=>{
+    const latest = getStepsFromDOM();
+    const cur = Math.max(0, latest.findIndex(s => s.current));
+    if (cur !== -1 && cur !== idx){ idx = cur; steps = latest; updateBar(); renderDrawer(); }
+  });
+  obs.observe(document.documentElement, {subtree:true, childList:true, attributes:true});
+
+  // Initial paint
+  renderDrawer(); updateBar();
+})();
+</script>
+
+</body></html>'
     ].join('');
 
     return doc;
@@ -2815,6 +3036,227 @@ a:hover { color: #1E3E42; }
   });
 })();
 </script>
+
+<!-- Injected: Mobile Step Navigation -->
+<style id="mobile-stepnav-css">
+/* ===== Mobile Step Navigation (inject) ===== */
+@media (max-width: 640px){
+  /* Hide existing stepper/pills to free space */
+  .stepper, .steps, .steps-container { display: none !important; }
+
+  /* Bottom nav container */
+  .mobile-stepbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 100;
+    background: #fff; border-top: 1px solid #e6efef;
+    box-shadow: 0 -10px 24px rgba(0,0,0,.08);
+  }
+  .mobile-stepbar__inner {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    gap: .5rem; padding: .5rem .75rem .25rem;
+  }
+  .mobile-stepbar__btn {
+    appearance: none; border: 1px solid #254a4f; background: #254a4f; color: #fff;
+    padding: .55rem .75rem; border-radius: 12px; font-weight: 600;
+  }
+  .mobile-stepbar__btn--ghost {
+    background: #fff; color: #1e3e42; border-color: #cfe1e3;
+  }
+  .mobile-stepbar__meta {
+    text-align: center; font-size: 14px; color: #254a4f; font-weight: 700;
+  }
+  .mobile-stepbar__progress {
+    height: 4px; width: 100%; background: #f2f9f9; border-top: 1px solid #e6efef;
+    position: relative; overflow: hidden;
+  }
+  .mobile-stepbar__progress > i {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 25%;
+    background: #3e7a81; transition: width .25s ease;
+  }
+
+  /* Steps drawer (bottom sheet) */
+  .steps-drawer__scrim { position: fixed; inset: 0; background: rgba(0,0,0,.25); backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity .2s ease; z-index: 110; }
+  .steps-drawer { position: fixed; left: 0; right: 0; bottom: -70vh; height: 60vh; border-radius: 16px 16px 0 0; background: #fff; box-shadow: 0 -20px 40px rgba(0,0,0,.24); transition: bottom .28s ease; z-index: 111; display: grid; grid-template-rows: auto 1fr; }
+  .steps-drawer__handle { width: 44px; height: 4px; background: #e0ecee; border-radius: 999px; margin: 8px auto; }
+  .steps-drawer__title { text-align: center; font-weight: 700; color: #254a4f; padding: .25rem 0 .5rem; }
+  .steps-drawer__list { overflow: auto; padding: .5rem .75rem 1rem; display: grid; gap: .5rem; }
+  .steps-drawer__item { display: flex; align-items: center; gap: .5rem; padding: .6rem .75rem; border: 1px solid #e6efef; border-radius: 12px; }
+  .steps-drawer__item.is-current { border-color: #254a4f; background: #f2f9f9; }
+  .steps-drawer__item strong { color: #254a4f; }
+
+  .steps-chip {
+    position: fixed; right: .75rem; bottom: 64px; z-index: 101;
+    background: #f2f9f9; color: #1e3e42; border: 1px solid #cfe1e3; border-radius: 999px;
+    padding: .4rem .7rem; font-weight: 700;
+  }
+
+  /* Push page content above bar */
+  body { padding-bottom: 76px; }
+  .no-mobile-stepbar { padding-bottom: 0 !important; }
+  .steps-drawer--open .steps-drawer { bottom: 0; }
+  .steps-drawer--open .steps-drawer__scrim { opacity: 1; pointer-events: auto; }
+}
+</style>
+
+<div class="steps-drawer__scrim" data-steps-scrim></div>
+<div class="steps-drawer" data-steps-drawer>
+  <div class="steps-drawer__handle"></div>
+  <div class="steps-drawer__title">Steps</div>
+  <div class="steps-drawer__list" data-steps-list>
+    <!-- Filled by script -->
+  </div>
+</div>
+
+<button class="steps-chip" data-steps-open aria-label="Open steps">Steps</button>
+
+<nav class="mobile-stepbar" data-mobile-stepbar>
+  <div class="mobile-stepbar__inner">
+    <button class="mobile-stepbar__btn mobile-stepbar__btn--ghost" data-step-prev>Back</button>
+    <div class="mobile-stepbar__meta" aria-live="polite"><span data-step-label>Step</span></div>
+    <button class="mobile-stepbar__btn" data-step-next>Next</button>
+  </div>
+  <div class="mobile-stepbar__progress"><i data-step-progress></i></div>
+</nav>
+
+<script id="mobile-stepnav-js">
+(function(){
+  const BRAND = '#254a4f';
+  const drawer = document.querySelector('[data-steps-drawer]');
+  const scrim = document.querySelector('[data-steps-scrim]');
+  const list = document.querySelector('[data-steps-list]');
+  const chip = document.querySelector('[data-steps-open]');
+  const meta = document.querySelector('[data-step-label]');
+  const bar = document.querySelector('[data-mobile-stepbar]');
+  const nextBtn = document.querySelector('[data-step-next]');
+  const prevBtn = document.querySelector('[data-step-prev]');
+  const prog = document.querySelector('[data-step-progress]');
+
+  function getStepsFromDOM(){
+    // Prefer existing step pills if present in desktop DOM
+    const pills = Array.from(document.querySelectorAll('.stepper .step, .steps .step, .steps button, .steps .pill')).map((el,i)=>{
+      const label = (el.getAttribute('data-label') || el.textContent || '').trim() || ('Step ' + (i+1));
+      const current = el.classList.contains('is-current') || el.getAttribute('aria-current') === 'step';
+      const complete = el.classList.contains('is-complete') || el.classList.contains('complete');
+      return { label, node: el, current, complete };
+    }).filter(s => s.label);
+
+    if (pills.length){
+      return pills;
+    }
+    // Fallback: infer from body data attributes or app sections
+    const sections = Array.from(document.querySelectorAll('[data-step]'));
+    if (sections.length){
+      return sections.map((el,i)=>({ label: el.getAttribute('data-step') || ('Step ' + (i+1)), node: el, current: el.classList.contains('is-current'), complete: el.classList.contains('is-complete') }));
+    }
+    // Absolute fallback
+    return [
+      {label:'Tractor', current:true},
+      {label:'Tasks'},
+      {label:'Recommendations'},
+      {label:'Review'}
+    ];
+  }
+
+  let steps = getStepsFromDOM();
+  let idx = Math.max(0, steps.findIndex(s => s.current));
+  if (idx === -1) idx = 0;
+
+  function renderDrawer(){
+    if (!list) return;
+    list.innerHTML = '';
+    steps.forEach((s,i)=>{
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'steps-drawer__item' + (i===idx ? ' is-current' : '');
+      item.innerHTML = '<strong>'+(i+1)+'.</strong> <span>'+s.label+'</span>';
+      item.addEventListener('click', ()=>{
+        goTo(i);
+        closeDrawer();
+      });
+      list.appendChild(item);
+    });
+  }
+
+  function updateBar(){
+    if (!meta || !prog) return;
+    const total = steps.length || 1;
+    const label = steps[idx] ? steps[idx].label : ('Step ' + (idx+1));
+    meta.textContent = 'Step ' + (idx+1) + ' of ' + total + ': ' + label;
+    const pct = Math.max(0, Math.min(100, ((idx) / (total-1 || 1)) * 100));
+    prog.style.width = pct + '%';
+  }
+
+  function openDrawer(){ document.documentElement.classList.add('steps-drawer--open'); }
+  function closeDrawer(){ document.documentElement.classList.remove('steps-drawer--open'); }
+
+  chip && chip.addEventListener('click', openDrawer);
+  scrim && scrim.addEventListener('click', closeDrawer);
+
+  function tryInvoke(fnName){
+    try{
+      if (typeof window[fnName] === 'function'){ window[fnName](); return true; }
+    }catch(e){}
+    return false;
+  }
+
+  function clickByText(texts){
+    const btns = Array.from(document.querySelectorAll('button, a[role="button"]'));
+    const tnorm = s => s.toLowerCase();
+    for (const b of btns){
+      const t = tnorm((b.textContent||'').trim());
+      for (const needle of texts){
+        if (t.includes(tnorm(needle))){ b.click(); return true; }
+      }
+    }
+    return false;
+  }
+
+  function goNext(){
+    if (tryInvoke('nextStep')) return;
+    if (clickByText(['next','continue','see recommendations','review','finish'])) return;
+    // If your app uses data attributes:
+    const el = document.querySelector('[data-action="next"], .next-step, [data-next]');
+    if (el){ el.click(); return; }
+    // Local index advance as last resort:
+    idx = Math.min((steps.length-1), idx+1);
+    updateBar(); renderDrawer();
+  }
+
+  function goPrev(){
+    if (tryInvoke('prevStep')) return;
+    if (clickByText(['back','previous','prev'])) return;
+    const el = document.querySelector('[data-action="prev"], .prev-step, [data-prev]');
+    if (el){ el.click(); return; }
+    idx = Math.max(0, idx-1);
+    updateBar(); renderDrawer();
+  }
+
+  function goTo(i){
+    // If your app exposes goToStep(n), call it; else click the matching desktop pill if available
+    if (typeof window.goToStep === 'function'){ window.goToStep(i); }
+    else {
+      const pill = steps[i] && steps[i].node;
+      pill && pill.click && pill.click();
+      idx = i;
+      updateBar(); renderDrawer();
+    }
+  }
+
+  nextBtn && nextBtn.addEventListener('click', goNext);
+  prevBtn && prevBtn.addEventListener('click', goPrev);
+
+  // Observe desktop step changes and sync index
+  const obs = new MutationObserver(()=>{
+    const latest = getStepsFromDOM();
+    const cur = Math.max(0, latest.findIndex(s => s.current));
+    if (cur !== -1 && cur !== idx){ idx = cur; steps = latest; updateBar(); renderDrawer(); }
+  });
+  obs.observe(document.documentElement, {subtree:true, childList:true, attributes:true});
+
+  // Initial paint
+  renderDrawer(); updateBar();
+})();
+</script>
+
 </body></html>'
       ].join('');
 
@@ -2996,7 +3438,228 @@ a:hover { color: #1E3E42; }
           '<div class="qr"><img alt="Contact Summit QR" src="https://chart.googleapis.com/chart?chs=120x120&cht=qr&chl='+ encodeURIComponent('https://summittractors.com/contact-summit.php') +'" /></div>',
         '</div>',
       '</div>',
-      '</body></html>'
+      '
+<!-- Injected: Mobile Step Navigation -->
+<style id="mobile-stepnav-css">
+/* ===== Mobile Step Navigation (inject) ===== */
+@media (max-width: 640px){
+  /* Hide existing stepper/pills to free space */
+  .stepper, .steps, .steps-container { display: none !important; }
+
+  /* Bottom nav container */
+  .mobile-stepbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 100;
+    background: #fff; border-top: 1px solid #e6efef;
+    box-shadow: 0 -10px 24px rgba(0,0,0,.08);
+  }
+  .mobile-stepbar__inner {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    gap: .5rem; padding: .5rem .75rem .25rem;
+  }
+  .mobile-stepbar__btn {
+    appearance: none; border: 1px solid #254a4f; background: #254a4f; color: #fff;
+    padding: .55rem .75rem; border-radius: 12px; font-weight: 600;
+  }
+  .mobile-stepbar__btn--ghost {
+    background: #fff; color: #1e3e42; border-color: #cfe1e3;
+  }
+  .mobile-stepbar__meta {
+    text-align: center; font-size: 14px; color: #254a4f; font-weight: 700;
+  }
+  .mobile-stepbar__progress {
+    height: 4px; width: 100%; background: #f2f9f9; border-top: 1px solid #e6efef;
+    position: relative; overflow: hidden;
+  }
+  .mobile-stepbar__progress > i {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 25%;
+    background: #3e7a81; transition: width .25s ease;
+  }
+
+  /* Steps drawer (bottom sheet) */
+  .steps-drawer__scrim { position: fixed; inset: 0; background: rgba(0,0,0,.25); backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity .2s ease; z-index: 110; }
+  .steps-drawer { position: fixed; left: 0; right: 0; bottom: -70vh; height: 60vh; border-radius: 16px 16px 0 0; background: #fff; box-shadow: 0 -20px 40px rgba(0,0,0,.24); transition: bottom .28s ease; z-index: 111; display: grid; grid-template-rows: auto 1fr; }
+  .steps-drawer__handle { width: 44px; height: 4px; background: #e0ecee; border-radius: 999px; margin: 8px auto; }
+  .steps-drawer__title { text-align: center; font-weight: 700; color: #254a4f; padding: .25rem 0 .5rem; }
+  .steps-drawer__list { overflow: auto; padding: .5rem .75rem 1rem; display: grid; gap: .5rem; }
+  .steps-drawer__item { display: flex; align-items: center; gap: .5rem; padding: .6rem .75rem; border: 1px solid #e6efef; border-radius: 12px; }
+  .steps-drawer__item.is-current { border-color: #254a4f; background: #f2f9f9; }
+  .steps-drawer__item strong { color: #254a4f; }
+
+  .steps-chip {
+    position: fixed; right: .75rem; bottom: 64px; z-index: 101;
+    background: #f2f9f9; color: #1e3e42; border: 1px solid #cfe1e3; border-radius: 999px;
+    padding: .4rem .7rem; font-weight: 700;
+  }
+
+  /* Push page content above bar */
+  body { padding-bottom: 76px; }
+  .no-mobile-stepbar { padding-bottom: 0 !important; }
+  .steps-drawer--open .steps-drawer { bottom: 0; }
+  .steps-drawer--open .steps-drawer__scrim { opacity: 1; pointer-events: auto; }
+}
+</style>
+
+<div class="steps-drawer__scrim" data-steps-scrim></div>
+<div class="steps-drawer" data-steps-drawer>
+  <div class="steps-drawer__handle"></div>
+  <div class="steps-drawer__title">Steps</div>
+  <div class="steps-drawer__list" data-steps-list>
+    <!-- Filled by script -->
+  </div>
+</div>
+
+<button class="steps-chip" data-steps-open aria-label="Open steps">Steps</button>
+
+<nav class="mobile-stepbar" data-mobile-stepbar>
+  <div class="mobile-stepbar__inner">
+    <button class="mobile-stepbar__btn mobile-stepbar__btn--ghost" data-step-prev>Back</button>
+    <div class="mobile-stepbar__meta" aria-live="polite"><span data-step-label>Step</span></div>
+    <button class="mobile-stepbar__btn" data-step-next>Next</button>
+  </div>
+  <div class="mobile-stepbar__progress"><i data-step-progress></i></div>
+</nav>
+
+<script id="mobile-stepnav-js">
+(function(){
+  const BRAND = '#254a4f';
+  const drawer = document.querySelector('[data-steps-drawer]');
+  const scrim = document.querySelector('[data-steps-scrim]');
+  const list = document.querySelector('[data-steps-list]');
+  const chip = document.querySelector('[data-steps-open]');
+  const meta = document.querySelector('[data-step-label]');
+  const bar = document.querySelector('[data-mobile-stepbar]');
+  const nextBtn = document.querySelector('[data-step-next]');
+  const prevBtn = document.querySelector('[data-step-prev]');
+  const prog = document.querySelector('[data-step-progress]');
+
+  function getStepsFromDOM(){
+    // Prefer existing step pills if present in desktop DOM
+    const pills = Array.from(document.querySelectorAll('.stepper .step, .steps .step, .steps button, .steps .pill')).map((el,i)=>{
+      const label = (el.getAttribute('data-label') || el.textContent || '').trim() || ('Step ' + (i+1));
+      const current = el.classList.contains('is-current') || el.getAttribute('aria-current') === 'step';
+      const complete = el.classList.contains('is-complete') || el.classList.contains('complete');
+      return { label, node: el, current, complete };
+    }).filter(s => s.label);
+
+    if (pills.length){
+      return pills;
+    }
+    // Fallback: infer from body data attributes or app sections
+    const sections = Array.from(document.querySelectorAll('[data-step]'));
+    if (sections.length){
+      return sections.map((el,i)=>({ label: el.getAttribute('data-step') || ('Step ' + (i+1)), node: el, current: el.classList.contains('is-current'), complete: el.classList.contains('is-complete') }));
+    }
+    // Absolute fallback
+    return [
+      {label:'Tractor', current:true},
+      {label:'Tasks'},
+      {label:'Recommendations'},
+      {label:'Review'}
+    ];
+  }
+
+  let steps = getStepsFromDOM();
+  let idx = Math.max(0, steps.findIndex(s => s.current));
+  if (idx === -1) idx = 0;
+
+  function renderDrawer(){
+    if (!list) return;
+    list.innerHTML = '';
+    steps.forEach((s,i)=>{
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'steps-drawer__item' + (i===idx ? ' is-current' : '');
+      item.innerHTML = '<strong>'+(i+1)+'.</strong> <span>'+s.label+'</span>';
+      item.addEventListener('click', ()=>{
+        goTo(i);
+        closeDrawer();
+      });
+      list.appendChild(item);
+    });
+  }
+
+  function updateBar(){
+    if (!meta || !prog) return;
+    const total = steps.length || 1;
+    const label = steps[idx] ? steps[idx].label : ('Step ' + (idx+1));
+    meta.textContent = 'Step ' + (idx+1) + ' of ' + total + ': ' + label;
+    const pct = Math.max(0, Math.min(100, ((idx) / (total-1 || 1)) * 100));
+    prog.style.width = pct + '%';
+  }
+
+  function openDrawer(){ document.documentElement.classList.add('steps-drawer--open'); }
+  function closeDrawer(){ document.documentElement.classList.remove('steps-drawer--open'); }
+
+  chip && chip.addEventListener('click', openDrawer);
+  scrim && scrim.addEventListener('click', closeDrawer);
+
+  function tryInvoke(fnName){
+    try{
+      if (typeof window[fnName] === 'function'){ window[fnName](); return true; }
+    }catch(e){}
+    return false;
+  }
+
+  function clickByText(texts){
+    const btns = Array.from(document.querySelectorAll('button, a[role="button"]'));
+    const tnorm = s => s.toLowerCase();
+    for (const b of btns){
+      const t = tnorm((b.textContent||'').trim());
+      for (const needle of texts){
+        if (t.includes(tnorm(needle))){ b.click(); return true; }
+      }
+    }
+    return false;
+  }
+
+  function goNext(){
+    if (tryInvoke('nextStep')) return;
+    if (clickByText(['next','continue','see recommendations','review','finish'])) return;
+    // If your app uses data attributes:
+    const el = document.querySelector('[data-action="next"], .next-step, [data-next]');
+    if (el){ el.click(); return; }
+    // Local index advance as last resort:
+    idx = Math.min((steps.length-1), idx+1);
+    updateBar(); renderDrawer();
+  }
+
+  function goPrev(){
+    if (tryInvoke('prevStep')) return;
+    if (clickByText(['back','previous','prev'])) return;
+    const el = document.querySelector('[data-action="prev"], .prev-step, [data-prev]');
+    if (el){ el.click(); return; }
+    idx = Math.max(0, idx-1);
+    updateBar(); renderDrawer();
+  }
+
+  function goTo(i){
+    // If your app exposes goToStep(n), call it; else click the matching desktop pill if available
+    if (typeof window.goToStep === 'function'){ window.goToStep(i); }
+    else {
+      const pill = steps[i] && steps[i].node;
+      pill && pill.click && pill.click();
+      idx = i;
+      updateBar(); renderDrawer();
+    }
+  }
+
+  nextBtn && nextBtn.addEventListener('click', goNext);
+  prevBtn && prevBtn.addEventListener('click', goPrev);
+
+  // Observe desktop step changes and sync index
+  const obs = new MutationObserver(()=>{
+    const latest = getStepsFromDOM();
+    const cur = Math.max(0, latest.findIndex(s => s.current));
+    if (cur !== -1 && cur !== idx){ idx = cur; steps = latest; updateBar(); renderDrawer(); }
+  });
+  obs.observe(document.documentElement, {subtree:true, childList:true, attributes:true});
+
+  // Initial paint
+  renderDrawer(); updateBar();
+})();
+</script>
+
+</body></html>'
     ].join('');
 
     return doc;
@@ -3027,5 +3690,226 @@ a:hover { color: #1E3E42; }
   });
 })();
 </script>
+
+<!-- Injected: Mobile Step Navigation -->
+<style id="mobile-stepnav-css">
+/* ===== Mobile Step Navigation (inject) ===== */
+@media (max-width: 640px){
+  /* Hide existing stepper/pills to free space */
+  .stepper, .steps, .steps-container { display: none !important; }
+
+  /* Bottom nav container */
+  .mobile-stepbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 100;
+    background: #fff; border-top: 1px solid #e6efef;
+    box-shadow: 0 -10px 24px rgba(0,0,0,.08);
+  }
+  .mobile-stepbar__inner {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    gap: .5rem; padding: .5rem .75rem .25rem;
+  }
+  .mobile-stepbar__btn {
+    appearance: none; border: 1px solid #254a4f; background: #254a4f; color: #fff;
+    padding: .55rem .75rem; border-radius: 12px; font-weight: 600;
+  }
+  .mobile-stepbar__btn--ghost {
+    background: #fff; color: #1e3e42; border-color: #cfe1e3;
+  }
+  .mobile-stepbar__meta {
+    text-align: center; font-size: 14px; color: #254a4f; font-weight: 700;
+  }
+  .mobile-stepbar__progress {
+    height: 4px; width: 100%; background: #f2f9f9; border-top: 1px solid #e6efef;
+    position: relative; overflow: hidden;
+  }
+  .mobile-stepbar__progress > i {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 25%;
+    background: #3e7a81; transition: width .25s ease;
+  }
+
+  /* Steps drawer (bottom sheet) */
+  .steps-drawer__scrim { position: fixed; inset: 0; background: rgba(0,0,0,.25); backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity .2s ease; z-index: 110; }
+  .steps-drawer { position: fixed; left: 0; right: 0; bottom: -70vh; height: 60vh; border-radius: 16px 16px 0 0; background: #fff; box-shadow: 0 -20px 40px rgba(0,0,0,.24); transition: bottom .28s ease; z-index: 111; display: grid; grid-template-rows: auto 1fr; }
+  .steps-drawer__handle { width: 44px; height: 4px; background: #e0ecee; border-radius: 999px; margin: 8px auto; }
+  .steps-drawer__title { text-align: center; font-weight: 700; color: #254a4f; padding: .25rem 0 .5rem; }
+  .steps-drawer__list { overflow: auto; padding: .5rem .75rem 1rem; display: grid; gap: .5rem; }
+  .steps-drawer__item { display: flex; align-items: center; gap: .5rem; padding: .6rem .75rem; border: 1px solid #e6efef; border-radius: 12px; }
+  .steps-drawer__item.is-current { border-color: #254a4f; background: #f2f9f9; }
+  .steps-drawer__item strong { color: #254a4f; }
+
+  .steps-chip {
+    position: fixed; right: .75rem; bottom: 64px; z-index: 101;
+    background: #f2f9f9; color: #1e3e42; border: 1px solid #cfe1e3; border-radius: 999px;
+    padding: .4rem .7rem; font-weight: 700;
+  }
+
+  /* Push page content above bar */
+  body { padding-bottom: 76px; }
+  .no-mobile-stepbar { padding-bottom: 0 !important; }
+  .steps-drawer--open .steps-drawer { bottom: 0; }
+  .steps-drawer--open .steps-drawer__scrim { opacity: 1; pointer-events: auto; }
+}
+</style>
+
+<div class="steps-drawer__scrim" data-steps-scrim></div>
+<div class="steps-drawer" data-steps-drawer>
+  <div class="steps-drawer__handle"></div>
+  <div class="steps-drawer__title">Steps</div>
+  <div class="steps-drawer__list" data-steps-list>
+    <!-- Filled by script -->
+  </div>
+</div>
+
+<button class="steps-chip" data-steps-open aria-label="Open steps">Steps</button>
+
+<nav class="mobile-stepbar" data-mobile-stepbar>
+  <div class="mobile-stepbar__inner">
+    <button class="mobile-stepbar__btn mobile-stepbar__btn--ghost" data-step-prev>Back</button>
+    <div class="mobile-stepbar__meta" aria-live="polite"><span data-step-label>Step</span></div>
+    <button class="mobile-stepbar__btn" data-step-next>Next</button>
+  </div>
+  <div class="mobile-stepbar__progress"><i data-step-progress></i></div>
+</nav>
+
+<script id="mobile-stepnav-js">
+(function(){
+  const BRAND = '#254a4f';
+  const drawer = document.querySelector('[data-steps-drawer]');
+  const scrim = document.querySelector('[data-steps-scrim]');
+  const list = document.querySelector('[data-steps-list]');
+  const chip = document.querySelector('[data-steps-open]');
+  const meta = document.querySelector('[data-step-label]');
+  const bar = document.querySelector('[data-mobile-stepbar]');
+  const nextBtn = document.querySelector('[data-step-next]');
+  const prevBtn = document.querySelector('[data-step-prev]');
+  const prog = document.querySelector('[data-step-progress]');
+
+  function getStepsFromDOM(){
+    // Prefer existing step pills if present in desktop DOM
+    const pills = Array.from(document.querySelectorAll('.stepper .step, .steps .step, .steps button, .steps .pill')).map((el,i)=>{
+      const label = (el.getAttribute('data-label') || el.textContent || '').trim() || ('Step ' + (i+1));
+      const current = el.classList.contains('is-current') || el.getAttribute('aria-current') === 'step';
+      const complete = el.classList.contains('is-complete') || el.classList.contains('complete');
+      return { label, node: el, current, complete };
+    }).filter(s => s.label);
+
+    if (pills.length){
+      return pills;
+    }
+    // Fallback: infer from body data attributes or app sections
+    const sections = Array.from(document.querySelectorAll('[data-step]'));
+    if (sections.length){
+      return sections.map((el,i)=>({ label: el.getAttribute('data-step') || ('Step ' + (i+1)), node: el, current: el.classList.contains('is-current'), complete: el.classList.contains('is-complete') }));
+    }
+    // Absolute fallback
+    return [
+      {label:'Tractor', current:true},
+      {label:'Tasks'},
+      {label:'Recommendations'},
+      {label:'Review'}
+    ];
+  }
+
+  let steps = getStepsFromDOM();
+  let idx = Math.max(0, steps.findIndex(s => s.current));
+  if (idx === -1) idx = 0;
+
+  function renderDrawer(){
+    if (!list) return;
+    list.innerHTML = '';
+    steps.forEach((s,i)=>{
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'steps-drawer__item' + (i===idx ? ' is-current' : '');
+      item.innerHTML = '<strong>'+(i+1)+'.</strong> <span>'+s.label+'</span>';
+      item.addEventListener('click', ()=>{
+        goTo(i);
+        closeDrawer();
+      });
+      list.appendChild(item);
+    });
+  }
+
+  function updateBar(){
+    if (!meta || !prog) return;
+    const total = steps.length || 1;
+    const label = steps[idx] ? steps[idx].label : ('Step ' + (idx+1));
+    meta.textContent = 'Step ' + (idx+1) + ' of ' + total + ': ' + label;
+    const pct = Math.max(0, Math.min(100, ((idx) / (total-1 || 1)) * 100));
+    prog.style.width = pct + '%';
+  }
+
+  function openDrawer(){ document.documentElement.classList.add('steps-drawer--open'); }
+  function closeDrawer(){ document.documentElement.classList.remove('steps-drawer--open'); }
+
+  chip && chip.addEventListener('click', openDrawer);
+  scrim && scrim.addEventListener('click', closeDrawer);
+
+  function tryInvoke(fnName){
+    try{
+      if (typeof window[fnName] === 'function'){ window[fnName](); return true; }
+    }catch(e){}
+    return false;
+  }
+
+  function clickByText(texts){
+    const btns = Array.from(document.querySelectorAll('button, a[role="button"]'));
+    const tnorm = s => s.toLowerCase();
+    for (const b of btns){
+      const t = tnorm((b.textContent||'').trim());
+      for (const needle of texts){
+        if (t.includes(tnorm(needle))){ b.click(); return true; }
+      }
+    }
+    return false;
+  }
+
+  function goNext(){
+    if (tryInvoke('nextStep')) return;
+    if (clickByText(['next','continue','see recommendations','review','finish'])) return;
+    // If your app uses data attributes:
+    const el = document.querySelector('[data-action="next"], .next-step, [data-next]');
+    if (el){ el.click(); return; }
+    // Local index advance as last resort:
+    idx = Math.min((steps.length-1), idx+1);
+    updateBar(); renderDrawer();
+  }
+
+  function goPrev(){
+    if (tryInvoke('prevStep')) return;
+    if (clickByText(['back','previous','prev'])) return;
+    const el = document.querySelector('[data-action="prev"], .prev-step, [data-prev]');
+    if (el){ el.click(); return; }
+    idx = Math.max(0, idx-1);
+    updateBar(); renderDrawer();
+  }
+
+  function goTo(i){
+    // If your app exposes goToStep(n), call it; else click the matching desktop pill if available
+    if (typeof window.goToStep === 'function'){ window.goToStep(i); }
+    else {
+      const pill = steps[i] && steps[i].node;
+      pill && pill.click && pill.click();
+      idx = i;
+      updateBar(); renderDrawer();
+    }
+  }
+
+  nextBtn && nextBtn.addEventListener('click', goNext);
+  prevBtn && prevBtn.addEventListener('click', goPrev);
+
+  // Observe desktop step changes and sync index
+  const obs = new MutationObserver(()=>{
+    const latest = getStepsFromDOM();
+    const cur = Math.max(0, latest.findIndex(s => s.current));
+    if (cur !== -1 && cur !== idx){ idx = cur; steps = latest; updateBar(); renderDrawer(); }
+  });
+  obs.observe(document.documentElement, {subtree:true, childList:true, attributes:true});
+
+  // Initial paint
+  renderDrawer(); updateBar();
+})();
+</script>
+
 </body>
 </html>
