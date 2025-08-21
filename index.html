@@ -793,6 +793,31 @@ a:hover { color: #1E3E42; }
 .readable { max-width: 70ch; } */
 
 </style>
+
+
+<style id="reset-btn-style">
+
+/* ===== Reset Button Styling (4px border) ===== */
+#resetAll,
+button#resetAll,
+button#resetAll.btn,
+button[aria-label="Reset all selections"] {
+  background-color: #FFFFFF !important;
+  color: #254A4F !important;
+  border: 4px solid #254A4F !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+  padding: .5rem 1rem;
+}
+#resetAll:hover,
+button#resetAll:hover,
+button[aria-label="Reset all selections"]:hover {
+  background-color: #FFFFFF !important;
+  color: #254A4F !important;
+  border-color: #254A4F !important;
+}
+
+</style>
 </head>
 <body>
 <header class="sticky">
@@ -2755,6 +2780,31 @@ a:hover { color: #1E3E42; }
 .readable { max-width: 70ch; } */
 
 </style>
+
+
+<style id="reset-btn-style">
+
+/* ===== Reset Button Styling (4px border) ===== */
+#resetAll,
+button#resetAll,
+button#resetAll.btn,
+button[aria-label="Reset all selections"] {
+  background-color: #FFFFFF !important;
+  color: #254A4F !important;
+  border: 4px solid #254A4F !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+  padding: .5rem 1rem;
+}
+#resetAll:hover,
+button#resetAll:hover,
+button[aria-label="Reset all selections"]:hover {
+  background-color: #FFFFFF !important;
+  color: #254A4F !important;
+  border-color: #254A4F !important;
+}
+
+</style>
 </head><body>',
       '<div class="doc">',
         '<div class="hdr">',
@@ -2865,145 +2915,115 @@ a:hover { color: #1E3E42; }
   <div class="mobile-stepbar__progress"><i data-step-progress></i></div>
 </nav>
 
-<script id="mobile-stepnav-js">
+
+
+<script id="mobile-stepnav-js-fixed">
 (function(){
-  const BRAND = '#254a4f';
   const drawer = document.querySelector('[data-steps-drawer]');
   const scrim = document.querySelector('[data-steps-scrim]');
   const list = document.querySelector('[data-steps-list]');
   const chip = document.querySelector('[data-steps-open]');
   const meta = document.querySelector('[data-step-label]');
-  const bar = document.querySelector('[data-mobile-stepbar]');
   const nextBtn = document.querySelector('[data-step-next]');
   const prevBtn = document.querySelector('[data-step-prev]');
   const prog = document.querySelector('[data-step-progress]');
 
-  function getStepsFromDOM(){
-    // Prefer existing step pills if present in desktop DOM
-    const pills = Array.from(document.querySelectorAll('.stepper .step, .steps .step, .steps button, .steps .pill')).map((el,i)=>{
-      const label = (el.getAttribute('data-label') || el.textContent || '').trim() || ('Step ' + (i+1));
-      const current = el.classList.contains('is-current') || el.getAttribute('aria-current') === 'step';
-      const complete = el.classList.contains('is-complete') || el.classList.contains('complete');
-      return { label, node: el, current, complete };
-    }).filter(s => s.label);
-
-    if (pills.length){
-      return pills;
-    }
-    // Fallback: infer from body data attributes or app sections
-    const sections = Array.from(document.querySelectorAll('[data-step]'));
-    if (sections.length){
-      return sections.map((el,i)=>({ label: el.getAttribute('data-step') || ('Step ' + (i+1)), node: el, current: el.classList.contains('is-current'), complete: el.classList.contains('is-complete') }));
-    }
-    // Absolute fallback
-    return [
-      {label:'Tractor', current:true},
-      {label:'Tasks'},
-      {label:'Recommendations'},
-      {label:'Review'}
+  function getSteps(){
+    const pills = Array.from(document.querySelectorAll('.stepper .step, .steps .step, .steps button, .steps .pill'))
+      .map((el,i)=>({
+        label:(el.getAttribute('data-label')||el.textContent||'').trim()||('Step '+(i+1)),
+        node:el
+      }));
+    console.log('[stepnav] detected steps:', pills.map(p=>p.label));
+    return pills.length ? pills : [
+      {label:'Tractor'},{label:'Tasks'},{label:'Recommendations'},{label:'Review'}
     ];
   }
 
-  let steps = getStepsFromDOM();
-  let idx = Math.max(0, steps.findIndex(s => s.current));
-  if (idx === -1) idx = 0;
+  let steps = getSteps();
+  let idx = 0;
 
   function renderDrawer(){
     if (!list) return;
-    list.innerHTML = '';
+    list.innerHTML='';
     steps.forEach((s,i)=>{
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'steps-drawer__item' + (i===idx ? ' is-current' : '');
-      item.innerHTML = '<strong>'+(i+1)+'.</strong> <span>'+s.label+'</span>';
-      item.addEventListener('click', ()=>{
-        goTo(i);
-        closeDrawer();
-      });
-      list.appendChild(item);
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='steps-drawer__item'+(i===idx?' is-current':'');
+      b.innerHTML='<strong>'+(i+1)+'.</strong> <span>'+s.label+'</span>';
+      b.addEventListener('click',()=>{ console.log('[stepnav] drawer click -> goTo', i, s.label); goTo(i); closeDrawer(); });
+      list.appendChild(b);
     });
   }
 
   function updateBar(){
     if (!meta || !prog) return;
-    const total = steps.length || 1;
-    const label = steps[idx] ? steps[idx].label : ('Step ' + (idx+1));
-    meta.textContent = 'Step ' + (idx+1) + ' of ' + total + ': ' + label;
-    const pct = Math.max(0, Math.min(100, ((idx) / (total-1 || 1)) * 100));
-    prog.style.width = pct + '%';
+    const total=steps.length;
+    const label=steps[idx]?steps[idx].label:('Step '+(idx+1));
+    meta.textContent='Step '+(idx+1)+' of '+total+': '+label;
+    const pct=((idx)/(total-1||1))*100;
+    prog.style.width=pct+'%';
+    console.log('[stepnav] updateBar idx=', idx, 'label=', label, 'pct=', pct.toFixed(1)+'%');
   }
 
-  function openDrawer(){ document.documentElement.classList.add('steps-drawer--open'); }
-  function closeDrawer(){ document.documentElement.classList.remove('steps-drawer--open'); }
+  function openDrawer(){ document.documentElement.classList.add('steps-drawer--open'); console.log('[stepnav] drawer open'); }
+  function closeDrawer(){ document.documentElement.classList.remove('steps-drawer--open'); console.log('[stepnav] drawer close'); }
+  chip&&chip.addEventListener('click',openDrawer);
+  scrim&&scrim.addEventListener('click',closeDrawer);
 
-  chip && chip.addEventListener('click', openDrawer);
-  scrim && scrim.addEventListener('click', closeDrawer);
-
-  function tryInvoke(fnName){
-    try{
-      if (typeof window[fnName] === 'function'){ window[fnName](); return true; }
-    }catch(e){}
-    return false;
-  }
-
-  function clickByText(texts){
-    const btns = Array.from(document.querySelectorAll('button, a[role="button"]'));
-    const tnorm = s => s.toLowerCase();
-    for (const b of btns){
-      const t = tnorm((b.textContent||'').trim());
-      for (const needle of texts){
-        if (t.includes(tnorm(needle))){ b.click(); return true; }
+  function goTo(i){
+    const label = steps[i] ? steps[i].label : ('Step '+(i+1));
+    if(typeof window.goToStep==='function'){ console.log('[stepnav] goToStep(',i,') label=',label); window.goToStep(i); }
+    else if(typeof window.setStep==='function'){ console.log('[stepnav] setStep(',i,') label=',label); window.setStep(i); }
+    else{
+      console.log('[stepnav] dispatch CustomEvent step:navigate ->', i, label);
+      document.dispatchEvent(new CustomEvent('step:navigate',{detail:{index:i,label}}));
+      const node=steps[i]&&steps[i].node;
+      if(node){
+        console.log('[stepnav] fallback: temporarily unhide and click desktop pill');
+        const prev=node.style.display;
+        node.style.display='';
+        node.click();
+        node.style.display=prev;
+      } else {
+        console.warn('[stepnav] fallback failed: no node to click');
       }
     }
+    idx=i; updateBar(); renderDrawer();
+  }
+
+  function tryClick(texts){
+    const btns=document.querySelectorAll('button,a[role="button"]');
+    for(const b of btns){
+      const t=(b.textContent||'').toLowerCase();
+      if(texts.some(x=>t.includes(x))){
+        console.log('[stepnav] tryClick matched ->', t, 'clicking button');
+        b.click(); return true;
+      }
+    }
+    console.log('[stepnav] tryClick no match for', texts);
     return false;
   }
 
   function goNext(){
-    if (tryInvoke('nextStep')) return;
-    if (clickByText(['next','continue','see recommendations','review','finish'])) return;
-    // If your app uses data attributes:
-    const el = document.querySelector('[data-action="next"], .next-step, [data-next]');
-    if (el){ el.click(); return; }
-    // Local index advance as last resort:
-    idx = Math.min((steps.length-1), idx+1);
-    updateBar(); renderDrawer();
+    if(typeof nextStep==='function'){ console.log('[stepnav] nextStep()'); nextStep(); return; }
+    if(tryClick(['next','continue','recommend','see recommendations','review','finish'])) return;
+    idx=Math.min(steps.length-1,idx+1); console.log('[stepnav] local advance to', idx); updateBar(); renderDrawer();
   }
-
   function goPrev(){
-    if (tryInvoke('prevStep')) return;
-    if (clickByText(['back','previous','prev'])) return;
-    const el = document.querySelector('[data-action="prev"], .prev-step, [data-prev]');
-    if (el){ el.click(); return; }
-    idx = Math.max(0, idx-1);
-    updateBar(); renderDrawer();
+    if(typeof prevStep==='function'){ console.log('[stepnav] prevStep()'); prevStep(); return; }
+    if(tryClick(['back','previous','prev'])) return;
+    idx=Math.max(0,idx-1); console.log('[stepnav] local retreat to', idx); updateBar(); renderDrawer();
   }
 
-  function goTo(i){
-    // If your app exposes goToStep(n), call it; else click the matching desktop pill if available
-    if (typeof window.goToStep === 'function'){ window.goToStep(i); }
-    else {
-      const pill = steps[i] && steps[i].node;
-      pill && pill.click && pill.click();
-      idx = i;
-      updateBar(); renderDrawer();
-    }
-  }
+  nextBtn&&nextBtn.addEventListener('click',()=>{ console.log('[stepnav] next button'); goNext(); });
+  prevBtn&&prevBtn.addEventListener('click',()=>{ console.log('[stepnav] prev button'); goPrev(); });
 
-  nextBtn && nextBtn.addEventListener('click', goNext);
-  prevBtn && prevBtn.addEventListener('click', goPrev);
-
-  // Observe desktop step changes and sync index
-  const obs = new MutationObserver(()=>{
-    const latest = getStepsFromDOM();
-    const cur = Math.max(0, latest.findIndex(s => s.current));
-    if (cur !== -1 && cur !== idx){ idx = cur; steps = latest; updateBar(); renderDrawer(); }
-  });
-  obs.observe(document.documentElement, {subtree:true, childList:true, attributes:true});
-
-  // Initial paint
   renderDrawer(); updateBar();
 })();
 </script>
+
+
 
 </body></html>'
     ].join('');
@@ -3117,145 +3137,115 @@ a:hover { color: #1E3E42; }
   <div class="mobile-stepbar__progress"><i data-step-progress></i></div>
 </nav>
 
-<script id="mobile-stepnav-js">
+
+
+<script id="mobile-stepnav-js-fixed">
 (function(){
-  const BRAND = '#254a4f';
   const drawer = document.querySelector('[data-steps-drawer]');
   const scrim = document.querySelector('[data-steps-scrim]');
   const list = document.querySelector('[data-steps-list]');
   const chip = document.querySelector('[data-steps-open]');
   const meta = document.querySelector('[data-step-label]');
-  const bar = document.querySelector('[data-mobile-stepbar]');
   const nextBtn = document.querySelector('[data-step-next]');
   const prevBtn = document.querySelector('[data-step-prev]');
   const prog = document.querySelector('[data-step-progress]');
 
-  function getStepsFromDOM(){
-    // Prefer existing step pills if present in desktop DOM
-    const pills = Array.from(document.querySelectorAll('.stepper .step, .steps .step, .steps button, .steps .pill')).map((el,i)=>{
-      const label = (el.getAttribute('data-label') || el.textContent || '').trim() || ('Step ' + (i+1));
-      const current = el.classList.contains('is-current') || el.getAttribute('aria-current') === 'step';
-      const complete = el.classList.contains('is-complete') || el.classList.contains('complete');
-      return { label, node: el, current, complete };
-    }).filter(s => s.label);
-
-    if (pills.length){
-      return pills;
-    }
-    // Fallback: infer from body data attributes or app sections
-    const sections = Array.from(document.querySelectorAll('[data-step]'));
-    if (sections.length){
-      return sections.map((el,i)=>({ label: el.getAttribute('data-step') || ('Step ' + (i+1)), node: el, current: el.classList.contains('is-current'), complete: el.classList.contains('is-complete') }));
-    }
-    // Absolute fallback
-    return [
-      {label:'Tractor', current:true},
-      {label:'Tasks'},
-      {label:'Recommendations'},
-      {label:'Review'}
+  function getSteps(){
+    const pills = Array.from(document.querySelectorAll('.stepper .step, .steps .step, .steps button, .steps .pill'))
+      .map((el,i)=>({
+        label:(el.getAttribute('data-label')||el.textContent||'').trim()||('Step '+(i+1)),
+        node:el
+      }));
+    console.log('[stepnav] detected steps:', pills.map(p=>p.label));
+    return pills.length ? pills : [
+      {label:'Tractor'},{label:'Tasks'},{label:'Recommendations'},{label:'Review'}
     ];
   }
 
-  let steps = getStepsFromDOM();
-  let idx = Math.max(0, steps.findIndex(s => s.current));
-  if (idx === -1) idx = 0;
+  let steps = getSteps();
+  let idx = 0;
 
   function renderDrawer(){
     if (!list) return;
-    list.innerHTML = '';
+    list.innerHTML='';
     steps.forEach((s,i)=>{
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'steps-drawer__item' + (i===idx ? ' is-current' : '');
-      item.innerHTML = '<strong>'+(i+1)+'.</strong> <span>'+s.label+'</span>';
-      item.addEventListener('click', ()=>{
-        goTo(i);
-        closeDrawer();
-      });
-      list.appendChild(item);
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='steps-drawer__item'+(i===idx?' is-current':'');
+      b.innerHTML='<strong>'+(i+1)+'.</strong> <span>'+s.label+'</span>';
+      b.addEventListener('click',()=>{ console.log('[stepnav] drawer click -> goTo', i, s.label); goTo(i); closeDrawer(); });
+      list.appendChild(b);
     });
   }
 
   function updateBar(){
     if (!meta || !prog) return;
-    const total = steps.length || 1;
-    const label = steps[idx] ? steps[idx].label : ('Step ' + (idx+1));
-    meta.textContent = 'Step ' + (idx+1) + ' of ' + total + ': ' + label;
-    const pct = Math.max(0, Math.min(100, ((idx) / (total-1 || 1)) * 100));
-    prog.style.width = pct + '%';
+    const total=steps.length;
+    const label=steps[idx]?steps[idx].label:('Step '+(idx+1));
+    meta.textContent='Step '+(idx+1)+' of '+total+': '+label;
+    const pct=((idx)/(total-1||1))*100;
+    prog.style.width=pct+'%';
+    console.log('[stepnav] updateBar idx=', idx, 'label=', label, 'pct=', pct.toFixed(1)+'%');
   }
 
-  function openDrawer(){ document.documentElement.classList.add('steps-drawer--open'); }
-  function closeDrawer(){ document.documentElement.classList.remove('steps-drawer--open'); }
+  function openDrawer(){ document.documentElement.classList.add('steps-drawer--open'); console.log('[stepnav] drawer open'); }
+  function closeDrawer(){ document.documentElement.classList.remove('steps-drawer--open'); console.log('[stepnav] drawer close'); }
+  chip&&chip.addEventListener('click',openDrawer);
+  scrim&&scrim.addEventListener('click',closeDrawer);
 
-  chip && chip.addEventListener('click', openDrawer);
-  scrim && scrim.addEventListener('click', closeDrawer);
-
-  function tryInvoke(fnName){
-    try{
-      if (typeof window[fnName] === 'function'){ window[fnName](); return true; }
-    }catch(e){}
-    return false;
-  }
-
-  function clickByText(texts){
-    const btns = Array.from(document.querySelectorAll('button, a[role="button"]'));
-    const tnorm = s => s.toLowerCase();
-    for (const b of btns){
-      const t = tnorm((b.textContent||'').trim());
-      for (const needle of texts){
-        if (t.includes(tnorm(needle))){ b.click(); return true; }
+  function goTo(i){
+    const label = steps[i] ? steps[i].label : ('Step '+(i+1));
+    if(typeof window.goToStep==='function'){ console.log('[stepnav] goToStep(',i,') label=',label); window.goToStep(i); }
+    else if(typeof window.setStep==='function'){ console.log('[stepnav] setStep(',i,') label=',label); window.setStep(i); }
+    else{
+      console.log('[stepnav] dispatch CustomEvent step:navigate ->', i, label);
+      document.dispatchEvent(new CustomEvent('step:navigate',{detail:{index:i,label}}));
+      const node=steps[i]&&steps[i].node;
+      if(node){
+        console.log('[stepnav] fallback: temporarily unhide and click desktop pill');
+        const prev=node.style.display;
+        node.style.display='';
+        node.click();
+        node.style.display=prev;
+      } else {
+        console.warn('[stepnav] fallback failed: no node to click');
       }
     }
+    idx=i; updateBar(); renderDrawer();
+  }
+
+  function tryClick(texts){
+    const btns=document.querySelectorAll('button,a[role="button"]');
+    for(const b of btns){
+      const t=(b.textContent||'').toLowerCase();
+      if(texts.some(x=>t.includes(x))){
+        console.log('[stepnav] tryClick matched ->', t, 'clicking button');
+        b.click(); return true;
+      }
+    }
+    console.log('[stepnav] tryClick no match for', texts);
     return false;
   }
 
   function goNext(){
-    if (tryInvoke('nextStep')) return;
-    if (clickByText(['next','continue','see recommendations','review','finish'])) return;
-    // If your app uses data attributes:
-    const el = document.querySelector('[data-action="next"], .next-step, [data-next]');
-    if (el){ el.click(); return; }
-    // Local index advance as last resort:
-    idx = Math.min((steps.length-1), idx+1);
-    updateBar(); renderDrawer();
+    if(typeof nextStep==='function'){ console.log('[stepnav] nextStep()'); nextStep(); return; }
+    if(tryClick(['next','continue','recommend','see recommendations','review','finish'])) return;
+    idx=Math.min(steps.length-1,idx+1); console.log('[stepnav] local advance to', idx); updateBar(); renderDrawer();
   }
-
   function goPrev(){
-    if (tryInvoke('prevStep')) return;
-    if (clickByText(['back','previous','prev'])) return;
-    const el = document.querySelector('[data-action="prev"], .prev-step, [data-prev]');
-    if (el){ el.click(); return; }
-    idx = Math.max(0, idx-1);
-    updateBar(); renderDrawer();
+    if(typeof prevStep==='function'){ console.log('[stepnav] prevStep()'); prevStep(); return; }
+    if(tryClick(['back','previous','prev'])) return;
+    idx=Math.max(0,idx-1); console.log('[stepnav] local retreat to', idx); updateBar(); renderDrawer();
   }
 
-  function goTo(i){
-    // If your app exposes goToStep(n), call it; else click the matching desktop pill if available
-    if (typeof window.goToStep === 'function'){ window.goToStep(i); }
-    else {
-      const pill = steps[i] && steps[i].node;
-      pill && pill.click && pill.click();
-      idx = i;
-      updateBar(); renderDrawer();
-    }
-  }
+  nextBtn&&nextBtn.addEventListener('click',()=>{ console.log('[stepnav] next button'); goNext(); });
+  prevBtn&&prevBtn.addEventListener('click',()=>{ console.log('[stepnav] prev button'); goPrev(); });
 
-  nextBtn && nextBtn.addEventListener('click', goNext);
-  prevBtn && prevBtn.addEventListener('click', goPrev);
-
-  // Observe desktop step changes and sync index
-  const obs = new MutationObserver(()=>{
-    const latest = getStepsFromDOM();
-    const cur = Math.max(0, latest.findIndex(s => s.current));
-    if (cur !== -1 && cur !== idx){ idx = cur; steps = latest; updateBar(); renderDrawer(); }
-  });
-  obs.observe(document.documentElement, {subtree:true, childList:true, attributes:true});
-
-  // Initial paint
   renderDrawer(); updateBar();
 })();
 </script>
+
+
 
 </body></html>'
       ].join('');
@@ -3409,6 +3399,31 @@ a:hover { color: #1E3E42; }
 .readable { max-width: 70ch; } */
 
 </style>
+
+
+<style id="reset-btn-style">
+
+/* ===== Reset Button Styling (4px border) ===== */
+#resetAll,
+button#resetAll,
+button#resetAll.btn,
+button[aria-label="Reset all selections"] {
+  background-color: #FFFFFF !important;
+  color: #254A4F !important;
+  border: 4px solid #254A4F !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+  padding: .5rem 1rem;
+}
+#resetAll:hover,
+button#resetAll:hover,
+button[aria-label="Reset all selections"]:hover {
+  background-color: #FFFFFF !important;
+  color: #254A4F !important;
+  border-color: #254A4F !important;
+}
+
+</style>
 </head><body>',
       '<div class="doc">',
         '<div class="hdr">',
@@ -3519,145 +3534,115 @@ a:hover { color: #1E3E42; }
   <div class="mobile-stepbar__progress"><i data-step-progress></i></div>
 </nav>
 
-<script id="mobile-stepnav-js">
+
+
+<script id="mobile-stepnav-js-fixed">
 (function(){
-  const BRAND = '#254a4f';
   const drawer = document.querySelector('[data-steps-drawer]');
   const scrim = document.querySelector('[data-steps-scrim]');
   const list = document.querySelector('[data-steps-list]');
   const chip = document.querySelector('[data-steps-open]');
   const meta = document.querySelector('[data-step-label]');
-  const bar = document.querySelector('[data-mobile-stepbar]');
   const nextBtn = document.querySelector('[data-step-next]');
   const prevBtn = document.querySelector('[data-step-prev]');
   const prog = document.querySelector('[data-step-progress]');
 
-  function getStepsFromDOM(){
-    // Prefer existing step pills if present in desktop DOM
-    const pills = Array.from(document.querySelectorAll('.stepper .step, .steps .step, .steps button, .steps .pill')).map((el,i)=>{
-      const label = (el.getAttribute('data-label') || el.textContent || '').trim() || ('Step ' + (i+1));
-      const current = el.classList.contains('is-current') || el.getAttribute('aria-current') === 'step';
-      const complete = el.classList.contains('is-complete') || el.classList.contains('complete');
-      return { label, node: el, current, complete };
-    }).filter(s => s.label);
-
-    if (pills.length){
-      return pills;
-    }
-    // Fallback: infer from body data attributes or app sections
-    const sections = Array.from(document.querySelectorAll('[data-step]'));
-    if (sections.length){
-      return sections.map((el,i)=>({ label: el.getAttribute('data-step') || ('Step ' + (i+1)), node: el, current: el.classList.contains('is-current'), complete: el.classList.contains('is-complete') }));
-    }
-    // Absolute fallback
-    return [
-      {label:'Tractor', current:true},
-      {label:'Tasks'},
-      {label:'Recommendations'},
-      {label:'Review'}
+  function getSteps(){
+    const pills = Array.from(document.querySelectorAll('.stepper .step, .steps .step, .steps button, .steps .pill'))
+      .map((el,i)=>({
+        label:(el.getAttribute('data-label')||el.textContent||'').trim()||('Step '+(i+1)),
+        node:el
+      }));
+    console.log('[stepnav] detected steps:', pills.map(p=>p.label));
+    return pills.length ? pills : [
+      {label:'Tractor'},{label:'Tasks'},{label:'Recommendations'},{label:'Review'}
     ];
   }
 
-  let steps = getStepsFromDOM();
-  let idx = Math.max(0, steps.findIndex(s => s.current));
-  if (idx === -1) idx = 0;
+  let steps = getSteps();
+  let idx = 0;
 
   function renderDrawer(){
     if (!list) return;
-    list.innerHTML = '';
+    list.innerHTML='';
     steps.forEach((s,i)=>{
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'steps-drawer__item' + (i===idx ? ' is-current' : '');
-      item.innerHTML = '<strong>'+(i+1)+'.</strong> <span>'+s.label+'</span>';
-      item.addEventListener('click', ()=>{
-        goTo(i);
-        closeDrawer();
-      });
-      list.appendChild(item);
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='steps-drawer__item'+(i===idx?' is-current':'');
+      b.innerHTML='<strong>'+(i+1)+'.</strong> <span>'+s.label+'</span>';
+      b.addEventListener('click',()=>{ console.log('[stepnav] drawer click -> goTo', i, s.label); goTo(i); closeDrawer(); });
+      list.appendChild(b);
     });
   }
 
   function updateBar(){
     if (!meta || !prog) return;
-    const total = steps.length || 1;
-    const label = steps[idx] ? steps[idx].label : ('Step ' + (idx+1));
-    meta.textContent = 'Step ' + (idx+1) + ' of ' + total + ': ' + label;
-    const pct = Math.max(0, Math.min(100, ((idx) / (total-1 || 1)) * 100));
-    prog.style.width = pct + '%';
+    const total=steps.length;
+    const label=steps[idx]?steps[idx].label:('Step '+(idx+1));
+    meta.textContent='Step '+(idx+1)+' of '+total+': '+label;
+    const pct=((idx)/(total-1||1))*100;
+    prog.style.width=pct+'%';
+    console.log('[stepnav] updateBar idx=', idx, 'label=', label, 'pct=', pct.toFixed(1)+'%');
   }
 
-  function openDrawer(){ document.documentElement.classList.add('steps-drawer--open'); }
-  function closeDrawer(){ document.documentElement.classList.remove('steps-drawer--open'); }
+  function openDrawer(){ document.documentElement.classList.add('steps-drawer--open'); console.log('[stepnav] drawer open'); }
+  function closeDrawer(){ document.documentElement.classList.remove('steps-drawer--open'); console.log('[stepnav] drawer close'); }
+  chip&&chip.addEventListener('click',openDrawer);
+  scrim&&scrim.addEventListener('click',closeDrawer);
 
-  chip && chip.addEventListener('click', openDrawer);
-  scrim && scrim.addEventListener('click', closeDrawer);
-
-  function tryInvoke(fnName){
-    try{
-      if (typeof window[fnName] === 'function'){ window[fnName](); return true; }
-    }catch(e){}
-    return false;
-  }
-
-  function clickByText(texts){
-    const btns = Array.from(document.querySelectorAll('button, a[role="button"]'));
-    const tnorm = s => s.toLowerCase();
-    for (const b of btns){
-      const t = tnorm((b.textContent||'').trim());
-      for (const needle of texts){
-        if (t.includes(tnorm(needle))){ b.click(); return true; }
+  function goTo(i){
+    const label = steps[i] ? steps[i].label : ('Step '+(i+1));
+    if(typeof window.goToStep==='function'){ console.log('[stepnav] goToStep(',i,') label=',label); window.goToStep(i); }
+    else if(typeof window.setStep==='function'){ console.log('[stepnav] setStep(',i,') label=',label); window.setStep(i); }
+    else{
+      console.log('[stepnav] dispatch CustomEvent step:navigate ->', i, label);
+      document.dispatchEvent(new CustomEvent('step:navigate',{detail:{index:i,label}}));
+      const node=steps[i]&&steps[i].node;
+      if(node){
+        console.log('[stepnav] fallback: temporarily unhide and click desktop pill');
+        const prev=node.style.display;
+        node.style.display='';
+        node.click();
+        node.style.display=prev;
+      } else {
+        console.warn('[stepnav] fallback failed: no node to click');
       }
     }
+    idx=i; updateBar(); renderDrawer();
+  }
+
+  function tryClick(texts){
+    const btns=document.querySelectorAll('button,a[role="button"]');
+    for(const b of btns){
+      const t=(b.textContent||'').toLowerCase();
+      if(texts.some(x=>t.includes(x))){
+        console.log('[stepnav] tryClick matched ->', t, 'clicking button');
+        b.click(); return true;
+      }
+    }
+    console.log('[stepnav] tryClick no match for', texts);
     return false;
   }
 
   function goNext(){
-    if (tryInvoke('nextStep')) return;
-    if (clickByText(['next','continue','see recommendations','review','finish'])) return;
-    // If your app uses data attributes:
-    const el = document.querySelector('[data-action="next"], .next-step, [data-next]');
-    if (el){ el.click(); return; }
-    // Local index advance as last resort:
-    idx = Math.min((steps.length-1), idx+1);
-    updateBar(); renderDrawer();
+    if(typeof nextStep==='function'){ console.log('[stepnav] nextStep()'); nextStep(); return; }
+    if(tryClick(['next','continue','recommend','see recommendations','review','finish'])) return;
+    idx=Math.min(steps.length-1,idx+1); console.log('[stepnav] local advance to', idx); updateBar(); renderDrawer();
   }
-
   function goPrev(){
-    if (tryInvoke('prevStep')) return;
-    if (clickByText(['back','previous','prev'])) return;
-    const el = document.querySelector('[data-action="prev"], .prev-step, [data-prev]');
-    if (el){ el.click(); return; }
-    idx = Math.max(0, idx-1);
-    updateBar(); renderDrawer();
+    if(typeof prevStep==='function'){ console.log('[stepnav] prevStep()'); prevStep(); return; }
+    if(tryClick(['back','previous','prev'])) return;
+    idx=Math.max(0,idx-1); console.log('[stepnav] local retreat to', idx); updateBar(); renderDrawer();
   }
 
-  function goTo(i){
-    // If your app exposes goToStep(n), call it; else click the matching desktop pill if available
-    if (typeof window.goToStep === 'function'){ window.goToStep(i); }
-    else {
-      const pill = steps[i] && steps[i].node;
-      pill && pill.click && pill.click();
-      idx = i;
-      updateBar(); renderDrawer();
-    }
-  }
+  nextBtn&&nextBtn.addEventListener('click',()=>{ console.log('[stepnav] next button'); goNext(); });
+  prevBtn&&prevBtn.addEventListener('click',()=>{ console.log('[stepnav] prev button'); goPrev(); });
 
-  nextBtn && nextBtn.addEventListener('click', goNext);
-  prevBtn && prevBtn.addEventListener('click', goPrev);
-
-  // Observe desktop step changes and sync index
-  const obs = new MutationObserver(()=>{
-    const latest = getStepsFromDOM();
-    const cur = Math.max(0, latest.findIndex(s => s.current));
-    if (cur !== -1 && cur !== idx){ idx = cur; steps = latest; updateBar(); renderDrawer(); }
-  });
-  obs.observe(document.documentElement, {subtree:true, childList:true, attributes:true});
-
-  // Initial paint
   renderDrawer(); updateBar();
 })();
 </script>
+
+
 
 </body></html>'
     ].join('');
@@ -3771,145 +3756,115 @@ a:hover { color: #1E3E42; }
   <div class="mobile-stepbar__progress"><i data-step-progress></i></div>
 </nav>
 
-<script id="mobile-stepnav-js">
+
+
+<script id="mobile-stepnav-js-fixed">
 (function(){
-  const BRAND = '#254a4f';
   const drawer = document.querySelector('[data-steps-drawer]');
   const scrim = document.querySelector('[data-steps-scrim]');
   const list = document.querySelector('[data-steps-list]');
   const chip = document.querySelector('[data-steps-open]');
   const meta = document.querySelector('[data-step-label]');
-  const bar = document.querySelector('[data-mobile-stepbar]');
   const nextBtn = document.querySelector('[data-step-next]');
   const prevBtn = document.querySelector('[data-step-prev]');
   const prog = document.querySelector('[data-step-progress]');
 
-  function getStepsFromDOM(){
-    // Prefer existing step pills if present in desktop DOM
-    const pills = Array.from(document.querySelectorAll('.stepper .step, .steps .step, .steps button, .steps .pill')).map((el,i)=>{
-      const label = (el.getAttribute('data-label') || el.textContent || '').trim() || ('Step ' + (i+1));
-      const current = el.classList.contains('is-current') || el.getAttribute('aria-current') === 'step';
-      const complete = el.classList.contains('is-complete') || el.classList.contains('complete');
-      return { label, node: el, current, complete };
-    }).filter(s => s.label);
-
-    if (pills.length){
-      return pills;
-    }
-    // Fallback: infer from body data attributes or app sections
-    const sections = Array.from(document.querySelectorAll('[data-step]'));
-    if (sections.length){
-      return sections.map((el,i)=>({ label: el.getAttribute('data-step') || ('Step ' + (i+1)), node: el, current: el.classList.contains('is-current'), complete: el.classList.contains('is-complete') }));
-    }
-    // Absolute fallback
-    return [
-      {label:'Tractor', current:true},
-      {label:'Tasks'},
-      {label:'Recommendations'},
-      {label:'Review'}
+  function getSteps(){
+    const pills = Array.from(document.querySelectorAll('.stepper .step, .steps .step, .steps button, .steps .pill'))
+      .map((el,i)=>({
+        label:(el.getAttribute('data-label')||el.textContent||'').trim()||('Step '+(i+1)),
+        node:el
+      }));
+    console.log('[stepnav] detected steps:', pills.map(p=>p.label));
+    return pills.length ? pills : [
+      {label:'Tractor'},{label:'Tasks'},{label:'Recommendations'},{label:'Review'}
     ];
   }
 
-  let steps = getStepsFromDOM();
-  let idx = Math.max(0, steps.findIndex(s => s.current));
-  if (idx === -1) idx = 0;
+  let steps = getSteps();
+  let idx = 0;
 
   function renderDrawer(){
     if (!list) return;
-    list.innerHTML = '';
+    list.innerHTML='';
     steps.forEach((s,i)=>{
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'steps-drawer__item' + (i===idx ? ' is-current' : '');
-      item.innerHTML = '<strong>'+(i+1)+'.</strong> <span>'+s.label+'</span>';
-      item.addEventListener('click', ()=>{
-        goTo(i);
-        closeDrawer();
-      });
-      list.appendChild(item);
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='steps-drawer__item'+(i===idx?' is-current':'');
+      b.innerHTML='<strong>'+(i+1)+'.</strong> <span>'+s.label+'</span>';
+      b.addEventListener('click',()=>{ console.log('[stepnav] drawer click -> goTo', i, s.label); goTo(i); closeDrawer(); });
+      list.appendChild(b);
     });
   }
 
   function updateBar(){
     if (!meta || !prog) return;
-    const total = steps.length || 1;
-    const label = steps[idx] ? steps[idx].label : ('Step ' + (idx+1));
-    meta.textContent = 'Step ' + (idx+1) + ' of ' + total + ': ' + label;
-    const pct = Math.max(0, Math.min(100, ((idx) / (total-1 || 1)) * 100));
-    prog.style.width = pct + '%';
+    const total=steps.length;
+    const label=steps[idx]?steps[idx].label:('Step '+(idx+1));
+    meta.textContent='Step '+(idx+1)+' of '+total+': '+label;
+    const pct=((idx)/(total-1||1))*100;
+    prog.style.width=pct+'%';
+    console.log('[stepnav] updateBar idx=', idx, 'label=', label, 'pct=', pct.toFixed(1)+'%');
   }
 
-  function openDrawer(){ document.documentElement.classList.add('steps-drawer--open'); }
-  function closeDrawer(){ document.documentElement.classList.remove('steps-drawer--open'); }
+  function openDrawer(){ document.documentElement.classList.add('steps-drawer--open'); console.log('[stepnav] drawer open'); }
+  function closeDrawer(){ document.documentElement.classList.remove('steps-drawer--open'); console.log('[stepnav] drawer close'); }
+  chip&&chip.addEventListener('click',openDrawer);
+  scrim&&scrim.addEventListener('click',closeDrawer);
 
-  chip && chip.addEventListener('click', openDrawer);
-  scrim && scrim.addEventListener('click', closeDrawer);
-
-  function tryInvoke(fnName){
-    try{
-      if (typeof window[fnName] === 'function'){ window[fnName](); return true; }
-    }catch(e){}
-    return false;
-  }
-
-  function clickByText(texts){
-    const btns = Array.from(document.querySelectorAll('button, a[role="button"]'));
-    const tnorm = s => s.toLowerCase();
-    for (const b of btns){
-      const t = tnorm((b.textContent||'').trim());
-      for (const needle of texts){
-        if (t.includes(tnorm(needle))){ b.click(); return true; }
+  function goTo(i){
+    const label = steps[i] ? steps[i].label : ('Step '+(i+1));
+    if(typeof window.goToStep==='function'){ console.log('[stepnav] goToStep(',i,') label=',label); window.goToStep(i); }
+    else if(typeof window.setStep==='function'){ console.log('[stepnav] setStep(',i,') label=',label); window.setStep(i); }
+    else{
+      console.log('[stepnav] dispatch CustomEvent step:navigate ->', i, label);
+      document.dispatchEvent(new CustomEvent('step:navigate',{detail:{index:i,label}}));
+      const node=steps[i]&&steps[i].node;
+      if(node){
+        console.log('[stepnav] fallback: temporarily unhide and click desktop pill');
+        const prev=node.style.display;
+        node.style.display='';
+        node.click();
+        node.style.display=prev;
+      } else {
+        console.warn('[stepnav] fallback failed: no node to click');
       }
     }
+    idx=i; updateBar(); renderDrawer();
+  }
+
+  function tryClick(texts){
+    const btns=document.querySelectorAll('button,a[role="button"]');
+    for(const b of btns){
+      const t=(b.textContent||'').toLowerCase();
+      if(texts.some(x=>t.includes(x))){
+        console.log('[stepnav] tryClick matched ->', t, 'clicking button');
+        b.click(); return true;
+      }
+    }
+    console.log('[stepnav] tryClick no match for', texts);
     return false;
   }
 
   function goNext(){
-    if (tryInvoke('nextStep')) return;
-    if (clickByText(['next','continue','see recommendations','review','finish'])) return;
-    // If your app uses data attributes:
-    const el = document.querySelector('[data-action="next"], .next-step, [data-next]');
-    if (el){ el.click(); return; }
-    // Local index advance as last resort:
-    idx = Math.min((steps.length-1), idx+1);
-    updateBar(); renderDrawer();
+    if(typeof nextStep==='function'){ console.log('[stepnav] nextStep()'); nextStep(); return; }
+    if(tryClick(['next','continue','recommend','see recommendations','review','finish'])) return;
+    idx=Math.min(steps.length-1,idx+1); console.log('[stepnav] local advance to', idx); updateBar(); renderDrawer();
   }
-
   function goPrev(){
-    if (tryInvoke('prevStep')) return;
-    if (clickByText(['back','previous','prev'])) return;
-    const el = document.querySelector('[data-action="prev"], .prev-step, [data-prev]');
-    if (el){ el.click(); return; }
-    idx = Math.max(0, idx-1);
-    updateBar(); renderDrawer();
+    if(typeof prevStep==='function'){ console.log('[stepnav] prevStep()'); prevStep(); return; }
+    if(tryClick(['back','previous','prev'])) return;
+    idx=Math.max(0,idx-1); console.log('[stepnav] local retreat to', idx); updateBar(); renderDrawer();
   }
 
-  function goTo(i){
-    // If your app exposes goToStep(n), call it; else click the matching desktop pill if available
-    if (typeof window.goToStep === 'function'){ window.goToStep(i); }
-    else {
-      const pill = steps[i] && steps[i].node;
-      pill && pill.click && pill.click();
-      idx = i;
-      updateBar(); renderDrawer();
-    }
-  }
+  nextBtn&&nextBtn.addEventListener('click',()=>{ console.log('[stepnav] next button'); goNext(); });
+  prevBtn&&prevBtn.addEventListener('click',()=>{ console.log('[stepnav] prev button'); goPrev(); });
 
-  nextBtn && nextBtn.addEventListener('click', goNext);
-  prevBtn && prevBtn.addEventListener('click', goPrev);
-
-  // Observe desktop step changes and sync index
-  const obs = new MutationObserver(()=>{
-    const latest = getStepsFromDOM();
-    const cur = Math.max(0, latest.findIndex(s => s.current));
-    if (cur !== -1 && cur !== idx){ idx = cur; steps = latest; updateBar(); renderDrawer(); }
-  });
-  obs.observe(document.documentElement, {subtree:true, childList:true, attributes:true});
-
-  // Initial paint
   renderDrawer(); updateBar();
 })();
 </script>
+
+
 
 </body>
 </html>
