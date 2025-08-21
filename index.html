@@ -904,6 +904,9 @@ button[aria-label="Reset all selections"]:hover {
 .steps-container, .steps, #steps {
   display: none !important;
 }
+</style><style id="learn-more-style">
+.hidden-by-learnmore { display: none !important; }
+.learn-more-btn { cursor: pointer; }
 </style></head>
 <body>
 <header class="sticky">
@@ -1991,7 +1994,10 @@ document.body.addEventListener("click", (ev) => {
 </div>
 </div>
 </div>
-
+<div class="mobile-actions">
+<button class="btn" id="goToRecsBtn" type="button">Recommendations</button>
+<button class="btn" id="savePrintProxyBtn" type="button">Save / Print</button>
+</div>
 <script>
 (function() {
   function ready(fn){ if(document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
@@ -2481,5 +2487,97 @@ document.body.addEventListener("click", (ev) => {
   } catch (err) {}
 })();
 </script>
-</body>
+<script id="learn-more-script">
+(function(){
+  function normText(el){ return (el && (el.innerText||el.textContent)||"").trim().toLowerCase(); }
+  function isButtonLike(el){
+    if (!el) return false;
+    if (el.tagName === "BUTTON") return true;
+    if (el.tagName === "A") {
+      const role = (el.getAttribute("role")||"").toLowerCase();
+      const cls  = (el.className||"");
+      if (role === "button") return true;
+      if (/(^|\s)(btn|button)(\s|$)/i.test(cls)) return true;
+    }
+    return false;
+  }
+  function isAlwaysVisible(el){
+    const t = normText(el);
+    // Always visible if it's Select Tractor, Add, or any "Go to ..." button
+    if (/(^|\b)select\s*tractor\b/.test(t)) return true;
+    if (/^add\b/.test(t)) return true;
+    if (/^go to\b/.test(t)) return true;
+    const cls = (el.className||"");
+    if (/(^|\s)tractor-select(\s|$)/i.test(cls)) return true;
+    if (/(^|\s)add-btn(\s|$)/i.test(cls)) return true;
+    return false;
+  }
+
+  const allCards = [];
+  function processCard(card){
+    if (!card || card.__learnMoreProcessed) return;
+    const buttons = Array.from(card.querySelectorAll("button, a[role='button'], .btn")).filter(isButtonLike);
+    if (!buttons.length) { card.__learnMoreProcessed = true; return; }
+    const hideThese = [];
+    let learnMore = null;
+    buttons.forEach(btn => {
+      const t = normText(btn);
+      if (/^learn\s*more\b/.test(t)) { learnMore = btn; btn.classList.add("learn-more-btn"); return; }
+      if (!isAlwaysVisible(btn)) hideThese.push(btn);
+    });
+    if (!hideThese.length) { card.__learnMoreProcessed = true; return; }
+    hideThese.forEach(b => b.classList.add("hidden-by-learnmore"));
+    if (!learnMore){
+      learnMore = document.createElement("button");
+      learnMore.type = "button";
+      learnMore.className = "btn learn-more-btn";
+      learnMore.textContent = "Learn More";
+      const firstHidden = hideThese[0];
+      if (firstHidden && firstHidden.parentElement) {
+        firstHidden.parentElement.insertBefore(learnMore, firstHidden);
+      } else {
+        card.appendChild(learnMore);
+      }
+    }
+    let open = false;
+    function setState(next){
+      open = next;
+      hideThese.forEach(b => b.classList.toggle("hidden-by-learnmore", !open));
+      learnMore.setAttribute("aria-expanded", open ? "true" : "false");
+      learnMore.textContent = open ? "Hide" : "Learn More";
+    }
+    setState(false);
+    learnMore.addEventListener("click", function(){
+      if (!open){
+        allCards.forEach(c => { if (c !== card && c.__setLearnMoreState) c.__setLearnMoreState(false); });
+      }
+      setState(!open);
+    });
+    card.__setLearnMoreState = setState;
+    allCards.push(card);
+    card.__learnMoreProcessed = true;
+  }
+  function scan(){
+    const containers = [document.getElementById("recoGrid"), document.getElementById("tractorList"), document.getElementById("selectedList")].filter(Boolean);
+    const cards = [];
+    containers.forEach(c => {
+      cards.push(...c.querySelectorAll(".product, .product-card, [data-product-card]"));
+      if (!cards.length) {
+        cards.push(...Array.from(c.children).filter(n => n.querySelector && n.querySelector("img") && n.querySelector("button")));
+      }
+    });
+    cards.forEach(processCard);
+  }
+  if (document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", scan);
+  } else {
+    scan();
+  }
+  const targets = ["recoGrid","tractorList","selectedList"].map(id => document.getElementById(id)).filter(Boolean);
+  targets.forEach(t => {
+    const mo = new MutationObserver(scan);
+    mo.observe(t, { childList: true, subtree: true });
+  });
+})();
+</script></body>
 </html>
