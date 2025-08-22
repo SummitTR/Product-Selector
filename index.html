@@ -1249,6 +1249,52 @@ button[aria-label="Reset all selections"]:hover {
 input, textarea { font-size: 16px; }
 </style>
 
+
+<style id="mobile-hide-fixes">
+@media (max-width: 767px) {
+  .steps-container.sticky,
+  footer,
+  .foot-actions,
+  .stage-nav {
+    display: none !important;
+  }
+}
+</style>
+
+
+<style id="attachments-review-visibility">
+/* Make the Attachments & Implements 'Review Selected Products' button prominent and always visible */
+.attachments-review-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid #254A4F;
+  color: #FFFFFF !important;
+  background: #254A4F !important;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+/* On mobile: full width and sticky in the section viewport */
+@media (max-width: 767px) {
+  .attachments-review-btn {
+    position: sticky;
+    top: 0; /* stays visible while user is in the section */
+    z-index: 200;
+    width: 100%;
+    margin: 8px 0 !important;
+  }
+  /* Ensure no parent container hides overflow that would clip the sticky button */
+  #attachmentsSection, [aria-labelledby="cats-section-title"] {
+    overflow: visible !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <header class="sticky">
@@ -3959,6 +4005,52 @@ document.body.addEventListener("click", (ev) => {
 input, textarea { font-size: 16px; }
 </style>
 
+
+<style id="mobile-hide-fixes">
+@media (max-width: 767px) {
+  .steps-container.sticky,
+  footer,
+  .foot-actions,
+  .stage-nav {
+    display: none !important;
+  }
+}
+</style>
+
+
+<style id="attachments-review-visibility">
+/* Make the Attachments & Implements 'Review Selected Products' button prominent and always visible */
+.attachments-review-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid #254A4F;
+  color: #FFFFFF !important;
+  background: #254A4F !important;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+/* On mobile: full width and sticky in the section viewport */
+@media (max-width: 767px) {
+  .attachments-review-btn {
+    position: sticky;
+    top: 0; /* stays visible while user is in the section */
+    z-index: 200;
+    width: 100%;
+    margin: 8px 0 !important;
+  }
+  /* Ensure no parent container hides overflow that would clip the sticky button */
+  #attachmentsSection, [aria-labelledby="cats-section-title"] {
+    overflow: visible !important;
+  }
+}
+</style>
+
 </head>
       <body>
         <div class="wrap">
@@ -4271,6 +4363,52 @@ input, textarea { font-size: 16px; }
 input, textarea { font-size: 16px; }
 </style>
 
+
+<style id="mobile-hide-fixes">
+@media (max-width: 767px) {
+  .steps-container.sticky,
+  footer,
+  .foot-actions,
+  .stage-nav {
+    display: none !important;
+  }
+}
+</style>
+
+
+<style id="attachments-review-visibility">
+/* Make the Attachments & Implements 'Review Selected Products' button prominent and always visible */
+.attachments-review-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid #254A4F;
+  color: #FFFFFF !important;
+  background: #254A4F !important;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+/* On mobile: full width and sticky in the section viewport */
+@media (max-width: 767px) {
+  .attachments-review-btn {
+    position: sticky;
+    top: 0; /* stays visible while user is in the section */
+    z-index: 200;
+    width: 100%;
+    margin: 8px 0 !important;
+  }
+  /* Ensure no parent container hides overflow that would clip the sticky button */
+  #attachmentsSection, [aria-labelledby="cats-section-title"] {
+    overflow: visible !important;
+  }
+}
+</style>
+
 </head>
       <body>
         <div class="wrap">
@@ -4443,6 +4581,52 @@ input, textarea { font-size: 16px; }
 
 /* Forms: avoid iOS zoom */
 input, textarea { font-size: 16px; }
+</style>
+
+
+<style id="mobile-hide-fixes">
+@media (max-width: 767px) {
+  .steps-container.sticky,
+  footer,
+  .foot-actions,
+  .stage-nav {
+    display: none !important;
+  }
+}
+</style>
+
+
+<style id="attachments-review-visibility">
+/* Make the Attachments & Implements 'Review Selected Products' button prominent and always visible */
+.attachments-review-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid #254A4F;
+  color: #FFFFFF !important;
+  background: #254A4F !important;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+/* On mobile: full width and sticky in the section viewport */
+@media (max-width: 767px) {
+  .attachments-review-btn {
+    position: sticky;
+    top: 0; /* stays visible while user is in the section */
+    z-index: 200;
+    width: 100%;
+    margin: 8px 0 !important;
+  }
+  /* Ensure no parent container hides overflow that would clip the sticky button */
+  #attachmentsSection, [aria-labelledby="cats-section-title"] {
+    overflow: visible !important;
+  }
+}
 </style>
 
 </head><body>
@@ -6036,6 +6220,75 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     document.addEventListener('DOMContentLoaded', collapseDefaults);
   } else {
     collapseDefaults();
+  }
+})();
+</script>
+
+
+<script id="attachments-review-button-ensure">
+(function(){
+  function norm(s){ return String(s||'').replace(/\s+/g,' ').trim().toLowerCase(); }
+  function inDoc(){ return document.getElementById('attachmentsSection') || document.querySelector('[aria-labelledby="cats-section-title"]'); }
+  function ensureBtn(){
+    var sec = inDoc();
+    if(!sec) return;
+    // Find existing button/link by label
+    var btn = Array.from(sec.querySelectorAll('a,button,[role="button"],.btn')).find(function(el){
+      return norm(el.textContent).includes('review selected products');
+    });
+
+    if(!btn){
+      // Create the button if missing
+      btn = document.createElement('a');
+      btn.href = '#reco-section-title';
+      btn.textContent = 'Review Selected Products';
+      btn.className = 'btn';
+      // Insert at the top of the section
+      var anchor = sec.querySelector('h2, .section-title') || sec;
+      anchor.parentNode.insertBefore(btn, anchor.nextSibling);
+    }
+
+    // Decorate + move to top proximity for visibility
+    btn.classList.add('attachments-review-btn');
+    // Place it right under the section title for guaranteed visibility
+    var title = sec.querySelector('h2, .section-title');
+    if (title && title.parentNode) {
+      if (btn.previousElementSibling !== title) {
+        title.parentNode.insertBefore(btn, title.nextSibling);
+      }
+    }
+
+    // Ensure it scrolls to the Review section reliably
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      // Prefer the exact review section anchor
+      var target = document.getElementById('review-section') 
+                || document.getElementById('reco-section-title')
+                || Array.from(document.querySelectorAll('h2')).find(function(h){
+                     var t = norm(h.textContent); return t.includes('review') && t.includes('select');
+                   });
+      if (target && target.scrollIntoView) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else if (target) {
+        var y = target.getBoundingClientRect().top + window.pageYOffset - 10;
+        window.scrollTo(0, y);
+      }
+    }, { passive: false });
+  }
+
+  function init(){
+    ensureBtn();
+    // Observe for dynamic rerenders
+    var sec = inDoc();
+    if (!sec) return;
+    var mo = new MutationObserver(function(){ ensureBtn(); });
+    mo.observe(sec, { childList:true, subtree:true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 })();
 </script>
