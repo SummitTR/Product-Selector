@@ -904,10 +904,13 @@ button[aria-label="Reset all selections"]:hover {
 .steps-container, .steps, #steps {
   display: none !important;
 }
-</style><style id="learn-more-style">
-.hidden-by-learnmore { display: none !important; }
-.learn-more-btn { cursor: pointer; }
-</style></head>
+</style>
+<style>
+  /* Hide-only class for 'Go to Recommendations' buttons */
+  .hide-go-to-reco { display: none !important; }
+</style>
+
+</head>
 <body>
 <header class="sticky">
 <div class="container">
@@ -929,7 +932,7 @@ button[aria-label="Reset all selections"]:hover {
 <div class="product-grid" id="tractorList" role="list"></div>
 </section>
 <section aria-labelledby="cats-section-title" class="card">
-<h2 class="section-title" id="cats-section-title">2) Choose Applications &amp; Equipment Needs</h2>
+<h2 class="section-title" id="cats-section-title">2) Attachments &amp; Implements</h2>
 <div aria-label="Categories" class="list" id="catPills" role="group"></div>
 <div class="foot-actions" style="display:flex; gap:8px; margin-top:8px;">
 <button aria-label="Go to Recommendations" class="btn" id="reviewBtn">Go to Recommendations</button>
@@ -991,6 +994,7 @@ button[aria-label="Reset all selections"]:hover {
   {
     "Model": "AFDHX60",
     "Product Name": "Summit 60\" Angle Frame Disc Harrow",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit 60\" Angle Frame Disc Harrow breaks up soil clods and incorporates residue, prepping ground for planting or leveling.",
     "Image URL": "https://summittractors.com/summitpics/AFDHX60_BR.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1000,13 +1004,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Incorporate residues and prep beds for spring using Summit 60\" Angle Frame Disc Harrow.",
     "Seasonal Use - Winter": "Clean, grease, and store Summit 60\" Angle Frame Disc Harrow under cover to prevent rust.",
     "Key Features": "Strong tines; Soil preparation; Easy depth adjustment",
-    "Category": "Tilling & Soil Preparation",
+    "Category": "Angle Frame Disc Harrow - 60\"",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "BBX60",
     "Product Name": "Summit 60\" Box Blade",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit 60\" Box Blade is designed for grading, leveling, and pulling material, equipped with scarifiers for tougher jobs.",
     "Image URL": "https://summittractors.com/summitpics/BOX-BLADE.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1016,13 +1021,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Touch up grades and improve drainage paths with Summit 60\" Box Blade before freeze.",
     "Seasonal Use - Winter": "Use Summit 60\" Box Blade for light snow windrows or to manage runoff when thawing.",
     "Key Features": "Levels surfaces; Robust steel; Easy to use",
-    "Category": "Grading",
+    "Category": "Box Blade - 60\"",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "BHBX16",
     "Product Name": "Summit Optional 16\" Backhoe Bucket",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit Optional 16\" Backhoe Bucket attachment allows compact tractors to dig trenches, plant trees, and tackle light excavation with ease.",
     "Image URL": "https://summittractors.com/summitpics/Summit-BHBX16-Optional-Backhoe-Bucket-(1).png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1032,13 +1038,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Summit Optional 16\" Backhoe Bucket supports cleanup and prepâ€”manage residue, move materials, and button things up before winter.",
     "Seasonal Use - Winter": "Summit Optional 16\" Backhoe Bucket stays useful in cold weatherâ€”storage, upkeep, or snow-related tasks where applicable.",
     "Key Features": "Summit Optional 16\" Backhoe Bucket is durable; Easy to use; Reliable performance",
-    "Category": "Additional Backhoe Buckets",
+    "Category": "Backhoe Bucket-Add 8\" Bucket to 12\" Standard",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "BHBX8",
     "Product Name": "Summit Optional 8\" Backhoe Bucket",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit Optional 8\" Backhoe Bucket attachment allows compact tractors to dig trenches, plant trees, and tackle light excavation with ease.",
     "Image URL": "https://summittractors.com/summitpics/Summit-BHBX8-Optional-Backhoe-Bucket-copy.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1048,13 +1055,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Summit Optional 8\" Backhoe Bucket supports cleanup and prepâ€”manage residue, move materials, and button things up before winter.",
     "Seasonal Use - Winter": "Summit Optional 8\" Backhoe Bucket stays useful in cold weatherâ€”storage, upkeep, or snow-related tasks where applicable.",
     "Key Features": "Summit Optional 8\" Backhoe Bucket is durable; Easy to use; Reliable performance",
-    "Category": "Additional Backhoe Buckets",
+    "Category": "Backhoe Bucket-Add 16\" Bucket to 12\" Standard",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "BHSPX1",
     "Product Name": "Summit Optional Street Pads",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit Optional Street Pads is a compact tractor attachment designed to improve productivity for property maintenance and farm tasks.",
     "Image URL": "https://summittractors.com/summitpics/Summit-BHSPX1-Optional-Street-Pads.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1066,11 +1074,12 @@ button[aria-label="Reset all selections"]:hover {
     "Key Features": "Summit Optional Street Pads is durable; Easy to use; Reliable performance",
     "Category": "Backhoe Street Pads",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "BPX1",
     "Product Name": "Summit BPX1 Boom Pole",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit BPX1 Boom Pole lifts engines, materials, or supplies, extending tractor reach for loading and handling.",
     "Image URL": "https://summittractors.com/summitpics/BOOM-POLE.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1080,13 +1089,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Use Summit BPX1 Boom Pole for firewood and harvest-season handling.",
     "Seasonal Use - Winter": "Relocate bundled goods and keep supplies organized with Summit BPX1 Boom Pole.",
     "Key Features": "Summit BPX1 Boom Pole is durable; Easy to use; Reliable performance",
-    "Category": "Carry-Boom Pole",
+    "Category": "Boom Pole",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "BPX60",
     "Product Name": "Summit BPX60 BoxPlane",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit BPX60 BoxPlane is a compact tractor attachment designed to improve productivity for property maintenance and farm tasks.",
     "Image URL": "https://summittractors.com/summitpics/Boxplane-2---Copy.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1096,13 +1106,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Touch up grades and improve drainage paths with Summit BPX60 BoxPlane before freeze.",
     "Seasonal Use - Winter": "Use Summit BPX60 BoxPlane for light snow windrows or to manage runoff when thawing.",
     "Key Features": "Levels surfaces; Robust steel; Easy to use",
-    "Category": "Grading - Box Blade & Land Plane in One",
+    "Category": "BoxPlane - Box Blade & Land Plane In One  -60\"",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "CAX1",
     "Product Name": "Summit CAX1 Carry All",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit CAX1 Carry All carries tools, supplies, and firewood, making transport around the property simple.",
     "Image URL": "https://summittractors.com/summitpics/CARRY-ALL.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1112,13 +1123,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Use Summit CAX1 Carry All for firewood and harvest-season handling.",
     "Seasonal Use - Winter": "Relocate bundled goods and keep supplies organized with Summit CAX1 Carry All.",
     "Key Features": "Summit CAX1 Carry All is durable; Easy to use; Reliable performance",
-    "Category": "Carry-All",
+    "Category": "Carry All",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "FMX60",
     "Product Name": "Summit 60\" 3-Point Finish Mower",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit 60\" 3-Point Finish Mower delivers a smooth, lawn quality cut across large turf areas, ideal for estates and grounds maintenance.",
     "Image URL": "https://summittractors.com/summitpics/FINISH-MOWER.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1128,13 +1140,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Use Summit 60\" 3-Point Finish Mower for final cuts and to mulch leaves before winter.",
     "Seasonal Use - Winter": "Service and store Summit 60\" 3-Point Finish Mower; sharpen blades and check belts for the next season.",
     "Key Features": "Sharp cutting deck; Adjustable height; Durable construction",
-    "Category": "Mowing",
+    "Category": "Finish Mower - 3-Point - 60\"",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "GX54",
     "Product Name": "Summit 54\" SSQA Grapple",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit 54\" SSQA Grapple grips logs, brush, and debris securely, making land clearing and storm cleanup more efficient.",
     "Image URL": "https://summittractors.com/summitpics/GRAPPLE-LOG-TIGHT---Copy.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1144,13 +1157,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Load firewood and clean fence lines with Summit 54\" SSQA Grapple.",
     "Seasonal Use - Winter": "Stage Summit 54\" SSQA Grapple for storm cleanup or move logs/firewood as needed.",
     "Key Features": "High lift capacity; Secure grip; Works with logs and debris",
-    "Category": "Material Handling - Grapple",
+    "Category": "Grapple - SSQA - 54\"",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "LPX60",
     "Product Name": "Summit 60\" Land Plane",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit 60\" Land Plane levels and smooths gravel driveways and surfaces, quickly removing ruts and washboards.",
     "Image URL": "https://summittractors.com/summitpics/LAND-PLANE.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1160,13 +1174,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Touch up grades and improve drainage paths with Summit 60\" Land Plane before freeze.",
     "Seasonal Use - Winter": "Use Summit 60\" Land Plane for light snow windrows or to manage runoff when thawing.",
     "Key Features": "Levels surfaces; Robust steel; Easy to use",
-    "Category": "Grading",
+    "Category": "Land Plane/Grader - 60\"",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "LRX60",
     "Product Name": "Summit 60\" Landscape Rake",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit 60\" Landscape Rake collects rocks and debris, smooths topsoil, and grooms gravel for a clean, finished look.",
     "Image URL": "https://summittractors.com/summitpics/LANDSCAPE-RAKE.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1176,13 +1191,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Windrow leaves and surface debris with Summit 60\" Landscape Rake for quick cleanup.",
     "Seasonal Use - Winter": "Store and service Summit 60\" Landscape Rake so itâ€™s ready for spring.",
     "Key Features": "Smooth raking; Durable tines; Easy attachment",
-    "Category": "Landscaping",
+    "Category": "Landscape Rake - 60\"",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "MBSSX1",
     "Product Name": "Summit MBSSX1 Middle Buster-SubSoiler ",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit MBSSX1 Middle Buster Sub-Soiler Combo breaks hardpan, improves drainage, and opens furrows for planting.",
     "Image URL": "https://summittractors.com/summitpics/MIDDLE-BUSTER-SUB-SOILER-COMBO.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1192,13 +1208,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Overseed lawns or apply lime/fertilizer with Summit MBSSX1 Middle Buster Sub-Soiler Combo for strong spring emergence.",
     "Seasonal Use - Winter": "Summit MBSSX1 Middle Buster Sub-Soiler Combo stays useful in cold weatherâ€”storage, upkeep, or snow-related tasks where applicable.",
     "Key Features": "Summit MBSSX1 Middle Buster Sub-Soiler Combo is durable; Easy to use; Reliable performance",
-    "Category": "Seedbed Preparation",
+    "Category": "Middle Buster - SubSoiler Combo",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "MBX1",
     "Product Name": "Summit MBX1 Middle Buster",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit MBX1 Middle Buster breaks hardpan, improves drainage, and opens furrows for planting.",
     "Image URL": "https://summittractors.com/summitpics/MIDDLE-BUSTER.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1208,13 +1225,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Overseed lawns or apply lime/fertilizer with Summit MBX1 Middle Buster for strong spring emergence.",
     "Seasonal Use - Winter": "Summit MBX1 Middle Buster stays useful in cold weatherâ€”storage, upkeep, or snow-related tasks where applicable.",
     "Key Features": "Summit MBX1 Middle Buster is durable; Easy to use; Reliable performance",
-    "Category": "Seedbed Preparation",
+    "Category": "Middle Buster",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "PFX42",
     "Product Name": "Summit 42\" SSQA Pallet Forks",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit 42\" SSQA Pallet Forks lifts and transports pallets, feed, and materials, turning a compact tractor into a handy forklift.",
     "Image URL": "https://summittractors.com/summitpics/PALLET-FORKS.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1224,13 +1242,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Shift totes, firewood, and supplies with Summit 42\" SSQA Pallet Forks for winter prep.",
     "Seasonal Use - Winter": "Use Summit 42\" SSQA Pallet Forks to handle salt, sand, or bundled materials in cold weather.",
     "Key Features": "Move pallets; Adjustable spacing; Heavy-duty frame",
-    "Category": "Material Handling - Pallet Forks",
+    "Category": "Pallet Forks - SSQA - 42\"",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "QHX1",
     "Product Name": "Summit QHX1 Quick Hitch",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit QHX1 Quick Hitch attachment makes maneuvering trailers and implements quick and precise.",
     "Image URL": "https://summittractors.com/summitpics/QUICK-HITCH.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1240,13 +1259,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Summit QHX1 Quick Hitch supports cleanup and prepâ€”manage residue, move materials, and button things up before winter.",
     "Seasonal Use - Winter": "Summit QHX1 Quick Hitch stays useful in cold weatherâ€”storage, upkeep, or snow-related tasks where applicable.",
     "Key Features": "Summit QHX1 Quick Hitch is durable; Easy to use; Reliable performance",
-    "Category": "Quick Hitch",
+    "Category": " Quick Hitch - Category 1",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "RBX60",
     "Product Name": "Summit 60\" Rear Blade",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit 60\" Rear Blade is a versatile blade for driveways and ditches, capable of grading, crowning, and light snow removal.",
     "Image URL": "https://summittractors.com/summitpics/REAR-BLADE.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1256,13 +1276,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Touch up grades and improve drainage paths with Summit 60\" Rear Blade before freeze.",
     "Seasonal Use - Winter": "Use Summit 60\" Rear Blade for light snow windrows or to manage runoff when thawing.",
     "Key Features": "Levels surfaces; Robust steel; Easy to use",
-    "Category": "Grading",
+    "Category": "Rear Blade - 60\"",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "RCX48",
     "Product Name": "Summit 48\" Rotary Cutter",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit 48\" Rotary Cutter is built to mow fields, pastures, and road edges, handling tall grass and brush with durable blades.",
     "Image URL": "https://summittractors.com/summitpics/ROTARY-CUTTER.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1272,13 +1293,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Cut back seasonal growth and tidy property edges with Summit 48\" Rotary Cutter.",
     "Seasonal Use - Winter": "Inspect and store Summit 48\" Rotary Cutter; grease pivots and check driveline components.",
     "Key Features": "Summit 48\" Rotary Cutter is durable; Easy to use; Reliable performance",
-    "Category": "Brush Cutting",
+    "Category": "Rotary Cutter - 48\"",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "RTLRX48",
     "Product Name": "Summit 48\" Rotary Tiller",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit 48\" Rotary Tiller prepares soil for planting by breaking ground, mixing amendments, and cultivating gardens and plots.",
     "Image URL": "https://summittractors.com/summitpics/TILLER.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1288,13 +1310,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Incorporate residues and prep beds for spring using Summit 48\" Rotary Tiller.",
     "Seasonal Use - Winter": "Clean, grease, and store Summit 48\" Rotary Tiller under cover to prevent rust.",
     "Key Features": "Strong tines; Soil preparation; Easy depth adjustment",
-    "Category": "Tilling & Soil Preparation",
+    "Category": "Rotary Tiller - 48\"",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "SPX60",
     "Product Name": "Summit 60\" Snow Pusher",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit 60\" Snow Pusher is built for efficient snow clearing, pushing heavy accumulations from driveways and lots.",
     "Image URL": "https://summittractors.com/summitpics/SNOW-PUSHER.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1304,13 +1327,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Stage Summit 60\" Snow Pusher for the first snowâ€”inspect edges, check hardware, and position it for quick deployment.",
     "Seasonal Use - Winter": "Summit 60\" Snow Pusher is built for winterâ€”clear driveways and lots, push heavy snow, and keep access open when storms hit.",
     "Key Features": "Heavy-duty blade; Clears snow quickly; Built for winter use",
-    "Category": "Snow Removal",
+    "Category": "Snow Pusher - 60\"",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "SPX60DK",
     "Product Name": "Summit 60\" Snow Pusher Drag Kit",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit 60\" Snow Pusher Drag Kit is built for efficient snow clearing, pushing heavy accumulations from driveways and lots.",
     "Image URL": "https://summittractors.com/summitpics/SNOW-PUSHER-DRAG.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1320,13 +1344,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Stage Summit 60\" Snow Pusher Drag Kit for the first snowâ€”inspect edges, check hardware, and position it for quick deployment.",
     "Seasonal Use - Winter": "Summit 60\" Snow Pusher Drag Kit is built for winterâ€”clear driveways and lots, push heavy snow, and keep access open when storms hit.",
     "Key Features": "Heavy-duty blade; Clears snow quickly; Built for winter use",
-    "Category": "Snow Removal",
+    "Category": "Snow Pusher  - 60\" With Drag",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "SSX1",
     "Product Name": "Summit SSX1 Sub-Soiler",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit SSX1 Sub-Soiler is a compact tractor attachment designed to improve productivity for property maintenance and farm tasks.",
     "Image URL": "https://summittractors.com/summitpics/SUBSOILER.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1336,13 +1361,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Overseed lawns or apply lime/fertilizer with Summit SSX1 Sub-Soiler for strong spring emergence.",
     "Seasonal Use - Winter": "Summit SSX1 Sub-Soiler stays useful in cold weatherâ€”storage, upkeep, or snow-related tasks where applicable.",
     "Key Features": "Summit SSX1 Sub-Soiler is durable; Easy to use; Reliable performance",
-    "Category": "Seedbed Preparation",
+    "Category": "Sub-Soiler",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "SSX500",
     "Product Name": "Summit SSX500 Seeder/Spreader",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit SSX500 Seeder/Spreader distributes seed, fertilizer, or lime evenly to promote uniform growth.",
     "Image URL": "https://summittractors.com/summitpics/SEEDER-SPREADER.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1352,13 +1378,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Overseed lawns or apply lime/fertilizer with Summit SSX500 Seeder/Spreader for strong spring emergence.",
     "Seasonal Use - Winter": "Summit SSX500 Seeder/Spreader stays useful in cold weatherâ€”storage, upkeep, or snow-related tasks where applicable.",
     "Key Features": "Summit SSX500 Seeder/Spreader is durable; Easy to use; Reliable performance",
-    "Category": "Seeding & Spreading",
+    "Category": "Seeder/Spreader",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "TMX1",
     "Product Name": "Summit TMX1 Trailer Mover",
+    "Product Type": "Attachment & Implement",
     "Description": "The Summit TMX1 Trailer Mover attachment makes maneuvering trailers and implements quick and precise.",
     "Image URL": "https://summittractors.com/summitpics/TRAILER-MOVER.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1368,13 +1395,14 @@ button[aria-label="Reset all selections"]:hover {
     "Seasonal Use - Fall": "Use Summit TMX1 Trailer Mover for firewood and harvest-season handling.",
     "Seasonal Use - Winter": "Relocate bundled goods and keep supplies organized with Summit TMX1 Trailer Mover.",
     "Key Features": "Summit TMX1 Trailer Mover is durable; Easy to use; Reliable performance",
-    "Category": "Pull a Trailer",
+    "Category": "Trailer Mover",
     "Price": " $1.00 ",
-    "SKU": "12345678"
+    "SKU": 12345678
   },
   {
     "Model": "TX25HLX85",
     "Product Name": "Summit TX25H Tractor & Loader",
+    "Product Type": "Tractor",
     "Description": "The Summit TX25H compact tractor is a versatile, year-round workhorse designed to handle a wide range of tasks with ease. With the right attachments, it can mow, grade, haul, dig, till, and clear snow, delivering the power of a larger tractor in a smaller, more maneuverable package. This adaptability makes the TX25H a smart investment for property owners who want one machine that can do it all.",
     "Image URL": "https://summittractors.com/summitpics/Dump---Copy.png",
     "Video URL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC",
@@ -1386,11 +1414,12 @@ button[aria-label="Reset all selections"]:hover {
     "Key Features": "24.7 HP Mitsubishi 3-Cyl. EPA Tier 4 Diesel Engine; 3rd Function Hydraulics - Grapple Ready; Rear Hydraulic Remotes; Self-Leveling SSQA Loader; Goodyear All-Condition R14T Tires; RimGuard Liquid Tire Ballast in the Rears; Premium Suspension Seat With Backrest Extension; Toolbox; Rear Work Light; Swinging Drawbar; Cross Drawbar; Front Tow hook",
     "Category": "Tractor",
     "Price": " $19,499.00 ",
-    "SKU": "12345678"
+    "SKU": 6014687
   },
   {
     "Model": "TX25HLX85BHX76",
     "Product Name": "Summit TX25H Tractor & Loader & Backhoe",
+    "Product Type": "Tractor",
     "Description": "Pairing the Summit BHX76 Backhoe with the Summit TX25H transforms the tractor into a true digging and excavation machine. The backhoe makes it easy to handle jobs like trenching for utilities, planting trees, removing stumps, and clearing ditches, tasks a tractor alone cannot tackle. Together, they create a powerful, all-in-one solution for year-round property maintenance and improvement.",
     "Image URL": "https://summittractors.com/summitpics/SUMMIT-TX25HLX85BHX76.png",
     "Video URL": "https://youtu.be/GmgAs2ao3sI?si=spAiZ1oiwAKpyiTE",
@@ -1402,7 +1431,7 @@ button[aria-label="Reset all selections"]:hover {
     "Key Features": "All Features of the Summit TX25H Tractor & LX85 Loader; Mechanical Thumb to Lift Boulders; Logs and Other Material; Independent Operator Seat - No Need to Pivot the Tractor Seat Around; Standard 12\" Bucket; Optional 8\" & 16\" Buckets; Backhoe On/Off the Tractor in Minutes; Locking Pin Keepers so They Don't Get Lost; ISO SAE Operator Controls; Full Subframe Mount; SMV Sign for Transport Safety on the Road",
     "Category": "Tractor",
     "Price": " $27,499.00 ",
-    "SKU": "12345678"
+    "SKU": 6014686
   }
 ];
 window.RAW_DATA = RAW_DATA; // expose for PDF builder
@@ -1415,12 +1444,36 @@ window.RAW_DATA = RAW_DATA; // expose for PDF builder
 
 
     
-    const CAT_LIST = ["Additional Backhoe Buckets", "Backhoe Street Pads", "Brush Cutting", "Carry-All", "Carry-Boom Pole", "Grading", "Grading - Box Blade & Land Plane in One", "Landscaping", "Material Handling - Grapple", "Material Handling - Pallet Forks", "Mowing", "Pull a Trailer", "Quick Hitch", "Seedbed Preparation", "Seeding & Spreading", "Snow Removal", "Tilling & Soil Preparation", "Tractor"];
+    const CAT_LIST = Array.from(new Set(
+  RAW_DATA.filter(r => String(r["Product Type"]||'').trim().toLowerCase() === 'attachment & implement')
+          .map(r => String(r.Category||'').trim())
+)).filter(Boolean);
+const CATEGORY_TO_MODEL = (() => {
+  const map = Object.create(null);
+  for (const r of RAW_DATA) {
+    const pt = String(r["Product Type"]||'').trim().toLowerCase();
+    if (pt !== 'attachment & implement') continue;
+    const cat = String(r.Category||'').trim();
+    const mdl = String(r.Model||'').trim();
+    if (cat && mdl && map[cat] === undefined) map[cat] = mdl;
+  }
+  return map;
+})();
+
+
     const PLACEHOLDER = "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%0A%20%20%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23e6f0f1%22/%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23cbdadd%22/%3E%0A%20%20%3C/linearGradient%3E%3C/defs%3E%0A%20%20%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%3Cg%20fill%3D%22%23254A4F%22%3E%0A%20%20%20%20%3Crect%20x%3D%22360%22%20y%3D%22160%22%20width%3D%2280%22%20height%3D%2280%22%20rx%3D%2212%22%20opacity%3D%220.2%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22400%22%20cy%3D%22190%22%20r%3D%2224%22%20opacity%3D%220.25%22/%3E%0A%20%20%20%20%3Crect%20x%3D%22300%22%20y%3D%22260%22%20width%3D%22200%22%20height%3D%2212%22%20rx%3D%226%22%20opacity%3D%220.35%22/%3E%0A%20%20%3C/g%3E%0A%20%20%3Ctext%20x%3D%2250%25%22%20y%3D%2288%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%23254A4F%22%20font-family%3D%22Inter%2C%20Arial%22%20font-size%3D%2222%22%3ENo%20Image%3C/text%3E%0A%3C/svg%3E";
 
     function norm(s) { return (s || '').toString().trim(); }
-    const tractors = RAW_DATA.filter(r => norm(r.Category).toLowerCase() === 'tractor');
-    const nonTractors = RAW_DATA.filter(r => norm(r.Category).toLowerCase() !== 'tractor');
+    const tractors = RAW_DATA.filter(r => {
+  const pt = String(r["Product Type"]||'').trim().toLowerCase();
+  const cat = (r.Category||'').toString().trim().toLowerCase();
+  return pt === 'tractor' || (pt === '' && cat === 'tractor');
+});
+const nonTractors = RAW_DATA.filter(r => {
+  const pt = String(r["Product Type"]||'').trim().toLowerCase();
+  const cat = (r.Category||'').toString().trim().toLowerCase();
+  return pt === 'attachment & implement' || (pt === '' && cat !== 'tractor');
+});
 
     const state = {
       selectedTractorModel: null,
@@ -2487,97 +2540,492 @@ document.body.addEventListener("click", (ev) => {
   } catch (err) {}
 })();
 </script>
-<script id="learn-more-script">
-(function(){
-  function normText(el){ return (el && (el.innerText||el.textContent)||"").trim().toLowerCase(); }
-  function isButtonLike(el){
-    if (!el) return false;
-    if (el.tagName === "BUTTON") return true;
-    if (el.tagName === "A") {
-      const role = (el.getAttribute("role")||"").toLowerCase();
-      const cls  = (el.className||"");
-      if (role === "button") return true;
-      if (/(^|\s)(btn|button)(\s|$)/i.test(cls)) return true;
-    }
-    return false;
+
+
+
+
+
+
+
+<style id="selected-list-layout-v3">
+  #selectedList { display:flex; flex-wrap:wrap; gap:12px; justify-content:flex-start; align-items:flex-start; }
+  #selectedList .selected-item { flex:0 0 auto; max-width:340px; }
+  .hidden-by-lm { display:none !important; }
+</style>
+
+
+
+
+<style id="lm-activate-v4">
+  /* Keep selected products left-justified in rows */
+  #selectedList { display:flex; flex-wrap:wrap; gap:12px; justify-content:flex-start; align-items:flex-start; }
+  #selectedList .selected-item { flex:0 0 auto; max-width:340px; }
+  /* Hidden state for Learn More-targeted buttons */
+  .hidden-by-lm { display:none !important; }
+  /* Visual activation highlight for an implement card */
+  .product-card.active, [data-product-card].active, .product.active {
+    outline: 3px solid #2e7d32; /* green highlight */
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(46,125,50,0.2);
   }
-  function isAlwaysVisible(el){
-    const t = normText(el);
-    // Always visible if it's Select Tractor, Add, or any "Go to ..." button
-    if (/(^|\b)select\s*tractor\b/.test(t)) return true;
-    if (/^add\b/.test(t)) return true;
-    if (/^go to\b/.test(t)) return true;
-    const cls = (el.className||"");
-    if (/(^|\s)tractor-select(\s|$)/i.test(cls)) return true;
-    if (/(^|\s)add-btn(\s|$)/i.test(cls)) return true;
-    return false;
+</style>
+
+<script id="lm-activate-v4-js">
+(function(){
+  if (window.__LM_ACTIVATE_V4__) return; window.__LM_ACTIVATE_V4__ = true;
+
+  const selectedList = document.getElementById('selectedList');
+  const tractorList  = document.getElementById('tractorList');
+  const catPillsWrap = document.getElementById('catPills');
+  // Try to resolve the implements grid (it may be called recoGrid or implGrid depending on earlier edits)
+  let implGrid = document.getElementById('implGrid') || document.getElementById('recoGrid');
+
+  // Build sets to recognize tractors (exclusive rule)
+  const TRACTOR_MODELS = new Set();
+  const TRACTOR_NAMES  = new Set();
+  try {
+    (window.RAW_DATA || []).forEach(r => {
+      const pt = String(r["Product Type"]||"").trim().toLowerCase();
+      const cat = String(r.Category||"").trim().toLowerCase();
+      if (pt === "tractor" || (!pt && cat === "tractor")) {
+        const m = String(r.Model||"").trim();
+        const n = String(r["Product Name"]||"").trim();
+        if (m) TRACTOR_MODELS.add(m);
+        if (n) TRACTOR_NAMES.add(n);
+      }
+    });
+  } catch(_) {}
+
+  function cardKey(card){
+    const name = (card.querySelector('.product-name,.title')?.textContent||'').trim();
+    const model = (card.querySelector('.product-model,[data-model]')?.textContent||card.getAttribute('data-model')||'').trim();
+    return name || model;
   }
 
-  const allCards = [];
-  function processCard(card){
-    if (!card || card.__learnMoreProcessed) return;
-    const buttons = Array.from(card.querySelectorAll("button, a[role='button'], .btn")).filter(isButtonLike);
-    if (!buttons.length) { card.__learnMoreProcessed = true; return; }
-    const hideThese = [];
-    let learnMore = null;
-    buttons.forEach(btn => {
-      const t = normText(btn);
-      if (/^learn\s*more\b/.test(t)) { learnMore = btn; btn.classList.add("learn-more-btn"); return; }
-      if (!isAlwaysVisible(btn)) hideThese.push(btn);
+  function buildSelectedFromCard(card){
+    const clone = card.cloneNode(true);
+    clone.querySelectorAll('button').forEach(b => b.remove());
+    clone.classList.add('selected-item');
+    const name = (card.querySelector('.product-name,.title')?.textContent||'').trim();
+    const model = (card.querySelector('.product-model,[data-model]')?.textContent||card.getAttribute('data-model')||'').trim();
+    if (name)  clone.setAttribute('data-title', name);
+    if (model) clone.setAttribute('data-model', model);
+    return clone;
+  }
+
+  function upsertSelected(card, {exclusiveTractor=false} = {}){
+    if (!selectedList) return;
+    if (exclusiveTractor){
+      Array.from(selectedList.children).forEach(el => {
+        const title = (el.getAttribute('data-title')||'').trim();
+        const model = (el.getAttribute('data-model')||'').trim();
+        if (TRACTOR_NAMES.has(title) || TRACTOR_MODELS.has(model)) el.remove();
+      });
+    }
+    const key = cardKey(card);
+    const clone = buildSelectedFromCard(card);
+    if (!key){ selectedList.appendChild(clone); return; }
+    for (const el of Array.from(selectedList.children)){
+      const k2 = (el.getAttribute('data-title')||el.querySelector('.product-name,.title')?.textContent||'').trim() ||
+                 (el.getAttribute('data-model')||el.querySelector('.product-model,[data-model]')?.textContent||'').trim();
+      if (k2 === key){ el.replaceWith(clone); return; }
+    }
+    selectedList.appendChild(clone);
+  }
+
+  // Enforce only one tractor in Selected; no auto-scroll
+  function wireExclusiveTractor(){
+    if (!tractorList || tractorList.__wiredLMV4) return;
+    tractorList.__wiredLMV4 = true;
+    tractorList.addEventListener('click', (e) => {
+      const btn = e.target.closest('.tractor-select, button.tractor-select');
+      if (!btn) return;
+      setTimeout(() => { // allow existing handlers
+        const card = btn.closest('.product,.product-card,[data-product-card]');
+        if (!card) return;
+        // button visual state
+        tractorList.querySelectorAll('.tractor-select').forEach(b => {
+          if (b !== btn){ b.setAttribute('aria-pressed','false'); b.classList.remove('is-selected'); }
+        });
+        btn.setAttribute('aria-pressed','true'); btn.classList.add('is-selected');
+        // exclusive tractor in selected
+        upsertSelected(card, {exclusiveTractor:true});
+      }, 0);
     });
-    if (!hideThese.length) { card.__learnMoreProcessed = true; return; }
-    hideThese.forEach(b => b.classList.add("hidden-by-learnmore"));
-    if (!learnMore){
-      learnMore = document.createElement("button");
-      learnMore.type = "button";
-      learnMore.className = "btn learn-more-btn";
-      learnMore.textContent = "Learn More";
-      const firstHidden = hideThese[0];
-      if (firstHidden && firstHidden.parentElement) {
-        firstHidden.parentElement.insertBefore(learnMore, firstHidden);
-      } else {
-        card.appendChild(learnMore);
-      }
+  }
+
+  // Learn More: ensure button exists and works; exclusive open
+  function ensureLearnMore(card){
+    if (!card || card.__lmV4) return;
+    card.__lmV4 = true;
+
+    // Create Learn More button if missing
+    let lm = card.querySelector('.learn-more-btn');
+    if (!lm){
+      lm = document.createElement('button');
+      lm.type = 'button';
+      lm.className = 'btn learn-more-btn';
+      lm.textContent = 'Learn More';
+      // Prefer a footer/actions area if present; else append to card
+      const actions = card.querySelector('.actions, .footer, .card-actions');
+      if (actions) actions.appendChild(lm); else card.appendChild(lm);
+    } else {
+      // make sure it's visible
+      lm.style.display = '';
     }
-    let open = false;
-    function setState(next){
-      open = next;
-      hideThese.forEach(b => b.classList.toggle("hidden-by-learnmore", !open));
-      learnMore.setAttribute("aria-expanded", open ? "true" : "false");
-      learnMore.textContent = open ? "Hide" : "Learn More";
+
+    function buttonsToHide(){
+      return Array.from(card.querySelectorAll('button')).filter(b =>
+        !b.classList.contains('tractor-select') &&
+        !b.classList.contains('add-btn') &&
+        !/^\s*go to/i.test((b.textContent||'')) &&
+        !b.classList.contains('learn-more-btn')
+      );
     }
-    setState(false);
-    learnMore.addEventListener("click", function(){
+    // hide initially
+    buttonsToHide().forEach(b => b.classList.add('hidden-by-lm'));
+
+    lm.addEventListener('click', () => {
+      const open = card.classList.contains('lm-open');
+      // close others
+      document.querySelectorAll('.product.lm-open,.product-card.lm-open,[data-product-card].lm-open').forEach(other => {
+        if (other !== card){
+          other.classList.remove('lm-open');
+          other.querySelectorAll('button').forEach(b => {
+            if (!b.classList.contains('tractor-select') &&
+                !b.classList.contains('add-btn') &&
+                !/^\s*go to/i.test((b.textContent||'')) &&
+                !b.classList.contains('learn-more-btn')){
+              b.classList.add('hidden-by-lm');
+            }
+          });
+        }
+      });
       if (!open){
-        allCards.forEach(c => { if (c !== card && c.__setLearnMoreState) c.__setLearnMoreState(false); });
-      }
-      setState(!open);
-    });
-    card.__setLearnMoreState = setState;
-    allCards.push(card);
-    card.__learnMoreProcessed = true;
-  }
-  function scan(){
-    const containers = [document.getElementById("recoGrid"), document.getElementById("tractorList"), document.getElementById("selectedList")].filter(Boolean);
-    const cards = [];
-    containers.forEach(c => {
-      cards.push(...c.querySelectorAll(".product, .product-card, [data-product-card]"));
-      if (!cards.length) {
-        cards.push(...Array.from(c.children).filter(n => n.querySelector && n.querySelector("img") && n.querySelector("button")));
+        card.classList.add('lm-open');
+        buttonsToHide().forEach(b => b.classList.remove('hidden-by-lm'));
+      } else {
+        card.classList.remove('lm-open');
+        buttonsToHide().forEach(b => b.classList.add('hidden-by-lm'));
       }
     });
-    cards.forEach(processCard);
   }
-  if (document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", scan);
-  } else {
-    scan();
+
+  function initLearnMore(){
+    document.querySelectorAll('.product,.product-card,[data-product-card]').forEach(ensureLearnMore);
   }
-  const targets = ["recoGrid","tractorList","selectedList"].map(id => document.getElementById(id)).filter(Boolean);
-  targets.forEach(t => {
-    const mo = new MutationObserver(scan);
-    mo.observe(t, { childList: true, subtree: true });
+
+  // Activation when a category pill is pressed: open corresponding implement card
+  function wirePillActivation(){
+    if (!catPillsWrap || catPillsWrap.__wiredLMV4) return;
+    catPillsWrap.__wiredLMV4 = true;
+    catPillsWrap.addEventListener('click', (e) => {
+      const pill = e.target.closest('button, .pill');
+      if (!pill) return;
+      // Resolve category text
+      const cat = (pill.getAttribute('data-cat') || pill.textContent || '').trim();
+      if (!cat) return;
+      
+      // Ensure recommendations grid is built so cards exist
+      try {
+        state.hasReviewed = true;
+        if (typeof buildRecommendedModels === 'function') buildRecommendedModels();
+        if (typeof renderRecommended === 'function') renderRecommended();
+      } catch(_){}
+// Resolve model via CATEGORY_TO_MODEL if available; else try first card with matching category text
+      let model = null;
+      try {
+        if (window.CATEGORY_TO_MODEL) model = window.CATEGORY_TO_MODEL[cat] || null;
+      } catch(_) {}
+      // Re-resolve grid (in case id changed after earlier edits)
+      implGrid = document.getElementById('implGrid') || document.getElementById('recoGrid') || implGrid;
+      if (!implGrid) return;
+
+      const cards = Array.from(implGrid.querySelectorAll('.product,.product-card,[data-product-card]'));
+      let target = null;
+      // Try by model
+      if (model){
+        target = cards.find(c => {
+          const m = (c.querySelector('.product-model,[data-model]')?.textContent || c.getAttribute('data-model') || '').trim();
+          return m && m === model;
+        });
+      }
+      // Fallback by category text presence
+      if (!target){
+        target = cards.find(c => {
+          const txt = (c.textContent||'').toLowerCase();
+          return txt.includes(cat.toLowerCase());
+        });
+      }
+      if (!target) return;
+
+      // Activate: exclusive .active and open its Learn More
+      cards.forEach(c => c.classList.remove('active'));
+      target.classList.add('active');
+      // Ensure it has Learn More button and open
+      ensureLearnMore(target);
+      if (!target.classList.contains('lm-open')) {
+        target.classList.add('lm-open');
+        // reveal its hidden actions
+        Array.from(target.querySelectorAll('button')).forEach(b => {
+          if (!b.classList.contains('tractor-select') &&
+              !b.classList.contains('add-btn') &&
+              !/^\s*go to/i.test((b.textContent||'')) &&
+              !b.classList.contains('learn-more-btn')){
+            b.classList.remove('hidden-by-lm');
+          }
+        });
+      }
+    });
+  }
+
+  // Initial setup
+  try { wireExclusiveTractor(); } catch(_){}
+  try { initLearnMore(); } catch(_){}
+  try { wirePillActivation(); } catch(_){}
+
+  // Observe for dynamic updates
+  const mo = new MutationObserver(() => {
+    try { initLearnMore(); } catch(_){}
+    // grid may be rebuilt; refresh implGrid reference
+    implGrid = document.getElementById('implGrid') || document.getElementById('recoGrid') || implGrid;
   });
+  mo.observe(document.body, {childList:true, subtree:true});
 })();
-</script></body>
+</script>
+
+
+<script id="lm-enforce-toggle-order-v3">
+(function(){
+  if (window.__LM_TOGGLE_ENFORCE_V3__) return; window.__LM_TOGGLE_ENFORCE_V3__ = true;
+
+  function normalizeText(s){ return (s||"").trim().toLowerCase(); }
+
+  function isGoToButton(btn){
+    const txt = normalizeText(btn.textContent);
+    return /^go to/.test(txt);
+  }
+  function isSelectLike(btn){
+    return btn.classList.contains('tractor-select') ||
+           btn.classList.contains('select-btn') ||
+           btn.classList.contains('add-btn') ||
+           /select/i.test(btn.textContent||"");
+  }
+  function ensureSecondAndHidden(card){
+    if(!card) return;
+    // Make sure a learn more exists
+    var lm = card.querySelector('.learn-more-btn');
+    if(!lm){
+      lm = document.createElement('button');
+      lm.type = 'button';
+      lm.className = 'btn learn-more-btn';
+      lm.textContent = 'Learn More';
+      (card.querySelector('.actions, .footer, .card-actions') || card).appendChild(lm);
+    }
+    // Find/select container
+    var container = card.querySelector('.actions, .footer, .card-actions') || card;
+    // Reorder: Learn More immediately after Select-like button if present, else second button
+    try{
+      var selectLike = container.querySelector('.tractor-select, .select-btn, .add-btn') ||
+                       Array.from(container.querySelectorAll('button')).find(isSelectLike);
+      if(selectLike){
+        if(lm !== selectLike.nextElementSibling){
+          selectLike.insertAdjacentElement('afterend', lm);
+        }
+      }else{
+        var btns = Array.from(container.querySelectorAll('button'));
+        if(btns.length > 1 && btns[1] !== lm){
+          btns[1].insertAdjacentElement('beforebegin', lm);
+        }
+      }
+    }catch(e){}
+
+    // Initial hide: hide all buttons except Learn More, Select-like and "Go to..."
+    try{
+      Array.from(container.querySelectorAll('button')).forEach(function(b){
+        if (b === lm) return;
+        if (isSelectLike(b)) return;
+        if (isGoToButton(b)) return;
+        b.classList.add('hidden-by-lm');
+      });
+    }catch(e){}
+  }
+
+  function applyAll(){
+    document.querySelectorAll('.product,.product-card,[data-product-card]').forEach(ensureSecondAndHidden);
+  }
+
+  // Run on ready, slight delay, and observe mutations to keep things correct
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){
+      applyAll(); setTimeout(applyAll, 150); setTimeout(applyAll, 400);
+    });
+  } else {
+    applyAll(); setTimeout(applyAll, 150); setTimeout(applyAll, 400);
+  }
+
+  // Observe body for changes
+  try{
+    const mo = new MutationObserver(function(){ applyAll(); });
+    mo.observe(document.body, {childList:true, subtree:true});
+  }catch(e){}
+})();
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  function hideGoToRecommendations(scope) {
+    var nodes = (scope || document).querySelectorAll('button, a');
+    nodes.forEach(function(el){
+      var txt = (el.textContent || '').trim().toLowerCase();
+      if (txt === 'go to recommendations' || txt.startsWith('go to recommendations')) {
+        el.classList.add('hide-go-to-reco');
+        // Extra safety to avoid focus/tab stop
+        if (el.tagName === 'A') el.setAttribute('tabindex','-1');
+        if (el.tagName === 'BUTTON') el.setAttribute('disabled','disabled');
+        el.setAttribute('aria-hidden','true');
+      }
+    });
+  }
+
+  hideGoToRecommendations(document);
+
+  // In case cards are rendered dynamically, observe and re-apply
+  try {
+    var obs = new MutationObserver(function(muts){
+      muts.forEach(function(m){
+        if (m.addedNodes && m.addedNodes.length) {
+          m.addedNodes.forEach(function(n){
+            if (n.nodeType === 1) hideGoToRecommendations(n);
+          });
+        }
+      });
+    });
+    obs.observe(document.body, { childList: true, subtree: true });
+  } catch(e) { /* no-op */ }
+});
+</script>
+
+
+<script>
+(function(){
+  // Category → {model, product} mapping from CSV
+  var CAT_MAP = {"Angle Frame Disc Harrow - 60\"": {"model": "AFDHX60", "product": "Summit 60\" Angle Frame Disc Harrow"}, "Box Blade - 60\"": {"model": "BBX60", "product": "Summit 60\" Box Blade"}, "Backhoe Bucket - Add 8\" Bucket to 12\" Standard": {"model": "BHBX16", "product": "Summit Optional 16\" Backhoe Bucket"}, "Backhoe Bucket - Add 16\" Bucket to 12\" Standard": {"model": "BHBX8", "product": "Summit Optional 8\" Backhoe Bucket"}, "Backhoe Street Pads": {"model": "BHSPX1", "product": "Summit Optional Street Pads"}, "Boom Pole": {"model": "BPX1", "product": "Summit BPX1 Boom Pole"}, "BoxPlane - Box Blade & Land Plane In One  -60\"": {"model": "BPX60", "product": "Summit BPX60 BoxPlane"}, "Carry All": {"model": "CAX1", "product": "Summit CAX1 Carry All"}, "Finish Mower - 3-Point - 60\"": {"model": "FMX60", "product": "Summit 60\" 3-Point Finish Mower"}, "Grapple - SSQA - 54\"": {"model": "GX54", "product": "Summit 54\" SSQA Grapple"}, "Land Plane/Grader - 60\"": {"model": "LPX60", "product": "Summit 60\" Land Plane"}, "Landscape Rake - 60\"": {"model": "LRX60", "product": "Summit 60\" Landscape Rake"}, "Middle Buster - SubSoiler Combo": {"model": "MBSSX1", "product": "Summit MBSSX1 Middle Buster-SubSoiler"}, "Middle Buster": {"model": "MBX1", "product": "Summit MBX1 Middle Buster"}, "Pallet Forks - SSQA - 42\"": {"model": "PFX42", "product": "Summit 42\" SSQA Pallet Forks"}, "Quick Hitch - Category 1": {"model": "QHX1", "product": "Summit QHX1 Quick Hitch"}, "Rear Blade - 60\"": {"model": "RBX60", "product": "Summit 60\" Rear Blade"}, "Rotary Cutter - 48\"": {"model": "RCX48", "product": "Summit 48\" Rotary Cutter"}, "Rotary Tiller - 48\"": {"model": "RTLRX48", "product": "Summit 48\" Rotary Tiller"}, "Snow Pusher - 60\"": {"model": "SPX60", "product": "Summit 60\" Snow Pusher"}, "Snow Pusher  - 60\" With Drag": {"model": "SPX60DK", "product": "Summit 60\" Snow Pusher Drag Kit"}, "Sub-Soiler": {"model": "SSX1", "product": "Summit SSX1 Sub-Soiler"}, "Seeder/Spreader": {"model": "SSX500", "product": "Summit SSX500 Seeder/Spreader"}, "Trailer Mover": {"model": "TMX1", "product": "Summit TMX1 Trailer Mover"}};
+  function norm(s){ return (s||'').trim().toLowerCase().replace(/\s+/g,' '); }
+
+  function getAttachRoot(){
+    var title = document.getElementById('cats-section-title');
+    return title ? (title.closest('section, .section, .container, .cards, .grid') || document) : document;
+  }
+
+  function labelKey(text){
+    var t = norm(text);
+    // Try exact key first
+    for (var k in CAT_MAP) { if (norm(k) === t) return k; }
+    // Try soft match (strip quotes)
+    t = t.replace(/[“”"']/g,'');
+    for (var k in CAT_MAP) { if (norm(k).replace(/[“”"']/g,'') === t) return k; }
+    return null;
+  }
+
+  function annotateButtons(){
+    var root = getAttachRoot();
+    var nodes = root.querySelectorAll('.pill-grid button, .pill-grid .pill, .category-grid button, .category-grid .pill, .attachments-grid button, .attachments-grid .pill, .cats-grid button, .cats-grid .pill, button.category-pill, .category-pill, .category-name, .category-tag, [data-category], [data-cat]');
+    nodes.forEach(function(el){
+      var txt = (el.textContent||'').trim();
+      var key = labelKey(txt);
+      if (!key) return;
+      var mp = CAT_MAP[key];
+      el.setAttribute('data-model', mp.model);
+      el.setAttribute('data-product', mp.product);
+      el.classList.add('cat-mapped');
+      // Make sure it's keyboard accessible if not already
+      if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex','0');
+      if (!el.hasAttribute('role')) el.setAttribute('role','button');
+    });
+  }
+
+  function findCards(){
+    return Array.from(document.querySelectorAll('.product-card, .card, .item-card'));
+  }
+
+  function cardMatches(card, model, product){
+    var txt = (card.textContent||'').toLowerCase();
+    model = (model||'').toLowerCase();
+    product = (product||'').toLowerCase();
+    return (model && txt.indexOf(model) !== -1) || (product && txt.indexOf(product) !== -1);
+  }
+
+  function getLearnMore(card){
+    var buttons = Array.from(card.querySelectorAll('button, a'));
+    var lm = buttons.find(function(b){
+      var t = (b.textContent||'').trim().toLowerCase();
+      return t === 'learn more' || t.startsWith('learn more');
+    });
+    return lm || null;
+  }
+
+  function closePreviouslyOpened(root){
+    var opened = root.querySelectorAll('.product-card.open, .card.open, .item-card.open');
+    opened.forEach(function(card){
+      var lm = getLearnMore(card);
+      if (lm) try { lm.click(); } catch(e){}
+    });
+  }
+
+  function openByData(el){
+    var model = el.getAttribute('data-model')||'';
+    var product = el.getAttribute('data-product')||'';
+    if (!model && !product) return false;
+    var root = getAttachRoot();
+    closePreviouslyOpened(root);
+    var cards = findCards();
+    var target = cards.find(function(c){ return cardMatches(c, model, product); });
+    if (!target) return false;
+    var lm = getLearnMore(target);
+    if (!lm) return false;
+    try { lm.click(); } catch(e){ return false; }
+    try { target.scrollIntoView({behavior:'smooth', block:'center'}); } catch(e){}
+    return true;
+  }
+
+  function installHandlers(){
+    var root = getAttachRoot();
+    root.addEventListener('click', function(e){
+      var el = e.target.closest('.cat-mapped, .category-pill, .pill, .btn, button, [data-model][data-product]');
+      if (!el) return;
+      var txt = (el.textContent||'').trim().toLowerCase();
+      if (txt.startsWith('go to')) return; // ignore navigational buttons
+      // Only handle if annotated
+      if (!el.hasAttribute('data-model') && !el.hasAttribute('data-product')) return;
+      if (openByData(el)) e.preventDefault();
+    }, true);
+
+    // Keyboard activation
+    root.addEventListener('keydown', function(e){
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var el = e.target.closest('.cat-mapped');
+      if (!el) return;
+      if (openByData(el)) e.preventDefault();
+    });
+
+    // Observe for dynamic content changes
+    try {
+      var obs = new MutationObserver(function(muts){ annotateButtons(); });
+      obs.observe(root, {childList:true, subtree:true});
+    } catch(e){}
+  }
+
+  function init(){
+    annotateButtons();
+    installHandlers();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+</body>
 </html>
