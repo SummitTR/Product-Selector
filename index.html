@@ -2165,6 +2165,81 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 })();
 </script>
+
+<script>
+// === Save/Print: always return to "View & Select Equipment" after user finishes ===
+(function(){
+  // Robust navigation back to View & Select
+  function goToViewSelect(){
+    try { if (typeof setActiveStep === "function") { setActiveStep("step2"); return; } } catch(e){}
+    try { if (typeof showScreen === "function") { showScreen("screen-step2"); return; } } catch(e){}
+    // Fallback: basic show/hide
+    try {
+      var screens = document.querySelectorAll('[id^="screen-"]');
+      screens.forEach(function(s){ s.style.display = (s.id === "screen-step2") ? "" : "none"; });
+      window.scrollTo({top:0, behavior:"smooth"});
+    } catch(e){}
+  }
+
+  // ---- INTERNAL (in-app) viewer hooks ----
+  // If your in-app viewer uses a modal with close/print buttons, wire those to return.
+  function bindInternalViewer(){
+    // Common ids/classes used earlier in this project
+    var modal = document.getElementById("pdfViewerModal") || document.getElementById("modal");
+    var closeBtn = document.getElementById("pdfCloseBtn") || (modal ? modal.querySelector(".player-close, .modal-close") : null);
+    var printBtn = document.getElementById("pdfPrintBtn") || document.getElementById("sp_print");
+
+    if (closeBtn && !closeBtn.dataset._returnBound){
+      closeBtn.dataset._returnBound = "1";
+      closeBtn.addEventListener("click", function(){ setTimeout(goToViewSelect, 0); });
+    }
+    if (printBtn && !printBtn.dataset._returnBound){
+      printBtn.dataset._returnBound = "1";
+      // After user-initiated print finishes, return
+      window.addEventListener("afterprint", function handler(){
+        window.removeEventListener("afterprint", handler);
+        setTimeout(goToViewSelect, 100);
+      });
+    }
+  }
+
+  // ---- EXTERNAL (popup) viewer hooks ----
+  // Intercept window.open to keep it in-app for PDFs; if a popup still opens, close on user finish.
+  if (!window.__savePrintWrapped){
+    window.__savePrintWrapped = true;
+    var origOpen = window.open;
+    window.open = function(url, target, feat){
+      try {
+        var isPdf = typeof url === "string" &&
+                    (/\\.pdf(\\?|#|$)/i.test(url) || url.startsWith("data:application/pdf") || url.startsWith("blob:"));
+        if (isPdf){
+          // Prefer in-app viewer if available
+          if (typeof openInAppPDF === "function"){ openInAppPDF(url); return null; }
+          // Fallback: open popup but monitor closure
+          var w = origOpen.apply(window, arguments);
+          try {
+            var timer = setInterval(function(){
+              if (!w || w.closed){ clearInterval(timer); goToViewSelect(); }
+            }, 700);
+          } catch(_) {}
+          return w;
+        }
+      } catch(_) {}
+      return origOpen.apply(window, arguments);
+    };
+  }
+
+  // Bind now and also after DOM is ready for internal buttons
+  if (document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", bindInternalViewer);
+  } else {
+    bindInternalViewer();
+  }
+  // Re-bind if UI re-renders buttons
+  var mo = new MutationObserver(function(){ bindInternalViewer(); });
+  try { mo.observe(document.body, { childList:true, subtree:true }); } catch(_) {}
+})();
+</script>
 </body>
 </html>
 <script>
