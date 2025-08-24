@@ -91,7 +91,6 @@ nav.steps .step.active { text-decoration:underline; }
 @media (min-width:960px){ .carousel .pane .media { height:clamp(260px,38vh,460px);} }
 /* === END: Overrides === */
 
-
 /* Header brand block: logo + two-line title */
 header.appbar .brand { display:flex; align-items:center; gap:12px; }
 header.appbar .brand-logo { height:64px; width:auto; display:block; }
@@ -108,7 +107,6 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
   header.appbar .brand-title .brand-bottom { font-size:22px; }
 }
 
-
 /* Overlay close button on the player */
 .dialog .content { position: relative; }
 .player-close{
@@ -120,7 +118,6 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
   cursor: pointer;
 }
 .player-close:focus{ outline:2px solid var(--ring); outline-offset:2px; }
-
 
 /* Selected card highlight & badge */
 .card, .pane { position: relative; }
@@ -136,7 +133,6 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
   background: var(--ring, #3b82f6); color:#fff; font-weight:700;
   box-shadow: 0 2px 6px rgba(0,0,0,0.25);
 }
-
 
 /* Selected card highlight & badge */
 .card.selected, .pane.selected {
@@ -159,7 +155,6 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
   font-size: 14px;
 }
 
-
 /* Style Enter Learning Center buttons */
 button[data-enterlc] {
   background-color: #254a4f !important;
@@ -169,7 +164,6 @@ button[data-enterlc] {
 button[data-enterlc]:hover {
   opacity: 0.9;
 }
-
 
 /* Force brand style for all Enter Learning Center buttons */
 button[data-enterlc],
@@ -185,7 +179,6 @@ button[data-enterlc].secondary:hover {
   opacity: 0.9;
 }
 
-
 /* Force brand style for the top-row Enter Learning Center button */
 #attachmentsControls button#enterLearningCenter,
 #attachmentsControls button#enterLearningCenter.secondary {
@@ -200,7 +193,6 @@ button[data-enterlc].secondary:hover {
   opacity: 0.9;
 }
 
-
 /* FINAL explicit style for toolbar Enter Learning Center button */
 #attachmentsControls #enterLearningCenter {
   background-color: #254a4f !important;
@@ -212,7 +204,6 @@ button[data-enterlc].secondary:hover {
   color: #ffffff !important;
   opacity: 0.9;
 }
-
 
 /* Brand style for the Step 2 toolbar Enter Learning Center button */
 #screen-step2 .toolbar #toStep3,
@@ -229,7 +220,6 @@ button[data-enterlc].secondary:hover {
   color: #ffffff !important;
   opacity: 0.9;
 }
-
 
 /* === Mobile Smart Header + Bottom Step Bar === */
 @media (max-width: 768px) {
@@ -285,7 +275,6 @@ button[data-enterlc].secondary:hover {
   }
 }
 
-
 /* === Mobile header declutter === */
 @media (max-width: 768px) {
   header.appbar {
@@ -297,7 +286,6 @@ button[data-enterlc].secondary:hover {
   .appbar .controls { display: none !important; }     /* hide Import/Share/Print on mobile */
   .appbar nav.grow, .appbar .steps { display: none !important; } /* hide step bubbles in header */
 }
-
 
 /* === Selected state (brand) === */
 .card, .pane { position: relative; }
@@ -316,7 +304,6 @@ button[data-enterlc].secondary:hover {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23254A4F" d="M9.0 16.2l-3.5-3.5-1.4 1.4L9.0 19 20 8l-1.4-1.4z"/></svg>');
   z-index: 2;
 }
-
 
 /* Styled Key Features list */
 .kfeatures {
@@ -338,7 +325,6 @@ button[data-enterlc].secondary:hover {
   color: #254A4F;
   font-weight: bold;
 }
-
 
 /* --- Ensure header shows logo + 3-item menu on one row --- */
 header { display: flex; align-items: center; gap: 16px; }
@@ -1863,7 +1849,132 @@ function printSelectionsPDF() {
     +     'Email: <a href="mailto:support@summittractors.com" style="color:#254A4F;text-decoration:none;">support@summittractors.com</a>'
     +     '<div style="margin-top:4px;">Links in this PDF are clickable.</div>'
     +   '</div>'
-    + '</body></html>';
+    + '
+<script>
+  // === Inline Save/Print (no external PDF) ===
+  (function(){
+    if (window.__inlineSavePrintBound) return;
+    window.__inlineSavePrintBound = true;
+
+    window.openSavePrintInline = function(){
+      try{
+        var modal = document.getElementById('modal');
+        var titleEl = document.getElementById('modalTitle');
+        var content = document.getElementById('modalContent');
+        if (!modal || !titleEl || !content) return alert('Viewer not available.');
+
+        // Build a simple, printable summary of current selections
+        function esc(s){ return String(s||''); }
+        function getImage(p){
+          try{
+            if (typeof getImages === 'function'){
+              var imgs = getImages(p);
+              return imgs && imgs[0] ? imgs[0] : '';
+            }
+          }catch(e){}
+          return '';
+        }
+        function selectedProducts(){
+          var out = [];
+          try{
+            if (window.state){
+              if (state.tractors && state.tractors.size){
+                Array.from(state.tractors).forEach(function(id){
+                  var it = state.data.find(function(d){ return String(d.ProductID)===String(id); });
+                  if (it) out.push(it);
+                });
+              }
+              if (state.attachments){
+                state.attachments.forEach(function(id){
+                  var it = state.data.find(function(d){ return String(d.ProductID)===String(id); });
+                  if (it) out.push(it);
+                });
+              }
+            }
+          }catch(e){}
+          return out;
+        }
+
+        var items = selectedProducts();
+        titleEl.textContent = 'Your Selections — Save or Print';
+        if (!items.length){
+          content.innerHTML = '<button class="player-close" type="button" aria-label="Close">×</button><div style="padding:12px;"><p>No products selected yet.</p></div>';
+          var closeBtn = content.querySelector('.player-close');
+          if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; };
+          modal.style.display = 'flex';
+          return;
+        }
+
+        var rows = items.map(function(p, idx){
+          var img = getImage(p);
+          return (
+            '<tr>' +
+              '<td style="padding:8px; vertical-align:top;">' + (idx+1) + '</td>' +
+              '<td style="padding:8px; vertical-align:top;">' + esc(p.ProductName) + '<div class="muted" style="font-size:12px;">Model: ' + esc(p.Model) + ' &nbsp; | &nbsp; SKU: ' + esc(p.SKU) + '</div></td>' +
+              '<td style="padding:8px; vertical-align:top; white-space:nowrap;">' + esc(p.Price) + '</td>' +
+              '<td style="padding:8px; vertical-align:top; width:120px;">' + (img ? '<img src="'+img+'" alt="" style="max-width:120px; max-height:80px; object-fit:contain;"/>' : '') + '</td>' +
+            '</tr>'
+          );
+        }).join('');
+
+        content.innerHTML = ''
+          + '<button class="player-close" type="button" aria-label="Close">×</button>'
+          + '<div id="printArea" style="padding:12px;">'
+          + '  <h2 style="margin:0 0 6px 0;">Summit Tractors — Saved Selections</h2>'
+          + '  <p class="muted" style="margin:0 0 12px 0;">Print or download your list. PDFs, brochures, and manuals open inside the app.</p>'
+          + '  <table style="width:100%; border-collapse:collapse;">'
+          + '    <thead>'
+          + '      <tr style="text-align:left; border-bottom:1px solid #e5e7eb;">'
+          + '        <th style="padding:8px;">#</th>'
+          + '        <th style="padding:8px;">Product</th>'
+          + '        <th style="padding:8px;">Price</th>'
+          + '        <th style="padding:8px;">Image</th>'
+          + '      </tr>'
+          + '    </thead>'
+          + '    <tbody>' + rows + '</tbody>'
+          + '  </table>'
+          + '</div>'
+          + '<div class="sticky-actions no-print">'
+          + '  <button id="sp_print" type="button">Print</button>'
+          + '  <button id="sp_csv" class="secondary" type="button">Download CSV</button>'
+          + '  <button id="sp_json" class="secondary" type="button">Download JSON</button>'
+          + '</div>';
+
+        // Wire controls
+        var closeBtn = content.querySelector('.player-close');
+        if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; };
+        var btnPrint = content.querySelector('#sp_print');
+        if (btnPrint) btnPrint.onclick = function(){ window.print(); };
+        var btnCSV = content.querySelector('#sp_csv');
+        if (btnCSV) btnCSV.onclick = function(){ try{ (window.downloadCSV||function(){alert("CSV export unavailable");})(); }catch(e){ alert("CSV export unavailable"); } };
+        var btnJSON = content.querySelector('#sp_json');
+        if (btnJSON) btnJSON.onclick = function(){ try{ (window.downloadJSON||function(){alert("JSON export unavailable");})(); }catch(e){ alert("JSON export unavailable"); } };
+
+        modal.style.display = 'flex';
+      }catch(err){
+        console.warn('openSavePrintInline error:', err);
+        alert('Sorry—could not open Save/Print viewer.');
+      }
+    };
+  })();
+</script>
+
+
+<script>
+  (function(){
+    // Force "Save or Print Your Selections" to open inline viewer, without external pop-ups
+    try {
+      document.querySelectorAll('.step[data-step="saveprint"]').forEach(function(st){
+        st.addEventListener('click', function(){
+          try { setActiveStep('saveprint'); } catch(e){}
+          try { openSavePrintInline(); } catch(e){ console.warn(e); }
+        });
+      });
+    } catch(e){ console.warn('saveprint bind error', e); }
+  })();
+</script>
+
+</body></html>';
 
   var w = window.open('', '_blank');
   if (!w) { alert('Pop-up blocked. Please allow pop-ups for this site.'); return; }
@@ -2009,6 +2120,51 @@ document.addEventListener('DOMContentLoaded', function(){
   })();
 </script>
 
+
+<script>
+(function(){
+  function stripStrayPopupText(root){
+    try {
+      var walker = document.createTreeWalker(root || document.body, NodeFilter.SHOW_TEXT, null);
+      var kill = [];
+      var re = /(var\s+w\s*=\s*window\.open|Pop-?up\s+blocked|w\.document\.write\s*\(\s*docHTML\s*\))/i;
+      while (walker.nextNode()) {
+        var n = walker.currentNode;
+        if (!n || !n.nodeValue) continue;
+        var txt = n.nodeValue.trim();
+        if (!txt) continue;
+        if (re.test(txt)) kill.push(n);
+      }
+      for (var i=0; i<kill.length; i++){ kill[i].nodeValue = ""; }
+    } catch(e) { /* no-op */ }
+  }
+  function initCleanup(){
+    stripStrayPopupText(document.body);
+    var mo = new MutationObserver(function(mutations){
+      for (var i=0; i<mutations.length; i++){
+        var added = mutations[i].addedNodes || [];
+        for (var j=0; j<added.length; j++){
+          var node = added[j];
+          if (node.nodeType === 3) {
+            var t = (node.nodeValue || "").trim();
+            if (/(var\s+w\s*=\s*window\.open|Pop-?up\s+blocked|w\.document\.write\s*\(\s*docHTML\s*\))/i.test(t)) {
+              node.nodeValue = "";
+            }
+          } else if (node.nodeType === 1) {
+            stripStrayPopupText(node);
+          }
+        }
+      }
+    });
+    try { mo.observe(document.body, { childList: true, subtree: true }); } catch(_) {}
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCleanup);
+  } else {
+    initCleanup();
+  }
+})();
+</script>
 </body>
 </html>
 <script>
