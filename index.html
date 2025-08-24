@@ -1909,6 +1909,62 @@ button.see-details{
 }
 button.see-details:hover{ opacity:.9 }
 button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); outline-offset:2px }
+
+/* === Tablet & Mobile header/footer adjustments (Summit request) === */
+@media (max-width: 1024px) {
+  header.appbar { position: static !important; }
+  /* Keep header simple: logo + "Summit Tractors Learning Center" only */
+  header.appbar nav.grow,
+  header.appbar .controls,
+  header.appbar .brand-title .brand-bottom { display: none !important; }
+  header.appbar .brand-title .brand-top { display: none !important; }
+  header.appbar .brand-title::after {
+    content: "Summit Tractors Learning Center";
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  /* Show bottom 3-button footer */
+  .mobile-stepbar { display: flex !important; }
+}
+
+/* Desktop keeps existing layout */
+@media (min-width: 1025px) {
+  .mobile-stepbar { display: none !important; }
+}
+
+/* Footer button labels/wrapper */
+.mobile-stepbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+  display: none; /* enabled via media query */
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background: #ffffffE6;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 -6px 18px rgba(0,0,0,0.08);
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+.mobile-stepbar button {
+  flex: 1 1 0;
+  border-radius: 999px;
+  padding: 12px 14px;
+  font-weight: 700;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #f4f6f7;
+  color: #254A4F;
+}
+.mobile-stepbar button.primary {
+  background: #254A4F;
+  color: #fff;
+  border-color: #254A4F;
+}
 </style>
 
 </head><body>'
@@ -2234,6 +2290,51 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 </script>
+
+<!-- 3-Button Footer for Tablet & Mobile -->
+<div class="mobile-stepbar" id="mobileFooter">
+  <button type="button" id="btnGoStep2" class="primary">View &amp; Select Equipment</button>
+  <button type="button" id="btnGoSavePrint">Save or Print</button>
+  <button type="button" id="btnGoContact">Send Selections to Summit Tractors</button>
+</div>
+
+
+<script>
+(function(){
+  function gotoStep(step){
+    try {
+      if (typeof setActiveStep === 'function') setActiveStep(step);
+      // If Save/Print, also trigger inline viewer when available
+      if (step === 'saveprint') {
+        var saveStep = document.querySelector('.step[data-step="saveprint"]');
+        if (saveStep) { saveStep.click(); }
+        if (typeof openSavePrintInline === 'function') { try { openSavePrintInline(); } catch(e){} }
+      }
+      // Ensure contact opens intro screen (a listener already sets this, but this is safe)
+      if (step === 'contact') {
+        var contactStep = document.querySelector('.step[data-step="contact"]');
+        if (contactStep) contactStep.click();
+      }
+      window.scrollTo(0,0);
+    } catch(e){ console.warn('gotoStep error', e); }
+  }
+
+  function bindFooter(){
+    var f = document.getElementById('mobileFooter');
+    if (!f) return;
+    var b2 = document.getElementById('btnGoStep2');
+    var bS = document.getElementById('btnGoSavePrint');
+    var bC = document.getElementById('btnGoContact');
+    if (b2) b2.onclick = function(){ gotoStep('step2'); };
+    if (bS) bS.onclick = function(){ gotoStep('saveprint'); };
+    if (bC) bC.onclick = function(){ gotoStep('contact'); };
+  }
+
+  if (document.readyState !== 'loading') bindFooter();
+  else document.addEventListener('DOMContentLoaded', bindFooter);
+})();
+</script>
+
 </body></html>';
 
   var w = window.open('', '_blank');
