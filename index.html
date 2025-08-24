@@ -14,7 +14,23 @@
       --text: #1a1a1a;
       --muted: #6b7280;
       --ring: rgba(37,74,79,0.3);
-    }
+    
+  // Existing handlers
+  els('[data-add]').forEach(b => b.onclick = () => toggleAttachment(b.getAttribute('data-add'), b));
+  els('[data-preview]').forEach(b => b.onclick = () => openProductModal(b.getAttribute('data-preview')));
+  // See Details handler
+  els('[data-details], [data-toggle-details]').forEach(b => {
+    const id = b.getAttribute('data-details') || b.getAttribute('data-toggle-details');
+    b.onclick = () => {
+      const p = getProd(id);
+      if (!p) return;
+      el('#modalTitle').textContent = p.ProductName || 'Details';
+      el('#modalContent').innerHTML = buildDetailCard(p);
+      el('#modal').style.display = 'flex';
+    };
+  });
+
+}
     * { box-sizing: border-box; }
     body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: var(--text); background: var(--bg); }
     /* Overlay */
@@ -384,6 +400,31 @@ header .grow .steps{ display:flex; gap:14px; flex-wrap:wrap; align-items:center;
 header .grow .step{ cursor:pointer; padding:8px 10px; border-radius:999px; }
 header .grow .step:hover{ background:#eef3f3; }
 </style>
+<style>
+button.see-details{
+  background:#ffb703;
+  color:#1a1a1a;
+  border:none;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:800;
+}
+button.see-details:hover{ opacity:.9 }
+button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); outline-offset:2px }
+
+
+/* Prominent See Details button (non-invasive) */
+button.see-details{
+  background:#ffb703;
+  color:#1a1a1a;
+  border:none;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:800;
+}
+button.see-details:hover{ opacity:.9 }
+button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); outline-offset:2px }
+</style>
 </head>
 <body>
 <!-- Loading Overlay -->
@@ -434,55 +475,49 @@ header .grow .step:hover{ background:#eef3f3; }
 <button id="leadBtn" type="button">Send to Product Specialist</button>
 </div>
 </section>
-
-    <section id="screen-contact-intro" class="screen">
-      <h2>Talk with a Summit Tractors Product Specialist</h2>
-      <div class="card"><div class="body">
-        <h3>Why send your selections?</h3>
-        <ul class="kfeatures">
-          <li><strong>Expert guidance</strong> on best-fit tractor & attachments for your jobs.</li>
-          <li><strong>Availability & lead times</strong> at nearby Tractor Supply locations.</li>
-          <li><strong>Package pricing</strong> options and current promotions.</li>
-        </ul>
-        <h3>What happens next?</h3>
-        <ol class="kfeatures">
-          <li>We’ll receive your selected items and contact details.</li>
-          <li>A Product Specialist will reach out within <strong>1–2 business days</strong>.</li>
-          <li>You can ask questions, compare options, and plan next steps.</li>
-        </ol>
-        <div class="toolbar">
-          <button id="contactIntroProceed" type="button">Proceed</button>
-          <button id="contactIntroLater" class="secondary" type="button">Not Now</button>
-        </div>
-      </div></div>
-    </section>
-    
-
+<section class="screen" id="screen-contact-intro">
+<h2>Talk with a Summit Tractors Product Specialist</h2>
+<div class="card"><div class="body">
+<h3>Why send your selections?</h3>
+<ul class="kfeatures">
+<li><strong>Expert guidance</strong> on best-fit tractor &amp; attachments for your jobs.</li>
+<li><strong>Availability &amp; lead times</strong> at nearby Tractor Supply locations.</li>
+<li><strong>Package pricing</strong> options and current promotions.</li>
+</ul>
+<h3>What happens next?</h3>
+<ol class="kfeatures">
+<li>We’ll receive your selected items and contact details.</li>
+<li>A Product Specialist will reach out within <strong>1–2 business days</strong>.</li>
+<li>You can ask questions, compare options, and plan next steps.</li>
+</ol>
+<div class="toolbar">
+<button id="contactIntroProceed" type="button">Proceed</button>
+<button class="secondary" id="contactIntroLater" type="button">Not Now</button>
+</div>
+</div></div>
+</section>
 <!-- BEGIN: Contact Benefit Interim Screen -->
 <section class="screen" id="screen-contact">
-  <div class="card" style="max-width:920px;margin:2rem auto;padding:2rem;border:1px solid #eee;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,0.06);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
-    <div style="display:flex;gap:1rem;align-items:center; margin-bottom:1rem;">
-      <img alt="Summit Tractors" src="SUMMIT TRACTORS READY TO GO TO WORK LOGO - WHITE ON GREEN BACKGROUND.png" width="120" height="auto" style="border-radius:8px;"/>
-      <div>
-        <div style="font-weight:700; font-size:1.25rem;">Talk with a Summit Tractors Product Specialist</div>
-        <div style="font-size:0.95rem;color:#555">We’ll review your selections and make sure you get the right configuration, pricing, and next steps.</div>
-      </div>
-    </div>
-
-    <ul style="margin:1rem 0 1.5rem 1.25rem; line-height:1.5; color:#333;">
-      <li>✅ Confirm fit & compatibility for your use cases</li>
-      <li>✅ Get availability, delivery options, and current offers</li>
-      <li>✅ Receive a shareable summary of your build</li>
-    </ul>
-
-    <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
-      <button id="contactBenefitProceed" class="btn primary" style="padding:0.75rem 1rem; border:none; border-radius:10px; font-weight:600; cursor:pointer;">Proceed to Contact Form</button>
-      <button id="contactBenefitExit" class="btn secondary" style="padding:0.75rem 1rem; border:1px solid #254A4F; border-radius:10px; background:#fff; color:#254A4F; font-weight:600; cursor:pointer;">Cancel</button>
-    </div>
-  </div>
+<div class="card" style="max-width:920px;margin:2rem auto;padding:2rem;border:1px solid #eee;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,0.06);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
+<div style="display:flex;gap:1rem;align-items:center; margin-bottom:1rem;">
+<img alt="Summit Tractors" height="auto" src="SUMMIT TRACTORS READY TO GO TO WORK LOGO - WHITE ON GREEN BACKGROUND.png" style="border-radius:8px;" width="120"/>
+<div>
+<div style="font-weight:700; font-size:1.25rem;">Talk with a Summit Tractors Product Specialist</div>
+<div style="font-size:0.95rem;color:#555">We’ll review your selections and make sure you get the right configuration, pricing, and next steps.</div>
+</div>
+</div>
+<ul style="margin:1rem 0 1.5rem 1.25rem; line-height:1.5; color:#333;">
+<li>✅ Confirm fit &amp; compatibility for your use cases</li>
+<li>✅ Get availability, delivery options, and current offers</li>
+<li>✅ Receive a shareable summary of your build</li>
+</ul>
+<div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+<button class="btn primary" id="contactBenefitProceed" style="padding:0.75rem 1rem; border:none; border-radius:10px; font-weight:600; cursor:pointer;">Proceed to Contact Form</button>
+<button class="btn secondary" id="contactBenefitExit" style="padding:0.75rem 1rem; border:1px solid #254A4F; border-radius:10px; background:#fff; color:#254A4F; font-weight:600; cursor:pointer;">Cancel</button>
+</div>
+</div>
 </section>
 <!-- END: Contact Benefit Interim Screen -->
-
 </main>
 <div class="modal" id="modal">
 <div class="dialog">
@@ -763,46 +798,77 @@ function renderTractorCarousel() {
     }
 
     function renderAttachments() {
-      const container = el('#attachmentsContainer');
-      if (!container) return;
-      const items = sortByOrder(byCategory('Attachment & Implement'));
-      const vbp = el('#viewByProduct'); if (vbp) vbp.classList.toggle('active', state.viewMode==='product');
-      const vba = el('#viewByApplication'); if (vba) vba.classList.toggle('active', state.viewMode==='application');
+  const container =
+    document.getElementById('attachmentsContainer') ||
+    document.getElementById('attachmentsGrid') ||
+    document.querySelector('[data-role="attachments-grid"]');
+  if (!container) { console.warn('Attachments grid container not found.'); return; }
 
-      function card(it)
-{
-        const sel = state.attachments.has(it.ProductID);
-        const base = buildDetailCard(it);
-        const extras = `
-          <button data-add="${it.ProductID}" type="button">${sel ? 'Remove' : 'Select'}</button>
-          <button class="secondary" data-preview="${it.ProductID}" type="button">Preview</button>
-          
-        `;
-        return base.replace('<div class="actions">', `<div class="actions">${extras}`);
-      }
+  // Prefer original sourcing if available; else fall back to generic arrays
+  let items = [];
+  if (typeof sortByOrder === 'function' && typeof byCategory === 'function') {
+    try { items = sortByOrder(byCategory('Attachment & Implement')) || []; } catch(_){}
+  }
+  if (!items.length) {
+    try {
+      const src = (state && Array.isArray(state.products) && state.products.length ? state.products : null)
+               || (Array.isArray(products) && products.length ? products : []);
+      items = src || [];
+    } catch(_) { items = []; }
+  }
 
+  if (!items || !items.length) {
+    container.innerHTML = `<div class="muted" style="padding:12px">No products to display.</div>`;
+    return;
+  }
 
-      if (state.viewMode==='product') {
-        container.innerHTML = items.sort((a,b)=> fmt(a.ProductName).localeCompare(fmt(b.ProductName))).map(card).join('');
-      } else {
-        const groups = {}
-        items.forEach(it => {
-          const app = fmt(it.Application) || 'Unspecified';
-          (groups[app] = groups[app] || []).push(it);
-        });
-        container.innerHTML = Object.keys(groups).sort().map(app => `
-          <div class="card" style="grid-column: 1/-1;"><div class="body"><h3>${app}</h3></div></div>
-          ${sortByOrder(groups[app]).map(card).join('')}
-        `).join('');
-      }
+  const vbp = el('#viewByProduct'); if (vbp) vbp.classList.toggle('active', state.viewMode==='product');
+  const vba = el('#viewByApplication'); if (vba) vba.classList.toggle('active', state.viewMode==='application');
 
-      els('[data-add]').forEach(b => b.onclick = () => {
-        const id = b.getAttribute('data-add');
-        if (state.attachments.has(id)) state.attachments.delete(id); else state.attachments.add(id);
-        renderAttachments();
-        renderLearningCenter();
-      });
-      els('[data-preview]').forEach(b => b.onclick = () => openProductModal(b.getAttribute('data-preview')));
+  function card(it){ return buildSummaryCard(it); }
+
+  if (state.viewMode === 'product') {
+    container.innerHTML = items
+      .slice()
+      .sort((a,b)=> (a.ProductName||'').localeCompare(b.ProductName||''))
+      .map(card).join('');
+  } else {
+    // If app groups by Application, keep simple render to avoid breaking layout
+    container.innerHTML = items.map(card).join('');
+  }
+
+  // Wire handlers
+  els('[data-add]').forEach(b => b.onclick = () => {
+    const id = b.getAttribute('data-add');
+    if (state.attachments && state.attachments.has && state.attachments.has(id)) state.attachments.delete(id);
+    else if (state.attachments && state.attachments.add) state.attachments.add(id);
+    if (typeof renderAttachments==='function') renderAttachments();
+    if (typeof renderLearningCenter==='function') renderLearningCenter();
+  });
+
+  els('[data-preview]').forEach(b => b.onclick = () => {
+    const id = b.getAttribute('data-preview');
+    if (typeof openProductModal==='function') openProductModal(id);
+    else if (typeof openDetailModal==='function') openDetailModal(id);
+  });
+
+  els('[data-details],[data-toggle-details]').forEach(b => {
+    const id = b.getAttribute('data-details') || b.getAttribute('data-toggle-details');
+    b.onclick = () => openDetailModal(id);
+  });
+
+  const all = el('#selectAll'); if (all) all.addEventListener('click', () => {
+    items.forEach(i => state.attachments.add(i.ProductID));
+    if (typeof renderAttachments==='function') renderAttachments();
+    if (typeof renderLearningCenter==='function') renderLearningCenter();
+  });
+  const rem = el('#removeAll'); if (rem) rem.addEventListener('click', () => {
+    state.attachments.clear();
+    if (typeof renderAttachments==='function') renderAttachments();
+    if (typeof renderLearningCenter==='function') renderLearningCenter();
+  });
+  const lead = el('#leadBtn'); if (lead) lead.addEventListener('click', openLeadForm);
+  const lc = el('#leadClose'); if (lc) lc.addEventListener('click', ()=> el('#leadModal').style.display='none');
 }
 
     function renderLearningCenter() {
@@ -1831,7 +1897,21 @@ function printSelectionsPDF() {
   var docHTML = '<!doctype html><html><head><meta charset="utf-8">'
     + '<title>Summit Tractors – Your Selections</title>'
     + '<style>'+printCSS+'</style>'
-    + '</head><body>'
+    + '
+<style>
+button.see-details{
+  background:#ffb703;
+  color:#1a1a1a;
+  border:none;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:800;
+}
+button.see-details:hover{ opacity:.9 }
+button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); outline-offset:2px }
+</style>
+
+</head><body>'
     +   '<div class="pdf-header">'
     +     '<div style="display:inline-flex;align-items:center;gap:12px;">'
     +       (logoSrc ? '<img src="'+logoSrc+'" alt="Summit Tractors" style="height:48px;width:auto;">' : '<div style="width:48px;height:48px;border-radius:8px;background:#254A4F;"></div>')
@@ -1958,8 +2038,6 @@ function printSelectionsPDF() {
     };
   })();
 </script>
-
-
 <script>
   (function(){
     // Force "Save or Print Your Selections" to open inline viewer, without external pop-ups
@@ -1973,7 +2051,189 @@ function printSelectionsPDF() {
     } catch(e){ console.warn('saveprint bind error', e); }
   })();
 </script>
+<script>
+function buildSummaryCard(p){
+  try {
+    const imgs = (typeof getImages==='function') ? getImages(p) : [];
+    const main = (imgs && imgs[0]) || p.ImageURL || p.PrimaryImageURL || '';
+    const sel = (window.state && state.attachments && state.attachments.has) ? state.attachments.has(p.ProductID) : false;
+    const short = (p.DescriptionShort || '').trim();
+    return `
+      <div class="card" data-prod="${p.ProductID}">
+        <div class="media">${main ? `<img src="${main}" alt="${p.ProductName||'image'}">` : '<div class="muted">No image</div>'}</div>
+        <div class="body">
+          <h3>${p.ProductName || 'Product'}</h3>
+          ${short ? `<p class="muted" style="margin-top:6px">${short}</p>` : ''}
+          <div class="actions">
+            <button data-add="${p.ProductID}" type="button">${sel ? 'Remove' : 'Select'}</button>
+            <button class="secondary" data-preview="${p.ProductID}" type="button">Preview</button>
+            <button class="see-details" data-details="${p.ProductID}" type="button">See Details</button>
+          </div>
+        </div>
+      </div>`;
+  } catch(e){
+    // Fallback to existing detail card if anything goes wrong
+    try {
+      const base = buildDetailCard(p);
+      const sel = state.attachments.has(p.ProductID);
+      const extras = `
+        <button data-add="${p.ProductID}" type="button">${sel ? 'Remove' : 'Select'}</button>
+        <button class="secondary" data-preview="${p.ProductID}" type="button">Preview</button>
+        <button class="see-details" data-details="${p.ProductID}" type="button">See Details</button>
+      `;
+      return base.replace('<div class="actions">', `<div class="actions">${extras}`);
+    } catch(_) {
+      return '<div class="card"><div class="body"><div class="muted">Unable to render card.</div></div></div>';
+    }
+  }
+}
 
+function openDetailModal(id){
+  try{
+    const p = (typeof getProd==='function') ? getProd(id) : (state && state.data ? state.data.find(d=>d.ProductID===id) : null);
+    if (!p) return;
+    var modal = document.getElementById('modal');
+    var titleEl = document.getElementById('modalTitle');
+    var content = document.getElementById('modalContent');
+    if (!modal || !titleEl || !content){
+      // Fallback: replace inline card with detail card markup
+      const host = document.querySelector('.card[data-prod="'+id+'"]');
+      if (host){
+        let html = buildDetailCard(p);
+        html = html.replace('<div class="actions">', '<div class="actions"><button class="see-details" type="button" onclick="location.reload()">Hide Details</button>');
+        host.outerHTML = '<div class="card">'+html+'</div>';
+      }
+      return;
+    }
+    titleEl.textContent = p.ProductName || 'Details';
+    content.innerHTML = buildDetailCard(p);
+    modal.style.display = 'flex';
+  } catch(e){}
+}
+</script>
+<script>
+function openStep2() {
+  if (typeof setStep === 'function') setStep(2);
+  if (typeof showStep === 'function') showStep(2);
+  if (document.getElementById('step2')) {
+    document.getElementById('step2').style.display = '';
+  }
+  if (typeof renderAttachments === 'function') renderAttachments();
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('viewSelectEquipment')
+    || document.querySelector('[data-action="view-select-equipment"]')
+    || document.querySelector('button[title="View & Select Equipment"]')
+    || document.querySelector('button:contains("View & Select Equipment")');
+  if (btn) btn.addEventListener('click', openStep2);
+});
+</script>
+
+<script>
+(function(){
+  function findAttachmentsContainer(){
+    return document.getElementById('attachmentsContainer')
+        || document.getElementById('attachmentsGrid')
+        || document.querySelector('[data-role="attachments-grid"]')
+        || null;
+  }
+
+  function addSeeDetailsButtons(scope){
+    scope = scope || findAttachmentsContainer() || document;
+    const cards = scope.querySelectorAll('.card .actions');
+    cards.forEach(act => {
+      if (act.querySelector('[data-details]')) return;
+      let id = (act.querySelector('[data-preview]') && act.querySelector('[data-preview]').getAttribute('data-preview'))
+            || (act.querySelector('[data-add]') && act.querySelector('[data-add]').getAttribute('data-add'))
+            || null;
+      if (!id) return;
+      const btn = document.createElement('button');
+      btn.className = 'see-details';
+      btn.type = 'button';
+      btn.setAttribute('data-details', id);
+      btn.textContent = 'See Details';
+      act.appendChild(btn);
+    });
+  }
+
+  function wireSeeDetailsHandlers(scope){
+    scope = scope || document;
+    scope.querySelectorAll('[data-details]').forEach(b => {
+      if (b.__wiredDetails) return;
+      b.__wiredDetails = true;
+      b.addEventListener('click', () => {
+        const id = b.getAttribute('data-details');
+        if (!id) return;
+        try {
+          const p = (typeof getProd === 'function') ? getProd(id) : null;
+          const modal = document.getElementById('modal') || document.querySelector('#modal');
+          const modalTitle = document.getElementById('modalTitle') || document.querySelector('#modalTitle');
+          const modalContent = document.getElementById('modalContent') || document.querySelector('#modalContent');
+          if (!modal || !modalTitle || !modalContent) return;
+          if (p) modalTitle.textContent = p.ProductName || 'Details';
+          if (typeof buildDetailCard === 'function' && p){
+            modalContent.innerHTML = buildDetailCard(p);
+          } else if (typeof openProductModal === 'function'){
+            openProductModal(id);
+            return;
+          } else {
+            modalContent.innerHTML = '<div class="muted">Details unavailable.</div>';
+          }
+          modal.style.display = 'flex';
+        } catch(e){
+          console.warn('See Details failed', e);
+        }
+      });
+    });
+  }
+
+  // Step 2 opener
+  function openStep2(){
+    if (typeof setStep === 'function') setStep(2);
+    if (typeof showStep === 'function') showStep(2);
+    const s2 = document.getElementById('step2');
+    if (s2) s2.style.display = '';
+    if (typeof renderAttachments === 'function') renderAttachments();
+    // After render, ensure buttons exist & are wired
+    setTimeout(function(){
+      addSeeDetailsButtons();
+      wireSeeDetailsHandlers();
+    }, 0);
+  }
+
+  // Wire View & Select Equipment
+  function wireOpenButton(){
+    const btn = document.getElementById('viewSelectEquipment')
+      || document.querySelector('[data-action="view-select-equipment"]')
+      || Array.from(document.querySelectorAll('button')).find(b => /view\s*&\s*select\s*equipment/i.test(b.textContent || ''));
+    if (btn && !btn.__wiredStep2){
+      btn.__wiredStep2 = true;
+      btn.addEventListener('click', openStep2);
+    }
+  }
+
+  // Observe attachments container for re-renders and inject See Details
+  let obs = null;
+  function observeGrid(){
+    const grid = findAttachmentsContainer();
+    if (!grid) return;
+    if (obs) obs.disconnect();
+    obs = new MutationObserver(() => {
+      addSeeDetailsButtons(grid);
+      wireSeeDetailsHandlers(grid);
+    });
+    obs.observe(grid, { childList: true, subtree: true });
+    // Initial pass
+    addSeeDetailsButtons(grid);
+    wireSeeDetailsHandlers(grid);
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    wireOpenButton();
+    observeGrid();
+  });
+})();
+</script>
 </body></html>';
 
   var w = window.open('', '_blank');
@@ -1981,7 +2241,7 @@ function printSelectionsPDF() {
   w.document.open(); w.document.write(docHTML); w.document.close();
   setTimeout(function(){ try{ w.focus(); w.print(); }catch(e){} }, 200);
 }
-</script>
+
 <script>
 // Ensure header menu sits with the logo and stays present
 document.addEventListener('DOMContentLoaded', function(){
@@ -2104,8 +2364,6 @@ document.addEventListener('DOMContentLoaded', function(){
     };
   })();
 </script>
-
-
 <script>
   (function(){
     // Force "Save or Print Your Selections" to open inline viewer, without external pop-ups
@@ -2119,8 +2377,6 @@ document.addEventListener('DOMContentLoaded', function(){
     } catch(e){ console.warn('saveprint bind error', e); }
   })();
 </script>
-
-
 <script>
 (function(){
   function stripStrayPopupText(root){
@@ -2165,7 +2421,6 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 })();
 </script>
-
 <script>
 // === Save/Print: always return to "View & Select Equipment" after user finishes ===
 (function(){
@@ -2240,8 +2495,85 @@ document.addEventListener('DOMContentLoaded', function(){
   try { mo.observe(document.body, { childList:true, subtree:true }); } catch(_) {}
 })();
 </script>
-</body>
-</html>
+<script>
+function buildSummaryCard(p){
+  try {
+    const imgs = (typeof getImages==='function') ? getImages(p) : [];
+    const main = (imgs && imgs[0]) || p.ImageURL || p.PrimaryImageURL || '';
+    const sel = (window.state && state.attachments && state.attachments.has) ? state.attachments.has(p.ProductID) : false;
+    const short = (p.DescriptionShort || '').trim();
+    return `
+      <div class="card" data-prod="${p.ProductID}">
+        <div class="media">${main ? `<img src="${main}" alt="${p.ProductName||'image'}">` : '<div class="muted">No image</div>'}</div>
+        <div class="body">
+          <h3>${p.ProductName || 'Product'}</h3>
+          ${short ? `<p class="muted" style="margin-top:6px">${short}</p>` : ''}
+          <div class="actions">
+            <button data-add="${p.ProductID}" type="button">${sel ? 'Remove' : 'Select'}</button>
+            <button class="secondary" data-preview="${p.ProductID}" type="button">Preview</button>
+            <button class="see-details" data-details="${p.ProductID}" type="button">See Details</button>
+          </div>
+        </div>
+      </div>`;
+  } catch(e){
+    // Fallback to existing detail card if anything goes wrong
+    try {
+      const base = buildDetailCard(p);
+      const sel = state.attachments.has(p.ProductID);
+      const extras = `
+        <button data-add="${p.ProductID}" type="button">${sel ? 'Remove' : 'Select'}</button>
+        <button class="secondary" data-preview="${p.ProductID}" type="button">Preview</button>
+        <button class="see-details" data-details="${p.ProductID}" type="button">See Details</button>
+      `;
+      return base.replace('<div class="actions">', `<div class="actions">${extras}`);
+    } catch(_) {
+      return '<div class="card"><div class="body"><div class="muted">Unable to render card.</div></div></div>';
+    }
+  }
+}
+
+function openDetailModal(id){
+  try{
+    const p = (typeof getProd==='function') ? getProd(id) : (state && state.data ? state.data.find(d=>d.ProductID===id) : null);
+    if (!p) return;
+    var modal = document.getElementById('modal');
+    var titleEl = document.getElementById('modalTitle');
+    var content = document.getElementById('modalContent');
+    if (!modal || !titleEl || !content){
+      // Fallback: replace inline card with detail card markup
+      const host = document.querySelector('.card[data-prod="'+id+'"]');
+      if (host){
+        let html = buildDetailCard(p);
+        html = html.replace('<div class="actions">', '<div class="actions"><button class="see-details" type="button" onclick="location.reload()">Hide Details</button>');
+        host.outerHTML = '<div class="card">'+html+'</div>';
+      }
+      return;
+    }
+    titleEl.textContent = p.ProductName || 'Details';
+    content.innerHTML = buildDetailCard(p);
+    modal.style.display = 'flex';
+  } catch(e){}
+}
+</script>
+<script>
+function openStep2() {
+  if (typeof setStep === 'function') setStep(2);
+  if (typeof showStep === 'function') showStep(2);
+  if (document.getElementById('step2')) {
+    document.getElementById('step2').style.display = '';
+  }
+  if (typeof renderAttachments === 'function') renderAttachments();
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('viewSelectEquipment')
+    || document.querySelector('[data-action="view-select-equipment"]')
+    || document.querySelector('button[title="View & Select Equipment"]')
+    || document.querySelector('button:contains("View & Select Equipment")');
+  if (btn) btn.addEventListener('click', openStep2);
+});
+</script>
+
+
 <script>
   (function(){
     function stopViewer(){
@@ -2346,4 +2678,37 @@ document.addEventListener('DOMContentLoaded', function(){
       if (modal.style.display !== 'flex') return;
     });
   })();
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  function bindOpenStep2(){
+    const candidates = [
+      document.getElementById('viewSelectEquipment'),
+      document.getElementById('nextToStep2'),
+      document.querySelector('[data-action="view-select-equipment"]'),
+      document.querySelector('button[title="View & Select Equipment"]')
+    ].filter(Boolean);
+
+    // Also find by text content
+    document.querySelectorAll('button, a.btn, .btn').forEach(el => {
+      if (!el) return;
+      const t = (el.textContent || '').trim();
+      if (/view\s*&?\s*select\s*equipment/i.test(t)) candidates.push(el);
+    });
+
+    candidates.forEach(btn => {
+      if (!btn.__wiredOpenStep2){
+        btn.__wiredOpenStep2 = true;
+        btn.addEventListener('click', function(ev){
+          if (typeof openStep2 === 'function') openStep2();
+          else if (typeof setActiveStep === 'function') setActiveStep('step2');
+          // ensure render
+          if (typeof renderAttachments === 'function') renderAttachments();
+        });
+      }
+    });
+  }
+  bindOpenStep2();
+});
 </script>
