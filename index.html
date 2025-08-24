@@ -120,6 +120,170 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
 }
 .player-close:focus{ outline:2px solid var(--ring); outline-offset:2px; }
 
+
+/* Selected card highlight & badge */
+.card, .pane { position: relative; }
+.selected {
+  border: 2px solid var(--ring, #3b82f6);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+  border-radius: 12px;
+}
+.sel-badge{
+  position:absolute; top:8px; left:8px;
+  width:28px; height:28px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background: var(--ring, #3b82f6); color:#fff; font-weight:700;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+
+/* Selected card highlight & badge */
+.card.selected, .pane.selected {
+  border: 3px solid #254a4f !important;
+  position: relative;
+  border-radius: 12px;
+}
+.card.selected::before, .pane.selected::before {
+  content: "✓";
+  position: absolute;
+  top: 8px; left: 8px;
+  background: #254a4f;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 24px; height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+
+/* Style Enter Learning Center buttons */
+button[data-enterlc] {
+  background-color: #254a4f !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+button[data-enterlc]:hover {
+  opacity: 0.9;
+}
+
+
+/* Force brand style for all Enter Learning Center buttons */
+button[data-enterlc],
+button[data-enterlc].secondary {
+  background-color: #254a4f !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+button[data-enterlc]:hover,
+button[data-enterlc].secondary:hover {
+  background-color: #254a4f !important;
+  color: #ffffff !important;
+  opacity: 0.9;
+}
+
+
+/* Force brand style for the top-row Enter Learning Center button */
+#attachmentsControls button#enterLearningCenter,
+#attachmentsControls button#enterLearningCenter.secondary {
+  background-color: #254a4f !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+#attachmentsControls button#enterLearningCenter:hover,
+#attachmentsControls button#enterLearningCenter.secondary:hover {
+  background-color: #254a4f !important;
+  color: #ffffff !important;
+  opacity: 0.9;
+}
+
+
+/* FINAL explicit style for toolbar Enter Learning Center button */
+#attachmentsControls #enterLearningCenter {
+  background-color: #254a4f !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+#attachmentsControls #enterLearningCenter:hover {
+  background-color: #254a4f !important;
+  color: #ffffff !important;
+  opacity: 0.9;
+}
+
+
+/* Brand style for the Step 2 toolbar Enter Learning Center button */
+#screen-step2 .toolbar #toStep3,
+#screen-step2 .toolbar #toStep3.secondary,
+#screen-step2 .toolbar button[data-enterlc] {
+  background-color: #254a4f !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+#screen-step2 .toolbar #toStep3:hover,
+#screen-step2 .toolbar #toStep3.secondary:hover,
+#screen-step2 .toolbar button[data-enterlc]:hover {
+  background-color: #254a4f !important;
+  color: #ffffff !important;
+  opacity: 0.9;
+}
+
+
+/* === Mobile Smart Header + Bottom Step Bar === */
+@media (max-width: 768px) {
+  header, .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: transform .25s ease;
+    will-change: transform;
+  }
+  .mobile-header-hidden {
+    transform: translateY(-100%);
+  }
+  .mobile-stepbar {
+    position: sticky;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    background: #ffffffE6; /* slightly translucent */
+    backdrop-filter: blur(6px);
+    box-shadow: 0 -6px 18px rgba(0,0,0,0.08);
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  .mobile-stepbar button {
+    flex: 1 1 0;
+    border-radius: 999px;
+    padding: 10px 12px;
+    font-weight: 600;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: #f4f6f7;
+  }
+  .mobile-stepbar button.active {
+    background: #254a4f;
+    color: #fff;
+    border-color: #254a4f;
+  }
+  .mobile-stepbar .badge {
+    display: inline-block;
+    min-width: 20px;
+    padding: 0 6px;
+    margin-left: 6px;
+    border-radius: 999px;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    background: #254a4f;
+    color: #fff;
+    vertical-align: middle;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -179,7 +343,7 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
         <div class="grow"></div>
         <button id="selectAll" type="button">Select All</button>
         <button id="removeAll" class="secondary" type="button">Remove All</button>
-        <button id="toStep3" class="secondary" type="button">Enter Learning Center</button>
+        <button id="toStep3" class="secondary" type="button" data-enterlc>Enter Learning Center</button>
       </div>
       <div id="attachmentsContainer" class="grid cols-3"></div>
     </section>
@@ -214,10 +378,10 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
       </header>
       <div class="content">
         <form id="leadForm" class="grid cols-2">
-          <div class="card"><div class="body">
+          <div class="card${sel ? " selected" : ""}"><div class="body">
             <label>First Name<br/><input type="text" id="firstName" required /></label>
           </div></div>
-          <div class="card"><div class="body">
+          <div class="card${(state.tractors && state.tractors.has(p.ProductID)) || (state.attachments && state.attachments.has(p.ProductID)) ? " selected" : ""}"><div class="body">
             <label>Last Name<br/><input type="text" id="lastName" required /></label>
           </div></div>
           <div class="card"><div class="body">
@@ -367,14 +531,15 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
         const imgs = toList(t.ImageURLs);
         const main = imgs[0] || '';
         return `
-          <div class="pane">
+          <div class="pane${(state.tractors && state.tractors.has(t.ProductID)) ? ' selected' : ''}">
+            ${(state.tractors && state.tractors.has(t.ProductID)) ? '<div class="sel-badge" aria-label="Selected">✓</div>' : ''}
             <div class="media">${main ? `<img src="${main}" alt="${t.ProductName}"/>` : '<div class="muted">No image</div>'}</div>
             <div class="body">
               <h3>${t.ProductName}</h3>
               <div class="muted">Model: ${t.Model}</div>
               <p>${t.DescriptionShort || ''}</p>
               <div class="actions">
-                <button id="selectTractorBtn" type="button">Select Tractor</button>
+                <button id="selectTractorBtn" type="button">${(state.tractors && state.tractors.has(t.ProductID)) ? "Remove" : "Select Tractor"}</button>
                 <button class="secondary" id="nextToStep2" type="button">Go to Attachments & Implements</button>
               </div>
             </div>
@@ -393,7 +558,8 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
         el('#selectTractorBtn').onclick = () => { if (!state.tractors) state.tractors = new Set();
       if (state.tractors.has(t.ProductID)) { state.tractors.delete(t.ProductID); showToast('Removed: ' + t.ProductName); }
       else { state.tractors.add(t.ProductID); showToast('Selected: ' + t.ProductName); }
-      state.tractor = Array.from(state.tractors)[0] || null; renderLearningCenter(); };
+      state.tractor = Array.from(state.tractors)[0] || null; renderLearningCenter(); 
+  renderTractorCarousel(); };
         el('#nextToStep2').onclick = () => setActiveStep('step2');
       }
       render();
@@ -410,7 +576,8 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
         const sel = state.attachments.has(it.ProductID);
         const img = toList(it.ImageURLs)[0] || '';
         return `
-          <div class="card">
+          <div class="card${sel ? ' selected' : ''}">
+            ${sel ? '<div class="sel-badge" aria-label="Selected">✓</div>' : ''}
             <div class="media">${img ? `<img src="${img}" alt="${it.ProductName}"/>` : '<div class="muted">No image</div>'}</div>
             <div class="body">
               <h3>${it.ProductName}</h3>
@@ -480,8 +647,8 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
               </div>
               <h4>Key Features</h4><div class="kbadges">${feats.slice(0,5).map(f=> `<span class="kbadge">${f}</span>`).join('')}
               </div>
-              <div class="actions" style="display:flex; gap:8px; flex-wrap:wrap; margin:12px 0;"><button class="secondary" type="button" data-action="seasonal-uses" data-id="${p.ProductID}">Seasonal Use</button></div><h4>Detailed Description</h4><p style="margin-top:8px;">${p.DescriptionLong || ''}</p>
-              <div class="actions">
+              <h4>Detailed Description</h4><p style="margin-top:8px;">${p.DescriptionLong || ''}</p>
+              <div class="actions"><button class="secondary" type="button" data-action="seasonal-uses" data-id="${p.ProductID}">Seasonal Uses</button> 
                 ${p.VideoURL ? `<button class="secondary" data-video="${p.ProductID}" type="button">Watch Video</button>`: ''}
                 ${p.BrochureURL ? `<button class="secondary" data-brochure="${p.ProductID}" type="button">View Brochure</button>`: ''}
                 ${p.ManualURL ? `<button class="secondary" data-manual="${p.ProductID}" type="button">View Manual</button>`: ''}
@@ -866,7 +1033,7 @@ window.addEventListener('load', function(){
         content.innerHTML = `
           <button class="player-close" type="button" aria-label="Close">×</button>
           <div style="padding:12px;">
-            <h3 style="margin-top:0;">Seasonal Use</h3>
+            <h3 style="margin-top:0;">Seasonal Uses</h3>
             <ul style="margin:8px 0 0 18px; line-height:1.5;">
               ${uses.map(u => `<li>${u}</li>`).join('')}
             </ul>
@@ -891,6 +1058,200 @@ window.addEventListener('load', function(){
       openSeasonalUses(prod);
     });
   })();
+</script>
+
+
+<script>
+  (function(){
+    // Guard to avoid double-binding
+    if (window.__seasonalUsesBound) return;
+    window.__seasonalUsesBound = true;
+
+    function ensureArray(x){
+      if (!x) return [];
+      if (Array.isArray(x)) return x.filter(Boolean).map(s => String(s).trim()).filter(Boolean);
+      return String(x).split(/\r?\n|[;,|]/).map(s => s.trim()).filter(Boolean);
+    }
+
+    function getSeasonalUsesBySeason(prod){
+      if (!prod) return null;
+      const map = {
+        Spring: ensureArray(prod['SeasonalUses-Spring']),
+        Summer: ensureArray(prod['SeasonalUses-Summer']),
+        Fall:   ensureArray(prod['SeasonalUses-Fall']),
+        Winter: ensureArray(prod['SeasonalUses-Winter'])
+      };
+      // Remove empty seasons
+      Object.keys(map).forEach(k => { if (!map[k] || !map[k].length) delete map[k]; });
+      return map;
+    }
+
+    function openSeasonalUses(prod){
+      const modal = document.getElementById('modal');
+      const titleEl = document.getElementById('modalTitle');
+      const content = document.getElementById('modalContent');
+
+      if (!prod){
+        titleEl.textContent = 'Seasonal Uses';
+        content.innerHTML = `<button class="player-close" type="button" aria-label="Close">×</button>
+          <div style="padding:12px;"><p>Sorry — no product selected.</p></div>`;
+        modal.style.display = 'flex';
+        content.querySelector('.player-close').onclick = () => { content.innerHTML=''; modal.style.display='none'; };
+        return;
+      }
+
+      const seasons = getSeasonalUsesBySeason(prod);
+      titleEl.textContent = (prod.ProductName || 'Seasonal Uses');
+
+      if (!seasons || !Object.keys(seasons).length){
+        content.innerHTML = `<button class="player-close" type="button" aria-label="Close">×</button>
+          <div style="padding:12px;"><p>No Seasonal Uses are listed for this product.</p></div>`;
+      } else {
+        const blocks = Object.entries(seasons).map(([season, items]) => `
+          <section style="margin:8px 0 12px;">
+            <h4 style="margin:0 0 6px 0;">${season}</h4>
+            <ul style="margin:0 0 0 18px; line-height:1.5;">
+              ${items.map(u => `<li>${u}</li>`).join('')}
+            </ul>
+          </section>
+        `).join('');
+        content.innerHTML = `<button class="player-close" type="button" aria-label="Close">×</button>
+          <div style="padding:12px;">
+            <h3 style="margin-top:0;">Seasonal Uses</h3>
+            ${blocks}
+          </div>`;
+      }
+
+      const closeBtn = content.querySelector('.player-close');
+      if (closeBtn) closeBtn.onclick = () => { content.innerHTML=''; modal.style.display='none'; };
+      modal.style.display = 'flex';
+
+      const escHandler = (e) => { if (e.key === 'Escape') { content.innerHTML=''; modal.style.display='none'; document.removeEventListener('keydown', escHandler); } };
+      document.addEventListener('keydown', escHandler, { once: true });
+    }
+
+    // Delegate click for Seasonal Uses buttons (Learning Center detail card uses p.ProductID)
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action="seasonal-uses"]');
+      if (!btn) return;
+      const id = btn.getAttribute('data-id');
+      const prod = (window.state && state.data) ? state.data.find(d => String(d.ProductID) === String(id)) : null;
+      openSeasonalUses(prod);
+    });
+  })();
+</script>
+
+
+<script>
+(function(){
+  const MOBILE = window.matchMedia('(max-width: 768px)');
+  let lastY = 0, ticking = false, headerEl = null;
+
+  function getHeader(){
+    return document.querySelector('header') || document.querySelector('.app-header') || document.querySelector('#header');
+  }
+
+  function onScroll(){
+    if (!MOBILE.matches) return;
+    if (ticking) return;
+    window.requestAnimationFrame(() => {
+      const y = window.scrollY || document.documentElement.scrollTop;
+      headerEl = headerEl || getHeader();
+      if (headerEl) {
+        if (y > lastY && y > 80) { headerEl.classList.add('mobile-header-hidden'); }
+        else { headerEl.classList.remove('mobile-header-hidden'); }
+      }
+      lastY = y;
+      ticking = false;
+    });
+    ticking = true;
+  }
+
+  // Bottom Step Bar
+  function ensureStepBar(){
+    if (!MOBILE.matches) return;
+    if (document.getElementById('mobileStepBar')) return;
+    const bar = document.createElement('div');
+    bar.id = 'mobileStepBar';
+    bar.className = 'mobile-stepbar';
+    bar.innerHTML = `
+      <button id="msbStep1" type="button">1 Tractor <span class="badge" id="msbT">0</span></button>
+      <button id="msbStep2" type="button">2 Attachments <span class="badge" id="msbA">0</span></button>
+      <button id="msbStep3" type="button">3 Learning Center <span class="badge" id="msbL">0</span></button>
+    `;
+    // Insert before end of body so it sits above content
+    document.body.appendChild(bar);
+
+    // Navigation handlers
+    const show = (id) => {
+      const screens = Array.from(document.querySelectorAll('.screen'));
+      if (screens.length) {
+        screens.forEach(s => { s.style.display = (s.id === id) ? 'block' : 'none'; });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      // Attempt to call existing render() if present
+      if (typeof window.render === 'function') { try { window.render(); } catch(e){} }
+      updateStepBar();
+    };
+
+    document.getElementById('msbStep1').onclick = () => show('screen-step1');
+    document.getElementById('msbStep2').onclick = () => show('screen-step2');
+    document.getElementById('msbStep3').onclick = () => show('screen-step3');
+  }
+
+  function updateStepBar(){
+    if (!MOBILE.matches) return;
+    const t = (window.state && state.tractors) ? state.tractors.size : 0;
+    const a = (window.state && state.attachments) ? state.attachments.size : 0;
+    const l = t + a;
+    const T = document.getElementById('msbT');
+    const A = document.getElementById('msbA');
+    const L = document.getElementById('msbL');
+    if (T) T.textContent = t;
+    if (A) A.textContent = a;
+    if (L) L.textContent = l;
+
+    const s1 = document.getElementById('screen-step1');
+    const s2 = document.getElementById('screen-step2');
+    const s3 = document.getElementById('screen-step3');
+    const b1 = document.getElementById('msbStep1');
+    const b2 = document.getElementById('msbStep2');
+    const b3 = document.getElementById('msbStep3');
+
+    if (b1 && b2 && b3 && s1 && s2 && s3) {
+      const visible = [s1,s2,s3].find(s => s.style.display !== 'none');
+      b1.classList.toggle('active', visible === s1);
+      b2.classList.toggle('active', visible === s2);
+      b3.classList.toggle('active', visible === s3);
+    }
+  }
+
+  // Wrap key renderers so counts stay up to date
+  function wrap(fnName){
+    const orig = window[fnName];
+    if (typeof orig !== 'function') return;
+    window[fnName] = function(){
+      const res = orig.apply(this, arguments);
+      try { updateStepBar(); } catch(e){}
+      return res;
+    };
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    headerEl = getHeader();
+    ensureStepBar();
+    updateStepBar();
+    wrap('renderTractorCarousel');
+    wrap('renderAttachments');
+    wrap('renderLearningCenter');
+    wrap('render');
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', () => { ensureStepBar(); updateStepBar(); }, { passive: true });
+  });
+
+  // Also update on any click (selection toggles)
+  document.addEventListener('click', () => { try { updateStepBar(); } catch(e){} }, true);
+})();
 </script>
 
 </body>
