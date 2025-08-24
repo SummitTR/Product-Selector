@@ -284,6 +284,19 @@ button[data-enterlc].secondary:hover {
   }
 }
 
+
+/* === Mobile header declutter === */
+@media (max-width: 768px) {
+  header.appbar {
+    padding: 8px 12px !important;
+    min-height: auto;
+  }
+  .appbar .brand-logo { height: 24px; width: auto; }
+  .appbar .brand-bottom { display: none !important; } /* hide long subtitle */
+  .appbar .controls { display: none !important; }     /* hide Import/Share/Print on mobile */
+  .appbar nav.grow, .appbar .steps { display: none !important; } /* hide step bubbles in header */
+}
+
 </style>
 </head>
 <body>
