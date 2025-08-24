@@ -471,6 +471,32 @@ header .grow .step:hover{ background:#eef3f3; }
       </div></div>
     </section>
     
+
+<!-- BEGIN: Contact Benefit Interim Screen -->
+<section class="screen" id="screen-contact">
+  <div class="card" style="max-width:920px;margin:2rem auto;padding:2rem;border:1px solid #eee;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,0.06);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
+    <div style="display:flex;gap:1rem;align-items:center; margin-bottom:1rem;">
+      <img alt="Summit Tractors" src="SUMMIT TRACTORS READY TO GO TO WORK LOGO - WHITE ON GREEN BACKGROUND.png" width="120" height="auto" style="border-radius:8px;"/>
+      <div>
+        <div style="font-weight:700; font-size:1.25rem;">Talk with a Summit Tractors Product Specialist</div>
+        <div style="font-size:0.95rem;color:#555">We’ll review your selections and make sure you get the right configuration, pricing, and next steps.</div>
+      </div>
+    </div>
+
+    <ul style="margin:1rem 0 1.5rem 1.25rem; line-height:1.5; color:#333;">
+      <li>✅ Confirm fit & compatibility for your use cases</li>
+      <li>✅ Get availability, delivery options, and current offers</li>
+      <li>✅ Receive a shareable summary of your build</li>
+    </ul>
+
+    <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+      <button id="contactBenefitProceed" class="btn primary" style="padding:0.75rem 1rem; border:none; border-radius:10px; font-weight:600; cursor:pointer;">Proceed to Contact Form</button>
+      <button id="contactBenefitExit" class="btn secondary" style="padding:0.75rem 1rem; border:1px solid #254A4F; border-radius:10px; background:#fff; color:#254A4F; font-weight:600; cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+</section>
+<!-- END: Contact Benefit Interim Screen -->
+
 </main>
 <div class="modal" id="modal">
 <div class="dialog">
@@ -603,6 +629,30 @@ header .grow .step:hover{ background:#eef3f3; }
 
     function bindGlobalHandlers() {
 
+      // --- Contact Benefit interim buttons ---
+      try {
+        const cbProceed = document.getElementById('contactBenefitProceed');
+        if (cbProceed) cbProceed.addEventListener('click', function () {
+          try { openLeadForm(); } catch (e) { console.warn('openLeadForm error:', e); setActiveStep('contact-intro'); }
+        });
+        const cbExit = document.getElementById('contactBenefitExit');
+        if (cbExit) cbExit.addEventListener('click', function () {
+          try { setActiveStep('step3'); } catch (e) { console.warn('setActiveStep error:', e); }
+        });
+      } catch (e) { console.warn('Contact Benefit handlers error:', e); }
+
+      // --- Contact Intro screen buttons ---
+      try {
+        const introProceed = document.getElementById('contactIntroProceed');
+        if (introProceed) introProceed.addEventListener('click', function () {
+          try { setActiveStep('contact'); } catch (e) { console.warn('setActiveStep error:', e); }
+        });
+        const introLater = document.getElementById('contactIntroLater');
+        if (introLater) introLater.addEventListener('click', function () {
+          try { setActiveStep('step3'); } catch (e) { console.warn('setActiveStep error:', e); }
+        });
+      } catch (e) { console.warn('Contact Intro handlers error:', e); }
+
 // Contact step -> show intro screen first
 els('.step[data-step="contact"]').forEach(function(st){
   st.addEventListener('click', function(){
@@ -616,7 +666,7 @@ els('.step[data-step="contact"]').forEach(function(st){
 els('.step[data-step="saveprint"]').forEach(function(st){
   st.addEventListener('click', function(){
     try { setActiveStep('saveprint'); } catch(e) {}
-    if (typeof printSelectionsPDF === 'function') { printSelectionsPDF(); }
+    if (typeof printSelectionsPDF === 'function') { openSavePrintInline(); }
   });
 });
 
@@ -628,7 +678,7 @@ els('.step').forEach(function(st){
     var step = st.dataset.step;
     if (step === 'saveprint' || step === 'step3') {
       try { setActiveStep(step); } catch(e) {}
-      printSelectionsPDF();
+      openSavePrintInline();
     }
   });
 });
@@ -1832,9 +1882,134 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   document.querySelectorAll('.steps .step[data-step="step2"]').forEach(el=>wire(el,'step2',null));
   document.querySelectorAll('.steps .step[data-step="saveprint"]').forEach(el=>wire(el,'saveprint', (window.printSelectionsPDF||null)));
-  document.querySelectorAll('.steps .step[data-step="contact"]').forEach(el=>wire(el,'contact', (window.openLeadForm||null)));
+  document.querySelectorAll('.steps .step[data-step="contact"]').forEach(el=>wire(el,'contact', (window.showContactBenefit||null)));
 });
-</script></body>
+</script>
+<script>
+  // === Inline Save/Print (no external PDF) ===
+  (function(){
+    if (window.__inlineSavePrintBound) return;
+    window.__inlineSavePrintBound = true;
+
+    window.openSavePrintInline = function(){
+      try{
+        var modal = document.getElementById('modal');
+        var titleEl = document.getElementById('modalTitle');
+        var content = document.getElementById('modalContent');
+        if (!modal || !titleEl || !content) return alert('Viewer not available.');
+
+        // Build a simple, printable summary of current selections
+        function esc(s){ return String(s||''); }
+        function getImage(p){
+          try{
+            if (typeof getImages === 'function'){
+              var imgs = getImages(p);
+              return imgs && imgs[0] ? imgs[0] : '';
+            }
+          }catch(e){}
+          return '';
+        }
+        function selectedProducts(){
+          var out = [];
+          try{
+            if (window.state){
+              if (state.tractors && state.tractors.size){
+                Array.from(state.tractors).forEach(function(id){
+                  var it = state.data.find(function(d){ return String(d.ProductID)===String(id); });
+                  if (it) out.push(it);
+                });
+              }
+              if (state.attachments){
+                state.attachments.forEach(function(id){
+                  var it = state.data.find(function(d){ return String(d.ProductID)===String(id); });
+                  if (it) out.push(it);
+                });
+              }
+            }
+          }catch(e){}
+          return out;
+        }
+
+        var items = selectedProducts();
+        titleEl.textContent = 'Your Selections — Save or Print';
+        if (!items.length){
+          content.innerHTML = '<button class="player-close" type="button" aria-label="Close">×</button><div style="padding:12px;"><p>No products selected yet.</p></div>';
+          var closeBtn = content.querySelector('.player-close');
+          if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; };
+          modal.style.display = 'flex';
+          return;
+        }
+
+        var rows = items.map(function(p, idx){
+          var img = getImage(p);
+          return (
+            '<tr>' +
+              '<td style="padding:8px; vertical-align:top;">' + (idx+1) + '</td>' +
+              '<td style="padding:8px; vertical-align:top;">' + esc(p.ProductName) + '<div class="muted" style="font-size:12px;">Model: ' + esc(p.Model) + ' &nbsp; | &nbsp; SKU: ' + esc(p.SKU) + '</div></td>' +
+              '<td style="padding:8px; vertical-align:top; white-space:nowrap;">' + esc(p.Price) + '</td>' +
+              '<td style="padding:8px; vertical-align:top; width:120px;">' + (img ? '<img src="'+img+'" alt="" style="max-width:120px; max-height:80px; object-fit:contain;"/>' : '') + '</td>' +
+            '</tr>'
+          );
+        }).join('');
+
+        content.innerHTML = ''
+          + '<button class="player-close" type="button" aria-label="Close">×</button>'
+          + '<div id="printArea" style="padding:12px;">'
+          + '  <h2 style="margin:0 0 6px 0;">Summit Tractors — Saved Selections</h2>'
+          + '  <p class="muted" style="margin:0 0 12px 0;">Print or download your list. PDFs, brochures, and manuals open inside the app.</p>'
+          + '  <table style="width:100%; border-collapse:collapse;">'
+          + '    <thead>'
+          + '      <tr style="text-align:left; border-bottom:1px solid #e5e7eb;">'
+          + '        <th style="padding:8px;">#</th>'
+          + '        <th style="padding:8px;">Product</th>'
+          + '        <th style="padding:8px;">Price</th>'
+          + '        <th style="padding:8px;">Image</th>'
+          + '      </tr>'
+          + '    </thead>'
+          + '    <tbody>' + rows + '</tbody>'
+          + '  </table>'
+          + '</div>'
+          + '<div class="sticky-actions no-print">'
+          + '  <button id="sp_print" type="button">Print</button>'
+          + '  <button id="sp_csv" class="secondary" type="button">Download CSV</button>'
+          + '  <button id="sp_json" class="secondary" type="button">Download JSON</button>'
+          + '</div>';
+
+        // Wire controls
+        var closeBtn = content.querySelector('.player-close');
+        if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; };
+        var btnPrint = content.querySelector('#sp_print');
+        if (btnPrint) btnPrint.onclick = function(){ window.print(); };
+        var btnCSV = content.querySelector('#sp_csv');
+        if (btnCSV) btnCSV.onclick = function(){ try{ (window.downloadCSV||function(){alert("CSV export unavailable");})(); }catch(e){ alert("CSV export unavailable"); } };
+        var btnJSON = content.querySelector('#sp_json');
+        if (btnJSON) btnJSON.onclick = function(){ try{ (window.downloadJSON||function(){alert("JSON export unavailable");})(); }catch(e){ alert("JSON export unavailable"); } };
+
+        modal.style.display = 'flex';
+      }catch(err){
+        console.warn('openSavePrintInline error:', err);
+        alert('Sorry—could not open Save/Print viewer.');
+      }
+    };
+  })();
+</script>
+
+
+<script>
+  (function(){
+    // Force "Save or Print Your Selections" to open inline viewer, without external pop-ups
+    try {
+      document.querySelectorAll('.step[data-step="saveprint"]').forEach(function(st){
+        st.addEventListener('click', function(){
+          try { setActiveStep('saveprint'); } catch(e){}
+          try { openSavePrintInline(); } catch(e){ console.warn(e); }
+        });
+      });
+    } catch(e){ console.warn('saveprint bind error', e); }
+  })();
+</script>
+
+</body>
 </html>
 <script>
   (function(){
