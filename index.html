@@ -557,6 +557,11 @@ header.appbar {
   --color: #ffffff;
 }
 </style>
+
+<style>
+  /* Hide deprecated Step 2 (Benefits) screen safely */
+  #screen-contact { display: none !important; }
+</style>
 </head>
 <body>
 <!-- Loading Overlay -->
@@ -805,7 +810,7 @@ header.appbar {
       try {
         const introProceed = document.getElementById('contactIntroProceed');
         if (introProceed) introProceed.addEventListener('click', function () {
-          try { setActiveStep('contact'); } catch (e) { console.warn('setActiveStep error:', e); }
+          try { openLeadForm(); } catch (e) { console.warn('setActiveStep error:', e); }
         });
         const introLater = document.getElementById('contactIntroLater');
         if (introLater) introLater.addEventListener('click', function () {
@@ -2216,6 +2221,11 @@ header.appbar {
   --color: #ffffff;
 }
 </style>
+
+<style>
+  /* Hide deprecated Step 2 (Benefits) screen safely */
+  #screen-contact { display: none !important; }
+</style>
 </head><body>'
     +   '<div class="pdf-header">'
     +     '<div style="display:inline-flex;align-items:center;gap:12px;">'
@@ -3103,6 +3113,58 @@ function returnToStep2() {
   }
 })();
 </script>
+
+<script id="step3-proceed-to-contact">
+(function() {
+  function openContact() {
+    try {
+      // If app has setActiveStep or show() use them; else scroll to section
+      if (typeof setActiveStep === 'function') {
+        // Common ids: 'contact' or 'saveprint' etc. We'll try a few.
+        setActiveStep('contact');
+      }
+      if (typeof show === 'function' && document.getElementById('screen-contact-intro')) {
+        try { show('screen-contact-intro'); } catch(e){}
+      }
+      var target = document.getElementById('screen-contact-intro');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch(e) { /* no-op */ }
+  }
+  // Bind any button in Step 3 with label "Proceed" (guarded to step3 scope)
+  try {
+    var step3 = document.getElementById('screen-step3') || document.getElementById('step3');
+    if (!step3) return;
+    var btns = step3.querySelectorAll('button, a');
+    btns.forEach(function(b){
+      var label = (b.textContent || b.innerText || '').trim().toLowerCase();
+      if (label === 'proceed' || label === 'procced' || label.indexOf('proceed') === 0) {
+        b.addEventListener('click', function(ev){
+          ev.preventDefault();
+          openContact();
+        }, true);
+      }
+    });
+  } catch(e) { /* no-op */ }
+})();
+</script>
+
+
+<script>
+document.querySelectorAll('.modal .close').forEach(btn => {
+  btn.addEventListener('click', function() {
+    try {
+      // Close whichever modal this belongs to
+      const modal = this.closest('.modal');
+      if (modal) modal.style.display = 'none';
+      // Always go back to equipment screen
+      setActiveStep('contact-intro');
+    } catch (e) {
+      console.warn('Generic modal close error:', e);
+    }
+  });
+});
+</script>
+
 </body></html>';
 
   var w = window.open('', '_blank');
@@ -3577,4 +3639,18 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   bindOpenStep2();
 });
+
+// Ensure Lead Form "Close" returns user to View & Select Equipment (Step 2)
+(function(){
+  const leadClose = document.getElementById('leadClose');
+  if (leadClose){
+    leadClose.addEventListener('click', function(){
+      try {
+        var lm = document.getElementById('leadModal');
+        if (lm) lm.style.display = 'none';
+        if (typeof setActiveStep === 'function') setActiveStep('step2');
+      } catch(e){ console.warn('leadClose error:', e); }
+    });
+  }
+})();
 </script>
