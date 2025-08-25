@@ -544,7 +544,7 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
 <div class="toolbar">
 <button id="printBtn" type="button">Print</button>
 <p class="muted">Tip: On mobile, choose “Save as PDF” to share a copy.</p>
-</div>
+<div id="savePrintTotal" style="margin-left:auto;font-weight:800"></div></div>
 </section>
 <section class="screen" id="screen-step3">
 <h2>Step 3: Go to Learning Center</h2>
@@ -2790,7 +2790,185 @@ function returnToStep2() {
   }
   document.addEventListener('DOMContentLoaded', wireStepbar);
   setTimeout(wireStepbar, 300);
-})();</script></body></html>';
+})();</script><script>
+(function(){
+  function getThumb(p){
+    try{
+      if (typeof getImages === 'function'){
+        var imgs = getImages(p);
+        if (imgs && imgs[0]) return imgs[0];
+      }
+      var u = p.ImageURLs || p.image || p.Image || '';
+      if (u){
+        var first = String(u).split(/[\n,;|]/)[0].trim();
+        if (first) return first;
+      }
+      for (var k in p){
+        if (/^image\s*\d+$/i.test(k) && p[k]) return p[k];
+      }
+    }catch(e){}
+    return '';
+  }
+
+  function renderSavePrint(){
+    var target = document.getElementById('savePrintTarget');
+    if (!target) return;
+    var items = (typeof selectedProducts === 'function') ? selectedProducts() : [];
+    if (!items || !items.length){
+      target.innerHTML = '<div class="muted">No selections yet.</div>';
+      return;
+    }
+    var html = items.map(function(p){
+      var img = getThumb(p);
+      var name = p.ProductName || p.name || 'Item';
+      var sku  = p.SKU || p.sku || '';
+      var price = p.Price || p.price || '';
+      return (
+        '<div class="card" style="margin:8px 0">' +
+          '<div class="body" style="display:flex; gap:12px; align-items:center">' +
+            '<div style="width:88px;height:66px; flex:0 0 auto; background:#eef2f2; border-radius:10px; overflow:hidden; display:flex; align-items:center; justify-content:center">' +
+              (img ? '<img src="' + img + '" alt="" style="max-width:100%;max-height:100%;object-fit:contain">' : '<span class="muted" style="font-size:.85rem">No image</span>') +
+            '</div>' +
+            '<div style="flex:1 1 auto">' +
+              '<div style="font-weight:800">' + name + '</div>' +
+              '<div class="muted">SKU: ' + sku + '</div>' +
+            '</div>' +
+            '<div style="font-weight:800">' + price + '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+    target.innerHTML = html;
+  }
+
+  // Expose and use our enhanced renderer
+  window.renderSavePrint = renderSavePrint;
+
+  // If the save/print screen is active on load, render immediately
+  document.addEventListener('DOMContentLoaded', function(){
+    var sec = document.getElementById('screen-saveprint');
+    if (sec && sec.classList.contains('active')){
+      renderSavePrint();
+    }
+  });
+})();
+</script><script>
+(function(){
+  function go(targetA, targetB){
+    if (document.getElementById('screen-' + targetA)) { setActiveStep(targetA); }
+    else if (targetB && document.getElementById('screen-' + targetB)) { setActiveStep(targetB); }
+  }
+  function wireHeaderSteps(){
+    // Find header steps (first .steps group)
+    var stepsWrap = document.querySelector('.steps');
+    if (!stepsWrap) return;
+    var items = stepsWrap.querySelectorAll('.step');
+    if (!items || !items.length) return;
+
+    // Map first three items to desired behavior, regardless of current text/data-step
+    if (items[0]) items[0].onclick = function(){ go('step2'); };
+    if (items[1]) items[1].onclick = function(){ go('saveprint','step2'); };
+    if (items[2]) items[2].onclick = function(){ go('contact-intro','contact'); };
+  }
+
+  document.addEventListener('DOMContentLoaded', wireHeaderSteps);
+  // In case header is rendered later by app logic
+  setTimeout(wireHeaderSteps, 300);
+  setTimeout(wireHeaderSteps, 1000);
+})();
+</script><script>
+(function(){
+  function parsePrice(v){
+    if (v == null) return 0;
+    var s = String(v).trim();
+    if (!s) return 0;
+    // remove currency symbols and commas
+    s = s.replace(/[^0-9.\-]/g, '');
+    // handle blanks or malformed
+    if (!s || s === '.' || s === '-' || s === '-.' ) return 0;
+    var n = parseFloat(s);
+    return isNaN(n) ? 0 : n;
+  }
+  function formatUSD(n){
+    try{
+      return new Intl.NumberFormat('en-US', { style:'currency', currency:'USD', minimumFractionDigits:2 }).format(n || 0);
+    }catch(_){
+      return '$' + (Math.round((n||0)*100)/100).toFixed(2);
+    }
+  }
+  function getThumb(p){
+    try{
+      if (typeof getImages === 'function'){
+        var imgs = getImages(p);
+        if (imgs && imgs[0]) return imgs[0];
+      }
+      var u = p.ImageURLs || p.image || p.Image || '';
+      if (u){
+        var first = String(u).split(/[\n,;|]/)[0].trim();
+        if (first) return first;
+      }
+      for (var k in p){
+        if (/^image\s*\d+$/i.test(k) && p[k]) return p[k];
+      }
+    }catch(e){}
+    return '';
+  }
+  // Override/define renderSavePrint
+  window.renderSavePrint = function(){
+    var target = document.getElementById('savePrintTarget');
+    var totalEl = document.getElementById('savePrintTotal');
+    if (!target) return;
+    var items = (typeof selectedProducts === 'function') ? selectedProducts() : [];
+    if (!items || !items.length){
+      target.innerHTML = '<div class="muted">No selections yet.</div>';
+      if (totalEl) totalEl.textContent = 'Total: ' + formatUSD(0);
+      return;
+    }
+    var total = 0;
+    var html = items.map(function(p){
+      var img = getThumb(p);
+      var name = p.ProductName || p.name || 'Item';
+      var sku  = p.SKU || p.sku || '';
+      var priceStr = p.Price || p.price || '';
+      var priceNum = parsePrice(priceStr);
+      total += priceNum;
+      return (
+        '<div class="card" style="margin:8px 0">' +
+          '<div class="body" style="display:flex; gap:12px; align-items:center">' +
+            '<div style="width:88px;height:66px; flex:0 0 auto; background:#eef2f2; border-radius:10px; overflow:hidden; display:flex; align-items:center; justify-content:center">' +
+              (img ? '<img src="' + img + '" alt="" style="max-width:100%;max-height:100%;object-fit:contain">' : '<span class="muted" style="font-size:.85rem">No image</span>') +
+            '</div>' +
+            '<div style="flex:1 1 auto">' +
+              '<div style="font-weight:800">' + name + '</div>' +
+              '<div class="muted">SKU: ' + sku + '</div>' +
+            '</div>' +
+            '<div style="font-weight:800">' + (priceStr || '') + '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+    target.innerHTML = html;
+    if (totalEl) totalEl.textContent = 'Total: ' + formatUSD(total);
+  };
+
+  // Render on activation of saveprint
+  (function hookNav(){
+    var _setActiveStep = window.setActiveStep;
+    window.setActiveStep = function(id){
+      if (typeof _setActiveStep === 'function'){ _setActiveStep(id); }
+      if (id === 'saveprint'){ window.renderSavePrint && window.renderSavePrint(); }
+    };
+  })();
+
+  // Also render on load if active
+  document.addEventListener('DOMContentLoaded', function(){
+    var sec = document.getElementById('screen-saveprint');
+    if (sec && sec.classList.contains('active')){
+      window.renderSavePrint && window.renderSavePrint();
+    }
+  });
+})();
+</script></body></html>';
 
   var w = window.open('', '_blank');
   if (!w) { alert('Pop-up blocked. Please allow pop-ups for this site.'); return; }
