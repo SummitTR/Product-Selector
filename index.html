@@ -743,6 +743,24 @@ header .brand, .header .brand, .topbar .brand {
   header .steps, header nav .steps { display: none !important; }
 </style>
 
+
+<style>
+  /* Remove the short header label on mobile/tablet */
+  header.appbar .brand-title::after { content: none !important; display: none !important; }
+  /* Ensure the full product title shows on all devices */
+  .brand-title-desktop { display: block !important; }
+  .brand-title-mobile { display: none !important; }
+  /* Hide header 'steps' everywhere just in case */
+  header .steps, header nav .steps { display: none !important; }
+
+  /* Make the Welcome screen scrollable on all devices */
+  .screen.welcome, #screen-welcome { 
+    overflow: auto !important; 
+    -webkit-overflow-scrolling: touch; 
+    max-height: 100dvh; 
+  }
+</style>
+
 </head>
 <body>
 <!-- Loading Overlay -->
@@ -2456,6 +2474,24 @@ header.appbar {
 <style>
   /* Hide the instructional header steps across all breakpoints */
   header .steps, header nav .steps { display: none !important; }
+</style>
+
+
+<style>
+  /* Remove the short header label on mobile/tablet */
+  header.appbar .brand-title::after { content: none !important; display: none !important; }
+  /* Ensure the full product title shows on all devices */
+  .brand-title-desktop { display: block !important; }
+  .brand-title-mobile { display: none !important; }
+  /* Hide header 'steps' everywhere just in case */
+  header .steps, header nav .steps { display: none !important; }
+
+  /* Make the Welcome screen scrollable on all devices */
+  .screen.welcome, #screen-welcome { 
+    overflow: auto !important; 
+    -webkit-overflow-scrolling: touch; 
+    max-height: 100dvh; 
+  }
 </style>
 
 </head><body>'
