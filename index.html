@@ -595,7 +595,33 @@ header.appbar {
 @media (min-width: 992px) {
   .welcome-grid { gap: 14px; }
   .welcome-thumb img { height: 130px; }
-}</style></head>
+}</style><style>
+/* --- Mobile safe spacing for Step 5a (Contact Intro) --- */
+#screen-contact-intro {
+  /* Ensure screen can scroll on small viewports */
+  min-height: 100dvh;
+  overflow-y: auto;
+  /* Add extra bottom space so the footer doesn't cover the Proceed button */
+  padding-bottom: max(120px, env(safe-area-inset-bottom, 0px) + 120px);
+}
+
+@supports not (padding-bottom: max(0px, 0px)) {
+  /* Fallback for older browsers */
+  #screen-contact-intro { padding-bottom: 140px; }
+}
+
+/* If the Proceed button is inside a sticky actions bar, ensure it rises above footer */
+#screen-contact-intro .sticky-actions {
+  position: sticky;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 0px);
+  z-index: 20;
+}
+
+/* Make sure any footer with fixed positioning sits beneath sticky actions */
+footer, .footer, .mobile-footer {
+  z-index: 10;
+}
+</style></head>
 <body>
 <!-- Loading Overlay -->
 <div class="overlay" id="overlay">
@@ -2672,10 +2698,34 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <!-- MOBILE_FOOTER_WIRING END -->
 <script>
+
 function returnToStep2() {
-  if (typeof setActiveStep === 'function') setActiveStep(2);
-  else if (typeof showStep === 'function') showStep(2);
+  try {
+    // Preferred: app-provided entry that also renders the grid
+    if (typeof openStep2 === 'function') { openStep2(); return; }
+    // Next best: built-in navigation helpers
+    if (typeof setActiveStep === 'function') { setActiveStep('step2'); return; }
+    if (typeof setStep === 'function') { setStep(2); return; }
+    if (typeof showStep === 'function') { showStep(2); return; }
+  } catch (e) { console.warn('returnToStep2 nav api error:', e); }
+  // DOM fallback + try to invoke renderers if present
+  try {
+    document.querySelectorAll('.screen').forEach(function(el){ el.style.display = 'none'; });
+    var s2 = document.getElementById('screen-step2') || document.getElementById('step2');
+    if (s2) {
+      s2.style.display = '';
+      s2.removeAttribute('hidden');
+      s2.setAttribute('aria-hidden','false');
+      s2.classList && s2.classList.remove('hidden','is-hidden','d-none');
+    }
+    // If the product grid is data-driven, attempt common renderers
+    if (typeof renderAttachments === 'function') { try { renderAttachments(); } catch(e){} }
+    if (typeof renderProducts === 'function') { try { renderProducts(); } catch(e){} }
+    if (typeof initStep2 === 'function') { try { initStep2(); } catch(e){} }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  } catch (e) { console.warn('returnToStep2 fallback error:', e); }
 }
+
 </script>
 <!-- LC7 Enforce Step 2 on Close START -->
 <script>
@@ -2727,13 +2777,34 @@ function returnToStep2() {
   if (window.__LC7_CLOSE_PATCH__) return;
   window.__LC7_CLOSE_PATCH__ = true;
 
-  function returnToStep2() {
-    try {
-      if (typeof setActiveStep === 'function') setActiveStep(2);
-      else if (typeof showStep === 'function') showStep(2);
-      // Also ensure Step 2 container is shown if app uses sections
-      var s2 = document.getElementById('step2') || document.querySelector('[data-step="2"]');
-      if (s2) { s2.style.display = ''; }
+  
+function returnToStep2() {
+  try {
+    // Preferred: app-provided entry that also renders the grid
+    if (typeof openStep2 === 'function') { openStep2(); return; }
+    // Next best: built-in navigation helpers
+    if (typeof setActiveStep === 'function') { setActiveStep('step2'); return; }
+    if (typeof setStep === 'function') { setStep(2); return; }
+    if (typeof showStep === 'function') { showStep(2); return; }
+  } catch (e) { console.warn('returnToStep2 nav api error:', e); }
+  // DOM fallback + try to invoke renderers if present
+  try {
+    document.querySelectorAll('.screen').forEach(function(el){ el.style.display = 'none'; });
+    var s2 = document.getElementById('screen-step2') || document.getElementById('step2');
+    if (s2) {
+      s2.style.display = '';
+      s2.removeAttribute('hidden');
+      s2.setAttribute('aria-hidden','false');
+      s2.classList && s2.classList.remove('hidden','is-hidden','d-none');
+    }
+    // If the product grid is data-driven, attempt common renderers
+    if (typeof renderAttachments === 'function') { try { renderAttachments(); } catch(e){} }
+    if (typeof renderProducts === 'function') { try { renderProducts(); } catch(e){} }
+    if (typeof initStep2 === 'function') { try { initStep2(); } catch(e){} }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  } catch (e) { console.warn('returnToStep2 fallback error:', e); }
+}
+
       // If your app needs to re-render attachments on step switch:
       if (typeof renderAttachments === 'function') { try { renderAttachments(); } catch(e){} }
       window.scrollTo(0,0);
@@ -2795,13 +2866,34 @@ function returnToStep2() {
 // Ensure any Save/Print close navigates back to View & Select Equipment (Step 2)
 (function(){
   // Helper to go to Step 2 and refresh the grid
-  function returnToStep2(){
-    try {
-      if (typeof setActiveStep === 'function') setActiveStep(2);
-      else if (typeof showStep === 'function') showStep(2);
-      if (typeof renderAttachments === 'function') setTimeout(renderAttachments, 0);
-      window.scrollTo(0,0);
-    } catch(e){ console.warn('[LC7] returnToStep2 error', e); }
+  
+function returnToStep2() {
+  try {
+    // Preferred: app-provided entry that also renders the grid
+    if (typeof openStep2 === 'function') { openStep2(); return; }
+    // Next best: built-in navigation helpers
+    if (typeof setActiveStep === 'function') { setActiveStep('step2'); return; }
+    if (typeof setStep === 'function') { setStep(2); return; }
+    if (typeof showStep === 'function') { showStep(2); return; }
+  } catch (e) { console.warn('returnToStep2 nav api error:', e); }
+  // DOM fallback + try to invoke renderers if present
+  try {
+    document.querySelectorAll('.screen').forEach(function(el){ el.style.display = 'none'; });
+    var s2 = document.getElementById('screen-step2') || document.getElementById('step2');
+    if (s2) {
+      s2.style.display = '';
+      s2.removeAttribute('hidden');
+      s2.setAttribute('aria-hidden','false');
+      s2.classList && s2.classList.remove('hidden','is-hidden','d-none');
+    }
+    // If the product grid is data-driven, attempt common renderers
+    if (typeof renderAttachments === 'function') { try { renderAttachments(); } catch(e){} }
+    if (typeof renderProducts === 'function') { try { renderProducts(); } catch(e){} }
+    if (typeof initStep2 === 'function') { try { initStep2(); } catch(e){} }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  } catch (e) { console.warn('returnToStep2 fallback error:', e); }
+}
+ catch(e){ console.warn('[LC7] returnToStep2 error', e); }
   }
   window.returnToStep2 = window.returnToStep2 || returnToStep2;
 
@@ -3188,7 +3280,149 @@ function returnToStep2() {
   } catch(e) { /* no-op */ }
 })();
 </script>
-</body></html>';
+<script>
+// Unified modal close behavior: product details (#modal) and lead form (#leadModal)
+// Close via: Close button, backdrop click, or ESC -> return to Step 2.
+(function(){
+  
+function returnToStep2() {
+  try {
+    // Preferred: app-provided entry that also renders the grid
+    if (typeof openStep2 === 'function') { openStep2(); return; }
+    // Next best: built-in navigation helpers
+    if (typeof setActiveStep === 'function') { setActiveStep('step2'); return; }
+    if (typeof setStep === 'function') { setStep(2); return; }
+    if (typeof showStep === 'function') { showStep(2); return; }
+  } catch (e) { console.warn('returnToStep2 nav api error:', e); }
+  // DOM fallback + try to invoke renderers if present
+  try {
+    document.querySelectorAll('.screen').forEach(function(el){ el.style.display = 'none'; });
+    var s2 = document.getElementById('screen-step2') || document.getElementById('step2');
+    if (s2) {
+      s2.style.display = '';
+      s2.removeAttribute('hidden');
+      s2.setAttribute('aria-hidden','false');
+      s2.classList && s2.classList.remove('hidden','is-hidden','d-none');
+    }
+    // If the product grid is data-driven, attempt common renderers
+    if (typeof renderAttachments === 'function') { try { renderAttachments(); } catch(e){} }
+    if (typeof renderProducts === 'function') { try { renderProducts(); } catch(e){} }
+    if (typeof initStep2 === 'function') { try { initStep2(); } catch(e){} }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  } catch (e) { console.warn('returnToStep2 fallback error:', e); }
+}
+
+      if (typeof setStep === 'function') { setStep(2); return; }
+      if (typeof showStep === 'function') { showStep(2); return; }
+    } catch (e) { console.warn('returnToStep2 nav api error:', e); }
+    // DOM fallback
+    try {
+      document.querySelectorAll('.screen').forEach(function(el){ el.style.display = 'none'; });
+      var s2 = document.getElementById('screen-step2') || document.getElementById('step2');
+      if (s2) {
+        s2.style.display = '';
+        s2.removeAttribute('hidden');
+        s2.setAttribute('aria-hidden','false');
+        s2.classList && s2.classList.remove('hidden','is-hidden','d-none');
+      }
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    } catch (e) { console.warn('returnToStep2 fallback error:', e); }
+  }
+
+  function hideModal(modal) {
+    if (!modal) return;
+    try {
+      modal.style.display = 'none';
+      modal.classList && modal.classList.remove('open','show','is-active');
+      modal.setAttribute('aria-hidden','true');
+    } catch (e) {}
+  }
+
+  function closeModalAndReturn(ev) {
+    try {
+      if (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+      }
+      var modal = (this && this.closest) ? this.closest('.modal') : null;
+      // If called from backdrop or ESC, 'this' may be window or the modal itself
+      if (!modal && ev && ev.currentTarget && ev.currentTarget.classList && ev.currentTarget.classList.contains('modal')) {
+        modal = ev.currentTarget;
+      }
+      // As a final fallback, if any modal is open, hide it
+      if (!modal) {
+        modal = Array.from(document.querySelectorAll('#modal, #leadModal')).find(function(m){
+          var cs = getComputedStyle(m);
+          return cs.display !== 'none' && m.getAttribute('aria-hidden') !== 'true';
+        }) || null;
+      }
+      hideModal(modal);
+    } catch (e) { console.warn('closeModalAndReturn error', e); }
+    returnToStep2();
+    return false;
+  }
+
+  function wireModalBehavior(modalId, closeBtnId) {
+    var modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    // Avoid double-wiring
+    if (!modal.__wiredUnifiedClose) {
+      modal.__wiredUnifiedClose = true;
+
+      // Backdrop click (capture): only if click target is the modal (not inside dialog)
+      modal.addEventListener('click', function(e){
+        if (e.target === modal) closeModalAndReturn(e);
+      }, true);
+
+      // ESC when this modal is open
+      if (!window.__wiredUnifiedEsc) {
+        window.__wiredUnifiedEsc = true;
+        window.addEventListener('keydown', function(e){
+          if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+            var open = Array.from(document.querySelectorAll('#modal, #leadModal')).some(function(m){
+              var cs = getComputedStyle(m);
+              return cs.display !== 'none' && m.getAttribute('aria-hidden') !== 'true';
+            });
+            if (open) closeModalAndReturn(e);
+          }
+        }, true);
+      }
+    }
+
+    // Wire the dedicated close button if present
+    var btn = document.getElementById(closeBtnId);
+    if (btn && !btn.__wiredUnifiedCloseBtn) {
+      btn.__wiredUnifiedCloseBtn = true;
+      btn.addEventListener('click', closeModalAndReturn, true);
+    }
+
+    // Wire any .close buttons inside the modal
+    modal.querySelectorAll('.close').forEach(function(b){
+      if (!b.__wiredUnifiedCloseBtn) {
+        b.__wiredUnifiedCloseBtn = true;
+        b.addEventListener('click', closeModalAndReturn, true);
+      }
+    });
+  }
+
+  function wireAll() {
+    wireModalBehavior('modal', 'modalClose');       // Product Details modal
+    wireModalBehavior('leadModal', 'leadModalClose'); // Lead Form modal
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wireAll);
+  } else {
+    wireAll();
+  }
+
+  // Re-wire on DOM changes (in case modal content gets re-rendered)
+  var ob = new MutationObserver(wireAll);
+  ob.observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script></body></html>';
 
   var w = window.open('', '_blank');
   if (!w) { alert('Pop-up blocked. Please allow pop-ups for this site.'); return; }
