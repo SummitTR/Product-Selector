@@ -442,7 +442,37 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
   }
 </style>
 <!-- MOBILE_TABLET_OVERRIDES START -->
-<style></style>
+<style>
+  /* Default: do not show the 3-button footer on desktop */
+  .mobile-stepbar { display: none; }
+
+  /* Tablet & Mobile (≤1024px): show footer, make header non-sticky and simplify header contents */
+  @media (max-width: 1024px) {
+    .mobile-stepbar { display: flex; }
+
+    /* Header not sticky on tablet/mobile */
+    header.appbar, header, .app-header { position: static !important; top: auto !important; }
+
+    /* Simplify header: logo + title only */
+    header.appbar nav, header.appbar .controls, header.appbar .steps,
+    header.appbar .brand-bottom, header.appbar .brand-top { display: none !important; }
+
+    /* If there's a .brand-title container, ensure the text is "Summit Tractors Learning Center" */
+    header.appbar .brand-title::after {
+      content: "Summit Tractors Learning Center";
+      display: block;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.2;
+      color: inherit;
+    }
+  }
+
+  /* Desktop (≥1025px): ensure footer never shows */
+  @media (min-width: 1025px) {
+    .mobile-stepbar { display: none !important; }
+  }
+</style>
 <!-- MOBILE_TABLET_OVERRIDES END -->
 <style>
 /* --- Mobile Stepbar Override --- */
@@ -670,7 +700,50 @@ header .brand, .header .brand, .topbar .brand {
   font-weight: 700;
   color: #fff;
   margin-top: 2px;
-}</style></head>
+}</style>
+<style>
+  /* === Scoped styles for the PDF/Viewer modal (#modal) === */
+  #modal {
+    position: fixed;
+    inset: 0;
+    display: none;            /* openViewer sets to flex */
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(0,0,0,.5);
+    z-index: 10000;
+  }
+  #modal .dialog {
+    background: #fff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90dvh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  #modal .dialog header { 
+    padding: 12px 16px; 
+    border-bottom: 1px solid #eee; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    gap: 12px;
+  }
+  #modal .dialog .content { padding: 0; }
+  @media (max-width: 700px){
+    #modal .dialog { margin: 6vh 12px 0; max-height: 92dvh; }
+  }
+</style>
+
+
+<style>
+  /* Hide the instructional header steps across all breakpoints */
+  header .steps, header nav .steps { display: none !important; }
+</style>
+
+</head>
 <body>
 <!-- Loading Overlay -->
 <div class="overlay" id="overlay">
@@ -2096,7 +2169,422 @@ TX25HLX85BHX76,Attachment & Implement,Tractor,TX25HLX85BHX76,Summit TX25H Tracto
   });
 })();
 </script>
-<script></script>
+<script>
+/* ==== Summit: Link-enabled PDF for selected products ==== */
+function printSelectionsPDF() {
+  if (typeof selectedProducts !== 'function') { alert('Please select items first.'); return; }
+  var picks = selectedProducts();
+  if (!picks || !picks.length) { alert('Please select at least one product.'); return; }
+
+  var logoSrc = '';
+  var hdrLogo = document.querySelector('.brand-logo') || document.querySelector('header img, .header img');
+  if (hdrLogo && hdrLogo.src) logoSrc = hdrLogo.src;
+
+  var retailerUrl = (typeof RETAILER_URL !== 'undefined' && RETAILER_URL) ? RETAILER_URL : "https://summittractors.bullseyelocations.com/local/TRACTORSUPPLYALLSTORES";
+
+  var rows = picks.map(function(p){
+    var images = (typeof getImages === 'function') ? getImages(p) : [];
+    var img = images && images.length ? images[0] : '';
+    var name = p.ProductName || p.Name || 'Product';
+    var price = (p.Price || '').toString().trim();
+    var video = p.VideoURL ? '<a href="'+p.VideoURL+'" target="_blank" rel="noopener">Watch Video</a>' : '';
+    var brochure = p.BrochureURL ? '<a href="'+p.BrochureURL+'" target="_blank" rel="noopener">View Brochure</a>' : '';
+    var retailer = '<a href="'+retailerUrl+'" target="_blank" rel="noopener">Find a Retailer</a>';
+    return (
+      '<div class="pdf-card pdf-page">'
+      + (img ? '<img src="'+img+'" alt="'+name+'">' : '<div class="noimg">No Image</div>')
+      + '<div>'
+      +   '<div class="pdf-name">'+name+'</div>'
+      +   '<div class="pdf-price">'+price+'</div>'
+      +   '<div class="pdf-buttons">'+video+' '+brochure+' '+retailer+'</div>'
+      + '</div></div>'
+    );
+  }).join('');
+
+  var printCSS = [
+    ':root{ --brand:#254A4F; --muted:#6b7280; }',
+    '*{ box-sizing:border-box; }',
+    'body{ margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:#111; }',
+    '.pdf-header,.pdf-footer{ position:fixed; left:0; right:0; background:#fff; }',
+    '.pdf-header{ top:0; border-bottom:1px solid #DDE5E5; padding:10px 0; text-align:center; }',
+    '.pdf-footer{ bottom:0; border-top:1px solid #DDE5E5; padding:8px 0; font-size:12px; color:#254A4F; text-align:center; }',
+    '.pdf-content{ padding:0 16px; margin-top:92px; margin-bottom:70px; }',
+    '.pdf-card{ display:grid; grid-template-columns:140px 1fr; gap:16px; border:1px solid #E7EFEF; border-radius:12px; padding:12px; margin-bottom:12px; page-break-inside:avoid; break-inside:avoid; }',
+    '.pdf-card img{ width:140px; height:100px; object-fit:contain; background:#eef3f3; border-radius:8px; }',
+    '.pdf-name{ font-weight:700; font-size:18px; margin:0 0 4px 0; }',
+    '.pdf-price{ color:#254A4F; font-weight:700; margin:0 0 8px 0; }',
+    '.pdf-buttons a{ display:inline-block; padding:8px 10px; border:1px solid #254A4F; border-radius:999px; text-decoration:none; color:#254A4F; font-weight:600; font-size:12px; margin-right:8px; margin-top:6px; }',
+    '@page{ margin:18mm 12mm; }'
+  ].join('\n');
+
+  var when = new Date().toLocaleString();
+  var docHTML = '<!doctype html><html><head><meta charset="utf-8">'
+    + '<title>Summit Tractors – Your Selections</title>'
+    + '<style>'+printCSS+'</style>'
+    + '
+<style>
+button.see-details{
+  background:#ffb703;
+  color:#1a1a1a;
+  border:none;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:800;
+}
+button.see-details:hover{ opacity:.9 }
+button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); outline-offset:2px }
+
+/* === Tablet & Mobile header/footer adjustments (Summit request) === */
+@media (max-width: 1024px) {
+  header.appbar { position: static !important; }
+  /* Keep header simple: logo + "Summit Tractors Learning Center" only */
+  header.appbar nav.grow,
+  header.appbar .controls,
+  header.appbar .brand-title .brand-bottom { display: none !important; }
+  header.appbar .brand-title .brand-top { display: none !important; }
+  header.appbar .brand-title::after {
+    content: "Summit Tractors Learning Center";
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  /* Show bottom 3-button footer */
+  .mobile-stepbar { display: flex !important; }
+}
+
+/* Desktop keeps existing layout */
+@media (min-width: 1025px) {
+  .mobile-stepbar { display: none !important; }
+}
+
+/* Footer button labels/wrapper */
+.mobile-stepbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+  display: none; /* enabled via media query */
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background: #ffffffE6;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 -6px 18px rgba(0,0,0,0.08);
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+.mobile-stepbar button {
+  flex: 1 1 0;
+  border-radius: 999px;
+  padding: 12px 14px;
+  font-weight: 700;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #f4f6f7;
+  color: #254A4F;
+}
+.mobile-stepbar button.primary {
+  background: #254A4F;
+  color: #fff;
+  border-color: #254A4F;
+}
+</style>
+
+
+<style>
+  /* Default: hide the mobile/tablet footer menu on large screens */
+  .mobile-stepbar { display: none; }
+
+  /* Tablet & Mobile (≤1024px): show footer menu, make header non-sticky */
+  @media (max-width: 1024px) {
+    .mobile-stepbar { display: flex; }
+    header.appbar, header, .app-header { position: static !important; top:auto !important; }
+  }
+
+  /* Desktop (≥1025px): ensure footer menu never shows */
+  @media (min-width: 1025px) {
+    .mobile-stepbar { display: none !important; }
+  }
+</style>
+
+
+<!-- MOBILE_TABLET_OVERRIDES START -->
+<style>
+  /* Default: do not show the 3-button footer on desktop */
+  .mobile-stepbar { display: none; }
+
+  /* Tablet & Mobile (≤1024px): show footer, make header non-sticky and simplify header contents */
+  @media (max-width: 1024px) {
+    .mobile-stepbar { display: flex; }
+
+    /* Header not sticky on tablet/mobile */
+    header.appbar, header, .app-header { position: static !important; top: auto !important; }
+
+    /* Simplify header: logo + title only */
+    header.appbar nav, header.appbar .controls, header.appbar .steps,
+    header.appbar .brand-bottom, header.appbar .brand-top { display: none !important; }
+
+    /* If there's a .brand-title container, ensure the text is "Summit Tractors Learning Center" */
+    header.appbar .brand-title::after {
+      content: "Summit Tractors Learning Center";
+      display: block;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.2;
+      color: inherit;
+    }
+  }
+
+  /* Desktop (≥1025px): ensure footer never shows */
+  @media (min-width: 1025px) {
+    .mobile-stepbar { display: none !important; }
+  }
+</style>
+<!-- MOBILE_TABLET_OVERRIDES END -->
+
+<style id="header-menu-textonly">
+/* Make top header menu look like plain text, non-clickable, without pills */
+header.appbar .steps .step {
+  background: transparent !important;
+  color: var(--ink, #1b1f23) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin-right: 14px !important;
+  cursor: default !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  border: none !important;
+}
+header.appbar .steps .step::before,
+header.appbar .steps .step::after { display: none !important; }
+</style>
+<style id="header-text-white">
+/* Force every piece of text in the top header to pure white */
+header.appbar, header.appbar * { 
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important; /* handles cases where text-fill is used */
+}
+/* Pseudo-elements */
+header.appbar *::before, header.appbar *::after {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+/* Common UI bits that sometimes override color */
+header.appbar .step, header.appbar .step *, 
+header.appbar .steps, header.appbar .steps *,
+header.appbar .label, header.appbar .label *,
+header.appbar .badge, header.appbar .badge *,
+header.appbar .pill, header.appbar .pill *,
+header.appbar .chip, header.appbar .chip *,
+header.appbar .btn, header.appbar .btn *,
+header.appbar .controls, header.appbar .controls *,
+header.appbar .brand, header.appbar .brand *,
+header.appbar nav, header.appbar nav * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+/* Links in header */
+header.appbar a:link, header.appbar a:visited, header.appbar a:hover, header.appbar a:active {
+  color: #ffffff !important;
+}
+/* SVG icons */
+header.appbar svg { fill: #ffffff !important; stroke: #ffffff !important; }
+/* Form placeholders (if any search or input exists in header) */
+header.appbar ::placeholder { color: #ffffff !important; opacity: 0.85; }
+/* Ensure header doesn't inherit conflicting CSS variables */
+header.appbar {
+  --text: #ffffff;
+  --fg: #ffffff;
+  --color: #ffffff;
+}
+</style>
+
+<style>
+  /* Hide deprecated Step 2 (Benefits) screen safely */
+  #screen-contact { display: none !important; }
+</style>
+
+<style>
+  /* Hide disabled steps (per request): Step 4 and Step 5b */
+  #screen-step3,
+  #screen-contact {
+    display: none !important;
+  }
+</style>
+
+
+<style>
+  /* === Scoped styles for the PDF/Viewer modal (#modal) === */
+  #modal {
+    position: fixed;
+    inset: 0;
+    display: none;            /* openViewer sets to flex */
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(0,0,0,.5);
+    z-index: 10000;
+  }
+  #modal .dialog {
+    background: #fff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90dvh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  #modal .dialog header { 
+    padding: 12px 16px; 
+    border-bottom: 1px solid #eee; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    gap: 12px;
+  }
+  #modal .dialog .content { padding: 0; }
+  @media (max-width: 700px){
+    #modal .dialog { margin: 6vh 12px 0; max-height: 92dvh; }
+  }
+</style>
+
+
+<style>
+  /* Hide the instructional header steps across all breakpoints */
+  header .steps, header nav .steps { display: none !important; }
+</style>
+
+</head><body>'
+    +   '<div class="pdf-header">'
+    +     '<div style="display:inline-flex;align-items:center;gap:12px;">'
+    +       (logoSrc ? '<img src="'+logoSrc+'" alt="Summit Tractors" style="height:48px;width:auto;">' : '<div style="width:48px;height:48px;border-radius:8px;background:#254A4F;"></div>')
+    +       '<div style="text-align:left;">'
+    +         '<div style="font-weight:800;font-size:20px;line-height:1;">Summit Tractors</div>'
+    +         '<div style="font-weight:700;font-size:16px;opacity:.95;line-height:1;">Product Selections</div>'
+    +         '<div style="font-size:11px;color:#6b7280;">Generated '+when+'</div>'
+    +       '</div>'
+    +     '</div>'
+    +   '</div>'
+    +   '<div class="pdf-content">'+rows+'</div>'
+    +   '<div class="pdf-footer">'
+    +     'Phone: <a href="tel:7702093390" style="color:#254A4F;text-decoration:none;">770-209-3390</a>'
+    +     ' &nbsp;&bull;&nbsp; '
+    +     'Email: <a href="mailto:support@summittractors.com" style="color:#254A4F;text-decoration:none;">support@summittractors.com</a>'
+    +     '<div style="margin-top:4px;">Links in this PDF are clickable.</div>'
+    +   '</div>'
+    + '
+<script>
+  // === Inline Save/Print (no external PDF) ===
+  (function(){
+    if (window.__inlineSavePrintBound) return;
+    window.__inlineSavePrintBound = true;
+
+    window.openSavePrintInline = function(){
+      try{
+        var modal = document.getElementById('modal');
+        var titleEl = document.getElementById('modalTitle');
+        var content = document.getElementById('modalContent');
+        if (!modal || !titleEl || !content) return alert('Viewer not available.');
+
+        // Build a simple, printable summary of current selections
+        function esc(s){ return String(s||''); }
+        function getImage(p){
+          try{
+            if (typeof getImages === 'function'){
+              var imgs = getImages(p);
+              return imgs && imgs[0] ? imgs[0] : '';
+            }
+          }catch(e){}
+          return '';
+        }
+        function selectedProducts(){
+          var out = [];
+          try{
+            if (window.state){
+              if (state.tractors && state.tractors.size){
+                Array.from(state.tractors).forEach(function(id){
+                  var it = state.data.find(function(d){ return String(d.ProductID)===String(id); });
+                  if (it) out.push(it);
+                });
+              }
+              if (state.attachments){
+                state.attachments.forEach(function(id){
+                  var it = state.data.find(function(d){ return String(d.ProductID)===String(id); });
+                  if (it) out.push(it);
+                });
+              }
+            }
+          }catch(e){}
+          return out;
+        }
+
+        var items = selectedProducts();
+        titleEl.textContent = 'Your Selections — Save or Print';
+        if (!items.length){
+          content.innerHTML = '<button class="player-close" type="button" aria-label="Close">×</button><div style="padding:12px;"><p>No products selected yet.</p></div>';
+          var closeBtn = content.querySelector('.player-close');
+          if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; };
+          modal.style.display = 'flex';
+          return;
+        }
+
+        var rows = items.map(function(p, idx){
+          var img = getImage(p);
+          return (
+            '<tr>' +
+              '<td style="padding:8px; vertical-align:top;">' + (idx+1) + '</td>' +
+              '<td style="padding:8px; vertical-align:top;">' + esc(p.ProductName) + '<div class="muted" style="font-size:12px;">Model: ' + esc(p.Model) + ' &nbsp; | &nbsp; SKU: ' + esc(p.SKU) + '</div></td>' +
+              '<td style="padding:8px; vertical-align:top; white-space:nowrap;">' + esc(p.Price) + '</td>' +
+              '<td style="padding:8px; vertical-align:top; width:120px;">' + (img ? '<img src="'+img+'" alt="" style="max-width:120px; max-height:80px; object-fit:contain;"/>' : '') + '</td>' +
+            '</tr>'
+          );
+        }).join('');
+
+        content.innerHTML = ''
+          + '<button class="player-close" type="button" aria-label="Close">×</button>'
+          + '<div id="printArea" style="padding:12px;">'
+          + '  <h2 style="margin:0 0 6px 0;">Summit Tractors — Saved Selections</h2>'
+          + '  <p class="muted" style="margin:0 0 12px 0;">Print or download your list. PDFs, brochures, and manuals open inside the app.</p>'
+          + '  <table style="width:100%; border-collapse:collapse;">'
+          + '    <thead>'
+          + '      <tr style="text-align:left; border-bottom:1px solid #e5e7eb;">'
+          + '        <th style="padding:8px;">#</th>'
+          + '        <th style="padding:8px;">Product</th>'
+          + '        <th style="padding:8px;">Price</th>'
+          + '        <th style="padding:8px;">Image</th>'
+          + '      </tr>'
+          + '    </thead>'
+          + '    <tbody>' + rows + '</tbody>'
+          + '  </table>'
+          + '</div>'
+          + '<div class="sticky-actions no-print">'
+          + '  <button id="sp_print" type="button">Print</button>'
+          + '  <button id="sp_csv" class="secondary" type="button">Download CSV</button>'
+          + '  <button id="sp_json" class="secondary" type="button">Download JSON</button>'
+          + '</div>';
+
+        // Wire controls
+        var closeBtn = content.querySelector('.player-close');
+        if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; };
+        var btnPrint = content.querySelector('#sp_print');
+        if (btnPrint) btnPrint.onclick = function(){ window.print(); };
+        var btnCSV = content.querySelector('#sp_csv');
+        if (btnCSV) btnCSV.onclick = function(){ try{ (window.downloadCSV||function(){alert("CSV export unavailable");})(); }catch(e){ alert("CSV export unavailable"); } };
+        var btnJSON = content.querySelector('#sp_json');
+        if (btnJSON) btnJSON.onclick = function(){ try{ (window.downloadJSON||function(){alert("JSON export unavailable");})(); }catch(e){ alert("JSON export unavailable"); } };
+
+        modal.style.display = 'flex';
+      }catch(err){
+        console.warn('openSavePrintInline error:', err);
+        alert('Sorry—could not open Save/Print viewer.');
+      }
+    };
+  })();
+</script>
 <script>
   (function(){
     // Force "Save or Print Your Selections" to open inline viewer, without external pop-ups
@@ -3098,133 +3586,62 @@ function returnToStep2() {
   var ob = new MutationObserver(wireAll);
   ob.observe(document.documentElement, { childList: true, subtree: true });
 })();
-</script><script id="pdf-viewer-unified">
-(function(){
-  if (window.__pdfViewerUnified) return;
-  window.__pdfViewerUnified = true;
+</script>
+<script>
+function openViewer(title, url) {
+  const t = title || 'Viewer';
+  const isYT  = /youtube\.com|youtu\.be/i.test(url || '');
+  const isMP4 = /\.mp4(\?|$)/i.test(url || '');
+  const isPDF = /\.pdf(\?|$)/i.test(url || '');
 
-  function isPdf(url){
-    try { return /\.pdf(\?|$)/i.test(String(url||'')); } catch(_) { return false; }
-  }
-  function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  document.querySelector('#modalTitle').textContent = t;
+  const container = document.querySelector('#modalContent');
 
-  // Ensure modal structure exists
-  function ensureModal(){
-    var modal = document.getElementById('modal') || document.querySelector('.modal');
-    if (!modal){
-      modal = document.createElement('div');
-      modal.id = 'modal';
-      modal.className = 'modal';
-      document.body.appendChild(modal);
-    }
-    var title = document.getElementById('modalTitle') || modal.querySelector('#modalTitle, .modal-title');
-    if (!title){
-      title = document.createElement('div');
-      title.id = 'modalTitle';
-      modal.appendChild(title);
-    }
-    var content = document.getElementById('modalContent') || modal.querySelector('#modalContent, .modal-content');
-    if (!content){
-      content = document.createElement('div');
-      content.id = 'modalContent';
-      modal.appendChild(content);
-    }
-    var close = document.getElementById('modalClose') || modal.querySelector('#modalClose, .close');
-    if (!close){
-      close = document.createElement('button');
-      close.id = 'modalClose';
-      close.className = 'close';
-      close.textContent = 'Close';
-      modal.insertBefore(close, modal.firstChild);
-      close.addEventListener('click', function(){
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden','true');
-      }, true);
-    }
-    modal.style.display = 'block';
-    modal.setAttribute('aria-hidden','false');
-    return { modal, title, content };
+  if (isYT) {
+    container.innerHTML =
+      `<div style="position:relative;padding-top:56.25%;">
+         <iframe src="${url}" allowfullscreen
+                 style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>
+       </div>`;
+  } else if (isMP4) {
+    container.innerHTML =
+      `<video src="${url}" controls style="width:100%;max-height:80dvh;"></video>`;
+  } else if (isPDF) {
+    container.innerHTML =
+      `<div style="height:min(80dvh, 900px);">
+         <iframe src="${url}" style="width:100%;height:100%;border:0;" title="PDF"></iframe>
+       </div>
+       <noscript>
+         <embed src="${url}" type="application/pdf" style="width:100%;height:80dvh;" />
+       </noscript>`;
+    setTimeout(() => {
+      const holder = container.firstElementChild;
+      if (holder && holder.clientHeight < 40) {
+        container.innerHTML =
+          `<embed src="${url}" type="application/pdf" style="width:100%;height:80dvh;" />`;
+      }
+    }, 150);
+  } else {
+    container.innerHTML =
+      `<iframe src="${url}" style="width:100%;height:min(80dvh, 900px);border:0;"></iframe>`;
   }
 
-  function renderPdfInModal(url, docTitle){
-    var parts = ensureModal();
-    var modal = parts.modal, title = parts.title, content = parts.content;
-    var safeUrl = String(url||'');
-    var safeTitle = escapeHtml(docTitle||'Document');
+  const modal = document.querySelector('#modal');
+  modal.style.display = 'flex';
+}
 
-    // Toolbar
-    var toolbar = ''
-      + '<div class="pdf-toolbar" role="toolbar">'
-      + '  <button type="button" class="pdf-btn" data-act="open">Open in New Tab</button>'
-      + '  <button type="button" class="pdf-btn" data-act="download">Download</button>'
-      + '  <button type="button" class="pdf-btn" data-act="print">Print</button>'
-      + '</div>';
-
-    // Iframe (native viewer params)
-    var iframeHtml = '<iframe class="pdf-frame" title="'+ safeTitle +'" '
-      + 'src="'+ safeUrl + '#toolbar=1&navpanes=1&view=FitH" loading="lazy"></iframe>';
-
-    title.innerHTML = safeTitle;
-    content.innerHTML = toolbar + '<div class="pdf-frame-wrap">' + iframeHtml + '</div>';
-
-    // Wire toolbar
-    content.querySelectorAll('.pdf-toolbar .pdf-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var act = btn.getAttribute('data-act');
-        if (act === 'open'){
-          window.open(safeUrl, '_blank', 'noopener');
-        } else if (act === 'download'){
-          var a = document.createElement('a'); a.href = safeUrl; a.download = '';
-          document.body.appendChild(a); a.click(); a.remove();
-        } else if (act === 'print'){
-          try {
-            var frame = content.querySelector('.pdf-frame');
-            if (frame && frame.contentWindow) { frame.contentWindow.focus(); frame.contentWindow.print(); }
-            else { var w = window.open(safeUrl, '_blank'); if (w) w.print(); }
-          } catch(e){ window.open(safeUrl, '_blank'); }
-        }
-      }, {passive:true});
-    });
-  }
-
-  // Intercept openViewer for PDFs (used by View Brochure / View Manual buttons)
-  var _openViewer = window.openViewer;
-  window.openViewer = function(title, url){
-    if (isPdf(url)) { renderPdfInModal(url, title); return; }
-    if (typeof _openViewer === 'function') return _openViewer(title, url);
-    window.open(url, '_blank', 'noopener');
-  };
-
-  // Also intercept direct clicks in the Product Details modal that point to PDFs
-  document.addEventListener('click', function(e){
-    var a = e.target.closest('a, button');
-    if (!a) return;
-    // Accept data-url, href, or onclick data
-    var url = a.getAttribute('data-url') || a.getAttribute('href') || '';
-    var title = a.getAttribute('data-title') || a.getAttribute('title') || a.textContent.trim() || 'Document';
-    if (isPdf(url)){
-      e.preventDefault();
-      renderPdfInModal(url, title);
-    }
-  }, true);
-
-  // Styles for consistent viewer sizing and toolbar on mobile/tablet/desktop
-  var css = document.createElement('style');
-  css.id = 'pdf-viewer-unified-style';
-  css.textContent = `
-  #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; }
-  #modalContent { background:#fff; max-width: 1000px; width: 94vw; margin: 5vh auto; border-radius: 10px; overflow: hidden; }
-  #modalTitle { padding: 12px 16px; font-weight: 600; border-bottom: 1px solid rgba(0,0,0,0.1); background:#fff; position: sticky; top: 0; z-index: 2; }
-  .pdf-toolbar { display:flex; gap:8px; padding:10px; border-bottom:1px solid rgba(0,0,0,0.08); background:#f7f7f7; position: sticky; top: 44px; z-index: 2; }
-  .pdf-btn { padding:8px 12px; border:1px solid rgba(0,0,0,0.15); background:#fff; border-radius:8px; cursor:pointer; }
-  .pdf-frame-wrap { height: 70vh; }
-  .pdf-frame { width:100%; height:100%; border:none; }
-  @media (max-width:1024px){ #modalContent { width:94vw; margin:4vh auto; } .pdf-frame-wrap { height:72vh; } }
-  @media (max-width:640px){ #modalContent { width:96vw; margin:3vh auto; } .pdf-frame-wrap { height:70vh; } }
-  `;
-  document.head.appendChild(css);
+// Optional: robust close behavior
+(function initViewerClose(){
+  const modal = document.querySelector('#modal');
+  if (!modal) return;
+  const closeBtn = document.querySelector('#modalClose');
+  const dialog = modal.querySelector('.dialog');
+  if (closeBtn) closeBtn.addEventListener('click', () => modal.style.display = 'none');
+  modal.addEventListener('click', (e) => { if (!dialog.contains(e.target)) modal.style.display = 'none'; });
 })();
-</script></body></html>';
+</script>
+
+</body></html>';
 
   var w = window.open('', '_blank');
   if (!w) { alert('Pop-up blocked. Please allow pop-ups for this site.'); return; }
