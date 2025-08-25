@@ -621,7 +621,36 @@ header.appbar {
 footer, .footer, .mobile-footer {
   z-index: 10;
 }
-</style></head>
+</style>
+<style>
+/* --- Mobile-safe scrolling for Save/Print screen --- */
+#screen-saveprint{
+  /* allow the screen to scroll when content is long */
+  min-height: 100dvh;
+  overflow-y: auto;
+  /* add extra bottom room so the mobile footer doesn't cover the print area */
+  padding-bottom: max(160px, env(safe-area-inset-bottom, 0px) + 160px);
+}
+</style>
+
+
+<style id="saveprint-scroll-patch">
+  /* Ensure Save/Print screen can scroll and isn't hidden behind the sticky mobile footer */
+  #screen-saveprint {
+    overflow: auto !important;
+    padding-bottom: 180px !important; /* room for footer buttons */
+  }
+  /* If Save/Print opens inside the app modal, ensure scroll */
+  #modal #modalContent {
+    max-height: 75vh !important;
+    overflow: auto !important;
+  }
+  @media (max-width: 768px){
+    #screen-saveprint { padding-bottom: 220px !important; }
+  }
+</style>
+
+</head>
 <body>
 <!-- Loading Overlay -->
 <div class="overlay" id="overlay">
@@ -1818,7 +1847,7 @@ window.addEventListener('load', function(){
 })();
 </script>
 <script>
-// === Add "Find A Retailer" button to every product card ===
+// === Add "Find a Tractor Supply Location" button to every product card ===
 (function installRetailerButtons(){
   var RETAILER_URL = "https://summittractors.bullseyelocations.com/local/TRACTORSUPPLYALLSTORES";
   function addButtons(root){
@@ -1826,11 +1855,11 @@ window.addEventListener('load', function(){
       if (actions.querySelector('[data-retailer]')) return;
       var btn = document.createElement('button');
       btn.type = "button";
-      btn.textContent = "Find A Retailer";
+      btn.textContent = "Find a Tractor Supply Location";
       btn.setAttribute('data-retailer','');
       btn.addEventListener('click', function(){
         if (typeof openViewer === 'function') {
-          openViewer('Find A Retailer', RETAILER_URL);
+          openViewer('Find a Tractor Supply Location', RETAILER_URL);
         } else {
           window.open(RETAILER_URL, '_blank','noopener');
         }
@@ -3422,7 +3451,41 @@ function returnToStep2() {
   var ob = new MutationObserver(wireAll);
   ob.observe(document.documentElement, { childList: true, subtree: true });
 })();
-</script></body></html>';
+</script>
+<script id="retailer-button-installer">
+(function installRetailerButtons(){
+  if (window.__retailerInstaller) return;
+  window.__retailerInstaller = true;
+  var RETAILER_URL = "https://summittractors.bullseyelocations.com/local/TRACTORSUPPLYALLSTORES";
+  var LABEL = "Find a Tractor Supply Location";
+  function addButtons(root){
+    (root || document).querySelectorAll('.card .actions').forEach(function(actions){
+      if (actions.querySelector('[data-retailer]')) return;
+      var btn = document.createElement('button');
+      btn.type = "button";
+      btn.textContent = LABEL;
+      btn.setAttribute('data-retailer','');
+      btn.addEventListener('click', function(){
+        if (typeof openViewer === 'function') {
+          openViewer(LABEL, RETAILER_URL);
+        } else {
+          window.open(RETAILER_URL, '_blank','noopener');
+        }
+      });
+      actions.appendChild(btn);
+    });
+  }
+  // Initial pass
+  try { addButtons(document); } catch(_) {}
+  // Observe future renders to keep buttons present
+  try {
+    var mo = new MutationObserver(function(){ addButtons(document); });
+    mo.observe(document.body, { childList: true, subtree: true });
+  } catch(_) {}
+})();
+</script>
+
+</body></html>';
 
   var w = window.open('', '_blank');
   if (!w) { alert('Pop-up blocked. Please allow pop-ups for this site.'); return; }
