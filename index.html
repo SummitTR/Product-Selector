@@ -425,7 +425,81 @@ button.see-details{
 button.see-details:hover{ opacity:.9 }
 button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); outline-offset:2px }
 </style>
-</head>
+<style>
+  /* Default: hide the mobile/tablet footer menu on large screens */
+  .mobile-stepbar { display: none; }
+
+  /* Tablet & Mobile (≤1024px): show footer menu, make header non-sticky */
+  @media (max-width: 1024px) {
+    .mobile-stepbar { display: flex; }
+    header.appbar, header, .app-header { position: static !important; top:auto !important; }
+  }
+
+  /* Desktop (≥1025px): ensure footer menu never shows */
+  @media (min-width: 1025px) {
+    .mobile-stepbar { display: none !important; }
+  }
+</style>
+<!-- MOBILE_TABLET_OVERRIDES START -->
+<style>
+  /* Default: do not show the 3-button footer on desktop */
+  .mobile-stepbar { display: none; }
+
+  /* Tablet & Mobile (≤1024px): show footer, make header non-sticky and simplify header contents */
+  @media (max-width: 1024px) {
+    .mobile-stepbar { display: flex; }
+
+    /* Header not sticky on tablet/mobile */
+    header.appbar, header, .app-header { position: static !important; top: auto !important; }
+
+    /* Simplify header: logo + title only */
+    header.appbar nav, header.appbar .controls, header.appbar .steps,
+    header.appbar .brand-bottom, header.appbar .brand-top { display: none !important; }
+
+    /* If there's a .brand-title container, ensure the text is "Summit Tractors Learning Center" */
+    header.appbar .brand-title::after {
+      content: "Summit Tractors Learning Center";
+      display: block;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.2;
+      color: inherit;
+    }
+  }
+
+  /* Desktop (≥1025px): ensure footer never shows */
+  @media (min-width: 1025px) {
+    .mobile-stepbar { display: none !important; }
+  }
+</style>
+<!-- MOBILE_TABLET_OVERRIDES END -->
+<style>
+/* --- Mobile Stepbar Override --- */
+.mobile-stepbar{
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  display: flex !important;
+  gap: 8px;
+  padding: 10px;
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+  z-index: 1000;
+}
+.mobile-stepbar button{
+  flex: 1 1 0;
+  min-height: 48px;
+  border-radius: 12px;
+  border: 1px solid rgba(37,74,79,.2);
+  background: #254A4F;
+  color: #fff;
+  font-weight: 700;
+}
+.mobile-stepbar button:focus-visible{
+  outline: 3px solid #2D666E;
+  outline-offset: 2px;
+}
+.mobile-stepbar .badge{ display:none !important; }
+</style></head>
 <body>
 <!-- Loading Overlay -->
 <div class="overlay" id="overlay">
@@ -658,7 +732,7 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
         });
         const cbExit = document.getElementById('contactBenefitExit');
         if (cbExit) cbExit.addEventListener('click', function () {
-          try { setActiveStep('step3'); } catch (e) { console.warn('setActiveStep error:', e); }
+          try { setActiveStep('step2'); } catch (e) { console.warn('setActiveStep error:', e); }
         });
       } catch (e) { console.warn('Contact Benefit handlers error:', e); }
 
@@ -670,7 +744,7 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
         });
         const introLater = document.getElementById('contactIntroLater');
         if (introLater) introLater.addEventListener('click', function () {
-          try { setActiveStep('step3'); } catch (e) { console.warn('setActiveStep error:', e); }
+          try { setActiveStep('step2'); } catch (e) { console.warn('setActiveStep error:', e); }
         });
       } catch (e) { console.warn('Contact Intro handlers error:', e); }
 
@@ -697,7 +771,7 @@ els('.step[data-step="saveprint"]').forEach(function(st){
 els('.step').forEach(function(st){
   st.addEventListener('click', function(){
     var step = st.dataset.step;
-    if (step === 'saveprint' || step === 'step3') {
+    if (step === 'saveprint') {
       try { setActiveStep(step); } catch(e) {}
       openSavePrintInline();
     }
@@ -718,7 +792,7 @@ els('.step').forEach(function(st){
       });
 
       const btn2 = el('#toStep2'); if (btn2) btn2.addEventListener('click', () => setActiveStep('step2'));
-      const btn3 = el('#toStep3'); if (btn3) btn3.addEventListener('click', () => setActiveStep('step3'));
+      const btn3 = el('#toStep3'); if (btn3) btn3.addEventListener('click', () => setActiveStep('step2'));
       const share = el('#shareBtn'); if (share) share.addEventListener('click', encodeConfigToURL);
       if (csvInput) csvInput.addEventListener('change', handleCSVImport);
       const vbp = el('#viewByProduct'); if (vbp) vbp.addEventListener('click', () => { state.viewMode='product'; renderAttachments(); });
@@ -1378,7 +1452,7 @@ window.addEventListener('load', function(){
 </script>
 <script>
 (function(){
-  const MOBILE = window.matchMedia('(max-width: 768px)');
+  const MOBILE = window.matchMedia('(max-width: 1024px)');
   let lastY = 0, ticking = false, headerEl = null;
 
   function getHeader(){
@@ -1967,6 +2041,58 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
 }
 </style>
 
+
+<style>
+  /* Default: hide the mobile/tablet footer menu on large screens */
+  .mobile-stepbar { display: none; }
+
+  /* Tablet & Mobile (≤1024px): show footer menu, make header non-sticky */
+  @media (max-width: 1024px) {
+    .mobile-stepbar { display: flex; }
+    header.appbar, header, .app-header { position: static !important; top:auto !important; }
+  }
+
+  /* Desktop (≥1025px): ensure footer menu never shows */
+  @media (min-width: 1025px) {
+    .mobile-stepbar { display: none !important; }
+  }
+</style>
+
+
+<!-- MOBILE_TABLET_OVERRIDES START -->
+<style>
+  /* Default: do not show the 3-button footer on desktop */
+  .mobile-stepbar { display: none; }
+
+  /* Tablet & Mobile (≤1024px): show footer, make header non-sticky and simplify header contents */
+  @media (max-width: 1024px) {
+    .mobile-stepbar { display: flex; }
+
+    /* Header not sticky on tablet/mobile */
+    header.appbar, header, .app-header { position: static !important; top: auto !important; }
+
+    /* Simplify header: logo + title only */
+    header.appbar nav, header.appbar .controls, header.appbar .steps,
+    header.appbar .brand-bottom, header.appbar .brand-top { display: none !important; }
+
+    /* If there's a .brand-title container, ensure the text is "Summit Tractors Learning Center" */
+    header.appbar .brand-title::after {
+      content: "Summit Tractors Learning Center";
+      display: block;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.2;
+      color: inherit;
+    }
+  }
+
+  /* Desktop (≥1025px): ensure footer never shows */
+  @media (min-width: 1025px) {
+    .mobile-stepbar { display: none !important; }
+  }
+</style>
+<!-- MOBILE_TABLET_OVERRIDES END -->
+
 </head><body>'
     +   '<div class="pdf-header">'
     +     '<div style="display:inline-flex;align-items:center;gap:12px;">'
@@ -2184,7 +2310,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btn) btn.addEventListener('click', openStep2);
 });
 </script>
-
 <script>
 (function(){
   function findAttachmentsContainer(){
@@ -2290,15 +2415,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 </script>
-
 <!-- 3-Button Footer for Tablet & Mobile -->
 <div class="mobile-stepbar" id="mobileFooter">
-  <button type="button" id="btnGoStep2" class="primary">View &amp; Select Equipment</button>
-  <button type="button" id="btnGoSavePrint">Save or Print</button>
-  <button type="button" id="btnGoContact">Send Selections to Summit Tractors</button>
+<button class="primary" id="btnGoStep2" type="button">View &amp; Select Equipment</button>
+<button id="btnGoSavePrint" type="button">Save or Print</button>
+<button id="btnGoContact" type="button">Send Selections to Summit Tractors</button>
 </div>
-
-
 <script>
 (function(){
   function gotoStep(step){
@@ -2334,8 +2456,290 @@ document.addEventListener('DOMContentLoaded', () => {
   else document.addEventListener('DOMContentLoaded', bindFooter);
 })();
 </script>
+<!-- MOBILE_FOOTER_WIRING START -->
+<script>
+(function(){
+  function gotoStep(step){
+    try {
+      // Try common APIs in the app to navigate
+      if (typeof setStep === 'function') setStep(step === 'step2' ? 2 : step);
+      if (typeof showStep === 'function') showStep(step === 'step2' ? 2 : step);
+      // Fallback to clicking known step links/buttons
+      if (step === 'step2') {
+        const btn = document.getElementById('viewSelectEquipment') ||
+                    document.querySelector('[data-action="view-select-equipment"]');
+        if (btn) btn.click();
+      } else if (step === 'saveprint') {
+        const el = document.querySelector('[data-step="saveprint"], #savePrint, .js-save-print');
+        if (el) el.click();
+      } else if (step === 'contact') {
+        const el = document.querySelector('[data-step="contact"], #contact, .js-contact');
+        if (el) el.click();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch(e) { console.warn('gotoStep error', e); }
+  }
 
-</body></html>';
+  function bindFooter(){
+    const f = document.getElementById('mobileFooter');
+    if (!f) return;
+    const b2 = document.getElementById('btnGoStep2');
+    const bS = document.getElementById('btnGoSavePrint');
+    const bC = document.getElementById('btnGoContact');
+    if (b2) b2.onclick = function(){ gotoStep('step2'); };
+    if (bS) bS.onclick = function(){ gotoStep('saveprint'); };
+    if (bC) bC.onclick = function(){ gotoStep('contact'); };
+  }
+
+  if (document.readyState !== 'loading') bindFooter();
+  else document.addEventListener('DOMContentLoaded', bindFooter);
+})();
+</script>
+<!-- MOBILE_FOOTER_WIRING END -->
+<script>
+function returnToStep2() {
+  if (typeof setActiveStep === 'function') setActiveStep(2);
+  else if (typeof showStep === 'function') showStep(2);
+}
+</script>
+<!-- LC7 Enforce Step 2 on Close START -->
+<script>
+(function(){
+  // Ensure global helper exists
+  window.returnToStep2 = window.returnToStep2 || function(){
+    if (typeof window.setActiveStep === 'function') { try { window.setActiveStep(2); } catch(e){} }
+    else if (typeof window.showStep === 'function') { try { window.showStep(2); } catch(e){} }
+    // try scrolling to top of step 2
+    var s2 = document.getElementById('step2') || document.querySelector('[data-step="2"]');
+    if (s2) { try { s2.scrollIntoView({behavior:'smooth', block:'start'}); } catch(e){} }
+  };
+
+  // Wrap/patch common close functions if present
+  ['closeModal','hideModal','closePanel','hidePanel','dismissModal','closeDialog'].forEach(function(name){
+    var fn = window[name];
+    if (typeof fn === 'function') {
+      window[name] = function(){
+        try { return fn.apply(this, arguments); }
+        finally { window.returnToStep2(); }
+      };
+    }
+  });
+
+  // Delegate clicks on elements that look like close buttons
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if (!t) return;
+    // traverse up to find close-ish element
+    var el = t.closest('[data-close],[data-action="close"],.modal-close,.dialog-close,[aria-label="Close"],button[title="Close"],[data-dismiss="modal"]');
+    if (el) {
+      setTimeout(window.returnToStep2, 0);
+    }
+  }, true);
+
+  // ESC key closes -> route to step 2 as well
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' || e.key === 'Esc') {
+      setTimeout(window.returnToStep2, 0);
+    }
+  });
+})();
+</script>
+<!-- LC7 Enforce Step 2 on Close END -->
+<!-- LC7 CLOSE PATCH START -->
+<script>
+(function(){
+  // Avoid multiple installs
+  if (window.__LC7_CLOSE_PATCH__) return;
+  window.__LC7_CLOSE_PATCH__ = true;
+
+  function returnToStep2() {
+    try {
+      if (typeof setActiveStep === 'function') setActiveStep(2);
+      else if (typeof showStep === 'function') showStep(2);
+      // Also ensure Step 2 container is shown if app uses sections
+      var s2 = document.getElementById('step2') || document.querySelector('[data-step="2"]');
+      if (s2) { s2.style.display = ''; }
+      // If your app needs to re-render attachments on step switch:
+      if (typeof renderAttachments === 'function') { try { renderAttachments(); } catch(e){} }
+      window.scrollTo(0,0);
+    } catch(e) {
+      console.warn('[LC7] returnToStep2 failed:', e);
+    }
+  }
+
+  // Wrap common close functions to always route back to Step 2
+  function wrapClose(name){
+    var fn = window[name];
+    if (typeof fn !== 'function') return;
+    if (fn.__lc7_wrapped) return;
+    function wrapped(){
+      try { return fn.apply(this, arguments); }
+      finally { setTimeout(returnToStep2, 0); }
+    }
+    wrapped.__lc7_wrapped = true;
+    window[name] = wrapped;
+  }
+
+  ['closeModal','hideModal','closePanel','hidePanel','dismissModal','closeDialog','hideDialog','closeSavePrint','hideSavePrint','closeContact','hideContact'].forEach(wrapClose);
+
+  // Click-based close controls (delegated)
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if (!t) return;
+    // bubble up to find a close control
+    var btn = t.closest('.modal-close, [data-close], [data-dismiss], [aria-label="Close"], [data-action="close"], #modalClose');
+    if (btn) {
+      setTimeout(returnToStep2, 0);
+    }
+  }, true);
+
+  // Escape key closing
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' || e.keyCode === 27){
+      // give existing handlers a tick to run, then route to Step 2
+      setTimeout(returnToStep2, 0);
+    }
+  });
+
+  // Observe #modal visibility changes; when it is hidden, go back to Step 2
+  var modal = document.getElementById('modal');
+  if (modal && typeof MutationObserver !== 'undefined'){
+    var obs = new MutationObserver(function(){
+      var style = getComputedStyle(modal);
+      if (style && (style.display === 'none' || style.visibility === 'hidden')) {
+        setTimeout(returnToStep2, 0);
+      }
+    });
+    obs.observe(modal, { attributes: true, attributeFilter: ['style','class'] });
+  }
+})();
+</script>
+<!-- LC7 CLOSE PATCH END -->
+<!-- LC7 SAVEPRINT PATCH START -->
+<script>
+// Ensure any Save/Print close navigates back to View & Select Equipment (Step 2)
+(function(){
+  // Helper to go to Step 2 and refresh the grid
+  function returnToStep2(){
+    try {
+      if (typeof setActiveStep === 'function') setActiveStep(2);
+      else if (typeof showStep === 'function') showStep(2);
+      if (typeof renderAttachments === 'function') setTimeout(renderAttachments, 0);
+      window.scrollTo(0,0);
+    } catch(e){ console.warn('[LC7] returnToStep2 error', e); }
+  }
+  window.returnToStep2 = window.returnToStep2 || returnToStep2;
+
+  // Attach close handlers inside save/print panels
+  function attachSavePrintCloseHandlers(){
+    // Candidate containers for the internal save/print window
+    const containers = Array.from(document.querySelectorAll(
+      '#savePrintModal, #savePrintPanel, [data-panel="saveprint"], .save-print, .saveprint, .savePrint'
+    ));
+    if (!containers.length) return;
+
+    // Delegate close buttons
+    const closeSelectors = [
+      '.modal-close',
+      '[data-close]',
+      '[aria-label="Close"]',
+      '#savePrintClose',
+      '[data-action="close-saveprint"]',
+      'button'
+    ];
+
+    containers.forEach(container => {
+      // Avoid attaching multiple times
+      if (container.__lc7_close_wired__) return;
+      container.__lc7_close_wired__ = true;
+
+      container.addEventListener('click', function(ev){
+        const t = ev.target;
+        // If it's a button-like element with "close" intent or matching selectors
+        const isCloseIntent =
+          (t.matches && closeSelectors.some(sel => t.matches(sel))) ||
+          (t.closest && closeSelectors.some(sel => t.closest(sel))) ||
+          /close/i.test((t.getAttribute && (t.getAttribute('aria-label')||'')) || '') ||
+          /close|done|back/i.test((t.textContent||'').trim());
+
+        if (isCloseIntent){
+          // Defer to allow any existing handlers to run first
+          setTimeout(returnToStep2, 0);
+        }
+      }, true);
+
+      // Observe display/hide changes to route back when the panel is dismissed
+      const obs = new MutationObserver(() => {
+        const visible = container.offsetParent !== null && getComputedStyle(container).display !== 'none' && getComputedStyle(container).visibility !== 'hidden';
+        if (!visible) {
+          // Panel became hidden -> go back to step 2
+          setTimeout(returnToStep2, 0);
+        }
+      });
+      try {
+        obs.observe(container, { attributes: true, attributeFilter: ['style', 'class'], subtree: false });
+      } catch(e){ /* no-op */ }
+    });
+  }
+
+  // Wrap openSavePrintInline to ensure handlers are attached whenever it's opened
+  if (!window.__lc7_wrap_saveprint__){
+    window.__lc7_wrap_saveprint__ = true;
+    const originalOpen = window.openSavePrintInline;
+    window.openSavePrintInline = function(){
+      const out = originalOpen ? originalOpen.apply(this, arguments) : undefined;
+      // Attach handlers after the panel has rendered
+      setTimeout(attachSavePrintCloseHandlers, 0);
+      return out;
+    };
+  }
+
+  // In case native print is used from the panel
+  window.addEventListener('afterprint', function(){
+    // Give the UI a tick to settle
+    setTimeout(returnToStep2, 0);
+  });
+
+  // Try attaching once on load (if the panel is already in DOM)
+  if (document.readyState !== 'loading') attachSavePrintCloseHandlers();
+  else document.addEventListener('DOMContentLoaded', attachSavePrintCloseHandlers);
+
+  // Also watch for DOM changes that add the save/print panel later
+  const bodyObs = new MutationObserver((muts)=>{
+    for (const m of muts){
+      if (m.addedNodes && m.addedNodes.length){
+        for (const n of m.addedNodes){
+          if (!(n instanceof Element)) continue;
+          if (n.matches && (n.matches('#savePrintModal, #savePrintPanel, [data-panel="saveprint"], .save-print, .saveprint, .savePrint'))) {
+            setTimeout(attachSavePrintCloseHandlers, 0);
+            return;
+          }
+        }
+      }
+    }
+  });
+  try { bodyObs.observe(document.body, { childList: true, subtree: true }); } catch(e){ /* no-op */ }
+
+})();
+</script>
+<!-- LC7 SAVEPRINT PATCH END -->
+<script>
+(function(){
+  function go(targetA, targetB){
+    if (document.getElementById('screen-' + targetA)) { setActiveStep(targetA); }
+    else if (targetB && document.getElementById('screen-' + targetB)) { setActiveStep(targetB); }
+  }
+  function wireStepbar(){
+    var b1 = document.getElementById('msbStep1');
+    var b2 = document.getElementById('msbStep2');
+    var b3 = document.getElementById('msbStep3');
+    if (b1) b1.onclick = function(){ go('step2'); };
+    if (b2) b2.onclick = function(){ go('saveprint'); };
+    if (b3) b3.onclick = function(){ go('contact-intro','contact'); };
+  }
+  document.addEventListener('DOMContentLoaded', wireStepbar);
+  setTimeout(wireStepbar, 300);
+})();</script></body></html>';
 
   var w = window.open('', '_blank');
   if (!w) { alert('Pop-up blocked. Please allow pop-ups for this site.'); return; }
@@ -2673,8 +3077,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btn) btn.addEventListener('click', openStep2);
 });
 </script>
-
-
 <script>
   (function(){
     function stopViewer(){
@@ -2780,7 +3182,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 </script>
-
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   function bindOpenStep2(){
