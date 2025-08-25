@@ -538,6 +538,13 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
 <button class="secondary" id="removeAll" type="button">Remove All</button>
 </div>
 <div class="grid cols-3" id="attachmentsContainer"></div>
+</section><section class="screen" id="screen-saveprint">
+<h2>Save or Print Your Selections</h2>
+<div class="print-summary" id="savePrintTarget"></div>
+<div class="toolbar">
+<button id="printBtn" type="button">Print</button>
+<p class="muted">Tip: On mobile, choose “Save as PDF” to share a copy.</p>
+</div>
 </section>
 <section class="screen" id="screen-step3">
 <h2>Step 3: Go to Learning Center</h2>
@@ -2723,7 +2730,51 @@ function returnToStep2() {
 })();
 </script>
 <!-- LC7 SAVEPRINT PATCH END -->
-<script>
+<div class="mobile-stepbar" id="mobileStepBar"><button id="msbStep1" type="button">View Equipment</button><button id="msbStep2" type="button">Save or Print Selections</button><button id="msbStep3" type="button">Send to Summit</button></div><script>
+(function(){
+  // Minimal renderer for Save/Print summary.
+  // If your app defines selectedProducts(), use it. Otherwise, this will just show a message.
+  function renderSavePrint(){
+    var target = document.getElementById('savePrintTarget');
+    if (!target) return;
+    try {
+      if (typeof selectedProducts === 'function') {
+        var items = selectedProducts();
+        if (items && items.length){
+          target.innerHTML = items.map(function(p){
+            var name = (p.ProductName || p.name || 'Item');
+            var sku  = (p.SKU || p.sku || '');
+            var price = (p.Price || p.price || '');
+            return '<div class="card" style="margin:6px 0"><div class="body"><div style=\"display:flex;gap:12px;align-items:center\"><div style=\"flex:1 1 auto\"><div style=\"font-weight:800\">' + name + '</div><div class=\"muted\">SKU: ' + sku + '</div></div><div style=\"font-weight:800\">' + price + '</div></div></div></div>';
+          }).join('');
+        } else {
+          target.innerHTML = '<div class="muted">No selections yet.</div>';
+        }
+      } else {
+        target.innerHTML = '<div class="muted">Selections will appear here once chosen.</div>';
+      }
+    } catch(e){
+      target.innerHTML = '<div class="muted">Unable to render selections.</div>';
+    }
+  }
+  function wireSavePrint(){
+    var btn = document.getElementById('printBtn');
+    if (btn) btn.onclick = function(){ window.print(); };
+  }
+  // Hook when navigating
+  var _setActiveStep = window.setActiveStep;
+  window.setActiveStep = function(id){
+    if (typeof _setActiveStep === 'function'){ _setActiveStep(id); }
+    if (id === 'saveprint'){ renderSavePrint(); }
+  };
+  // Also render if we land directly
+  document.addEventListener('DOMContentLoaded', function(){
+    if (document.getElementById('screen-saveprint')?.classList.contains('active')){
+      renderSavePrint();
+    }
+    wireSavePrint();
+  });
+})();</script><script>
 (function(){
   function go(targetA, targetB){
     if (document.getElementById('screen-' + targetA)) { setActiveStep(targetA); }
@@ -2734,7 +2785,7 @@ function returnToStep2() {
     var b2 = document.getElementById('msbStep2');
     var b3 = document.getElementById('msbStep3');
     if (b1) b1.onclick = function(){ go('step2'); };
-    if (b2) b2.onclick = function(){ go('saveprint'); };
+    if (b2) b2.onclick = function(){ go('saveprint','step2'); };
     if (b3) b3.onclick = function(){ go('contact-intro','contact'); };
   }
   document.addEventListener('DOMContentLoaded', wireStepbar);
