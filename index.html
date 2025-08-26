@@ -823,6 +823,19 @@ section.screen, .screen {
 }
 </style>
 
+
+<style>
+/* Contact Specialist mini-form inside the existing modal */
+#contactForm { display:flex; flex-direction:column; gap:8px; padding:8px; }
+#contactForm .row { display:flex; gap:8px; flex-wrap:wrap; }
+#contactForm .row > * { flex: 1 1 220px; }
+#contactForm label { font-size:12px; opacity:.85; display:block; }
+#contactForm input, #contactForm textarea { width:100%; padding:8px; border:1px solid #e5e7eb; border-radius:8px; }
+#contactForm textarea { min-height:96px; }
+#contactForm .actions { display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+#contactConfirm { padding:12px; background:#f3f6f8; border-radius:8px; display:none; }
+</style>
+
 </head>
 <body>
 <!-- Loading Overlay -->
@@ -2609,6 +2622,19 @@ section.screen, .screen {
 }
 </style>
 
+
+<style>
+/* Contact Specialist mini-form inside the existing modal */
+#contactForm { display:flex; flex-direction:column; gap:8px; padding:8px; }
+#contactForm .row { display:flex; gap:8px; flex-wrap:wrap; }
+#contactForm .row > * { flex: 1 1 220px; }
+#contactForm label { font-size:12px; opacity:.85; display:block; }
+#contactForm input, #contactForm textarea { width:100%; padding:8px; border:1px solid #e5e7eb; border-radius:8px; }
+#contactForm textarea { min-height:96px; }
+#contactForm .actions { display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+#contactConfirm { padding:12px; background:#f3f6f8; border-radius:8px; display:none; }
+</style>
+
 </head><body>'
 <script>
   // === Inline Save/Print (no external PDF) ===
@@ -3880,6 +3906,216 @@ function openViewer(title, url) {
 })();
 </script>
 
+
+<script>
+(function(){
+  function norm(v){ return String(v==null?'':v).trim(); }
+  function findProdBy(skuOrId, title){
+    const list = Array.isArray(window.SUMMIT_PRODUCTS) ? window.SUMMIT_PRODUCTS : [];
+    if (skuOrId){
+      const key = norm(skuOrId);
+      const byKey = list.find(p => {
+        return [p.SKU, p.Part, p.ProductID, p.Id].some(x => norm(x)===key);
+      });
+      if (byKey) return byKey;
+    }
+    if (title){
+      const t = norm(title);
+      const byName = list.find(p => norm(p.ProductName||p.Name)===t);
+      if (byName) return byName;
+    }
+    return null;
+  }
+
+  // Delegate: click Seasonal Uses
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('[data-action="season-uses"]');
+    if (!btn) return;
+    e.preventDefault();
+
+    // Try dataset first
+    let url = btn.dataset.url || '';
+    if (!url){
+      // Infer product context from open modal
+      const modal = document.getElementById('modal');
+      const content = document.getElementById('modalContent');
+      const titleEl = document.getElementById('modalTitle');
+      const skuEl = content ? content.querySelector('[data-sku],[data-part],[data-productid],[data-id]') : null;
+      const sku = skuEl ? (skuEl.getAttribute('data-sku')||skuEl.getAttribute('data-part')||skuEl.getAttribute('data-productid')||skuEl.getAttribute('data-id')||'') : '';
+      const p = findProdBy(sku, titleEl ? titleEl.textContent : '');
+      if (p){
+        url = p.SeasonalUses || p['Seasonal Uses'] || p.SeasonUses || p['SeasonUses'] || '';
+      }
+    }
+    if (url){
+      openViewer('Seasonal Uses', url);
+      const modal = document.getElementById('modal');
+      if (modal) modal.style.display = 'flex';
+    }else{
+      const content = document.getElementById('modalContent');
+      const title = document.getElementById('modalTitle');
+      if (title) title.textContent = 'Seasonal Uses';
+      if (content) content.innerHTML = '<div class="muted">No Seasonal Uses link found for this product.</div>';
+      const modal = document.getElementById('modal');
+      if (modal) modal.style.display = 'flex';
+    }
+  }, true);
+})();
+</script>
+
+
+<script>
+(function(){
+  function esc(s){ return String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+  function getSelections(){
+    // If your app has a canonical selections array, prefer it, else infer from DOM
+    if (Array.isArray(window.cart) && window.cart.length) return window.cart.slice();
+    const nodes = Array.from(document.querySelectorAll('[data-selected="true"], .selected [data-sku]'));
+    return nodes.map(n => ({
+      name: n.getAttribute('data-name') || n.querySelector('.name')?.textContent?.trim() || '',
+      sku:  n.getAttribute('data-sku')  || n.getAttribute('data-part') || '',
+      price: n.getAttribute('data-price') || n.querySelector('.price')?.textContent?.trim() || ''
+    }));
+  }
+  function buildForm(){
+    const sels = getSelections();
+    const list = sels.length ? '<ul style="margin:0;padding-left:18px;">'+sels.map(s=>'<li>'+esc(s.name)+' (SKU: '+esc(s.sku)+')</li>').join('')+'</ul>' : '<div class="muted">No products selected yet.</div>';
+    return `
+      <div id="contactForm">
+        <div class="row">
+          <div><label>Full Name</label><input id="cfName" type="text" placeholder="Your name"></div>
+          <div><label>Email</label><input id="cfEmail" type="email" placeholder="you@example.com"></div>
+          <div><label>Phone</label><input id="cfPhone" type="tel" placeholder="(###) ###-####"></div>
+        </div>
+        <div><label>Notes</label><textarea id="cfNotes" placeholder="Tell us about your needs, timelines, or questions."></textarea></div>
+        <div><label>Your Selections</label>${list}</div>
+        <div class="actions">
+          <button class="secondary" type="button" id="cfCancel">Cancel</button>
+          <button class="primary" type="button" id="cfSend">Send</button>
+        </div>
+        <div id="contactConfirm">Thanks! Your request has been prepared. A Summit Product Specialist will follow up shortly.</div>
+      </div>`;
+  }
+  function openContact(){
+    const modal = document.getElementById('modal');
+    const title = document.getElementById('modalTitle');
+    const content = document.getElementById('modalContent');
+    if (!modal || !title || !content) return;
+    title.textContent = 'Contact a Summit Product Specialist';
+    content.innerHTML = buildForm();
+    modal.style.display = 'flex';
+
+    const btnCancel = content.querySelector('#cfCancel');
+    const btnSend = content.querySelector('#cfSend');
+    const confirm = content.querySelector('#contactConfirm');
+
+    if (btnCancel) btnCancel.addEventListener('click', ()=> modal.style.display='none');
+    if (btnSend) btnSend.addEventListener('click', ()=>{
+      // For now, show confirmation UI. If you want email integration, we can mailto: or webhook later.
+      confirm.style.display = 'block';
+      setTimeout(()=>{ modal.style.display='none'; }, 1200);
+    });
+  }
+
+  // Delegate click from details actions & any global contact triggers
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('[data-action="contact-specialist"], .contact-specialist');
+    if (!btn) return;
+    e.preventDefault();
+    openContact();
+  }, true);
+})();
+</script>
+
+
+<script>
+(function(){
+  function norm(s){ return String(s==null?'':s).trim(); }
+  function num(v){ var n = parseFloat(v); return isFinite(n) ? n : Number.POSITIVE_INFINITY; }
+  function sortOrderForProduct(p){
+    if (!p) return Number.POSITIVE_INFINITY;
+    // common keys: SortOrder, Sort Order, sort_order, order
+    var so = p.SortOrder || p['Sort Order'] || p.sort_order || p.Order || p.order || p.sort || null;
+    return num(so);
+  }
+  function mapByName(){ 
+    var map = new Map();
+    var list = Array.isArray(window.SUMMIT_PRODUCTS) ? window.SUMMIT_PRODUCTS : [];
+    list.forEach(p => { map.set(norm(p.ProductName||p.Name), p); });
+    return map;
+  }
+  function mapBySku(){
+    var map = new Map();
+    var list = Array.isArray(window.SUMMIT_PRODUCTS) ? window.SUMMIT_PRODUCTS : [];
+    list.forEach(p => { map.set(norm(p.SKU||p.Part||p.ProductID||p.Id), p); });
+    return map;
+  }
+  var nameMap, skuMap;
+  function ensureMaps(){ if (!nameMap){ nameMap = mapByName(); skuMap = mapBySku(); } }
+
+  function getCardKey(card){
+    // Prefer data attributes
+    var sku = card.getAttribute('data-sku') || card.getAttribute('data-part') || card.getAttribute('data-id') || '';
+    if (sku) return { type:'sku', key: norm(sku) };
+    // Try to read SKU line like "SKU: XXX" from .muted text
+    var muted = card.querySelector('.muted'); 
+    if (muted){
+      var txt = muted.textContent || '';
+      var m = txt.match(/SKU:\s*([A-Za-z0-9\-_.]+)/i);
+      if (m) return { type:'sku', key: norm(m[1]) };
+    }
+    // Fall back to product name in h3
+    var h3 = card.querySelector('h3');
+    if (h3) return { type:'name', key: norm(h3.textContent) };
+    return { type:'', key:'' };
+  }
+
+  function sortCardsIn(container){
+    ensureMaps();
+    var cards = Array.from(container.querySelectorAll('.card'));
+    if (!cards.length) return;
+    var withOrder = cards.map((el, idx) => {
+      var key = getCardKey(el);
+      var p = null;
+      if (key.type==='sku') p = skuMap.get(key.key);
+      if (!p && key.type==='name') p = nameMap.get(key.key);
+      var ord = sortOrderForProduct(p);
+      return { el, idx, ord };
+    });
+    withOrder.sort((a,b) => (a.ord - b.ord) || (a.idx - b.idx));
+    withOrder.forEach(x => container.appendChild(x.el));
+  }
+
+  function sortByProductScreen(root){
+    root = root || document;
+    // Find likely grid containers under Step 2 / By Product view
+    var screen = root.querySelector('#screen-step2') || root.querySelector('[data-screen="step2"]') || root.querySelector('section.screen:nth-of-type(2)');
+    if (!screen) screen = root;
+    // Prefer a grid right inside screen
+    var grids = screen.querySelectorAll('.grid, .products-grid, .cards');
+    grids.forEach(g => sortCardsIn(g));
+  }
+
+  // Hook: when user activates By Product or enters Step 2
+  document.addEventListener('click', function(e){
+    if (e.target.closest('#viewByProduct, [data-action="view-equipment"], #viewEquipment, .btn-view-equipment')){
+      setTimeout(() => sortByProductScreen(document), 0);
+    }
+  }, true);
+
+  // Hook: when Step 2 becomes active (using MutationObserver)
+  var mo = new MutationObserver(() => {
+    var active = document.querySelector('#viewByProduct.pill.active, #screen-step2.screen.active');
+    if (active) setTimeout(() => sortByProductScreen(document), 50);
+  });
+  mo.observe(document.documentElement, { attributes: true, attributeFilter:['class'], subtree: true });
+
+  // Initial attempt on DOM ready (in case Step 2 is default)
+  if (document.readyState !== 'loading') { sortByProductScreen(document); }
+  else document.addEventListener('DOMContentLoaded', () => sortByProductScreen(document));
+})();
+</script>
+
 </body></html>';
 
   var w = window.open('', '_blank');
@@ -4490,6 +4726,19 @@ section.screen, .screen {
 @media print {
   section.screen, .screen { padding-bottom: 0 !important; }
 }
+</style>
+
+
+<style>
+/* Contact Specialist mini-form inside the existing modal */
+#contactForm { display:flex; flex-direction:column; gap:8px; padding:8px; }
+#contactForm .row { display:flex; gap:8px; flex-wrap:wrap; }
+#contactForm .row > * { flex: 1 1 220px; }
+#contactForm label { font-size:12px; opacity:.85; display:block; }
+#contactForm input, #contactForm textarea { width:100%; padding:8px; border:1px solid #e5e7eb; border-radius:8px; }
+#contactForm textarea { min-height:96px; }
+#contactForm .actions { display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+#contactConfirm { padding:12px; background:#f3f6f8; border-radius:8px; display:none; }
 </style>
 
 </head><body>'
