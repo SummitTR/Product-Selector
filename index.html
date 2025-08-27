@@ -897,6 +897,27 @@ header [role="button"]:hover {
 }
 </style>
 
+
+<style id="card-border-style">
+.card {
+  border: 2px solid #254a4f;
+  border-radius: 8px;
+  transition: border 0.2s ease;
+}
+.card.selected {
+  border: 4px solid #254a4f;
+}
+
+
+
+
+.card:hover, .card.selected:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  background-color: #f9fdfd;
+}
+
+</style>
+
 </head>
 <body>
 <!-- Loading Overlay -->
@@ -1355,11 +1376,20 @@ function renderTractorCarousel() {
       items = src || [];
     } catch(_) { items = []; }
   }
+  
   // Filter by selected Application (from toolbar)
   try {
     if (state && state.filterApplication) {
-      const want = String(state.filterApplication).toLowerCase();
-      items = (items||[]).filter(it => String(it.Application||'').toLowerCase() === want);
+      const norm = s => String(s||'')
+        .toLowerCase()
+        .replace(/&/g,'and')
+        .replace(/\s+/g,' ')
+        .trim();
+      const want = norm(state.filterApplication);
+      items = (items||[]).filter(it => {
+        const got = norm(it.Application);
+        return got === want || got.includes(want);
+      });
     }
   } catch(e) {}
 
@@ -1416,6 +1446,18 @@ function renderTractorCarousel() {
   });
   const lead = el('#leadBtn'); if (lead) lead.addEventListener('click', openLeadForm);
   const lc = el('#leadClose'); if (lc) lc.addEventListener('click', ()=> el('#leadModal').style.display='none');
+  // Apply 'selected' class to cards if in state.attachments
+  try {
+    document.querySelectorAll('.card').forEach(card => {
+      const id = card.getAttribute('data-prod');
+      if (state.attachments && state.attachments.has && state.attachments.has(id)) {
+        card.classList.add('selected');
+      } else {
+        card.classList.remove('selected');
+      }
+    });
+  } catch(e){ console.warn('card border toggle error', e); }
+
 }
 
     function renderLearningCenter() {
@@ -2823,6 +2865,18 @@ header [role="button"]:hover {
   background-color: #163033 !important; /* slightly darker on hover */
   color: #ffffff !important;
   border-color: #ffffff !important;
+}
+</style>
+
+
+<style id="card-border-style">
+.card {
+  border: 2px solid #254a4f;
+  border-radius: 8px;
+  transition: border 0.2s ease;
+}
+.card.selected {
+  border: 4px solid #254a4f;
 }
 </style>
 
@@ -4314,8 +4368,9 @@ function openViewer(title, url) {
     e.preventDefault(); e.stopPropagation();
     try {
       var data = (state && Array.isArray(state.data)) ? state.data : [];
-      var want = (state && state.filterApplication) ? String(state.filterApplication).toLowerCase() : null;
-      var pool = want ? data.filter(it => String(it.Application||'').toLowerCase() === want) : data;
+      function norm(s){ return String(s||'').toLowerCase().replace(/&/g,'and').replace(/\s+/g,' ').trim(); }
+      var want = (state && state.filterApplication) ? norm(state.filterApplication) : null;
+      var pool = want ? data.filter(function(it){ var got = norm(it.Application); return got===want || got.indexOf(want)>=0; }) : data;
       if (!state.attachments || !state.attachments.add) state.attachments = new Set(state.attachments || []);
       pool.forEach(i => { if (i && i.ProductID!=null) state.attachments.add(i.ProductID); });
       if (typeof renderAttachments==='function') renderAttachments();
@@ -4329,8 +4384,9 @@ function openViewer(title, url) {
     e.preventDefault(); e.stopPropagation();
     try {
       var data = (state && Array.isArray(state.data)) ? state.data : [];
-      var want = (state && state.filterApplication) ? String(state.filterApplication).toLowerCase() : null;
-      var pool = want ? data.filter(it => String(it.Application||'').toLowerCase() === want) : data;
+      function norm(s){ return String(s||'').toLowerCase().replace(/&/g,'and').replace(/\s+/g,' ').trim(); }
+      var want = (state && state.filterApplication) ? norm(state.filterApplication) : null;
+      var pool = want ? data.filter(function(it){ var got = norm(it.Application); return got===want || got.indexOf(want)>=0; }) : data;
       if (!state.attachments || !state.attachments.delete) state.attachments = new Set(state.attachments || []);
       pool.forEach(i => { if (i && i.ProductID!=null) state.attachments.delete(i.ProductID); });
       if (typeof renderAttachments==='function') renderAttachments();
@@ -5073,6 +5129,18 @@ header [role="button"]:hover {
   background-color: #163033 !important; /* slightly darker on hover */
   color: #ffffff !important;
   border-color: #ffffff !important;
+}
+</style>
+
+
+<style id="card-border-style">
+.card {
+  border: 2px solid #254a4f;
+  border-radius: 8px;
+  transition: border 0.2s ease;
+}
+.card.selected {
+  border: 4px solid #254a4f;
 }
 </style>
 
