@@ -943,16 +943,9 @@ header [role="button"]:hover {
 #modal .dialog .content { padding: 16px; }
 
 /* Responsive two-column preview layout */
-#modal .dialog .content .preview-layout {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;   /* image : text */
-  gap: 20px;
-  align-items: start;
-}
+#modal .dialog .content .preview-layout { display:grid; grid-template-columns: 1fr; gap:16px; align-items:start; }
 @media (max-width: 900px) {
-  #modal .dialog .content .preview-layout {
-    grid-template-columns: 1fr;         /* stack on small screens */
-  }
+  #modal .dialog .content .preview-layout { display:grid; grid-template-columns: 1fr; gap:16px; align-items:start; }
 }
 
 /* Image area */
@@ -976,6 +969,33 @@ header [role="button"]:hover {
 }
 #modal .dialog .content .preview-info .description {
   color: #20393d;
+}
+</style>
+
+
+<style id="preview-orientation-style">
+/* Force preview modal to Orientation 1 layout */
+#modal .dialog .content .preview-layout { display:grid; grid-template-columns: 1fr; gap:16px; align-items:start; }
+
+/* Make image block take full width and sit above text */
+#modal .dialog .content .preview-media {
+  width: 100%;
+  margin: 0;
+}
+
+/* Ensure image scales nicely within container */
+#modal .dialog .content .preview-media img {
+  width: 100%;
+  height: auto;
+  max-height: 62vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* Tidy up text area below image */
+#modal .dialog .content .preview-info {
+  font-size: 15px;
+  line-height: 1.45;
 }
 </style>
 
@@ -2964,16 +2984,9 @@ header [role="button"]:hover {
 #modal .dialog .content { padding: 16px; }
 
 /* Responsive two-column preview layout */
-#modal .dialog .content .preview-layout {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;   /* image : text */
-  gap: 20px;
-  align-items: start;
-}
+#modal .dialog .content .preview-layout { display:grid; grid-template-columns: 1fr; gap:16px; align-items:start; }
 @media (max-width: 900px) {
-  #modal .dialog .content .preview-layout {
-    grid-template-columns: 1fr;         /* stack on small screens */
-  }
+  #modal .dialog .content .preview-layout { display:grid; grid-template-columns: 1fr; gap:16px; align-items:start; }
 }
 
 /* Image area */
@@ -2997,6 +3010,33 @@ header [role="button"]:hover {
 }
 #modal .dialog .content .preview-info .description {
   color: #20393d;
+}
+</style>
+
+
+<style id="preview-orientation-style">
+/* Force preview modal to Orientation 1 layout */
+#modal .dialog .content .preview-layout { display:grid; grid-template-columns: 1fr; gap:16px; align-items:start; }
+
+/* Make image block take full width and sit above text */
+#modal .dialog .content .preview-media {
+  width: 100%;
+  margin: 0;
+}
+
+/* Ensure image scales nicely within container */
+#modal .dialog .content .preview-media img {
+  width: 100%;
+  height: auto;
+  max-height: 62vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* Tidy up text area below image */
+#modal .dialog .content .preview-info {
+  font-size: 15px;
+  line-height: 1.45;
 }
 </style>
 
@@ -4655,6 +4695,61 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 </script>
 
+
+<script id="preview-orientation-script">
+(function(){
+  if (window.__previewOrientationFixed) return;
+  window.__previewOrientationFixed = true;
+
+  var modal = document.getElementById('modal');
+  var content = document.getElementById('modalContent');
+  if (!modal || !content) return;
+
+  function toArray(nodeList){ return Array.prototype.slice.call(nodeList || []); }
+
+  function enforceOrientation(root){
+    if (!root || root.dataset.orientationFixed==="1") return;
+    var img = root.querySelector('img');
+    if (!img) return;
+
+    // Wrap with preview-layout (column)
+    var layout = document.createElement('div');
+    layout.className = 'preview-layout';
+    var media = document.createElement('div');
+    media.className = 'preview-media';
+    var info = document.createElement('div');
+    info.className = 'preview-info';
+
+    media.appendChild(img);
+    toArray(root.querySelectorAll('img')).forEach(function(other){
+      if (other!==img && !media.contains(other)) media.appendChild(other);
+    });
+    toArray(root.childNodes).forEach(function(n){
+      if (!layout.contains(n) && n!==media) info.appendChild(n);
+    });
+
+    layout.appendChild(media);
+    layout.appendChild(info);
+    root.innerHTML = '';
+    root.appendChild(layout);
+    root.dataset.orientationFixed="1";
+  }
+
+  var mo = new MutationObserver(function(muts){
+    muts.forEach(function(m){
+      if (m.type==="childList" && m.addedNodes.length) enforceOrientation(content);
+      if (m.type==="attributes" && m.attributeName==="style" && getComputedStyle(modal).display!=="none"){
+        enforceOrientation(content);
+      }
+    });
+  });
+  mo.observe(modal, {attributes:true, attributeFilter:['style']});
+  mo.observe(content, {childList:true, subtree:true});
+
+  if (getComputedStyle(modal).display!=="none") enforceOrientation(content);
+})();
+</script>
+
 </body></html>';
 
   var w = window.open('', '_blank');
@@ -5376,16 +5471,9 @@ header [role="button"]:hover {
 #modal .dialog .content { padding: 16px; }
 
 /* Responsive two-column preview layout */
-#modal .dialog .content .preview-layout {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;   /* image : text */
-  gap: 20px;
-  align-items: start;
-}
+#modal .dialog .content .preview-layout { display:grid; grid-template-columns: 1fr; gap:16px; align-items:start; }
 @media (max-width: 900px) {
-  #modal .dialog .content .preview-layout {
-    grid-template-columns: 1fr;         /* stack on small screens */
-  }
+  #modal .dialog .content .preview-layout { display:grid; grid-template-columns: 1fr; gap:16px; align-items:start; }
 }
 
 /* Image area */
@@ -5409,6 +5497,33 @@ header [role="button"]:hover {
 }
 #modal .dialog .content .preview-info .description {
   color: #20393d;
+}
+</style>
+
+
+<style id="preview-orientation-style">
+/* Force preview modal to Orientation 1 layout */
+#modal .dialog .content .preview-layout { display:grid; grid-template-columns: 1fr; gap:16px; align-items:start; }
+
+/* Make image block take full width and sit above text */
+#modal .dialog .content .preview-media {
+  width: 100%;
+  margin: 0;
+}
+
+/* Ensure image scales nicely within container */
+#modal .dialog .content .preview-media img {
+  width: 100%;
+  height: auto;
+  max-height: 62vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* Tidy up text area below image */
+#modal .dialog .content .preview-info {
+  font-size: 15px;
+  line-height: 1.45;
 }
 </style>
 
