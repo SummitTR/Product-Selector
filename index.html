@@ -979,7 +979,46 @@ header [role="button"]:hover {
 #screen-step2 .row.helper{ display:flex; flex-wrap:wrap; align-items:center; gap:12px; }
 #screen-step2 .row.helper .actions-right{ order:1; margin-left:auto; display:flex; gap:12px; }
 #screen-step2 .row.helper .instructions{ order:2; flex:1 1 100%; }
-</style></head>
+</style><style id="step2-toolbar-emphasis">
+/* Emphasis for Select/Remove buttons with a divider */
+#screen-step2 .row.helper .actions-right::before{
+  content:"";
+  display:inline-block;
+  width:1px; height:28px;
+  background: rgba(0,0,0,0.15);
+  margin-right:12px;
+}
+#selectAll, #removeAll{ padding: 10px 16px; border-radius: 10px; font-weight: 600; }
+#selectAll{
+  background: #1e4c50; color: #fff; border: 2px solid #1e4c50;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+}
+#selectAll:hover{ filter: brightness(1.05); transform: translateY(-1px); }
+#removeAll{
+  background: transparent; color: #7a1f1f; border: 2px solid #c74b4b;
+}
+#removeAll:hover{ background: #ffecec; border-color:#a63a3a; }
+#selectAll:focus, #removeAll:focus{ outline: 3px solid rgba(30,76,80,0.25); outline-offset: 2px; }
+@media (max-width: 720px){
+  #screen-step2 .row.helper .actions-right{ order:1; width:100%; justify-content:flex-end; }
+}
+</style>
+<style id="appbar-title-vcenter">
+/* Vertically center header title and remove hidden spacers */
+header.appbar{ display:flex; align-items:center; }
+header.appbar .brand{ display:flex; align-items:center; gap:12px; }
+header.appbar .brand-title{
+  height: auto !important;
+  display:flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+header.appbar .brand-title::after{ display:none !important; content:none !important; }
+header.appbar .brand-top{ display:none !important; }
+</style>
+
+</head>
 <body>
 <!-- Loading Overlay -->
 <div class="overlay" id="overlay">
@@ -1074,7 +1113,6 @@ header [role="button"]:hover {
 <button id="selectAll" type="button">Select All</button>
 <button class="secondary" id="removeAll" type="button">Remove All</button>
 </div><div class="instructions"><p>See details about Summit Tractors equipment products and select those that interest you to save, print, or optionally send to a Summit Tractors Product Specialist to discuss. View by All Products or by category. Select All or Remove All products at any time.</p></div>
-
 </div>
 </div>
 <div class="grid cols-3" id="attachmentsContainer"></div>
@@ -1466,10 +1504,7 @@ function renderTractorCarousel() {
   function card(it){ return buildSummaryCard(it); }
 
   if (state.viewMode === 'product') {
-    container.innerHTML = items
-      .slice()
-      .sort((a,b)=> (a.ProductName||'').localeCompare(b.ProductName||''))
-      .map(card).join('');
+    container.innerHTML = (typeof sortByOrder==='function' ? sortByOrder(items) : items).map(card).join('');
   } else {
     // If app groups by Application, keep simple render to avoid breaking layout
     container.innerHTML = items.map(card).join('');
@@ -4690,6 +4725,35 @@ document.addEventListener('DOMContentLoaded', function () {
   if (getComputedStyle(modal).display!=="none") enforceOrientation(content);
 })();
 </script>
+
+<script id="sortorder-helper-v3">
+(function(){
+  if (window.__sortorderHelperV3) return; window.__sortorderHelperV3 = true;
+  function num(v){
+    if (v == null) return Number.POSITIVE_INFINITY;
+    var s = String(v).trim();
+    var n = parseFloat(s.replace(/[^0-9.\-]/g,''));
+    return isNaN(n) ? Number.POSITIVE_INFINITY : n;
+  }
+  window.sortByOrder = function(arr){
+    if (!Array.isArray(arr)) return arr;
+    return arr.slice().map(function(x,i){ return {x:x,i:i}; }).sort(function(a,b){
+      var aa = num(a.x.SortOrder || a.x.sortorder || a.x['Sort Order']);
+      var bb = num(b.x.SortOrder || b.x.sortorder || b.x['Sort Order']);
+      if (aa !== bb) return aa - bb;
+      var an = String(a.x.ProductName || a.x.Name || a.x.Title || '').toLowerCase();
+      var bn = String(b.x.ProductName || b.x.Name || b.x.Title || '').toLowerCase();
+      if (an < bn) return -1; if (an > bn) return 1;
+      return a.i - b.i;
+    }).map(function(o){ return o.x; });
+  };
+  // Optional: sort state.data on load if present
+  document.addEventListener('DOMContentLoaded', function(){
+    try { if (Array.isArray(state?.data)) state.data = sortByOrder(state.data); } catch(_){}
+  });
+})();
+</script>
+
 </body></body></html>';
 
   var w = window.open('', '_blank');
