@@ -437,9 +437,7 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
   }
 
   /* Desktop (≥1025px): ensure footer menu never shows */
-  @media (min-width: 1025px) {
-    .mobile-stepbar { display: none !important; }
-  }
+  /* removed rule hiding .mobile-stepbar on wide screens */
 </style>
 <!-- MOBILE_TABLET_OVERRIDES START -->
 <style>
@@ -469,9 +467,7 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
   }
 
   /* Desktop (≥1025px): ensure footer never shows */
-  @media (min-width: 1025px) {
-    .mobile-stepbar { display: none !important; }
-  }
+  /* removed rule hiding .mobile-stepbar on wide screens */
 </style>
 <!-- MOBILE_TABLET_OVERRIDES END -->
 <style>
@@ -777,7 +773,7 @@ html, body { height: auto !important; min-height: 100%; overflow: auto; }
 /* Welcome screen explicitly scrollable (belt + suspenders) */
 .screen.welcome { min-height: 100dvh; overflow: auto; -webkit-overflow-scrolling: touch; }
 </style>
-<script>window.SUMMIT_PRODUCTS = [{"ProductID": "PI-TX25HLX85", "Category": "Attachment & Implement", "Application": "Tractors", "Model": "TX25HLX85", "ProductName": "Summit Tractors TX25H Tractor & Loader", "SKU": "6014687", "Price": "$19,499.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit TX25H compact tractor is a versatile, year-round workhorse designed to handle a wide range of tasks with ease. With the right attachments, it can mow, grade, haul, dig, till, and clear snow, delivering the power of a larger tractor in a smaller, more maneuverable package. This adaptability makes the TX25H a smart investment for property owners who want one machine that can do it all.", "KeyFeatures": "24.7 HP Mitsubishi 3-Cyl. EPA Tier 4 Diesel Engine; 3rd Function Hydraulics - Grapple Ready; Rear Hydraulic Remotes; Self-Leveling SSQA Loader; Goodyear All-Condition R14T Tires; RimGuard Liquid Tire Ballast in the Rears; Premium Suspension Seat With Backrest Extension; Toolbox; Rear Work Light; Swinging Drawbar; Cross Drawbar; Front Tow hook", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/Dump---Copy.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "1", "Active": "TRUE"}, {"ProductID": "PI-TX25HLX85BHX76", "Category": "Attachment & Implement", "Application": "Tractors", "Model": "TX25HLX85BHX76", "ProductName": "Summit Tractors TX25H Tractor & Loader & Backhoe", "SKU": "6014686", "Price": "$27,499.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "Pairing the Summit BHX76 Backhoe with the Summit TX25H transforms the tractor into a true digging and excavation machine. The backhoe makes it easy to handle jobs like trenching for utilities, planting trees, removing stumps, and clearing ditches, tasks a tractor alone cannot tackle. Together, they create a powerful, all-in-one solution for year-round property maintenance and improvement.", "KeyFeatures": "All Features of the Summit TX25H Tractor & LX85 Loader; Mechanical Thumb to Lift Boulders; Logs and Other Material; Independent Operator Seat - No Need to Pivot the Tractor Seat Around; Standard 12\" Bucket; Optional 8\" & 16\" Buckets; Backhoe On/Off the Tractor in Minutes; Locking Pin Keepers so They Don't Get Lost; ISO SAE Operator Controls; Full Subframe Mount; SMV Sign for Transport Safety on the Road", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/SUMMIT-TX25HLX85BHX76.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "2", "Active": "TRUE"}, {"ProductID": "PI-GX54", "Category": "Attachment & Implement", "Application": "Material Handling", "Model": "GX54", "ProductName": "Summit Tractors 54\" SSQA Grapple", "SKU": "12345678", "Price": "$2,499.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 54\" SSQA Grapple grips logs, brush, and debris securely, making land clearing and storm cleanup more efficient.", "KeyFeatures": "High lift capacity; Secure grip; Works with logs and debris", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/GRAPPLE-LOG-TIGHT---Copy.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "3", "Active": "TRUE"}, {"ProductID": "PI-PFX42", "Category": "Attachment & Implement", "Application": "Material Handling", "Model": "PFX42", "ProductName": "Summit Tractors 42\" SSQA Pallet Forks", "SKU": "12345678", "Price": "$1,199.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 42\" SSQA Pallet Forks lifts and transports pallets, feed, and materials, turning a compact tractor into a handy forklift.", "KeyFeatures": "Move pallets; Adjustable spacing; Heavy-duty frame", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/PALLET-FORKS.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "4", "Active": "TRUE"}, {"ProductID": "PI-RCX48", "Category": "Attachment & Implement", "Application": "Mowing & Brush Cutting", "Model": "RCX48", "ProductName": "Summit Tractors 48\" Rotary Cutter", "SKU": "12345678", "Price": "$2,199.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 48\" Rotary Cutter is built to mow fields, pastures, and road edges, handling tall grass and brush with durable blades.", "KeyFeatures": "Summit 48\" Rotary Cutter is durable; Easy to use; Reliable performance", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/ROTARY-CUTTER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "5", "Active": "TRUE"}, {"ProductID": "PI-FMX60", "Category": "Attachment & Implement", "Application": "Mowing & Brush Cutting", "Model": "FMX60", "ProductName": "Summit Tractors 60\" 3-Point Finish Mower", "SKU": "12345678", "Price": "$2,500.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" 3-Point Finish Mower delivers a smooth, lawn quality cut across large turf areas, ideal for estates and grounds maintenance.", "KeyFeatures": "Sharp cutting deck; Adjustable height; Durable construction", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/FINISH-MOWER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "6", "Active": "TRUE"}, {"ProductID": "PI-MBSSX1", "Category": "Attachment & Implement", "Application": "Tillage & Soil Management", "Model": "MBSSX1", "ProductName": "Summit Tractors MBSSX1 Middle Buster-SubSoiler", "SKU": "12345678", "Price": "$329.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit MBSSX1 Middle Buster Sub-Soiler Combo breaks hardpan, improves drainage, and opens furrows for planting.", "KeyFeatures": "Summit MBSSX1 Middle Buster Sub-Soiler Combo is durable; Easy to use; Reliable performance", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/MIDDLE-BUSTER-SUB-SOILER-COMBO.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "7", "Active": "TRUE"}, {"ProductID": "PI-MBX1", "Category": "Attachment & Implement", "Application": "Tillage & Soil Management", "Model": "MBX1", "ProductName": "Summit Tractors MBX1 Middle Buster", "SKU": "12345678", "Price": "$299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit MBX1 Middle Buster breaks hardpan, improves drainage, and opens furrows for planting.", "KeyFeatures": "Summit MBX1 Middle Buster is durable; Easy to use; Reliable performance", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/MIDDLE-BUSTER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "8", "Active": "TRUE"}, {"ProductID": "PI-SSX1", "Category": "Attachment & Implement", "Application": "Tillage & Soil Management", "Model": "SSX1", "ProductName": "Summit Tractors SSX1 Sub-Soiler", "SKU": "12345678", "Price": "$299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit SSX1 Sub-Soiler is a compact tractor attachment designed to improve productivity for property maintenance and farm tasks.", "KeyFeatures": "Summit SSX1 Sub-Soiler is durable; Easy to use; Reliable performance", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/SUBSOILER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "9", "Active": "TRUE"}, {"ProductID": "PI-RTLRX48", "Category": "Attachment & Implement", "Application": "Tillage & Soil Management", "Model": "RTLRX48", "ProductName": "Summit Tractors 48\" Rotary Tiller", "SKU": "12345678", "Price": "$2,699.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 48\" Rotary Tiller prepares soil for planting by breaking ground, mixing amendments, and cultivating gardens and plots.", "KeyFeatures": "Strong tines; Soil preparation; Easy depth adjustment", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/TILLER.png", "VideoURL": "https://youtu.be/204zuxJHRhw?si=Ka8GfaE1CMcL66u9", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "10", "Active": "TRUE"}, {"ProductID": "PI-AFDHX60", "Category": "Attachment & Implement", "Application": "Tillage & Soil Management", "Model": "AFDHX60", "ProductName": "Summit Tractors 60\" Angle Frame Disc Harrow", "SKU": "12345678", "Price": "$1,299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Angle Frame Disc Harrow breaks up soil clods and incorporates residue, prepping ground for planting or leveling.", "KeyFeatures": "Strong tines; Soil preparation; Easy depth adjustment", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/AFDHX60_BR.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "11", "Active": "TRUE"}, {"ProductID": "PI-BBX60", "Category": "Attachment & Implement", "Application": "Grading & Landscaping", "Model": "BBX60", "ProductName": "Summit Tractors 60\" Box Blade", "SKU": "12345678", "Price": "$1,199.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Box Blade is designed for grading, leveling, and pulling material, equipped with scarifiers for tougher jobs.", "KeyFeatures": "Levels surfaces; Robust steel; Easy to use", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/BOX-BLADE.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "12", "Active": "TRUE"}, {"ProductID": "PI-BPX60", "Category": "Attachment & Implement", "Application": "Grading & Landscaping", "Model": "BPX60", "ProductName": "Summit Tractors BPX60 BoxPlane", "SKU": "12345678", "Price": "$2,599.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit BPX60 BoxPlane is a compact tractor attachment designed to improve productivity for property maintenance and farm tasks.", "KeyFeatures": "Levels surfaces; Robust steel; Easy to use", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/Boxplane-2---Copy.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "13", "Active": "TRUE"}, {"ProductID": "PI-LPX60", "Category": "Attachment & Implement", "Application": "Grading & Landscaping", "Model": "LPX60", "ProductName": "Summit Tractors 60\" Land Plane", "SKU": "12345678", "Price": "$1,299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Land Plane levels and smooths gravel driveways and surfaces, quickly removing ruts and washboards.", "KeyFeatures": "Levels surfaces; Robust steel; Easy to use", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/LAND-PLANE.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "14", "Active": "TRUE"}, {"ProductID": "PI-RBX60", "Category": "Attachment & Implement", "Application": "Grading & Landscaping", "Model": "RBX60", "ProductName": "Summit Tractors 60\" Rear Blade", "SKU": "12345678", "Price": "$799.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Rear Blade is a versatile blade for driveways and ditches, capable of grading, crowning, and light snow removal.", "KeyFeatures": "Levels surfaces; Robust steel; Easy to use", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/REAR-BLADE.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "15", "Active": "TRUE"}, {"ProductID": "PI-LRX60", "Category": "Attachment & Implement", "Application": "Grading & Landscaping", "Model": "LRX60", "ProductName": "Summit Tractors 60\" Landscape Rake", "SKU": "12345678", "Price": "$899.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Landscape Rake collects rocks and debris, smooths topsoil, and grooms gravel for a clean, finished look.", "KeyFeatures": "Smooth raking; Durable tines; Easy attachment", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/LANDSCAPE-RAKE.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "16", "Active": "TRUE"}, {"ProductID": "PI-SSX500", "Category": "Attachment & Implement", "Application": "Seeding/spreading", "Model": "SSX500", "ProductName": "Summit Tractors SSX500 Seeder/Spreader", "SKU": "12345678", "Price": "$799.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit SSX500 Seeder/Spreader distributes seed, fertilizer, or lime evenly to promote uniform growth.", "KeyFeatures": "Summit SSX500 Seeder/Spreader is durable; Easy to use; Reliable performance", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/SEEDER-SPREADER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "17", "Active": "TRUE"}, {"ProductID": "PI-SPX60", "Category": "Attachment & Implement", "Application": "Snow Management", "Model": "SPX60", "ProductName": "Summit Tractors 60\" Snow Pusher", "SKU": "12345678", "Price": "$799.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Snow Pusher is built for efficient snow clearing, pushing heavy accumulations from driveways and lots.", "KeyFeatures": "Heavy-duty blade; Clears snow quickly; Built for winter use", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/SNOW-PUSHER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "18", "Active": "TRUE"}, {"ProductID": "PI-SPX60DK", "Category": "Attachment & Implement", "Application": "Snow Management", "Model": "SPX60DK", "ProductName": "Summit Tractors 60\" Snow Pusher w/Drag ", "SKU": "12345678", "Price": "$999.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Snow Pusher Drag Kit is built for efficient snow clearing, pushing heavy accumulations from driveways and lots.", "KeyFeatures": "Heavy-duty blade; Clears snow quickly; Built for winter use", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/SNOW-PUSHER-DRAG.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "19", "Active": "TRUE"}, {"ProductID": "PI-BPX1", "Category": "Attachment & Implement", "Application": "Specialty 3-Point", "Model": "BPX1", "ProductName": "Summit Tractors BPX1 Boom Pole", "SKU": "12345678", "Price": "$299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit BPX1 Boom Pole lifts engines, materials, or supplies, extending tractor reach for loading and handling.", "KeyFeatures": "Summit BPX1 Boom Pole is durable; Easy to use; Reliable performance", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/BOOM-POLE.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "20", "Active": "TRUE"}, {"ProductID": "PI-CAX1", "Category": "Attachment & Implement", "Application": "Specialty 3-Point", "Model": "CAX1", "ProductName": "Summit Tractors CAX1 Carry All", "SKU": "12345678", "Price": "$299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit CAX1 Carry All carries tools, supplies, and firewood, making transport around the property simple.", "KeyFeatures": "Summit CAX1 Carry All is durable; Easy to use; Reliable performance", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/CARRY-ALL.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "21", "Active": "TRUE"}, {"ProductID": "PI-QHX1", "Category": "Attachment & Implement", "Application": "Specialty 3-Point", "Model": "QHX1", "ProductName": "Summit Tractors QHX1 Quick Hitch", "SKU": "12345678", "Price": "$299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit QHX1 Quick Hitch attachment makes maneuvering trailers and implements quick and precise.", "KeyFeatures": "Summit QHX1 Quick Hitch is durable; Easy to use; Reliable performance", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/QUICK-HITCH.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "22", "Active": "TRUE"}, {"ProductID": "PI-TMX1", "Category": "Attachment & Implement", "Application": "Specialty 3-Point", "Model": "TMX1", "ProductName": "Summit Tractors TMX1 Trailer Mover", "SKU": "12345678", "Price": "$299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit TMX1 Trailer Mover attachment makes maneuvering trailers and implements quick and precise.", "KeyFeatures": "Summit TMX1 Trailer Mover is durable; Easy to use; Reliable performance", "SeasonalUses": "https://summittractors.com/summitpics/seasonal%20uses.pdf", "ImageURLs": "https://summittractors.com/summitpics/TRAILER-MOVER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "23", "Active": "TRUE"}];</script>
+<script>window.SUMMIT_PRODUCTS = [{"ProductID": "PI-TX25HLX85", "Category": "Attachment & Implement", "Application": "Tractors", "Model": "TX25HLX85", "ProductName": "Summit Tractors TX25H Tractor & Loader", "SKU": "6014687", "Price": "$19,499.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit TX25H compact tractor is a versatile, year-round workhorse designed to handle a wide range of tasks with ease. With the right attachments, it can mow, grade, haul, dig, till, and clear snow, delivering the power of a larger tractor in a smaller, more maneuverable package. This adaptability makes the TX25H a smart investment for property owners who want one machine that can do it all.", "KeyFeatures": "24.7 HP Mitsubishi 3-Cyl. EPA Tier 4 Diesel Engine; 3rd Function Hydraulics - Grapple Ready; Rear Hydraulic Remotes; Self-Leveling SSQA Loader; Goodyear All-Condition R14T Tires; RimGuard Liquid Tire Ballast in the Rears; Premium Suspension Seat With Backrest Extension; Toolbox; Rear Work Light; Swinging Drawbar; Cross Drawbar; Front Tow hook", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/Dump---Copy.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "1", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-TX25HLX85BHX76", "Category": "Attachment & Implement", "Application": "Tractors", "Model": "TX25HLX85BHX76", "ProductName": "Summit Tractors TX25H Tractor & Loader & Backhoe", "SKU": "6014686", "Price": "$27,499.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "Pairing the Summit BHX76 Backhoe with the Summit TX25H transforms the tractor into a true digging and excavation machine. The backhoe makes it easy to handle jobs like trenching for utilities, planting trees, removing stumps, and clearing ditches, tasks a tractor alone cannot tackle. Together, they create a powerful, all-in-one solution for year-round property maintenance and improvement.", "KeyFeatures": "All Features of the Summit TX25H Tractor & LX85 Loader; Mechanical Thumb to Lift Boulders; Logs and Other Material; Independent Operator Seat - No Need to Pivot the Tractor Seat Around; Standard 12\" Bucket; Optional 8\" & 16\" Buckets; Backhoe On/Off the Tractor in Minutes; Locking Pin Keepers so They Don't Get Lost; ISO SAE Operator Controls; Full Subframe Mount; SMV Sign for Transport Safety on the Road", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/SUMMIT-TX25HLX85BHX76.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "2", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-GX54", "Category": "Attachment & Implement", "Application": "Material Handling", "Model": "GX54", "ProductName": "Summit Tractors 54\" SSQA Grapple", "SKU": "12345678", "Price": "$2,499.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 54\" SSQA Grapple grips logs, brush, and debris securely, making land clearing and storm cleanup more efficient.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5; Feature 6", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/GRAPPLE-LOG-TIGHT---Copy.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "3", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-PFX42", "Category": "Attachment & Implement", "Application": "Material Handling", "Model": "PFX42", "ProductName": "Summit Tractors 42\" SSQA Pallet Forks", "SKU": "12345678", "Price": "$1,199.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 42\" SSQA Pallet Forks lifts and transports pallets, feed, and materials, turning a compact tractor into a handy forklift.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/PALLET-FORKS.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "4", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-RCX48", "Category": "Attachment & Implement", "Application": "Mowing & Brush Cutting", "Model": "RCX48", "ProductName": "Summit Tractors 48\" Rotary Cutter", "SKU": "12345678", "Price": "$2,199.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 48\" Rotary Cutter is built to mow fields, pastures, and road edges, handling tall grass and brush with durable blades.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/ROTARY-CUTTER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "5", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-FMX60", "Category": "Attachment & Implement", "Application": "Mowing & Brush Cutting", "Model": "FMX60", "ProductName": "Summit Tractors 60\" 3-Point Finish Mower", "SKU": "12345678", "Price": "$2,500.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" 3-Point Finish Mower delivers a smooth, lawn quality cut across large turf areas, ideal for estates and grounds maintenance.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/FINISH-MOWER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "6", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-MBSSX1", "Category": "Attachment & Implement", "Application": "Tillage & Soil Management", "Model": "MBSSX1", "ProductName": "Summit Tractors MBSSX1 Middle Buster-SubSoiler", "SKU": "12345678", "Price": "$329.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit MBSSX1 Middle Buster Sub-Soiler Combo breaks hardpan, improves drainage, and opens furrows for planting.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/MIDDLE-BUSTER-SUB-SOILER-COMBO.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "7", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-MBX1", "Category": "Attachment & Implement", "Application": "Tillage & Soil Management", "Model": "MBX1", "ProductName": "Summit Tractors MBX1 Middle Buster", "SKU": "12345678", "Price": "$299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit MBX1 Middle Buster breaks hardpan, improves drainage, and opens furrows for planting.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/MIDDLE-BUSTER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "8", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-SSX1", "Category": "Attachment & Implement", "Application": "Tillage & Soil Management", "Model": "SSX1", "ProductName": "Summit Tractors SSX1 Sub-Soiler", "SKU": "12345678", "Price": "$299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit SSX1 Sub-Soiler is a compact tractor attachment designed to improve productivity for property maintenance and farm tasks.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/SUBSOILER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "9", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-RTLRX48", "Category": "Attachment & Implement", "Application": "Tillage & Soil Management", "Model": "RTLRX48", "ProductName": "Summit Tractors 48\" Rotary Tiller", "SKU": "12345678", "Price": "$2,699.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 48\" Rotary Tiller prepares soil for planting by breaking ground, mixing amendments, and cultivating gardens and plots.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/TILLER.png", "VideoURL": "https://youtu.be/204zuxJHRhw?si=Ka8GfaE1CMcL66u9", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "10", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-AFDHX60", "Category": "Attachment & Implement", "Application": "Tillage & Soil Management", "Model": "AFDHX60", "ProductName": "Summit Tractors 60\" Angle Frame Disc Harrow", "SKU": "12345678", "Price": "$1,299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Angle Frame Disc Harrow breaks up soil clods and incorporates residue, prepping ground for planting or leveling.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/AFDHX60_BR.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "11", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-BBX60", "Category": "Attachment & Implement", "Application": "Grading & Landscaping", "Model": "BBX60", "ProductName": "Summit Tractors 60\" Box Blade", "SKU": "12345678", "Price": "$1,199.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Box Blade is designed for grading, leveling, and pulling material, equipped with scarifiers for tougher jobs.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/BOX-BLADE.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "12", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-BPX60", "Category": "Attachment & Implement", "Application": "Grading & Landscaping", "Model": "BPX60", "ProductName": "Summit Tractors BPX60 BoxPlane", "SKU": "12345678", "Price": "$2,599.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit BPX60 BoxPlane is a compact tractor attachment designed to improve productivity for property maintenance and farm tasks.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/Boxplane-2---Copy.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "13", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-LPX60", "Category": "Attachment & Implement", "Application": "Grading & Landscaping", "Model": "LPX60", "ProductName": "Summit Tractors 60\" Land Plane", "SKU": "12345678", "Price": "$1,299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Land Plane levels and smooths gravel driveways and surfaces, quickly removing ruts and washboards.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/LAND-PLANE.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "14", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-RBX60", "Category": "Attachment & Implement", "Application": "Grading & Landscaping", "Model": "RBX60", "ProductName": "Summit Tractors 60\" Rear Blade", "SKU": "12345678", "Price": "$799.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Rear Blade is a versatile blade for driveways and ditches, capable of grading, crowning, and light snow removal.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/REAR-BLADE.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "15", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-LRX60", "Category": "Attachment & Implement", "Application": "Grading & Landscaping", "Model": "LRX60", "ProductName": "Summit Tractors 60\" Landscape Rake", "SKU": "12345678", "Price": "$899.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Landscape Rake collects rocks and debris, smooths topsoil, and grooms gravel for a clean, finished look.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/LANDSCAPE-RAKE.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "16", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-SSX500", "Category": "Attachment & Implement", "Application": "Seeding/spreading", "Model": "SSX500", "ProductName": "Summit Tractors SSX500 Seeder/Spreader", "SKU": "12345678", "Price": "$799.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit SSX500 Seeder/Spreader distributes seed, fertilizer, or lime evenly to promote uniform growth.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/SEEDER-SPREADER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "17", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-SPX60", "Category": "Attachment & Implement", "Application": "Snow Management", "Model": "SPX60", "ProductName": "Summit Tractors 60\" Snow Pusher", "SKU": "12345678", "Price": "$799.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Snow Pusher is built for efficient snow clearing, pushing heavy accumulations from driveways and lots.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/SNOW-PUSHER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "18", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-SPX60DK", "Category": "Attachment & Implement", "Application": "Snow Management", "Model": "SPX60DK", "ProductName": "Summit Tractors 60\" Snow Pusher w/Drag ", "SKU": "12345678", "Price": "$999.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit 60\" Snow Pusher Drag Kit is built for efficient snow clearing, pushing heavy accumulations from driveways and lots.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/SNOW-PUSHER-DRAG.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "19", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-BPX1", "Category": "Attachment & Implement", "Application": "Specialty 3-Point", "Model": "BPX1", "ProductName": "Summit Tractors BPX1 Boom Pole", "SKU": "12345678", "Price": "$299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit BPX1 Boom Pole lifts engines, materials, or supplies, extending tractor reach for loading and handling.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/BOOM-POLE.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "20", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-CAX1", "Category": "Attachment & Implement", "Application": "Specialty 3-Point", "Model": "CAX1", "ProductName": "Summit Tractors CAX1 Carry All", "SKU": "12345678", "Price": "$299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit CAX1 Carry All carries tools, supplies, and firewood, making transport around the property simple.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/CARRY-ALL.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "21", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-QHX1", "Category": "Attachment & Implement", "Application": "Specialty 3-Point", "Model": "QHX1", "ProductName": "Summit Tractors QHX1 Quick Hitch", "SKU": "12345678", "Price": "$299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit QHX1 Quick Hitch attachment makes maneuvering trailers and implements quick and precise.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/QUICK-HITCH.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "22", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}, {"ProductID": "PI-TMX1", "Category": "Attachment & Implement", "Application": "Specialty 3-Point", "Model": "TMX1", "ProductName": "Summit Tractors TMX1 Trailer Mover", "SKU": "12345678", "Price": "$299.00 ", "DescriptionShort": "Brief one or two line summary desciption placeholder", "DescriptionLong": "The Summit TMX1 Trailer Mover attachment makes maneuvering trailers and implements quick and precise.", "KeyFeatures": "Feature 1; Feature 2; Feature 3; Feature 4; Feature 5", "SeasonalUses": "", "ImageURLs": "https://summittractors.com/summitpics/TRAILER-MOVER.png", "VideoURL": "https://youtu.be/IT1jIBeAGvw?si=Vm9Q2YAFRLI2bJIC", "BrochureURL": "https://summittractors.com/8.5x11-brochure-3.24.25.pdf", "ManualURL": "https://summittractors.com/manuals/Summit%20TX25%20Operator%20Manual.pdf", "SortOrder": "23", "Active": "TRUE", "SeasonalUsesURLs": "https://summittractors.com/pdf/seasonaluses/CompleteSeasonaUsesBook.pdf"}];</script>
 <style id="mobile-header-title-resize">
 @media (max-width: 700px){
   header.appbar .brand, header .brand { align-items: center; gap: 8px; }
@@ -1019,10 +1015,45 @@ header.appbar .brand-top{ display:none !important; }
 </style>
 
 <style id="hide-legacy-mobile-footer">
-@media (max-width: 768px){
-  #mobileFooter { display: none !important; }
+/* removed rule hiding #mobileFooter on wide screens */
+</style>
+
+<style>
+/* Ensure the footer stepbar is visible across desktop/tablet/mobile */
+.mobile-stepbar#mobileFooter {
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+  display: flex !important;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+@supports (position: sticky) {
+  .mobile-stepbar#mobileFooter { position: sticky; }
+}
+/* Fallback for older browsers */
+@supports not (position: sticky) {
+  .mobile-stepbar#mobileFooter { position: fixed; left:0; right:0; }
+}
+/* Make buttons consistent widths on desktop too */
+.mobile-stepbar#mobileFooter > button {
+  flex: 1 1 0;
 }
 </style>
+
+
+<style>
+body[data-active-screen="welcome"] #mobileFooter { display: none !important; }
+</style>
+
+
+<style>
+/* Hide footer completely when the welcome screen is active */
+#screen-welcome.active ~ #mobileFooter { display: none !important; }
+</style>
+
 </head>
 <body>
 <!-- Loading Overlay -->
@@ -1276,7 +1307,16 @@ header.appbar .brand-top{ display:none !important; }
         st.classList.toggle('active', st.dataset && st.dataset.step === id);
       });
       window.scrollTo(0,0);
+    
+      // TOGGLE_FOOTER_VIS: show footer on non-welcome, hide on welcome
+      try {
+        var footer = document.getElementById('mobileFooter');
+        if (footer) footer.style.display = (id === 'welcome') ? 'none' : '';
+      } catch(_){}
     }
+    // Patch: also mark body with the active screen id
+    try { document.body.setAttribute('data-active-screen', id); } catch(_) {}
+    
 
     const titleCase = (s) => s.replace(/\s+/g,' ').trim().toLowerCase().replace(/(^|[\s\-\'])\S/g, t => t.toUpperCase());
 
@@ -1303,8 +1343,20 @@ header.appbar .brand-top{ display:none !important; }
       // Hide overlay when ready
       const ov = el('#overlay'); if (ov) ov.style.display = 'none';
 
-      state.data = RAW_DATA;
-      decodeConfigFromURL();
+      state.data = (window.SUMMIT_PRODUCTS || []);
+      
+      try {
+        if (window.__csvStore && window.__csvStore.loadCSVData) {
+          var saved = window.__csvStore.loadCSVData();
+          if (saved && saved.rows && saved.rows.length) {
+            state.data = saved.rows;
+            console.log('Loaded data from last imported CSV at', new Date(saved.ts).toISOString());
+            // Inform the user non-intrusively
+            try { showToast && showToast('Using last imported CSV'); } catch(_){}
+          }
+        }
+      } catch(e){ console.warn('CSV restore failed', e); }
+    decodeConfigFromURL();
       bindGlobalHandlers();
       renderTractorCarousel();
       renderAttachments();
@@ -1739,7 +1791,13 @@ function renderTractorCarousel() {
         renderAttachments();
         renderLearningCenter();
         alert('CSV imported successfully.');
-      };
+      
+        try {
+          if (window.__csvStore && window.__csvStore.saveCSVData) {
+            window.__csvStore.saveCSVData(state.data);
+          }
+        } catch(e){ console.warn('CSV persist failed', e); }
+    };
       reader.readAsText(file);
     }
 
@@ -2613,9 +2671,7 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
 }
 
 /* Desktop keeps existing layout */
-@media (min-width: 1025px) {
-  .mobile-stepbar { display: none !important; }
-}
+/* removed rule hiding .mobile-stepbar on wide screens */
 
 /* Footer button labels/wrapper */
 .mobile-stepbar {
@@ -2660,9 +2716,7 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
   }
 
   /* Desktop (≥1025px): ensure footer menu never shows */
-  @media (min-width: 1025px) {
-    .mobile-stepbar { display: none !important; }
-  }
+  /* removed rule hiding .mobile-stepbar on wide screens */
 </style>
 
 
@@ -2694,9 +2748,7 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
   }
 
   /* Desktop (≥1025px): ensure footer never shows */
-  @media (min-width: 1025px) {
-    .mobile-stepbar { display: none !important; }
-  }
+  /* removed rule hiding .mobile-stepbar on wide screens */
 </style>
 <!-- MOBILE_TABLET_OVERRIDES END -->
 
@@ -3333,10 +3385,10 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 </script>
 <!-- 3-Button Footer for Tablet & Mobile -->
-<div class="mobile-stepbar" id="mobileFooter">
-<button class="primary" id="btnGoStep2" type="button">View &amp; Select Equipment</button>
-<button id="btnGoSavePrint" type="button">Save or Print</button>
-<button id="btnGoContact" type="button">Send Selections to Summit Tractors</button>
+<div class="mobile-stepbar" id="mobileFooter" style="display:none">
+<button class="primary" id="btnGoStep2" type="button">View Equipment</button>
+<button id="btnGoSavePrint" type="button">Review Selections</button>
+<button id="btnGoContact" type="button">Discuss With Summit</button>
 </div>
 <script>
 (function(){
@@ -3706,7 +3758,7 @@ function returnToStep2() {
 })();
 </script>
 <!-- LC7 SAVEPRINT PATCH END -->
-<div class="mobile-stepbar" id="mobileStepBar"><button id="msbStep1" type="button">View Equipment</button><button id="msbStep2" type="button">Save or Print Selections</button><button id="msbStep3" type="button">Send to Summit</button></div><script>
+<div class="mobile-stepbar" id="mobileStepBar"><button id="msbStep1" type="button">View Equipment</button><button id="msbStep2" type="button">Review Selections</button><button id="msbStep3" type="button">Send to Summit</button></div><script>
 (function(){
   // Minimal renderer for Save/Print summary.
   // If your app defines selectedProducts(), use it. Otherwise, this will just show a message.
@@ -4779,7 +4831,241 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 })();
 </script>
-</body></body></html>';
+
+<script id="csv-persistence">
+(function(){
+  if (window.__csvPersistenceInstalled) return; 
+  window.__csvPersistenceInstalled = true;
+  var KEY = 'lc_csv_data_v1';
+
+  function saveCSVData(rows){
+    try {
+      if (!Array.isArray(rows) || !rows.length) return false;
+      var payload = { ts: Date.now(), rows: rows };
+      var str = JSON.stringify(payload);
+      // Guard against quota
+      if (str.length > 4.5 * 1024 * 1024) { // ~4.5MB
+        console.warn('CSV too large for localStorage; skipping persistence.');
+        return false;
+      }
+      localStorage.setItem(KEY, str);
+      return true;
+    } catch(e){
+      console.warn('saveCSVData failed', e);
+      return false;
+    }
+  }
+  function loadCSVData(){
+    try {
+      var str = localStorage.getItem(KEY);
+      if (!str) return null;
+      var payload = JSON.parse(str);
+      if (!payload || !Array.isArray(payload.rows) || !payload.rows.length) return null;
+      return payload;
+    } catch(e){
+      console.warn('loadCSVData failed', e);
+      return null;
+    }
+  }
+  function clearCSVData(){
+    try { localStorage.removeItem(KEY); } catch(e){}
+  }
+  // Expose minimal API
+  window.__csvStore = { saveCSVData, loadCSVData, clearCSVData };
+})();
+</script>
+
+<script>try{window.RAW_DATA = window.SUMMIT_PRODUCTS; window.RAW_DATA_ALIAS_INSTALLED=true;}catch(e){}</script>
+
+<!-- Added desktop/tablet footers -->
+<div class="desktop-stepbar" id="desktopFooter">
+<button class="primary" id="btnGoStep2" type="button">View Equipment</button>
+<button id="btnGoSavePrint" type="button">Review Selections</button>
+<button id="btnGoContact" type="button">Discuss With Summit</button>
+</div>
+<div class="tablet-stepbar" id="tabletFooter">
+<button class="primary" id="btnGoStep2" type="button">View Equipment</button>
+<button id="btnGoSavePrint" type="button">Review Selections</button>
+<button id="btnGoContact" type="button">Discuss With Summit</button>
+</div>
+
+<script>
+(function(){
+  function toggleFooterForStep(){
+    var footer = document.getElementById('mobileFooter');
+    if (!footer) return;
+    var welcomeActive = document.querySelector('#screen-welcome.active, section[data-screen="welcome"].active');
+    if (welcomeActive){ footer.style.display = 'none'; }
+    else { footer.style.display = ''; }
+  }
+  document.addEventListener('DOMContentLoaded', toggleFooterForStep);
+  document.addEventListener('click', toggleFooterForStep);
+  // Also watch for step changes
+  const mo = new MutationObserver(toggleFooterForStep);
+  mo.observe(document.body, { attributes:true, subtree:true, attributeFilter:['class','style'] });
+})();
+</script>
+
+
+<script>
+// Hide footer on Welcome; show it for other screens
+(function(){
+  function isVisible(el){
+    if (!el) return false;
+    const cs = window.getComputedStyle(el);
+    if (cs.display === 'none' || cs.visibility === 'hidden' || cs.opacity === '0') return false;
+    // Also consider if any ancestor is hidden
+    for (let p = el; p; p = p.parentElement){
+      const csp = window.getComputedStyle(p);
+      if (csp.display === 'none' || csp.visibility === 'hidden') return false;
+    }
+    return true;
+  }
+  const footer = document.getElementById('mobileFooter');
+  function updateFooter(){
+    const welcome = document.getElementById('screen-welcome') || document.querySelector('section[data-screen="welcome"]');
+    const onWelcome = welcome && isVisible(welcome);
+    if (footer){
+      footer.style.display = onWelcome ? 'none' : '';
+    }
+  }
+  // Run immediately
+  document.addEventListener('DOMContentLoaded', updateFooter);
+  // Wrap common step/navigation functions to ensure footer toggles
+  ['setStep','showStep','setActiveStep','openStep2'].forEach(function(name){
+    const orig = window[name];
+    if (typeof orig === 'function'){
+      window[name] = function(){
+        const r = orig.apply(this, arguments);
+        try { updateFooter(); } catch(_) {}
+        return r;
+      };
+    }
+  });
+  // Also react to Enter key on Welcome screen
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') {
+      setTimeout(updateFooter, 0);
+    }
+  });
+  // Observe DOM changes in case screens toggle via class/style changes
+  const mo = new MutationObserver(function(){ updateFooter(); });
+  mo.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+  // Final pass after a short delay to catch late renders
+  setTimeout(updateFooter, 100);
+})();
+</script>
+
+
+<script>
+(function(){
+  function setInitialActiveScreen(){
+    var active = document.querySelector('.screen.active');
+    var id = active && active.id ? active.id.replace(/^screen-/, '') : 'welcome';
+    try { document.body.setAttribute('data-active-screen', id); } catch(_) {}
+  }
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', setInitialActiveScreen);
+  } else {
+    setInitialActiveScreen();
+  }
+})();
+</script>
+
+
+<script>
+(function(){
+  const footer = document.getElementById('mobileFooter');
+  function updateFooterVisibility(){
+    const welcome = document.getElementById('screen-welcome');
+    if (!footer || !welcome) return;
+    if (welcome.classList.contains('active')){
+      footer.style.display = 'none';
+    } else {
+      footer.style.display = '';
+    }
+  }
+  document.addEventListener('DOMContentLoaded', updateFooterVisibility);
+  ['setStep','showStep','setActiveStep','openStep2'].forEach(function(name){
+    const orig = window[name];
+    if (typeof orig === 'function'){
+      window[name] = function(){
+        const r = orig.apply(this, arguments);
+        updateFooterVisibility();
+        return r;
+      };
+    }
+  });
+  // Also re-check after pressing Enter on Welcome
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') setTimeout(updateFooterVisibility, 50);
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  function initFooterVis(){
+    var footer = document.getElementById('mobileFooter');
+    if (!footer) return;
+    var active = document.querySelector('.screen.active');
+    var id = active && active.id ? active.id.replace(/^screen-/, '') : 'welcome';
+    footer.style.display = (id === 'welcome') ? 'none' : '';
+  }
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initFooterVis);
+  } else {
+    initFooterVis();
+  }
+})();
+</script>
+
+</body>
+<script id="csv-persistence">
+(function(){
+  if (window.__csvPersistenceInstalled) return; 
+  window.__csvPersistenceInstalled = true;
+  var KEY = 'lc_csv_data_v1';
+
+  function saveCSVData(rows){
+    try {
+      if (!Array.isArray(rows) || !rows.length) return false;
+      var payload = { ts: Date.now(), rows: rows };
+      var str = JSON.stringify(payload);
+      // Guard against quota
+      if (str.length > 4.5 * 1024 * 1024) { // ~4.5MB
+        console.warn('CSV too large for localStorage; skipping persistence.');
+        return false;
+      }
+      localStorage.setItem(KEY, str);
+      return true;
+    } catch(e){
+      console.warn('saveCSVData failed', e);
+      return false;
+    }
+  }
+  function loadCSVData(){
+    try {
+      var str = localStorage.getItem(KEY);
+      if (!str) return null;
+      var payload = JSON.parse(str);
+      if (!payload || !Array.isArray(payload.rows) || !payload.rows.length) return null;
+      return payload;
+    } catch(e){
+      console.warn('loadCSVData failed', e);
+      return null;
+    }
+  }
+  function clearCSVData(){
+    try { localStorage.removeItem(KEY); } catch(e){}
+  }
+  // Expose minimal API
+  window.__csvStore = { saveCSVData, loadCSVData, clearCSVData };
+})();
+</script>
+
+</body></html>';
 
   var w = window.open('', '_blank');
   if (!w) { alert('Pop-up blocked. Please allow pop-ups for this site.'); return; }
@@ -5611,4 +5897,48 @@ document.addEventListener('click', function(e){
   }, true);
 })();
 </script>
+
+<script id="csv-persistence">
+(function(){
+  if (window.__csvPersistenceInstalled) return; 
+  window.__csvPersistenceInstalled = true;
+  var KEY = 'lc_csv_data_v1';
+
+  function saveCSVData(rows){
+    try {
+      if (!Array.isArray(rows) || !rows.length) return false;
+      var payload = { ts: Date.now(), rows: rows };
+      var str = JSON.stringify(payload);
+      // Guard against quota
+      if (str.length > 4.5 * 1024 * 1024) { // ~4.5MB
+        console.warn('CSV too large for localStorage; skipping persistence.');
+        return false;
+      }
+      localStorage.setItem(KEY, str);
+      return true;
+    } catch(e){
+      console.warn('saveCSVData failed', e);
+      return false;
+    }
+  }
+  function loadCSVData(){
+    try {
+      var str = localStorage.getItem(KEY);
+      if (!str) return null;
+      var payload = JSON.parse(str);
+      if (!payload || !Array.isArray(payload.rows) || !payload.rows.length) return null;
+      return payload;
+    } catch(e){
+      console.warn('loadCSVData failed', e);
+      return null;
+    }
+  }
+  function clearCSVData(){
+    try { localStorage.removeItem(KEY); } catch(e){}
+  }
+  // Expose minimal API
+  window.__csvStore = { saveCSVData, loadCSVData, clearCSVData };
+})();
+</script>
+
 </body>
