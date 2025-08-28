@@ -263,7 +263,6 @@ button[data-enterlc].secondary:hover {
     box-shadow: 0 -6px 18px rgba(0,0,0,0.08);
     border-top: 1px solid rgba(0,0,0,0.06);
   }
-  .row.helper { margin-bottom: 0 !important; }
   .mobile-stepbar button {
     flex: 1 1 0;
     border-radius: 999px;
@@ -1019,40 +1018,9 @@ header.appbar .brand-title::after{ display:none !important; content:none !import
 header.appbar .brand-top{ display:none !important; }
 </style>
 
-<style id="mobile-toolbar-tidy">
-/* Mobile toolbar + spacing tidy (non-invasive overrides) */
+<style id="hide-legacy-mobile-footer">
 @media (max-width: 768px){
-
-  /* Compact the space between the instructions block and the cards */
-  #screen-step2 .toolbar#step2Toolbar { margin-bottom: 0 !important; }
-  #screen-step2 .toolbar#step2Toolbar .helper { margin-bottom: 0 !important; }
-  #screen-step2 #attachmentsContainer { margin-top: 0 !important; }
-
-  /* Make the bottom step bar buttons neat and even */
-  .mobile-stepbar {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    padding: 10px 12px;
-  }
-  .row.helper { margin-bottom: 0 !important; }
-  .mobile-stepbar button {
-    width: 100%;
-    min-height: 56px;
-    padding: 10px 8px;
-    border-radius: 12px;
-    font-size: 14px;
-    line-height: 1.15;
-    white-space: normal;
-    text-wrap: balance;
-  }
-
-  /* Optional: ensure taller iOS bottom safe area doesn't crowd labels */
-  .mobile-stepbar::after {
-    content: "";
-    grid-column: 1 / -1;
-    height: env(safe-area-inset-bottom, 0px);
-  }
+  #mobileFooter { display: none !important; }
 }
 </style>
 </head>
@@ -2664,8 +2632,7 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
   box-shadow: 0 -6px 18px rgba(0,0,0,0.08);
   border-top: 1px solid rgba(0,0,0,0.06);
 }
-.row.helper { margin-bottom: 0 !important; }
-  .mobile-stepbar button {
+.mobile-stepbar button {
   flex: 1 1 0;
   border-radius: 999px;
   padding: 12px 14px;
@@ -4792,6 +4759,26 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 </script>
 
+<script id="dedupe-mobile-stepbar">
+(function(){
+  function dedupeBars(){
+    try {
+      var bars = Array.prototype.slice.call(document.querySelectorAll('.mobile-stepbar'));
+      if (!bars || bars.length <= 1) return;
+      // Prefer the bar with id="mobileStepBar" if present
+      var keep = document.getElementById('mobileStepBar') || bars[0];
+      bars.forEach(function(el){
+        if (el !== keep) { el.parentNode && el.parentNode.removeChild(el); }
+      });
+    } catch(e){ /* no-op */ }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', dedupeBars, { once: true });
+  } else {
+    dedupeBars();
+  }
+})();
+</script>
 </body></body></html>';
 
   var w = window.open('', '_blank');
