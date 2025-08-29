@@ -1393,76 +1393,68 @@ header.appbar .brand-top{ display:none !important; }
   }
 </style>
 
-<!-- Mobile-only optimization layer (non-destructive). 
-     Applies ONLY to phones (≤640px). Desktop & tablet remain unchanged. -->
-<style id="mobile-only-optimizations">
+<!-- MOBILE SAFE LAYER (phones only; desktop & tablet untouched)
+     Scope: visual spacing/legibility only. No element is hidden, moved, or restyled on ≥641px. -->
+<style id="mobile-safe-layer">
 @media (max-width: 640px){
 
-  /* Layout & spacing */
-  main{ padding: 12px !important; }
-  .grid{ grid-template-columns: 1fr !important; gap: 12px !important; }
-  .grid.cols-2, .grid.cols-3{ grid-template-columns: 1fr !important; }
+  /* Do not alter header/footer/sticky behaviors on any device */
+  /* Purely visual adjustments below */
 
-  /* Header tweaks (no feature removals) */
-  header.appbar{ padding: 8px 12px !important; gap: 8px !important; }
-  header.appbar .brand{ gap: 8px !important; }
-  header.appbar .brand-logo{ height: 36px; width: auto; }
-  header.appbar .brand-title .brand-top{ font-size: 18px !important; }
-  header.appbar .brand-title .brand-bottom{ font-size: 16px !important; }
-
-  /* Steps: make scrollable row if present */
-  nav.steps{ margin-top: 8px !important; overflow:auto; -webkit-overflow-scrolling:touch; }
-  nav.steps .step{ padding: 6px 10px !important; font-size: 14px !important; white-space: nowrap; }
-
-  /* Cards & media */
-  .card{ border-radius: 12px !important; }
-  .card .body{ padding: 10px !important; }
-  .card .media{ height: clamp(150px, 34vh, 240px) !important; }
-  .card .media img{ object-fit: contain !important; width: 100% !important; height: 100% !important; }
-
-  /* Carousel */
-  .carousel{ grid-template-columns: 40px 1fr 40px !important; gap: 6px !important; }
-  .carousel .pane{ padding: 10px !important; }
-  .carousel .pane .media{ height: clamp(180px, 36vh, 300px) !important; }
-  .thumbs{ gap: 6px !important; }
-  .thumbs img{ width: 48px !important; height: 48px !important; }
-
-  /* Toolbars & actions */
-  .toolbar{ gap: 8px !important; flex-wrap: wrap !important; }
-  .actions{ gap: 8px !important; flex-wrap: wrap !important; }
-  .actions > *{ flex: 1 1 100% !important; }
-
-  /* Forms */
-  input, select, textarea{ font-size: 16px !important; } /* prevent iOS zoom */
-  .form-row{ display: grid; grid-template-columns: 1fr !important; gap: 10px !important; }
-
-  /* Modal sizing */
-  .modal .dialog{ width: calc(100% - 24px) !important; margin: 6vh 12px 0 !important; max-height: 90dvh !important; }
-  .dialog .content .media{ max-height: 62dvh !important; }
-
-  /* Safe area & footer avoidance (do NOT change existing stepbars, just make room) */
-  .screen, .content, .container, main{ 
-    padding-bottom: max(90px, env(safe-area-inset-bottom, 0px) + 90px) !important; 
-  }
-  .sticky-actions{ 
-    position: sticky !important; 
-    bottom: env(safe-area-inset-bottom, 0px) !important; 
-    z-index: 20 !important; 
+  /* Layout */
+  main { padding: 12px !important; }
+  /* Common grid patterns collapse gracefully */
+  main .grid { gap: 12px !important; }
+  main .grid.cols-2,
+  main .grid.cols-3,
+  main .grid[class*="cols-"] {
+    grid-template-columns: 1fr !important;
   }
 
-  /* Typography */
-  h1{ font-size: 24px !important; line-height: 1.2 !important; }
-  h2{ font-size: 20px !important; line-height: 1.25 !important; }
-  h3{ font-size: 18px !important; line-height: 1.25 !important; }
-  p, li{ font-size: 16px !important; line-height: 1.45 !important; }
+  /* Cards & media keep aspect and avoid cropping */
+  .card .media,
+  .carousel .pane .media,
+  .dialog .content .media {
+    background: #eef3f3;
+    overflow: hidden;
+  }
+  /* Height ranges that adapt to tiny screens */
+  .card .media { height: clamp(160px, 32vh, 260px) !important; }
+  .carousel .pane .media { height: clamp(200px, 36vh, 340px) !important; }
+  .dialog .content .media { max-height: 62dvh !important; }
+  .card .media img,
+  .carousel .pane .media img,
+  .dialog .content .media img {
+    width: 100% !important; height: 100% !important; object-fit: contain !important;
+  }
 
-  /* Welcome hero */
-  .welcome .hero{ padding: 16px !important; }
-  .welcome-grid{ grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important; gap: 10px !important; }
-  .welcome-thumb img{ height: 100px !important; }
+  /* Toolbars/actions wrap neatly without changing order */
+  .toolbar, .actions { flex-wrap: wrap !important; gap: 8px !important; }
+  .actions > * { flex: 1 1 100% !important; }
 
-  /* Misc */
-  .hidden-mobile{ display: none !important; }
+  /* Inputs: prevent iOS zoom on focus */
+  input, select, textarea { font-size: 16px !important; }
+
+  /* Buttons: comfortable tap targets (does not change colors/shape) */
+  button, .btn { min-height: 44px !important; }
+
+  /* Modals fit viewport safely on phones */
+  .modal .dialog { width: calc(100% - 24px) !important; margin: 6vh 12px 0 !important; max-height: 90dvh !important; }
+
+  /* Extra bottom room so fixed footers/stepbars don't cover CTAs */
+  main, .screen, .content, .container {
+    padding-bottom: max(80px, env(safe-area-inset-bottom, 0px) + 80px) !important;
+  }
+
+  /* Typography scales down slightly for small screens */
+  h1 { font-size: 24px !important; line-height: 1.2 !important; }
+  h2 { font-size: 20px !important; line-height: 1.25 !important; }
+  h3 { font-size: 18px !important; line-height: 1.25 !important; }
+  p, li { font-size: 16px !important; line-height: 1.45 !important; }
+
+  /* Thumbnails / welcome grid */
+  .welcome-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important; gap: 10px !important; }
+  .welcome-thumb img { height: 100px !important; object-fit: cover !important; }
 }
 </style>
 
