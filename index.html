@@ -1393,68 +1393,26 @@ header.appbar .brand-top{ display:none !important; }
   }
 </style>
 
-<!-- MOBILE SAFE LAYER (phones only; desktop & tablet untouched)
-     Scope: visual spacing/legibility only. No element is hidden, moved, or restyled on ≥641px. -->
-<style id="mobile-safe-layer">
-@media (max-width: 640px){
+<!-- Footer visibility fix: show exactly one footer per device range -->
+<style id="footer-visibility-fix">
+/* Default: hide all mobile stepbars until a range enables one */
+.mobile-stepbar { display: none; }
 
-  /* Do not alter header/footer/sticky behaviors on any device */
-  /* Purely visual adjustments below */
+/* Phones (≤768px): use compact phone step bar */
+@media (max-width: 768px){
+  #mobileStepBar { display: flex !important; }
+  #mobileFooter  { display: none !important; }
+}
 
-  /* Layout */
-  main { padding: 12px !important; }
-  /* Common grid patterns collapse gracefully */
-  main .grid { gap: 12px !important; }
-  main .grid.cols-2,
-  main .grid.cols-3,
-  main .grid[class*="cols-"] {
-    grid-template-columns: 1fr !important;
-  }
+/* Tablets (769–1024px): use large tablet footer */
+@media (min-width: 769px) and (max-width: 1024px){
+  #mobileFooter  { display: flex !important; }
+  #mobileStepBar { display: none !important; }
+}
 
-  /* Cards & media keep aspect and avoid cropping */
-  .card .media,
-  .carousel .pane .media,
-  .dialog .content .media {
-    background: #eef3f3;
-    overflow: hidden;
-  }
-  /* Height ranges that adapt to tiny screens */
-  .card .media { height: clamp(160px, 32vh, 260px) !important; }
-  .carousel .pane .media { height: clamp(200px, 36vh, 340px) !important; }
-  .dialog .content .media { max-height: 62dvh !important; }
-  .card .media img,
-  .carousel .pane .media img,
-  .dialog .content .media img {
-    width: 100% !important; height: 100% !important; object-fit: contain !important;
-  }
-
-  /* Toolbars/actions wrap neatly without changing order */
-  .toolbar, .actions { flex-wrap: wrap !important; gap: 8px !important; }
-  .actions > * { flex: 1 1 100% !important; }
-
-  /* Inputs: prevent iOS zoom on focus */
-  input, select, textarea { font-size: 16px !important; }
-
-  /* Buttons: comfortable tap targets (does not change colors/shape) */
-  button, .btn { min-height: 44px !important; }
-
-  /* Modals fit viewport safely on phones */
-  .modal .dialog { width: calc(100% - 24px) !important; margin: 6vh 12px 0 !important; max-height: 90dvh !important; }
-
-  /* Extra bottom room so fixed footers/stepbars don't cover CTAs */
-  main, .screen, .content, .container {
-    padding-bottom: max(80px, env(safe-area-inset-bottom, 0px) + 80px) !important;
-  }
-
-  /* Typography scales down slightly for small screens */
-  h1 { font-size: 24px !important; line-height: 1.2 !important; }
-  h2 { font-size: 20px !important; line-height: 1.25 !important; }
-  h3 { font-size: 18px !important; line-height: 1.25 !important; }
-  p, li { font-size: 16px !important; line-height: 1.45 !important; }
-
-  /* Thumbnails / welcome grid */
-  .welcome-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important; gap: 10px !important; }
-  .welcome-thumb img { height: 100px !important; object-fit: cover !important; }
+/* Desktop (≥1025px): neither mobile footer shows */
+@media (min-width: 1025px){
+  .mobile-stepbar { display: none !important; }
 }
 </style>
 
