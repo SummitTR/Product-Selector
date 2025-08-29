@@ -261,8 +261,15 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
 
 /* Overlay close button on the player */
 .dialog .content { position: relative; }
-/* removed .player-close style */
-/* removed .player-close style */
+.player-close{
+  position:absolute; top:8px; right:8px;
+  background: rgba(0,0,0,.6); color:#fff;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; width: 32px; height: 32px;
+  line-height: 30px; text-align: center; font-weight: 700;
+  cursor: pointer;
+}
+.player-close:focus{ outline:2px solid var(--ring); outline-offset:2px; }
 
 /* Selected card highlight & badge */
 .card, .pane { position: relative; }
@@ -864,15 +871,11 @@ header .brand, .header .brand, .topbar .brand {
   }
 </style>
 <style>
-  /* Hide the instructional header steps across all breakpoints */
-  header .steps, header nav .steps { display: none !important; }
-</style>
-<style>
 /* Print-friendly rules */
 @media print {
   @page { size: Letter; margin: 12mm; }
   body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  header.appbar, .footer, .controls.no-print, .no-print, .modal /* removed .player-close style */
+  header.appbar, .footer, .controls.no-print, .no-print, .modal .player-close { display:none !important; }
   /* Ensure the inline print area uses full width */
   #printArea { page-break-inside: auto; }
   #printArea table { page-break-inside: auto; }
@@ -1393,26 +1396,19 @@ header.appbar .brand-top{ display:none !important; }
   }
 </style>
 
-<!-- Footer visibility fix: show exactly one footer per device range -->
-<style id="footer-visibility-fix">
-/* Default: hide all mobile stepbars until a range enables one */
-.mobile-stepbar { display: none; }
-
-/* Phones (≤768px): use compact phone step bar */
-@media (max-width: 768px){
-  #mobileStepBar { display: flex !important; }
-  #mobileFooter  { display: none !important; }
-}
-
-/* Tablets (769–1024px): use large tablet footer */
-@media (min-width: 769px) and (max-width: 1024px){
-  #mobileFooter  { display: flex !important; }
-  #mobileStepBar { display: none !important; }
-}
-
-/* Desktop (≥1025px): neither mobile footer shows */
+<style id="desktop-stepbar-restore">
 @media (min-width: 1025px){
-  .mobile-stepbar { display: none !important; }
+  header .steps,
+  header nav .steps {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  header .steps .step {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+  }
 }
 </style>
 
@@ -2254,6 +2250,7 @@ window.addEventListener('load', function(){
         const embed = toYouTubeEmbed(url);
         const iframeSrc = embed || url;
         content.innerHTML = `
+          <button class="player-close" type="button" aria-label="Close">×</button>
           <div style="position:relative;padding-top:56.25%;">
             <iframe
               src="${iframeSrc}"
@@ -2266,13 +2263,16 @@ window.addEventListener('load', function(){
           </div>`;
       } else if (isMP4) {
         content.innerHTML = `
+          <button class="player-close" type="button" aria-label="Close">×</button>
           <video src="${url}" controls playsinline style="width:100%;max-height:70vh;"></video>`;
       } else {
         content.innerHTML = `
+          <button class="player-close" type="button" aria-label="Close">×</button>
           <iframe src="${url}" style="width:100%;height:70vh;border:0;"></iframe>`;
       }
 
-      const closeBtn = content.querySelector('/* removed .player-close style */;
+      const closeBtn = content.querySelector('.player-close');
+      if (closeBtn) closeBtn.onclick = () => { modal.style.display = 'none'; };
 
       modal.style.display = 'flex';
       const escHandler = (e) => { if (e.key === 'Escape') { modal.style.display='none'; document.removeEventListener('keydown', escHandler); } };
@@ -2357,11 +2357,13 @@ window.addEventListener('load', function(){
 
       if (!uses.length){
         content.innerHTML = `
+          <button class="player-close" type="button" aria-label="Close">×</button>
           <div style="padding:12px;">
             <p>No seasonal uses are listed for this product.</p>
           </div>`;
       } else {
         content.innerHTML = `
+          <button class="player-close" type="button" aria-label="Close">×</button>
           <div style="padding:12px;">
             <h3 style="margin-top:0;">Seasonal Uses</h3>
             <ul style="margin:8px 0 0 18px; line-height:1.5;">
@@ -2370,7 +2372,8 @@ window.addEventListener('load', function(){
           </div>`;
       }
 
-      const closeBtn = content.querySelector('/* removed .player-close style */;
+      const closeBtn = content.querySelector('.player-close');
+      if (closeBtn) closeBtn.onclick = () => { content.innerHTML = ''; modal.style.display = 'none'; };
 
       modal.style.display = 'flex';
       const escHandler = (e) => { if (e.key === 'Escape') { content.innerHTML=''; modal.style.display='none'; document.removeEventListener('keydown', escHandler); } };
@@ -2420,9 +2423,10 @@ window.addEventListener('load', function(){
 
       if (!prod){
         titleEl.textContent = 'Seasonal Uses';
-        content.innerHTML = `<div style="padding:12px;"><p>Sorry — no product selected.</p></div>`;
+        content.innerHTML = `<button class="player-close" type="button" aria-label="Close">×</button>
+          <div style="padding:12px;"><p>Sorry — no product selected.</p></div>`;
         modal.style.display = 'flex';
-        /* removed player-close handler */ modal.style.display='none'; };
+        content.querySelector('.player-close').onclick = () => { content.innerHTML=''; modal.style.display='none'; };
         return;
       }
 
@@ -2430,7 +2434,8 @@ window.addEventListener('load', function(){
       titleEl.textContent = (prod.ProductName || 'Seasonal Uses');
 
       if (!seasons || !Object.keys(seasons).length){
-        content.innerHTML = `<div style="padding:12px;"><p>No Seasonal Uses are listed for this product.</p></div>`;
+        content.innerHTML = `<button class="player-close" type="button" aria-label="Close">×</button>
+          <div style="padding:12px;"><p>No Seasonal Uses are listed for this product.</p></div>`;
       } else {
         const blocks = Object.entries(seasons).map(([season, items]) => `
           <section style="margin:8px 0 12px;">
@@ -2440,13 +2445,15 @@ window.addEventListener('load', function(){
             </ul>
           </section>
         `).join('');
-        content.innerHTML = `<div style="padding:12px;">
+        content.innerHTML = `<button class="player-close" type="button" aria-label="Close">×</button>
+          <div style="padding:12px;">
             <h3 style="margin-top:0;">Seasonal Uses</h3>
             ${blocks}
           </div>`;
       }
 
-      const closeBtn = content.querySelector('/* removed .player-close style */;
+      const closeBtn = content.querySelector('.player-close');
+      if (closeBtn) closeBtn.onclick = () => { content.innerHTML=''; modal.style.display='none'; };
       modal.style.display = 'flex';
 
       const escHandler = (e) => { if (e.key === 'Escape') { content.innerHTML=''; modal.style.display='none'; document.removeEventListener('keydown', escHandler); } };
@@ -3213,7 +3220,7 @@ header.appbar {
 @media print {
   @page { size: Letter; margin: 12mm; }
   body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  header.appbar, .footer, .controls.no-print, .no-print, .modal /* removed .player-close style */
+  header.appbar, .footer, .controls.no-print, .no-print, .modal .player-close { display:none !important; }
   /* Ensure the inline print area uses full width */
   #printArea { page-break-inside: auto; }
   #printArea table { page-break-inside: auto; }
@@ -3515,7 +3522,8 @@ header [role="button"]:hover {
         content.innerHTML = ''
 
         // Wire controls
-        var closeBtn = content.querySelector('/* removed .player-close style */ catch(e){} };
+        var closeBtn = content.querySelector('.player-close');
+        if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; try { if (window.returnToStep2) setTimeout(window.returnToStep2, 0); } catch(e){} };
         var btnPrint = content.querySelector('#sp_print');
         if (btnPrint) btnPrint.onclick = function(){ window.print(); };
         var btnCSV = content.querySelector('#sp_csv');
@@ -3943,7 +3951,10 @@ function returnToStep2() {
     var t = e.target;
     if (!t) return;
     // bubble up to find a close control
-    var btn = t.closest('.modal-close, /* removed .player-close style */
+    var btn = t.closest('.modal-close, .player-close, [data-close], [data-dismiss], [aria-label="Close"], [data-action="close"], #modalClose');
+    if (btn) {
+      setTimeout(returnToStep2, 0);
+    }
   }, true);
 
   // Escape key closing
@@ -4015,7 +4026,32 @@ function returnToStep2() {
     // Delegate close buttons
     const closeSelectors = [
       '.modal-close',
-      '/* removed .player-close style */
+      '.player-close',
+      '[data-close]',
+      '[aria-label="Close"]',
+      '#savePrintClose',
+      '[data-action="close-saveprint"]',
+      'button'
+    ];
+
+    containers.forEach(container => {
+      // Avoid attaching multiple times
+      if (container.__lc7_close_wired__) return;
+      container.__lc7_close_wired__ = true;
+
+      container.addEventListener('click', function(ev){
+        const t = ev.target;
+        // If it's a button-like element with "close" intent or matching selectors
+        const isCloseIntent =
+          (t.matches && closeSelectors.some(sel => t.matches(sel))) ||
+          (t.closest && closeSelectors.some(sel => t.closest(sel))) ||
+          /close/i.test((t.getAttribute && (t.getAttribute('aria-label')||'')) || '') ||
+          /close|done|back/i.test((t.textContent||'').trim());
+
+        if (isCloseIntent){
+          // Defer to allow any existing handlers to run first
+          setTimeout(returnToStep2, 0);
+        }
       }, true);
 
       // Observe display/hide changes to route back when the panel is dismissed
@@ -5970,7 +6006,7 @@ function goToStep2() {
         var subject = "New Summit Web Lead - " + (p.firstName||"") + " " + (p.lastName||"");
         var body = buildPlainSummary(p);
         // Compose mailto link
-        var href = "mailto:doug.rehor@summittractors.com"
+        var href = "mailto:support@summittractors.com"
           + "?subject=" + encodeURIComponent(subject.trim())
           + "&body=" + encodeURIComponent(body);
         // Open email draft
@@ -6063,7 +6099,7 @@ function goToStep2() {
   function openMailto(p){
     var subject = "New Summit Web Lead - " + (p.firstName||"") + " " + (p.lastName||"");
     var body = buildPlainSummary(p);
-    var href = "mailto:doug.rehor@summittractors.com"
+    var href = "mailto:support@summittractors.com"
       + "?subject=" + encodeURIComponent(subject.trim())
       + "&body=" + encodeURIComponent(body);
     window.location.href = href;
@@ -6221,7 +6257,7 @@ function goToStep2() {
   function openMailto(p){
     var subject = "New Summit Web Lead - " + (p.firstName||"") + " " + (p.lastName||"");
     var body = buildPlainSummary(p);
-    var href = "mailto:doug.rehor@summittractors.com"
+    var href = "mailto:support@summittractors.com"
       + "?subject=" + encodeURIComponent(subject.trim())
       + "&body=" + encodeURIComponent(body);
     window.location.href = href;
@@ -6380,7 +6416,7 @@ function goToStep2() {
       var p = buildPayload();
       var subject = "New Summit Web Lead - " + (p.firstName||"") + " " + (p.lastName||"");
       var body = buildPlainSummary(p);
-      var href = "mailto:doug.rehor@summittractors.com"
+      var href = "mailto:support@summittractors.com"
         + "?subject=" + encodeURIComponent(subject.trim())
         + "&body=" + encodeURIComponent(body);
       // set link href for accessibility (copy link, long-press, etc.)
@@ -6406,7 +6442,7 @@ function goToStep2() {
 (function(){
   function buildEML(subject, body, to){
     var lines = [];
-    lines.push("To: " + (to || "doug.rehor@summittractors.com"));
+    lines.push("To: " + (to || "support@summittractors.com"));
     lines.push("Subject: " + subject);
     lines.push("MIME-Version: 1.0");
     lines.push("Content-Type: text/plain; charset=UTF-8");
@@ -6439,7 +6475,7 @@ function goToStep2() {
     if (dl){
       dl.addEventListener('click', function(ev){
         ev.preventDefault();
-        var eml = buildEML(subject, body, "doug.rehor@summittractors.com");
+        var eml = buildEML(subject, body, "support@summittractors.com");
         var blob = new Blob([eml], {type: 'message/rfc822'});
         var a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -6691,1064 +6727,6 @@ function goToStep2() {
 }
 </style>
 
-
-<script>
-(function(){
-  if (window.__viewEquipLabelPatchInstalled__) return;
-  window.__viewEquipLabelPatchInstalled__ = true;
-
-  function countSelections(){
-    try {
-      if (typeof selectedProducts === 'function') {
-        var arr = selectedProducts();
-        if (Array.isArray(arr)) return arr.length;
-      }
-    } catch(e){}
-    var n = 0;
-    try {
-      if (window.state) {
-        if (state.tractors && state.tractors.size) n += state.tractors.size;
-        if (state.attachments && state.attachments.size) n += state.attachments.size;
-        if (!n && Array.isArray(state.data)) {
-          n = state.data.filter(function(p){ return p && (p.selected || p.__selected); }).length;
-        }
-      }
-    } catch(e){}
-    return n || 0;
-  }
-
-  function updateLabels(){
-    var count = countSelections();
-    var buttons = [document.getElementById('msbStep1'), document.getElementById('btnGoStep2')];
-    buttons.forEach(function(btn){
-      if (!btn) return;
-      if (count > 0) {
-        btn.classList && btn.classList.add('has-selection');
-        btn.setAttribute('aria-label', 'Selected Equipment — ' + count);
-        btn.innerHTML = '';
-        btn.appendChild(document.createTextNode('Selected Equipment'));
-        var b = document.createElement('span');
-        b.className = 've-count-badge';
-        b.textContent = String(count);
-        btn.appendChild(b);
-      } else {
-        btn.classList && btn.classList.remove('has-selection');
-        btn.setAttribute('aria-label', 'View Equipment');
-        btn.textContent = 'View Equipment';
-      }
-    });
-  }
-
-  setInterval(updateLabels, 700);
-  if (document.readyState !== 'loading') updateLabels();
-  else document.addEventListener('DOMContentLoaded', updateLabels);
-  ['selectionchange','click','change'].forEach(function(evt){
-    document.addEventListener(evt, function(){ setTimeout(updateLabels, 0); }, true);
-  });
-  window.__updateViewEquipmentLabels = updateLabels;
-})();
-</script>
-
-
-<style>
-.video-fallback {
-  display:flex; align-items:center; justify-content:center;
-  flex-direction:column; gap:12px;
-  min-height:50vh; padding:24px; text-align:center;
-  background:#f6f7f8; border:1px solid #d6d9dc; border-radius:10px;
-}
-.video-fallback .actions a {
-  display:inline-block; padding:10px 14px; border-radius:8px;
-  background:#254A4F; color:#fff; text-decoration:none; font-weight:600;
-}
-.video-fallback .note { color:#333; font-size:.95rem; }
-</style>
-<script>
-(function(){
-  if (window.__videoEmbedResilienceInstalled__) return;
-  window.__videoEmbedResilienceInstalled__ = true;
-
-  function toEmbedURL(url){
-    try {
-      var u = new URL(url, location.href);
-      var host = u.hostname.replace(/^www\./,'');
-      // YouTube watch -> embed
-      if (host.endsWith('youtube.com')) {
-        if (u.pathname === '/watch' && u.searchParams.get('v')) {
-          var id = u.searchParams.get('v');
-          return 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1&playsinline=1';
-        }
-        if (u.pathname.startsWith('/shorts/') || u.pathname.startsWith('/live/')) {
-          var id2 = u.pathname.split('/')[2] || '';
-          if (id2) return 'https://www.youtube.com/embed/' + id2 + '?rel=0&modestbranding=1&playsinline=1';
-        }
-      }
-      // youtu.be short links
-      if (host === 'youtu.be') {
-        var id3 = u.pathname.replace('/','');
-        if (id3) return 'https://www.youtube.com/embed/' + id3 + '?rel=0&modestbranding=1&playsinline=1';
-      }
-      // Vimeo page -> player
-      if (host.endsWith('vimeo.com')) {
-        var seg = u.pathname.split('/').filter(Boolean)[0];
-        if (/^\d+$/.test(seg)) return 'https://player.vimeo.com/video/' + seg;
-      }
-      return url; // leave as-is
-    } catch(e){
-      return url;
-    }
-  }
-
-  function enhanceIframe(iframe){
-    if (!iframe || iframe.__enhanced) return;
-    iframe.__enhanced = true;
-    // Upgrade URL for common providers
-    if (iframe.src) iframe.src = toEmbedURL(iframe.src);
-    // Add permissive attributes for media
-    try {
-      iframe.setAttribute('allowfullscreen','');
-      var allow = iframe.getAttribute('allow') || '';
-      var needed = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-      iframe.setAttribute('allow', (allow ? allow + '; ' : '') + needed);
-    } catch(e){}
-
-    // If blocked by XFO/frame-ancestors, show fallback
-    var fallbackTimer = setTimeout(function(){
-      try {
-        var blocked = !iframe.contentWindow;
-        if (blocked) {
-          var url = iframe.getAttribute('src') || '#';
-          var panel = document.createElement('div');
-          panel.className = 'video-fallback';
-          panel.innerHTML = '<div class="note">This site prevents embedding the video here.</div>' +
-                            '<div class="actions"><a target="_blank" rel="noopener noreferrer">Open video in a new tab</a></div>';
-          panel.querySelector('a').href = url;
-          iframe.replaceWith(panel);
-        }
-      } catch(e){}
-    }, 900);
-
-    iframe.addEventListener('load', function(){ try { clearTimeout(fallbackTimer); } catch(_){}});
-  }
-
-  function observeModal(){
-    var host = document.getElementById('modalContent');
-    if (!host) return;
-    host.querySelectorAll('iframe').forEach(enhanceIframe);
-    var mo = new MutationObserver(function(muts){
-      muts.forEach(function(m){
-        m.addedNodes && Array.from(m.addedNodes).forEach(function(n){
-          if (n.tagName === 'IFRAME') enhanceIframe(n);
-          else if (n.querySelectorAll) n.querySelectorAll('iframe').forEach(enhanceIframe);
-        });
-      });
-    });
-    try { mo.observe(host, {childList: true, subtree: true}); } catch(e){}
-  }
-
-  if (document.readyState !== 'loading') observeModal();
-  else document.addEventListener('DOMContentLoaded', observeModal);
-})();
-</script>
-
-
-<style>
-/* Keep badge space but hide visually at zero to avoid flicker */
-.ve-label { display: inline-block; vertical-align: middle; }
-.ve-count-badge {
-  display: inline-block; vertical-align: middle;
-  min-width: 2.2ch; padding: 0 .45em;
-  border-radius: 999px; line-height: 1.3;
-  font-variant-numeric: tabular-nums; text-align: center;
-}
-.ve-count-badge.is-zero { opacity: 0; visibility: hidden; }
-</style>
-<script>
-(function(){
-  if (window.__badgeOnlyPatchInstalled__) return;
-  window.__badgeOnlyPatchInstalled__ = true;
-
-  function getCount(){
-    try {
-      if (typeof selectedProducts === 'function') {
-        var a = selectedProducts();
-        if (Array.isArray(a)) return a.length;
-      }
-    } catch(e){}
-    var n = 0;
-    try {
-      if (window.state) {
-        if (state.tractors && state.tractors.size) n += state.tractors.size;
-        if (state.attachments && state.attachments.size) n += state.attachments.size;
-        if (!n && Array.isArray(state.data)) {
-          n = state.data.filter(function(p){ return p && (p.selected || p.__selected); }).length;
-        }
-      }
-    } catch(e){}
-    return n || 0;
-  }
-
-  function ensure(btn){
-    if (!btn) return null;
-    if (btn.__veStructured) return {label: btn.querySelector('.ve-label'), badge: btn.querySelector('.ve-count-badge')};
-    var base = 'View Equipment';
-    btn.innerHTML = '';
-    var label = document.createElement('span');
-    label.className = 've-label';
-    label.textContent = base;
-    var badge = document.createElement('span');
-    badge.className = 've-count-badge is-zero';
-    badge.textContent = '0';
-    badge.setAttribute('aria-hidden','true');
-    btn.appendChild(label);
-    btn.appendChild(badge);
-    btn.__veStructured = true;
-    // Guard against other scripts changing label text
-    var mo = new MutationObserver(function(){
-      if (label.textContent !== base) label.textContent = base;
-    });
-    try { mo.observe(label, {characterData: true, subtree: true, childList: true}); } catch(e){}
-    return {label: label, badge: badge};
-  }
-
-  function update(){
-    var count = getCount();
-    [document.getElementById('msbStep1'), document.getElementById('btnGoStep2')].forEach(function(btn){
-      var parts = ensure(btn);
-      if (!parts) return;
-      if (btn.__prevCount === count) return;
-      btn.__prevCount = count;
-      parts.badge.textContent = String(count);
-      if (count > 0){
-        parts.badge.classList.remove('is-zero');
-        parts.badge.removeAttribute('aria-hidden');
-        btn.setAttribute('aria-label', 'View Equipment — ' + count + ' selected');
-        btn.classList && btn.classList.add('has-selection');
-      } else {
-        parts.badge.classList.add('is-zero');
-        parts.badge.setAttribute('aria-hidden','true');
-        btn.setAttribute('aria-label', 'View Equipment');
-        btn.classList && btn.classList.remove('has-selection');
-      }
-    });
-  }
-
-  var raf;
-  function schedule(){ if (raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }
-
-  // Initial & event-driven updates
-  if (document.readyState !== 'loading') schedule();
-  else document.addEventListener('DOMContentLoaded', schedule);
-  ['click','change','input','selectionchange'].forEach(function(evt){ document.addEventListener(evt, schedule, true); });
-  try {
-    var host = document.querySelector('#screen-step2') || document.body;
-    var mo = new MutationObserver(schedule);
-    mo.observe(host, {childList:true, subtree:true, attributes:true, attributeFilter:['class','aria-selected','aria-checked']});
-  } catch(e){}
-})();
-</script>
-
-
-<script>
-(function(){
-  if (window.__globalRemoveRestoreBadgeHookInstalled__) return;
-  window.__globalRemoveRestoreBadgeHookInstalled__ = true;
-
-  // Helper: trigger badge refresh using any available updater,
-  // or by dispatching a 'selectionchange' event as a universal signal.
-  function triggerBadgeRefresh(){
-    try {
-      if (typeof window.__updateViewEquipmentButtons === 'function') { window.__updateViewEquipmentButtons(); return; }
-      if (typeof window.__updateViewEquipmentLabels === 'function') { window.__updateViewEquipmentLabels(); return; }
-    } catch(e){}
-    try {
-      var evt = new Event('selectionchange', {bubbles:true});
-      document.dispatchEvent(evt);
-    } catch(e){}
-  }
-
-  function isRemoveOrRestore(el){
-    if (!el) return false;
-    // Check attributes / classes
-    var sel = '[data-remove],[data-restore],[data-action="remove"],[data-action="restore"],.remove,.restore,.btn-remove,.btn-restore';
-    if (el.matches && el.matches(sel)) return true;
-    // Check text content
-    var txt = (el.textContent || '').trim().toLowerCase();
-    if (txt === 'remove' || txt === 'restore' || txt.includes('remove item') || txt.includes('restore item')) return true;
-    return false;
-  }
-
-  // Capture clicks globally; if the click is on a remove/restore control,
-  // schedule a refresh (immediate + slight delay for async state updates).
-  document.addEventListener('click', function(e){
-    var t = e.target;
-    // walk up in case the icon is inside the button
-    var btn = t && t.closest ? t.closest('[data-remove],[data-restore],[data-action="remove"],[data-action="restore"],.remove,.restore,.btn-remove,.btn-restore,button,a') : null;
-    if (!btn) return;
-    if (!isRemoveOrRestore(btn)) return;
-    setTimeout(triggerBadgeRefresh, 0);
-    setTimeout(triggerBadgeRefresh, 150);
-    setTimeout(triggerBadgeRefresh, 400);
-  }, true);
-
-  // Keyboard activation (Enter/Space) on focused remove/restore buttons
-  document.addEventListener('keydown', function(e){
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    var a = document.activeElement;
-    if (!a) return;
-    var btn = a.closest && a.closest('[data-remove],[data-restore],[data-action="remove"],[data-action="restore"],.remove,.restore,.btn-remove,.btn-restore,button,a');
-    if (!btn || !isRemoveOrRestore(btn)) return;
-    setTimeout(triggerBadgeRefresh, 0);
-    setTimeout(triggerBadgeRefresh, 150);
-    setTimeout(triggerBadgeRefresh, 400);
-  }, true);
-
-  // Listen for custom app events (if emitted)
-  ['item-removed','item-restored','selection-updated','cart-changed','selections-changed'].forEach(function(evt){
-    document.addEventListener(evt, function(){ setTimeout(triggerBadgeRefresh, 0); });
-  });
-
-  // Observe the Review Selections screen for row removals/restores
-  try {
-    var host = document.getElementById('modalContent') || document.body;
-    var mo = new MutationObserver(function(muts){
-      var changed = muts.some(function(m){ return (m.removedNodes && m.removedNodes.length) || (m.addedNodes && m.addedNodes.length); });
-      if (changed) setTimeout(triggerBadgeRefresh, 0);
-    });
-    mo.observe(host, {childList:true, subtree:true});
-  } catch(e){}
-})();
-</script>
-
-<script>(function(){if(window.__badgeModalAwarePatchInstalled__)return;window.__badgeModalAwarePatchInstalled__=true;
-function getCountFromState(){try{if(typeof selectedProducts==='function'){var a=selectedProducts();if(Array.isArray(a))return a.length;}}catch(e){}var n=0;try{if(window.state){if(state.tractors&&state.tractors.size)n+=state.tractors.size;if(state.attachments&&state.attachments.size)n+=state.attachments.size;if(!n&&Array.isArray(state.data)){n=state.data.filter(function(p){return p&&(p.selected||p.__selected);}).length;}}}catch(e){}return n||0;}
-function getCountFromModal(){try{var modal=document.getElementById('modal');var host=document.getElementById('modalContent');if(!modal||!host)return null;var visible=modal.style.display&&modal.style.display!=='none';if(!visible){visible=modal.getAttribute('aria-hidden')!=='true';}if(!visible)return null;var tbody=host.querySelector('table tbody');var rows=[];if(tbody)rows=Array.from(tbody.querySelectorAll('tr'));else rows=Array.from(host.querySelectorAll('table tr'));rows=rows.filter(function(r){return !r.querySelector('th');});rows=rows.filter(function(r){return !/no\s+products/i.test(r.textContent||'');});return rows.length;}catch(e){return null;}}
-function refreshBadge(){var count=getCountFromState();var modalCount=getCountFromModal();if(typeof modalCount==='number')count=modalCount;var btns=[document.getElementById('msbStep1'),document.getElementById('btnGoStep2')];btns.forEach(function(btn){if(!btn)return;var label=btn.querySelector('.ve-label');var badge=btn.querySelector('.ve-count-badge');if(!label||!badge){var base='View Equipment';btn.innerHTML='';label=document.createElement('span');label.className='ve-label';label.textContent=base;badge=document.createElement('span');badge.className='ve-count-badge is-zero';badge.textContent='0';badge.setAttribute('aria-hidden','true');btn.appendChild(label);btn.appendChild(badge);}if(btn.__prevCount===count)return;btn.__prevCount=count;badge.textContent=String(count);if(count>0){badge.classList.remove('is-zero');badge.removeAttribute('aria-hidden');btn.classList&&btn.classList.add('has-selection');btn.setAttribute('aria-label','View Equipment — '+count+' selected');}else{badge.classList.add('is-zero');badge.setAttribute('aria-hidden','true');btn.classList&&btn.classList.remove('has-selection');btn.setAttribute('aria-label','View Equipment');}});}
-window.__updateViewEquipmentButtons=refreshBadge;window.__updateViewEquipmentLabels=refreshBadge;
-function hookModal(){var host=document.getElementById('modalContent');if(!host)return;var mo=new MutationObserver(function(){setTimeout(refreshBadge,0);});try{mo.observe(host,{childList:true,subtree:true});}catch(e){}host.addEventListener('click',function(e){var t=e.target;var btn=t.closest&&t.closest('button,a');if(!btn)return;var txt=(btn.textContent||'').trim().toLowerCase();if(btn.matches('[data-remove],[data-restore],[data-action=\"remove\"],[data-action=\"restore\"],.remove,.restore,.btn-remove,.btn-restore')||txt==='remove'||txt==='restore'||txt.includes('remove item')||txt.includes('restore item')){setTimeout(refreshBadge,150);setTimeout(refreshBadge,400);}},true);}
-if(document.readyState!=='loading'){hookModal();refreshBadge();}else document.addEventListener('DOMContentLoaded',function(){hookModal();refreshBadge();});
-['click','change','input','selectionchange'].forEach(function(evt){document.addEventListener(evt,function(){setTimeout(refreshBadge,0);},true);});
-var moRoot=new MutationObserver(function(){hookModal();});try{moRoot.observe(document.body,{childList:true,subtree:true});}catch(e){}
-})();</script>
-<script>(function(){if(window.__modalRemoveRestoreStateBridgeInstalled__)return;window.__modalRemoveRestoreStateBridgeInstalled__=true;
-window.__removedSelectionBuckets=window.__removedSelectionBuckets||new Map();
-function N(v){return String(v||'').trim();}
-function findId(row){if(!row)return null;var id=row.getAttribute('data-product-id')||row.getAttribute('data-id')||(row.dataset&&(row.dataset.productId||row.dataset.id));if(id)return N(id);var txt=(row.textContent||'').replace(/\s+/g,' ').trim();var m=txt.match(/\b[A-Z0-9][A-Z0-9_-]{3,}\b/gi);if(m&&m.length){for(var i=0;i<m.length;i++){var cand=N(m[i]);try{if(typeof window.getProd==='function'){var prod=window.getProd(cand);if(prod)return N(prod.ProductID||prod.Id||prod.SKU||cand);}}catch(e){}}ret...
-function removeFromState(id){var bucket=null;try{if(window.state){if(state.tractors&&state.tractors.has&&state.tractors.has(id)){state.tractors.delete(id);bucket='tractors';}if(state.attachments&&state.attachments.has&&state.attachments.has(id)){state.attachments.delete(id);bucket=bucket||'attachments';}}}catch(e){}try{if(typeof window.deselectProduct==='function'){window.deselectProduct(id);}}catch(e){}try{if(typeof window.removeSelection==='function'){window.removeSelection(id);}}catch(e){}if(bucket)w...
-function restoreToState(id){var bucket=window.__removedSelectionBuckets.get(id)||null;try{if(window.state){if(bucket==='tractors'){if(state.tractors&&state.tractors.add)state.tractors.add(id);}else{if(state.attachments&&state.attachments.add)state.attachments.add(id);}}}catch(e){}try{if(typeof window.selectProduct==='function'){window.selectProduct(id);}}catch(e){}try{if(typeof window.addSelection==='function'){window.addSelection(id);}}catch(e){}}
-function refreshUI(){try{if(typeof window.__updateViewEquipmentButtons==='function'){window.__updateViewEquipmentButtons();}if(typeof window.__updateViewEquipmentLabels==='function'){window.__updateViewEquipmentLabels();}}catch(e){}try{var evt=new Event('selectionchange',{bubbles:true});document.dispatchEvent(evt);}catch(e){}try{if(typeof window.refreshStep2Grid==='function')window.refreshStep2Grid();}catch(e){}try{if(typeof window.renderStep2==='function')window.renderStep2();}catch(e){}}
-function onModalClick(e){var t=e.target;var btn=t&&t.closest&&t.closest('button,a');if(!btn)return;var txt=(btn.textContent||'').trim().toLowerCase();var isRemove=btn.matches('[data-remove],[data-action=\"remove\"],.remove,.btn-remove')||txt==='remove'||txt.includes('remove item');var isRestore=btn.matches('[data-restore],[data-action=\"restore\"],.restore,.btn-restore')||txt==='restore'||txt.includes('restore item');if(!isRemove&&!isRestore)return;var row=btn.closest('tr')||btn.closest('[data-product-id],[data-id],.select...
-function hookModal(){var host=document.getElementById('modalContent');if(!host||host.__removeRestoreHooked)return;host.__removeRestoreHooked=true;host.addEventListener('click',onModalClick,true);}
-if(document.readyState!=='loading')hookModal();else document.addEventListener('DOMContentLoaded',hookModal);
-var mo=new MutationObserver(hookModal);try{mo.observe(document.body,{childList:true,subtree:true});}catch(e){}
-})();</script>
-
-<style>
-/* Ensure stable structure for label + badge */
-.ve-label { display:inline-block; vertical-align:middle; }
-.ve-count-badge {
-  display:inline-block; vertical-align:middle;
-  min-width: 2.2ch; padding: 0 .45em;
-  border-radius: 999px; line-height: 1.3;
-  font-variant-numeric: tabular-nums; text-align: center;
-}
-.ve-count-badge.is-zero { opacity:0; visibility:hidden; }
-</style>
-<script>
-(function(){
-  if (window.__forceViewEquipmentLabelInstalled__) return;
-  window.__forceViewEquipmentLabelInstalled__ = true;
-
-  var BASE_TEXT = 'View Equipment';
-
-  function getCount(){
-    try {
-      if (typeof selectedProducts === 'function') {
-        var a = selectedProducts();
-        if (Array.isArray(a)) return a.length;
-      }
-    } catch(e){}
-    var n = 0;
-    try {
-      if (window.state) {
-        if (state.tractors && state.tractors.size) n += state.tractors.size;
-        if (state.attachments && state.attachments.size) n += state.attachments.size;
-        if (!n && Array.isArray(state.data)) {
-          n = state.data.filter(function(p){ return p && (p.selected || p.__selected); }).length;
-        }
-      }
-    } catch(e){}
-    return n || 0;
-  }
-
-  function buildStructure(btn){
-    if (!btn) return null;
-    var label = btn.querySelector && btn.querySelector('.ve-label');
-    var badge = btn.querySelector && btn.querySelector('.ve-count-badge');
-    if (label && badge) return {label, badge};
-    // Rebuild cleanly
-    var count = btn.__vePrevCount || 0;
-    btn.innerHTML = '';
-    label = document.createElement('span');
-    label.className = 've-label';
-    label.textContent = BASE_TEXT;
-    badge = document.createElement('span');
-    badge.className = 've-count-badge' + (count>0 ? '' : ' is-zero');
-    badge.textContent = String(count);
-    if (!count) badge.setAttribute('aria-hidden','true');
-    btn.appendChild(label);
-    btn.appendChild(badge);
-    return {label, badge};
-  }
-
-  function enforceLabel(btn){
-    if (!btn) return;
-    var parts = buildStructure(btn);
-    if (!parts) return;
-    if (parts.label.textContent !== BASE_TEXT) {
-      parts.label.textContent = BASE_TEXT;
-    }
-  }
-
-  function updateBadge(btn){
-    if (!btn) return;
-    var parts = buildStructure(btn);
-    if (!parts) return;
-    var count = getCount();
-    if (btn.__vePrevCount === count) return;
-    btn.__vePrevCount = count;
-    parts.badge.textContent = String(count);
-    if (count > 0){
-      parts.badge.classList.remove('is-zero');
-      parts.badge.removeAttribute('aria-hidden');
-      btn.classList && btn.classList.add('has-selection');
-      btn.setAttribute('aria-label', BASE_TEXT + ' — ' + count + ' selected');
-    } else {
-      parts.badge.classList.add('is-zero');
-      parts.badge.setAttribute('aria-hidden','true');
-      btn.classList && btn.classList.remove('has-selection');
-      btn.setAttribute('aria-label', BASE_TEXT);
-    }
-  }
-
-  function applyAll(){
-    ['msbStep1','btnGoStep2'].forEach(function(id){
-      var btn = document.getElementById(id);
-      if (!btn) return;
-      enforceLabel(btn);
-      updateBadge(btn);
-    });
-  }
-
-  // MutationObservers to *force* the label back if any script changes it
-  function watch(btn){
-    if (!btn || btn.__veWatcher) return;
-    btn.__veWatcher = true;
-    var mo = new MutationObserver(function(){
-      enforceLabel(btn);
-      updateBadge(btn);
-    });
-    try { mo.observe(btn, {childList:true, subtree:true, characterData:true}); } catch(e){}
-  }
-
-  function init(){
-    applyAll();
-    ['msbStep1','btnGoStep2'].forEach(function(id){ var b=document.getElementById(id); if (b) watch(b); });
-  }
-
-  // Wrap/override any prior updaters so they cannot change the label
-  var prevBtns = window.__updateViewEquipmentButtons;
-  window.__updateViewEquipmentButtons = function(){ if (typeof prevBtns==='function') try{prevBtns();}catch(e){} applyAll(); };
-  var prevLbls = window.__updateViewEquipmentLabels;
-  window.__updateViewEquipmentLabels = function(){ if (typeof prevLbls==='function') try{prevLbls();}catch(e){} applyAll(); };
-
-  if (document.readyState !== 'loading') init();
-  else document.addEventListener('DOMContentLoaded', init);
-
-  // Keep it in sync on common events & modal/grid changes
-  ['click','change','input','selectionchange'].forEach(function(evt){
-    document.addEventListener(evt, function(){ requestAnimationFrame(applyAll); }, true);
-  });
-  try {
-    var mo = new MutationObserver(function(){ requestAnimationFrame(applyAll); });
-    mo.observe(document.body, {childList:true, subtree:true});
-  } catch(e){}
-})();
-</script>
-
-<script>(function(){if(window.__toggleAwareBadgePatchInstalled__)return;window.__toggleAwareBadgePatchInstalled__=true;
-function getModalActiveRowCount(){try{var modal=document.getElementById('modal');var host=document.getElementById('modalContent');if(!modal||!host)return null;var visible=(modal.style.display&&modal.style.display!=='none')||(modal.getAttribute('aria-hidden')!=='true');if(!visible)return null;var tbody=host.querySelector('table tbody');var rows=tbody?Array.from(tbody.querySelectorAll('tr')):Array.from(host.querySelectorAll('table tr'));rows=rows.filter(function(r){if(r.querySelector('th'))return false;var txt=(r.textContent||'').trim();if(!txt)return false;if(/no\s+products/i.test(txt))return false;return true;});function rowIsActive(r){if(r.matches('[data-removed=\"true\"], .removed, .inactive, .is-removed'))return false;var sw=r.querySelector('[role=\"switch\"], input[type=\"checkbox\"], .switch, .toggle, [aria-pressed]');if(sw){if(sw.hasAttribute('aria-pressed')){var pressed=(sw.getAttribute('aria-pressed')||'').toLowerCase()==='true';if(pressed)return false;}if(sw.type==='checkbox'){if(sw.checked)return false;}if(sw.matches('[data-removed=\"true\"], .removed, .inactive, .is-removed'))return false;}var btn=r.querySelector('button, a');if(btn){var t=(btn.textContent||'').toLowerCase();if(/\brestore\b/.test(t))return false;if(/\bremove\b/.test(t))return true;}return true;}var active=rows.filter(rowIsActive);return active.length;}catch(e){return null;}}
-(function(){var prev=window.__updateViewEquipmentButtons;window.__updateViewEquipmentButtons=function(){var c=getModalActiveRowCount();if(typeof c==='number'){['msbStep1','btnGoStep2'].forEach(function(id){var btn=document.getElementById(id);if(!btn)return;var badge=btn.querySelector('.ve-count-badge');if(!badge){btn.innerHTML='<span class=\"ve-label\">View Equipment</span><span class=\"ve-count-badge is-zero\">0</span>';badge=btn.querySelector('.ve-count-badge');}if(btn.__vePrevCount!==c){btn.__vePrevCount=c;badge.textContent=String(c);if(c>0){badge.classList.remove('is-zero');badge.removeAttribute('aria-hidden');btn.classList&&btn.classList.add('has-selection');btn.setAttribute('aria-label','View Equipment — '+c+' selected');}else{badge.classList.add('is-zero');badge.setAttribute('aria-hidden','true');btn.classList&&btn.classList.remove('has-selection');btn.setAttribute('aria-label','View Equipment');}}});}if(typeof prev==='function'){try{prev();}catch(e){}}};})();function hookModalToggles(){var host=document.getElementById('modalContent');if(!host||host.__toggleAwareHooked)return;host.__toggleAwareHooked=true;function schedule(){setTimeout(function(){try{window.__updateViewEquipmentButtons();}catch(e){}},0);setTimeout(function(){try{window.__updateViewEquipmentButtons();}catch(e){}},120);setTimeout(function(){try{window.__updateViewEquipmentButtons();}catch(e){}},360);}host.addEventListener('click',function(e){var t=e.target;var ctrl=t&&t.closest&&t.closest('[role=\"switch\"], input[type=\"checkbox\"], .switch, .toggle, [aria-pressed], button, a');if(!ctrl)return;schedule();},true);host.addEventListener('change',function(e){var t=e.target;if(!t)return;if(t.matches('[role=\"switch\"], input[type=\"checkbox\"], .switch, .toggle, [aria-pressed]')){schedule();}},true);var mo=new MutationObserver(function(){schedule();});try{mo.observe(host,{childList:true,subtree:true,attributes:true,attributeFilter:['class','aria-pressed','data-removed','checked']});}catch(e){}}if(document.readyState!=='loading')hookModalToggles();else document.addEventListener('DOMContentLoaded',hookModalToggles);var rootMo=new MutationObserver(hookModalToggles);try{rootMo.observe(document.body,{childList:true,subtree:true});}catch(e){}})();</script>
-
-<script>
-(function(){
-  if (window.__bindRemoveRestoreToBadgeInstalled__) return;
-  window.__bindRemoveRestoreToBadgeInstalled__ = true;
-
-  function refreshBadgeNow(){
-    try { if (typeof window.__updateViewEquipmentButtons === 'function') window.__updateViewEquipmentButtons(); } catch(e){}
-    try { if (typeof window.__updateViewEquipmentLabels === 'function') window.__updateViewEquipmentLabels(); } catch(e){}
-  }
-
-  function isRemoveRestoreButton(el){
-    if (!el) return false;
-    if (el.matches('[data-action="remove"],[data-action="restore"],.btn-remove,.btn-restore,.remove,.restore')) return true;
-    var txt = (el.textContent || '').trim().toLowerCase();
-    return txt === 'remove' || txt === 'restore';
-  }
-
-  function bindInModal(){
-    var host = document.getElementById('modalContent');
-    if (!host || host.__removeRestoreBound) return;
-    host.__removeRestoreBound = true;
-
-    // Clicks
-    host.addEventListener('click', function(e){
-      var btn = e.target && e.target.closest && e.target.closest('button, a');
-      if (!btn || !isRemoveRestoreButton(btn)) return;
-      // Run after the app toggles the row
-      setTimeout(refreshBadgeNow, 0);
-      setTimeout(refreshBadgeNow, 120);
-      setTimeout(refreshBadgeNow, 360);
-    }, true);
-
-    // Keyboard activation on focused button (Enter/Space)
-    host.addEventListener('keydown', function(e){
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      var el = document.activeElement;
-      if (!el) return;
-      var btn = el.closest && el.closest('button, a');
-      if (!btn || !isRemoveRestoreButton(btn)) return;
-      setTimeout(refreshBadgeNow, 0);
-      setTimeout(refreshBadgeNow, 120);
-      setTimeout(refreshBadgeNow, 360);
-    }, true);
-
-    // Also watch for label flips between Remove/Restore and update
-    var mo = new MutationObserver(function(muts){
-      var changed = muts.some(function(m){
-        return m.type === 'childList' || (m.type === 'characterData');
-      });
-      if (changed) setTimeout(refreshBadgeNow, 0);
-    });
-    try { mo.observe(host, {subtree:true, childList:true, characterData:true}); } catch(e){}
-  }
-
-  if (document.readyState !== 'loading') bindInModal();
-  else document.addEventListener('DOMContentLoaded', bindInModal);
-
-  // Re-bind if modal is re-rendered
-  var rootMo = new MutationObserver(bindInModal);
-  try { rootMo.observe(document.body, {childList:true, subtree:true}); } catch(e){}
-})();
-</script>
-
-<script>(function(){if(window.__bindRemoveRestoreToTotalInstalled__)return;window.__bindRemoveRestoreToTotalInstalled__=true;
-function safeUpdateTotal(){try{if(typeof updateTotal==='function')updateTotal();}catch(e){}try{var host=document.getElementById('modalContent');var out=document.getElementById('savePrintTotal');if(!host||!out)return;var tbody=host.querySelector('table tbody');var rows=tbody?Array.from(tbody.querySelectorAll('tr')):Array.from(host.querySelectorAll('table tr'));rows=rows.filter(function(r){return !r.querySelector('th');});var total=0;rows.forEach(function(r){var isRemoved=r.classList.contains('soft-re...
-function refreshBadge(){try{if(typeof window.__updateViewEquipmentButtons==='function')window.__updateViewEquipmentButtons();}catch(e){}try{if(typeof window.__updateViewEquipmentLabels==='function')window.__updateViewEquipmentLabels();}catch(e){}}
-function scheduleAll(){setTimeout(function(){safeUpdateTotal();refreshBadge();},0);setTimeout(function(){safeUpdateTotal();refreshBadge();},120);setTimeout(function(){safeUpdateTotal();refreshBadge();},360);}
-function bindInModal(){var host=document.getElementById('modalContent');if(!host||host.__totalAndBadgeBound)return;host.__totalAndBadgeBound=true;function isRemoveRestore(el){if(!el)return false;if(el.matches('[data-action=\"remove\"],[data-action=\"restore\"],.btn-remove,.btn-restore,.remove,.restore'))return true;var t=(el.textContent||'').trim().toLowerCase();return t==='remove'||t==='restore';}
-host.addEventListener('click',function(e){var btn=e.target&&e.target.closest&&e.target.closest('button,a');if(!btn||!isRemoveRestore(btn))return;scheduleAll();},true);
-host.addEventListener('change',function(e){var el=e.target;if(!el)return;if(el.matches('[role=\"switch\"], input[type=\"checkbox\"], .switch, .toggle, [aria-pressed]'))scheduleAll();},true);
-var mo=new MutationObserver(function(muts){scheduleAll();});try{mo.observe(host,{childList:true,subtree:true,attributes:true,attributeFilter:['class','aria-pressed','data-removed','checked']});}catch(e){}}
-if(document.readyState!=='loading')bindInModal();else document.addEventListener('DOMContentLoaded',bindInModal);
-var rootMo=new MutationObserver(bindInModal);try{rootMo.observe(document.body,{childList:true,subtree:true});}catch(e){}
-})();</script>
-<script>(function(){if(window.__badgeSyncToTotalInstalled__)return;window.__badgeSyncToTotalInstalled__=true;
-function modalVisible(){var modal=document.getElementById('modal');return !!(modal&&((modal.style.display&&modal.style.display!=='none')||(modal.getAttribute('aria-hidden')!=='true')));}
-function countActiveRowsInModal(){try{var host=document.getElementById('modalContent');if(!host)return null;var tbody=host.querySelector('table tbody');var rows=tbody?Array.from(tbody.querySelectorAll('tr')):Array.from(host.querySelectorAll('table tr'));rows=rows.filter(function(r){if(r.querySelector('th'))return false;var txt=(r.textContent||'').trim();if(!txt)return false;if(/no\s+products/i.test(txt))return false;return true;});function rowIsActive(r){if(r.matches('[data-removed=\"true\"], .removed, .inactive, .is-removed, .soft-removed'))return false;var btn=r.querySelector('button,a');if(btn){var t=(btn.textContent||'').toLowerCase();if(/\brestore\b/.test(t))return false;}var sw=r.querySelector('[role=\"switch\"], input[type=\"checkbox\"], .switch, .toggle, [aria-pressed]');if(sw){if(sw.hasAttribute('aria-pressed')){var pressed=(sw.getAttribute('aria-pressed')||'').toLowerCase()==='true';if(pressed)return false;}if(sw.type==='checkbox'&&sw.checked)return false;}return true;}return rows.filter(rowIsActive).length;}catch(e){return null;}}
-function pushCountToBadge(count){['msbStep1','btnGoStep2'].forEach(function(id){var btn=document.getElementById(id);if(!btn)return;var badge=btn.querySelector('.ve-count-badge');var label=btn.querySelector('.ve-label');if(!badge||!label){btn.innerHTML='<span class=\"ve-label\">View Equipment</span><span class=\"ve-count-badge is-zero\">0</span>';label=btn.querySelector('.ve-label');badge=btn.querySelector('.ve-count-badge');}if(btn.__vePrevCount===count)return;btn.__vePrevCount=count;badge.textContent=String(count);if(count>0){badge.classList.remove('is-zero');badge.removeAttribute('aria-hidden');btn.classList&&btn.classList.add('has-selection');btn.setAttribute('aria-label','View Equipment — '+count+' selected');}else{badge.classList.add('is-zero');badge.setAttribute('aria-hidden','true');btn.classList&&btn.classList.remove('has-selection');btn.setAttribute('aria-label','View Equipment');}});}
-function refreshFromModal(){if(!modalVisible())return;var c=countActiveRowsInModal();if(typeof c==='number')pushCountToBadge(c);}
-function watchTotal(){var out=document.getElementById('savePrintTotal');if(!out||out.__badgeSyncObserved)return;out.__badgeSyncObserved=true;var mo=new MutationObserver(function(){setTimeout(refreshFromModal,0);});try{mo.observe(out,{childList:true,characterData:true,subtree:true});}catch(e){}}
-function watchModal(){var host=document.getElementById('modalContent');if(!host||host.__badgeSyncModalObserved)return;host.__badgeSyncModalObserved=true;var mo=new MutationObserver(function(){setTimeout(refreshFromModal,0);});try{mo.observe(host,{childList:true,subtree:true,attributes:true,attributeFilter:['class','aria-pressed','data-removed','checked']});}catch(e){}}
-function init(){watchTotal();watchModal();setTimeout(refreshFromModal,0);setTimeout(refreshFromModal,150);}
-if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);
-var rootMo=new MutationObserver(init);try{rootMo.observe(document.body,{childList:true,subtree:true});}catch(e){}
-})();</script>
-
-<script>
-(function(){
-  if (window.__removeRestoreDominantCounterInstalled__) return;
-  window.__removeRestoreDominantCounterInstalled__ = true;
-
-  // Count items in the modal purely by the row's action button text.
-  // Active items show a button labeled "Remove". Removed items show "Restore".
-  function countActiveByButton(){
-    var host = document.getElementById('modalContent');
-    if (!host) return null;
-    var modal = document.getElementById('modal');
-    var visible = modal && ((modal.style.display && modal.style.display !== 'none') || (modal.getAttribute('aria-hidden') !== 'true'));
-    if (!visible) return null;
-
-    // Each item can be a row or card. Strategy:
-    // Count containers that currently contain a button/link whose text includes "Remove".
-    var nodes = host.querySelectorAll('tr, .selection-row, .saveprint-row, .sp-row, .sp-item, .review-row, .review-item, .saveprint-item, .card, .row');
-    if (!nodes.length) nodes = host.children; // fallback: top-level direct children
-
-    var active = 0;
-    Array.from(nodes).forEach(function(n){
-      // Look for a clickable control within this node
-      var ctrl = n.querySelector('button, a');
-      if (!ctrl) return;
-      var txt = (ctrl.textContent || '').toLowerCase();
-      if (txt.includes('remove')) active += 1;
-    });
-    // If we couldn't find any nodes with explicit remove buttons but there ARE restore buttons,
-    // infer zero active and let other heuristics kick in from earlier patches.
-    return active;
-  }
-
-  function pushCountToBadge(count){
-    ['msbStep1','btnGoStep2'].forEach(function(id){
-      var btn = document.getElementById(id);
-      if (!btn) return;
-      var badge = btn.querySelector('.ve-count-badge');
-      var label = btn.querySelector('.ve-label');
-      if (!badge || !label){
-        btn.innerHTML = '<span class="ve-label">View Equipment</span><span class="ve-count-badge is-zero">0</span>';
-        label = btn.querySelector('.ve-label');
-        badge = btn.querySelector('.ve-count-badge');
-      }
-      if (btn.__vePrevCount === count) return;
-      btn.__vePrevCount = count;
-      badge.textContent = String(count);
-      if (count > 0){
-        badge.classList.remove('is-zero');
-        badge.removeAttribute('aria-hidden');
-        btn.classList && btn.classList.add('has-selection');
-        btn.setAttribute('aria-label', 'View Equipment — ' + count + ' selected');
-      } else {
-        badge.classList.add('is-zero');
-        badge.setAttribute('aria-hidden','true');
-        btn.classList && btn.classList.remove('has-selection');
-        btn.setAttribute('aria-label', 'View Equipment');
-      }
-    });
-  }
-
-  function applyModalButtonCount(){
-    var n = countActiveByButton();
-    if (typeof n === 'number') pushCountToBadge(n);
-  }
-
-  // Hook into existing update signals (clicks/mutations/total changes already installed earlier)
-  // and also recompute based purely on the button text which matches your UI.
-  var host = document.getElementById('modalContent');
-  if (host){
-    host.addEventListener('click', function(e){
-      var t = e.target;
-      var btn = t && t.closest && t.closest('button,a');
-      if (!btn) return;
-      var text = (btn.textContent || '').toLowerCase();
-      if (text.includes('remove') || text.includes('restore')){
-        setTimeout(applyModalButtonCount, 0);
-        setTimeout(applyModalButtonCount, 120);
-        setTimeout(applyModalButtonCount, 360);
-      }
-    }, true);
-
-    var mo = new MutationObserver(function(){
-      setTimeout(applyModalButtonCount, 0);
-    });
-    try { mo.observe(host, {childList:true, subtree:true, characterData:true, attributes:true}); } catch(e){}
-  }
-
-  // Also run when the total changes (from earlier binding)
-  var out = document.getElementById('savePrintTotal');
-  if (out && !out.__rrdcb__) {
-    out.__rrdcb__ = true;
-    var mo2 = new MutationObserver(function(){ setTimeout(applyModalButtonCount, 0); });
-    try { mo2.observe(out, {childList:true, characterData:true, subtree:true}); } catch(e){}
-  }
-
-  // Initial pass
-  if (document.readyState !== 'loading') { setTimeout(applyModalButtonCount, 0); setTimeout(applyModalButtonCount, 150); }
-  else document.addEventListener('DOMContentLoaded', function(){ setTimeout(applyModalButtonCount, 0); setTimeout(applyModalButtonCount, 150); });
-
-  // Re-attach if modal re-renders
-  var rootMo = new MutationObserver(function(){ setTimeout(applyModalButtonCount, 0); });
-  try { rootMo.observe(document.body, {childList:true, subtree:true}); } catch(e){}
-})();
-</script>
-
-<script>(function(){
-  if (window.__saveprintFooterStickyPatchInstalled__) return;
-  window.__saveprintFooterStickyPatchInstalled__ = true;
-
-  function setFooterSavePrintActive(){
-    try {
-      if (typeof window.__setFooterActiveByScreen === 'function') {
-        window.__setFooterActiveByScreen('saveprint');
-        return;
-      }
-      if (typeof window.setActiveStep === 'function') {
-        // Do NOT navigate; just set the visual state if function supports it
-        try { setActiveStep('saveprint'); } catch(e) {}
-      }
-      // Add active class manually on known buttons
-      var rs = document.getElementById('msbStep2') || document.querySelector('[data-step="saveprint"], #msbStep2, #btnGoSavePrint');
-      if (rs && rs.classList) {
-        rs.classList.add('active','is-active','selected'); // whichever your CSS uses
-      }
-    } catch(e){}
-  }
-
-  function refreshBadge(){
-    try { if (typeof window.__updateViewEquipmentButtons === 'function') window.__updateViewEquipmentButtons(); } catch(e){}
-    try { if (typeof window.__updateViewEquipmentLabels === 'function') window.__updateViewEquipmentLabels(); } catch(e){}
-  }
-
-  function keepUserOnSavePrint(e, el){
-    // If it's an anchor with href="#"/"" or javascript:, block navigation
-    try {
-      if (!el) return;
-      if (el.tagName === 'A') {
-        var href = (el.getAttribute('href') || '').trim();
-        if (!href || href === '#' || href.toLowerCase().startsWith('javascript:')) {
-          e.preventDefault();
-          e.stopPropagation();
-          e.stopImmediatePropagation();
-        }
-      }
-    } catch(_){}
-  }
-
-  function bind(){
-    var host = document.getElementById('modalContent');
-    if (!host || host.__footerStickyBound) return;
-    host.__footerStickyBound = true;
-
-    host.addEventListener('click', function(e){
-      var btn = e.target && e.target.closest && e.target.closest('button, a');
-      if (!btn) return;
-      var label = (btn.textContent || '').toLowerCase();
-      var isRR = label.includes('remove') || label.includes('restore') || btn.matches('.remove,.restore,.btn-remove,.btn-restore,[data-action="remove"],[data-action="restore"]');
-      if (!isRR) return;
-
-      keepUserOnSavePrint(e, btn);
-
-      // After the app toggles the row, reassert the footer active state and refresh the badge
-      setTimeout(setFooterSavePrintActive, 0);
-      setTimeout(refreshBadge, 0);
-      setTimeout(setFooterSavePrintActive, 120);
-      setTimeout(refreshBadge, 120);
-      setTimeout(setFooterSavePrintActive, 360);
-      setTimeout(refreshBadge, 360);
-    }, true);
-
-    // If something programmatically flips rows and causes focus/blur, keep footer active
-    ['change','input'].forEach(function(evt){
-      host.addEventListener(evt, function(){ setTimeout(setFooterSavePrintActive, 0); }, true);
-    });
-  }
-
-  if (document.readyState !== 'loading') bind();
-  else document.addEventListener('DOMContentLoaded', bind);
-
-  var mo = new MutationObserver(bind);
-  try { mo.observe(document.body, {childList:true, subtree:true}); } catch(e){}
-})();</script>
-
-<script>
-(function(){
-  if (window.__leadDirectSendInstalled__) return;
-  window.__leadDirectSendInstalled__ = true;
-
-  // Endpoint can be replaced without touching code:
-  window.CONTACT_ENDPOINT = window.CONTACT_ENDPOINT || "https://formsubmit.co/ajax/doug.rehor@summittractors.com";
-
-  function buildPayloadFromDOM(){
-    function el(q){ return document.querySelector(q); }
-    return {
-      firstName: (el('#firstName')?.value||'').trim(),
-      lastName:  (el('#lastName')?.value||'').trim(),
-      email:     (el('#email')?.value||'').trim(),
-      phone:     (el('#phone')?.value||'').trim(),
-      zipcode:   (el('#zipcode')?.value||'').trim(),
-      city:      (el('#city')?.value||'').trim(),
-      state:     (el('#state')?.value||'').trim(),
-      method:    (el('#contactMethod')?.value||'').trim(),
-      times:     Array.from(el('#contactTimes')?.selectedOptions||[]).map(o=>o.value).join(', '),
-      comments:  (el('#comments')?.value||'').trim(),
-      selections: (typeof window.selectedProducts === 'function') ? JSON.stringify(selectedProducts()) : ''
-    };
-  }
-
-  function buildEmailText(p){
-    return [
-      'First Name: ' + (p.firstName||''),
-      'Last Name: ' + (p.lastName||''),
-      'Email: ' + (p.email||''),
-      'Phone: ' + (p.phone||''),
-      'Zip: ' + (p.zipcode||''),
-      'City/State: ' + (p.city||'') + (p.state?(', ' + p.state):''),
-      'Preferred Method: ' + (p.method||''),
-      'Best Times: ' + (p.times||''),
-      '',
-      'Comments:',
-      (p.comments||''),
-      '',
-      'Selections:',
-      (p.selections||'')
-    ].join('\n');
-  }
-
-  function showToast(msg, ok){
-    try {
-      var t = document.getElementById('toast');
-      if (!t) {
-        t = document.createElement('div');
-        t.id = 'toast';
-        t.style.position='fixed'; t.style.right='16px'; t.style.bottom='16px';
-        t.style.padding='12px 14px'; t.style.borderRadius='8px'; t.style.zIndex='99999';
-        t.style.boxShadow='0 4px 20px rgba(0,0,0,.18)';
-        t.style.background = ok ? '#165a33' : '#742a2a';
-        t.style.color = '#fff';
-        document.body.appendChild(t);
-      }
-      t.textContent = msg;
-      t.style.display='block';
-      setTimeout(()=>{ t.style.display='none'; }, 4000);
-    } catch(e){ alert(msg); }
-  }
-
-  async function sendDirect(p){
-    var formData = new FormData();
-    // FormSubmit expects keys; we put everything into message
-    formData.append('subject', 'New Summit Web Lead - ' + (p.firstName||'') + ' ' + (p.lastName||''));
-    formData.append('message', buildEmailText(p));
-    formData.append('_captcha', 'false');
-
-    try {
-      var res = await fetch(window.CONTACT_ENDPOINT, { method:'POST', body: formData });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      showToast('Thanks! Your message was sent.', true);
-      try { document.getElementById('leadModal')?.classList?.add('closing'); } catch(_){}
-      try { document.getElementById('leadClose')?.click(); } catch(_){}
-    } catch(err){
-      console.error('Direct send failed:', err);
-      showToast('Could not send right now. Please try again.', false);
-    }
-  }
-
-  // Replace the old mailto opener with a direct send
-  function openMailto(p){
-    // previous code navigated to mailto:. We now send directly.
-    sendDirect(p || buildPayloadFromDOM());
-  }
-
-  // Also intercept the submit button if present
-  (function bind(){
-    var btn = document.getElementById('leadSubmit') || document.querySelector('#leadModal [type="submit"], #leadModal .send');
-    if (!btn || btn.__directSendBound) return;
-    btn.__directSendBound = true;
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      var p = buildPayloadFromDOM();
-      openMailto(p);
-    }, true);
-  })();
-})();
-</script>
-
-
-<script>
-(function(){
-  if (window.__killMailtoInstalled__) return;
-  window.__killMailtoInstalled__ = true;
-
-  // Reuse builder/sender if defined earlier; otherwise define light versions
-  function buildPayloadFromDOM(){
-    function el(q){ return document.querySelector(q); }
-    return {
-      firstName: (el('#firstName')?.value||'').trim(),
-      lastName:  (el('#lastName')?.value||'').trim(),
-      email:     (el('#email')?.value||'').trim(),
-      phone:     (el('#phone')?.value||'').trim(),
-      zipcode:   (el('#zipcode')?.value||'').trim(),
-      city:      (el('#city')?.value||'').trim(),
-      state:     (el('#state')?.value||'').trim(),
-      method:    (el('#contactMethod')?.value||'').trim(),
-      times:     Array.from(el('#contactTimes')?.selectedOptions||[]).map(o=>o.value).join(', '),
-      comments:  (el('#comments')?.value||'').trim(),
-      selections: (typeof window.selectedProducts === 'function') ? JSON.stringify(selectedProducts()) : ''
-    };
-  }
-
-  async function sendDirect(p){
-    try {
-      var formData = new FormData();
-      formData.append('subject', 'New Summit Web Lead - ' + (p.firstName||'') + ' ' + (p.lastName||''));
-      var msg = [
-        'First Name: ' + (p.firstName||''),
-        'Last Name: ' + (p.lastName||''),
-        'Email: ' + (p.email||''),
-        'Phone: ' + (p.phone||''),
-        'Zip: ' + (p.zipcode||''),
-        'City/State: ' + (p.city||'') + (p.state?(', ' + p.state):''),
-        'Preferred Method: ' + (p.method||''),
-        'Best Times: ' + (p.times||''),
-        '',
-        'Comments:',
-        (p.comments||''),
-        '',
-        'Selections:',
-        (p.selections||'')
-      ].join('\n');
-      formData.append('message', msg);
-      formData.append('_captcha', 'false');
-      var endpoint = window.CONTACT_ENDPOINT || "https://formsubmit.co/ajax/doug.rehor@summittractors.com";
-      await fetch(endpoint, { method:'POST', body: formData });
-    } catch(e) {
-      console.warn('Direct send error:', e);
-    }
-  }
-
-  function interceptAndSend(e){
-    e?.preventDefault?.();
-    e?.stopPropagation?.();
-    var p = buildPayloadFromDOM();
-    try { sendDirect(p); } catch(_){}
-    return false;
-  }
-
-  // 1) Intercept clicks on any anchor with mailto:
-  document.addEventListener('click', function(e){
-    var a = e.target && e.target.closest && e.target.closest('a[href^="mailto:"]');
-    if (!a) return;
-    interceptAndSend(e);
-  }, true);
-
-  // 2) Intercept forms with mailto: action
-  document.addEventListener('submit', function(e){
-    var f = e.target;
-    if (!f || !f.action) return;
-    if (/^mailto:/i.test(f.action)) interceptAndSend(e);
-  }, true);
-
-  // 3) Intercept programmatic navigations to mailto:
-  (function(){
-    try {
-      var L = window.location;
-      var origAssign = L.assign.bind(L);
-      var origReplace = L.replace.bind(L);
-      L.assign = function(url){
-        if (String(url||'').toLowerCase().startsWith('mailto:')) return interceptAndSend();
-        return origAssign(url);
-      };
-      L.replace = function(url){
-        if (String(url||'').toLowerCase().startsWith('mailto:')) return interceptAndSend();
-        return origReplace(url);
-      };
-    } catch(_){}
-    try {
-      var origOpen = window.open;
-      window.open = function(url, name, specs){
-        if (String(url||'').toLowerCase().startsWith('mailto:')) return interceptAndSend();
-        return origOpen ? origOpen(url, name, specs) : null;
-      };
-    } catch(_){}
-  })();
-})();
-</script>
-
-
-<script>
-(function(){
-  if (window.__forceDirectMailHandlersInstalled__) return;
-  window.__forceDirectMailHandlersInstalled__ = true;
-
-  function buildPayloadFromDOM(){
-    function el(q){ return document.querySelector(q); }
-    return {
-      firstName: (el('#firstName')?.value||'').trim(),
-      lastName:  (el('#lastName')?.value||'').trim(),
-      email:     (el('#email')?.value||'').trim(),
-      phone:     (el('#phone')?.value||'').trim(),
-      zipcode:   (el('#zipcode')?.value||'').trim(),
-      city:      (el('#city')?.value||'').trim(),
-      state:     (el('#state')?.value||'').trim(),
-      method:    (el('#contactMethod')?.value||'').trim(),
-      times:     Array.from(el('#contactTimes')?.selectedOptions||[]).map(o=>o.value).join(', '),
-      comments:  (el('#comments')?.value||'').trim(),
-      selections: (typeof window.selectedProducts === 'function') ? JSON.stringify(selectedProducts()) : ''
-    };
-  }
-
-  async function sendDirect(p){
-    try {
-      var formData = new FormData();
-      formData.append('subject', 'New Summit Web Lead - ' + (p.firstName||'') + ' ' + (p.lastName||''));
-      var msg = [
-        'First Name: ' + (p.firstName||''),
-        'Last Name: ' + (p.lastName||''),
-        'Email: ' + (p.email||''),
-        'Phone: ' + (p.phone||''),
-        'Zip: ' + (p.zipcode||''),
-        'City/State: ' + (p.city||'') + (p.state?(', ' + p.state):''),
-        'Preferred Method: ' + (p.method||''),
-        'Best Times: ' + (p.times||''),
-        '',
-        'Comments:',
-        (p.comments||''),
-        '',
-        'Selections:',
-        (p.selections||'')
-      ].join('\\n');
-      formData.append('message', msg);
-      formData.append('_captcha', 'false');
-      var endpoint = window.CONTACT_ENDPOINT || "https://formsubmit.co/ajax/doug.rehor@summittractors.com";
-      await fetch(endpoint, { method:'POST', body: formData });
-      try {
-        var t = document.getElementById('toast'); if (!t){ t=document.createElement('div'); t.id='toast'; t.style.cssText='position:fixed;right:16px;bottom:16px;padding:12px 14px;border-radius:8px;background:#165a33;color:#fff;z-index:99999'; document.body.appendChild(t); }
-        t.textContent='Thanks! Your message was sent.'; t.style.display='block'; setTimeout(()=>t.style.display='none', 4000);
-      } catch(_){}
-    } catch(e) {
-      console.warn('Direct send error:', e);
-      try {
-        var t = document.getElementById('toast'); if (!t){ t=document.createElement('div'); t.id='toast'; t.style.cssText='position:fixed;right:16px;bottom:16px;padding:12px 14px;border-radius:8px;background:#742a2a;color:#fff;z-index:99999'; document.body.appendChild(t); }
-        t.textContent='Could not send right now.'; t.style.display='block'; setTimeout(()=>t.style.display='none', 4000);
-      } catch(_){}
-    }
-  }
-
-  // Hard override any global mail helpers
-  window.openMail = function(payload){ return sendDirect(payload || buildPayloadFromDOM()); };
-  window.openMailto = function(payload){ return sendDirect(payload || buildPayloadFromDOM()); };
-
-  // Bind the contact form submit to direct send (prevents default navigation)
-  function bindForm(){
-    var form = document.getElementById('contactForm') || document.querySelector('#leadModal form, form[action^="mailto:"]');
-    if (!form || form.__directHooked) return;
-    form.__directHooked = true;
-    form.addEventListener('submit', function(e){
-      e.preventDefault(); e.stopPropagation();
-      var p = buildPayloadFromDOM();
-      sendDirect(p);
-      return false;
-    }, true);
-    // Also bind a visible submit button
-    var btn = document.getElementById('leadSubmit') || form.querySelector('[type="submit"], .send');
-    if (btn && !btn.__directHooked){
-      btn.__directHooked = true;
-      btn.addEventListener('click', function(e){
-        e.preventDefault(); e.stopPropagation();
-        var p = buildPayloadFromDOM();
-        sendDirect(p);
-        return false;
-      }, true);
-    }
-  }
-
-  if (document.readyState !== 'loading') bindForm();
-  else document.addEventListener('DOMContentLoaded', bindForm);
-
-  // Rebind if modal DOM changes
-  var mo = new MutationObserver(bindForm);
-  try { mo.observe(document.body, {childList:true, subtree:true}); } catch(e){}
-})();</script>
-
 </body>
 <script id="csv-persistence">
 (function(){
@@ -7863,8 +6841,9 @@ document.addEventListener('DOMContentLoaded', function(){
         var items = selectedProducts();
         titleEl.textContent = 'Your Selections — Save or Print';
         if (!items.length){
-          content.innerHTML = '<div style="padding:12px;"><p>No products selected yet.</p></div>';
-          var closeBtn = content.querySelector('/* removed .player-close style */ catch(e){} };
+          content.innerHTML = '<button class="player-close" type="button" aria-label="Close">×</button><div style="padding:12px;"><p>No products selected yet.</p></div>';
+          var closeBtn = content.querySelector('.player-close');
+          if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; try { if (window.returnToStep2) setTimeout(window.returnToStep2, 0); } catch(e){} };
           modal.style.display = 'flex';
           return;
         }
@@ -7884,7 +6863,8 @@ document.addEventListener('DOMContentLoaded', function(){
         content.innerHTML = ''
 
         // Wire controls
-        var closeBtn = content.querySelector('/* removed .player-close style */ catch(e){} };
+        var closeBtn = content.querySelector('.player-close');
+        if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; try { if (window.returnToStep2) setTimeout(window.returnToStep2, 0); } catch(e){} };
         var btnPrint = content.querySelector('#sp_print');
         if (btnPrint) btnPrint.onclick = function(){ window.print(); };
         var btnCSV = content.querySelector('#sp_csv');
@@ -7977,7 +6957,12 @@ document.addEventListener('DOMContentLoaded', function(){
   function bindInternalViewer(){
     // Common ids/classes used earlier in this project
     var modal = document.getElementById("pdfViewerModal") || document.getElementById("modal");
-    var closeBtn = document.getElementById("pdfCloseBtn") || (modal ? modal.querySelector("/* removed .player-close style */);
+    var closeBtn = document.getElementById("pdfCloseBtn") || (modal ? modal.querySelector(".player-close, .modal-close") : null);
+    var printBtn = document.getElementById("pdfPrintBtn") || document.getElementById("sp_print");
+
+    if (closeBtn && !closeBtn.dataset._returnBound){
+      closeBtn.dataset._returnBound = "1";
+      closeBtn.addEventListener("click", function(){ setTimeout(goToViewSelect, 0); });
     }
     if (printBtn && !printBtn.dataset._returnBound){
       printBtn.dataset._returnBound = "1";
@@ -8159,6 +7144,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isYouTube){
         const src = toEmbed(url) || url;
         content.innerHTML = `
+          <button class="player-close" type="button" aria-label="Close">×</button>
           <div style="position:relative;padding-top:56.25%;">
             <iframe
               src="${src}"
@@ -8171,13 +7157,24 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>`;
       } else if (isMP4){
         content.innerHTML = `
+          <button class="player-close" type="button" aria-label="Close">×</button>
           <video src="${url}" controls playsinline style="width:100%;max-height:70vh;"></video>`;
       } else {
         content.innerHTML = `
+          <button class="player-close" type="button" aria-label="Close">×</button>
           <iframe src="${url}" style="width:100%;height:70vh;border:0;"></iframe>`;
       }
 
-      const x = content.querySelector('/* removed .player-close style */
+      const x = content.querySelector('.player-close');
+      if (x) x.addEventListener('click', closeAll);
+
+      modal.style.display = 'flex';
+
+      const escHandler = (e) => {
+        if (e.key === 'Escape') {
+          closeAll();
+          document.removeEventListener('keydown', escHandler);
+        }
       };
       document.addEventListener('keydown', escHandler, { once: true });
 
