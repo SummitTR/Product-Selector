@@ -1,4 +1,140 @@
 
+<style>
+/* Hide any footer stepbars on the Welcome screen across all layouts */
+body[data-active-screen="welcome"] .mobile-stepbar { display: none !important; }
+
+/* Bordered pills inside the contact form */
+#leadModal .btn-check + .btn,
+#leadModal .badge.rounded-pill,
+#leadModal .pill,
+#leadModal .form-select option {
+  border: 1px solid var(--brand-200);
+  border-radius: 20px;
+  padding: 0.35rem 0.75rem;
+  margin: 0.2rem;
+}
+
+/* Active/selected state */
+#leadModal .btn-check:checked + .btn,
+#leadModal .badge.rounded-pill.active,
+#leadModal .pill.active,
+#leadModal .form-select option:checked {
+  background-color: var(--brand-500);
+  color: #fff;
+  border-color: var(--brand-500);
+}
+
+/* Stronger borders for input boxes */
+#leadModal input[type="text"],
+#leadModal input[type="email"],
+#leadModal input[type="tel"],
+#leadModal input[type="number"],
+#leadModal textarea,
+#leadModal select {
+  border: 2px solid #254a4f !important;
+  border-radius: 12px;
+  padding: 0.6rem 0.75rem;
+}
+
+#leadModal input:focus,
+#leadModal textarea:focus,
+#leadModal select:focus {
+  border-color: #254a4f !important;
+  box-shadow: 0 0 0 4px rgba(37, 74, 79, 0.2);
+  outline: none;
+}
+
+/* Checkbox brand styling */
+#leadModal .form-check-input {
+  border: 2px solid #254a4f !important;
+  border-radius: 5px;
+}
+#leadModal .form-check-input:checked {
+  background-color: #254a4f !important;
+  border-color: #254a4f !important;
+}
+
+/* Modal title styling */
+#leadModal .modal-title {
+  font-size: 1.5rem !important; /* larger */
+  font-weight: 700 !important;  /* bold */
+}
+
+/* Pill chips for Preferred Times */
+#leadModal .btn-outline-pill {
+  border: 2px solid #254a4f;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  margin: 0.25rem 0.35rem 0.25rem 0;
+  color: #254a4f;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-block;
+  user-select: none;
+}
+#leadModal .btn-outline-pill:hover {
+  background-color: rgba(37,74,79,0.08);
+}
+#leadModal .btn-check:checked + .btn-outline-pill {
+  background-color: #254a4f;
+  color: #fff;
+  border-color: #254a4f;
+}
+#leadModal .pill-group { display: flex; flex-wrap: wrap; align-items: center; }
+
+/* Strong brand border around each input card */
+#leadModal .card {
+  border: 2px solid #254a4f !important;
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+/* Arrange Preferred Times pills in two rows */
+#leadModal #contactTimesPills {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 420px; /* constrain width to encourage wrapping */
+}
+#leadModal #contactTimesPills label.btn-outline-pill {
+  flex: 1 1 calc(50% - 0.75rem); /* about half-width per pill */
+  text-align: center;
+}
+
+/* Stronger emphasis on modal title */
+#leadModal .modal-title {
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+}
+
+/* Anchor-as-button styling */
+#leadModal a.btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+}
+#leadModal a.btn-primary {
+  background: #254a4f !important;
+  border: 2px solid #254a4f !important;
+  color: #ffffff !important;
+}
+#leadModal a.btn-primary:hover { filter: brightness(0.95); }
+
+/* Backup actions under the submit button */
+#leadModal .backup-mail-actions{
+  margin-top: 8px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+#leadModal .backup-mail-actions a{
+  text-decoration: underline;
+  font-weight: 600;
+}
+</style>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -125,15 +261,8 @@ header.appbar .brand-title .brand-bottom { font-size:28px; font-weight:700; opac
 
 /* Overlay close button on the player */
 .dialog .content { position: relative; }
-.player-close{
-  position:absolute; top:8px; right:8px;
-  background: rgba(0,0,0,.6); color:#fff;
-  border: 1px solid rgba(255,255,255,.35);
-  border-radius: 999px; width: 32px; height: 32px;
-  line-height: 30px; text-align: center; font-weight: 700;
-  cursor: pointer;
-}
-.player-close:focus{ outline:2px solid var(--ring); outline-offset:2px; }
+/* removed .player-close style */
+/* removed .player-close style */
 
 /* Selected card highlight & badge */
 .card, .pane { position: relative; }
@@ -413,7 +542,6 @@ button.see-details{
 button.see-details:hover{ opacity:.9 }
 button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); outline-offset:2px }
 
-
 /* Prominent See Details button (non-invasive) */
 button.see-details{
   background:#ffb703;
@@ -437,7 +565,9 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
   }
 
   /* Desktop (≥1025px): ensure footer menu never shows */
-  /* removed rule hiding .mobile-stepbar on wide screens */
+  @media (min-width: 1025px) {
+    .mobile-stepbar { display: none !important; }
+  }
 </style>
 <!-- MOBILE_TABLET_OVERRIDES START -->
 <style>
@@ -467,7 +597,9 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
   }
 
   /* Desktop (≥1025px): ensure footer never shows */
-  /* removed rule hiding .mobile-stepbar on wide screens */
+  @media (min-width: 1025px) {
+    .mobile-stepbar { display: none !important; }
+  }
 </style>
 <!-- MOBILE_TABLET_OVERRIDES END -->
 <style>
@@ -657,7 +789,6 @@ header .brand, .header .brand, .topbar .brand {
 .brand-title-desktop { display: none; 
 .brand-title-mobile { display: block; }
 
-
   .appbar .brand {
     display: flex;
     align-items: center;
@@ -741,7 +872,7 @@ header .brand, .header .brand, .topbar .brand {
 @media print {
   @page { size: Letter; margin: 12mm; }
   body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  header.appbar, .footer, .controls.no-print, .no-print, .modal .player-close { display:none !important; }
+  header.appbar, .footer, .controls.no-print, .no-print, .modal /* removed .player-close style */
   /* Ensure the inline print area uses full width */
   #printArea { page-break-inside: auto; }
   #printArea table { page-break-inside: auto; }
@@ -886,9 +1017,6 @@ header [role="button"]:hover {
   border: 4px solid #254a4f;
 }
 
-
-
-
 .card:hover, .card.selected:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   background-color: #f9fdfd;
@@ -1015,43 +1143,327 @@ header.appbar .brand-top{ display:none !important; }
 </style>
 
 <style id="hide-legacy-mobile-footer">
-/* removed rule hiding #mobileFooter on wide screens */
+@media (max-width: 768px){
+  #mobileFooter { display: none !important; }
+}
 </style>
 
 <style>
-/* Ensure the footer stepbar is visible across desktop/tablet/mobile */
-.mobile-stepbar#mobileFooter {
-  position: sticky;
-  bottom: 0;
-  z-index: 1000;
-  display: flex !important;
-  gap: 12px;
-  padding: 12px 16px;
-  background: #ffffff;
-  border-top: 1px solid rgba(0,0,0,0.08);
+/* Active footer button (inverse fill) */
+.mobile-stepbar#mobileFooter > button.footer-active {
+  background: #254a2f !important;
+  color: #ffffff !important;
+  border-color: #254a2f !important;
 }
-@supports (position: sticky) {
-  .mobile-stepbar#mobileFooter { position: sticky; }
+.mobile-stepbar#mobileFooter > button.footer-active:hover {
+  filter: brightness(0.95);
 }
-/* Fallback for older browsers */
-@supports not (position: sticky) {
-  .mobile-stepbar#mobileFooter { position: fixed; left:0; right:0; }
+</style>
+
+<style>
+/* Primary toolbar button style */
+#findRetailerToolbar {
+  background: #254a4f !important;
+  color: #ffffff !important;
+  border: 2px solid #254a4f !important;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
 }
-/* Make buttons consistent widths on desktop too */
-.mobile-stepbar#mobileFooter > button {
+#findRetailerToolbar:hover { filter: brightness(1.05); transform: translateY(-1px); }
+#findRetailerToolbar:focus { outline: 3px solid rgba(30,76,80,0.25); outline-offset: 2px; }
+</style>
+
+<style>
+/* Step 2 toolbar buttons evenly stretched */
+#step2Toolbar .actions-right {
+  display: flex;
+  gap: 10px;
+}
+#step2Toolbar .actions-right button {
   flex: 1 1 0;
+  text-align: center;
 }
 </style>
 
-
 <style>
-body[data-active-screen="welcome"] #mobileFooter { display: none !important; }
+/* Step 2 toolbar category filters: equal widths per row, wrap to multiple rows */
+#step2Toolbar .filters,
+#step2Toolbar .actions-left,
+#step2Toolbar .category-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+#step2Toolbar .filters button,
+#step2Toolbar .actions-left button,
+#step2Toolbar .category-filters button {
+  width: 100%;
+}
+</style>
+
+<style id="app-custom-patch">
+#interim-screen{ text-align:center; margin:20px auto; }
+#interim-screen h2{ color:#254a4f; margin-bottom:16px; }
+#interim-screen button{ margin:8px; min-width:140px; padding:10px 16px; font-size:14px; border-radius:6px; cursor:pointer; transition:background-color .2s,border-color .2s,color .2s }
+#interim-screen button.proceed{ background-color:#254a4f; border:1px solid #254a4f; color:#fff }
+#interim-screen button.proceed:hover{ background-color:#31666c; border-color:#31666c }
+#interim-screen button.proceed:active{ background-color:#183135; border-color:#183135 }
+#interim-screen button.notnow{ background:#fff; border:1px solid #254a4f; color:#254a4f }
+#interim-screen button.notnow:hover{ background:#f0f4f4; border-color:#31666c; color:#31666c }
+#interim-screen button.notnow:active{ background:#e0ebeb; border-color:#183135; color:#183135 }
 </style>
 
 
-<style>
-/* Hide footer completely when the welcome screen is active */
-#screen-welcome.active ~ #mobileFooter { display: none !important; }
+
+
+<style id="no-selection-modal-strong">
+#noSelectionOverlay.modal-overlay{ position:fixed !important; inset:0 !important; background:rgba(0,0,0,.4) !important; display:none !important; z-index:9998 !important; }
+#noSelectionOverlay.modal-overlay.show{ display:block !important; }
+#noSelectionMessage.modal-card{ position:fixed !important; left:50% !important; top:50% !important; transform:translate(-50%,-50%) !important; background:#fff !important; border-radius:12px !important; box-shadow:0 10px 32px rgba(0,0,0,.18) !important; width:92% !important; max-width:560px !important; padding:24px !important; text-align:left !important; display:none !important; z-index:9999 !important; }
+#noSelectionMessage.modal-card.show{ display:block !important; }
+#noSelectionMessage .modal-title{ margin:0 0 8px 0 !important; font-size:20px !important; line-height:1.3 !important; color:#254a4f !important; }
+#noSelectionMessage .modal-body p{ margin:0 !important; color:#333 !important; font-size:15px !important; line-height:1.6 !important; }
+#noSelectionMessage .modal-actions{ margin-top:18px !important; display:flex !important; gap:10px !important; justify-content:flex-end !important; flex-wrap:wrap !important; }
+#noSelectionMessage .btn{ padding:10px 16px !important; font-size:14px !important; border-radius:8px !important; cursor:pointer !important; transition:background-color .2s, border-color .2s, color .2s, box-shadow .2s !important; }
+#noSelectionMessage .btn-primary{ background-color:#254a4f !important; color:#fff !important; border:1px solid #254a4f !important; }
+#noSelectionMessage .btn-primary:hover{ background-color:#31666c !important; border-color:#31666c !important; }
+#noSelectionMessage .btn-primary:active{ background-color:#183135 !important; border-color:#183135 !important; }
+#noSelectionMessage .btn-outline{ background:#fff !important; color:#254a4f !important; border:1px solid #254a4f !important; }
+#noSelectionMessage .btn-outline:hover{ color:#31666c !important; border-color:#31666c !important; background:#f0f4f4 !important; }
+#noSelectionMessage .btn-outline:active{ color:#183135 !important; border-color:#183135 !important; background:#e0ebeb !important; }
+</style>
+
+
+<style id="brand-contact-form-styles">
+  :root {
+    --brand-500: #254a4f;       /* primary brand */
+    --brand-500-rgb: 37,74,79;  /* rgb for shadows/overlays */
+    --brand-50: rgba(37,74,79,0.04);
+    --brand-100: rgba(37,74,79,0.08);
+    --brand-200: rgba(37,74,79,0.16);
+    --brand-300: rgba(37,74,79,0.24);
+  }
+
+  /* Scope to the contact form modal */
+  #leadModal .modal-content {
+    border-radius: 14px;
+    border: 1px solid var(--brand-200);
+    box-shadow: 0 8px 24px rgba(var(--brand-500-rgb), 0.15);
+  }
+
+  #leadModal .modal-header {
+    background: var(--brand-500);
+    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+
+  #leadModal .modal-title {
+    color: #fff;
+    letter-spacing: 0.2px;
+    font-weight: 700;
+  }
+
+  #leadModal .btn-close {
+    filter: invert(1) grayscale(1) brightness(2);
+    opacity: 0.9;
+  }
+  #leadModal .btn-close:hover { opacity: 1; }
+
+  /* Cards around each input (if present) */
+  #leadModal .card {
+    border-color: var(--brand-200);
+    box-shadow: 0 2px 10px rgba(var(--brand-500-rgb), 0.06);
+  }
+  #leadModal .card-header {
+    background: var(--brand-50);
+    color: #0d1b1d;
+    font-weight: 600;
+  }
+
+  /* Labels & helper text */
+  #leadModal label {
+    color: #17373b;
+    font-weight: 600;
+  }
+  #leadModal .form-text, 
+  #leadModal .form-hint, 
+  #leadModal small {
+    color: #31585d;
+  }
+
+  /* Inputs, selects, textareas */
+  #leadModal input[type="text"],
+  #leadModal input[type="email"],
+  #leadModal input[type="tel"],
+  #leadModal input[type="number"],
+  #leadModal select,
+  #leadModal textarea {
+    border: 1px solid var(--brand-200);
+    border-radius: 10px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+
+  #leadModal input:focus,
+  #leadModal select:focus,
+  #leadModal textarea:focus {
+    border-color: var(--brand-500);
+    box-shadow: 0 0 0 3px rgba(var(--brand-500-rgb), 0.18);
+    outline: none;
+  }
+
+  /* Multi-select height */
+  #leadModal select[multiple] {
+    min-height: 8rem;
+  }
+
+  /* Checkboxes / radios */
+  #leadModal .form-check-input {
+    border-color: var(--brand-200);
+  }
+  /* Modern browsers */
+  #leadModal .form-check-input {
+    accent-color: var(--brand-500);
+  }
+  /* Bootstrap-like fallback */
+  #leadModal .form-check-input:checked {
+    background-color: var(--brand-500);
+    border-color: var(--brand-500);
+  }
+
+  /* Buttons */
+  #leadModal .btn-primary,
+  #leadModal button[type="submit"].btn {
+    background: var(--brand-500) !important;
+    border-color: var(--brand-500) !important;
+    color: #fff !important;
+  }
+  #leadModal .btn-primary:hover,
+  #leadModal button[type="submit"].btn:hover {
+    filter: brightness(0.95);
+  }
+
+  #leadModal .btn-secondary,
+  #leadModal .btn-outline,
+  #leadModal .btn.btn-outline-secondary {
+    background: transparent;
+    color: var(--brand-500);
+    border-color: var(--brand-500);
+  }
+  #leadModal .btn-secondary:hover,
+  #leadModal .btn-outline:hover,
+  #leadModal .btn.btn-outline-secondary:hover {
+    background: var(--brand-100);
+    color: var(--brand-500);
+    border-color: var(--brand-500);
+  }
+
+  /* Status area */
+  #leadModal #leadStatus {
+    border: 1px dashed var(--brand-300);
+    background: var(--brand-50);
+    color: #17373b;
+    border-radius: 10px;
+    padding: .75rem 1rem;
+  }
+
+  /* Captcha area (ids from your file) */
+  #leadModal #captchaQ {
+    background: var(--brand-50);
+    border: 1px solid var(--brand-200);
+    border-radius: 10px;
+    padding: .5rem .75rem;
+    font-weight: 600;
+    color: #17373b;
+  }
+  #leadModal #captchaA {
+    border: 1px solid var(--brand-200);
+  }
+
+  /* Focus visibility for a11y */
+  #leadModal :is(button, a, input, select, textarea):focus-visible {
+    outline: 3px solid rgba(var(--brand-500-rgb), 0.35);
+    outline-offset: 2px;
+  }
+
+  /* Minor spacing polish */
+  #leadModal .form-group,
+  #leadModal .mb-3 {
+    margin-bottom: 1rem;
+  }
+</style>
+
+<!-- Mobile-only optimization layer (non-destructive). 
+     Applies ONLY to phones (≤640px). Desktop & tablet remain unchanged. -->
+<style id="mobile-only-optimizations">
+@media (max-width: 640px){
+
+  /* Layout & spacing */
+  main{ padding: 12px !important; }
+  .grid{ grid-template-columns: 1fr !important; gap: 12px !important; }
+  .grid.cols-2, .grid.cols-3{ grid-template-columns: 1fr !important; }
+
+  /* Header tweaks (no feature removals) */
+  header.appbar{ padding: 8px 12px !important; gap: 8px !important; }
+  header.appbar .brand{ gap: 8px !important; }
+  header.appbar .brand-logo{ height: 36px; width: auto; }
+  header.appbar .brand-title .brand-top{ font-size: 18px !important; }
+  header.appbar .brand-title .brand-bottom{ font-size: 16px !important; }
+
+  /* Steps: make scrollable row if present */
+  nav.steps{ margin-top: 8px !important; overflow:auto; -webkit-overflow-scrolling:touch; }
+  nav.steps .step{ padding: 6px 10px !important; font-size: 14px !important; white-space: nowrap; }
+
+  /* Cards & media */
+  .card{ border-radius: 12px !important; }
+  .card .body{ padding: 10px !important; }
+  .card .media{ height: clamp(150px, 34vh, 240px) !important; }
+  .card .media img{ object-fit: contain !important; width: 100% !important; height: 100% !important; }
+
+  /* Carousel */
+  .carousel{ grid-template-columns: 40px 1fr 40px !important; gap: 6px !important; }
+  .carousel .pane{ padding: 10px !important; }
+  .carousel .pane .media{ height: clamp(180px, 36vh, 300px) !important; }
+  .thumbs{ gap: 6px !important; }
+  .thumbs img{ width: 48px !important; height: 48px !important; }
+
+  /* Toolbars & actions */
+  .toolbar{ gap: 8px !important; flex-wrap: wrap !important; }
+  .actions{ gap: 8px !important; flex-wrap: wrap !important; }
+  .actions > *{ flex: 1 1 100% !important; }
+
+  /* Forms */
+  input, select, textarea{ font-size: 16px !important; } /* prevent iOS zoom */
+  .form-row{ display: grid; grid-template-columns: 1fr !important; gap: 10px !important; }
+
+  /* Modal sizing */
+  .modal .dialog{ width: calc(100% - 24px) !important; margin: 6vh 12px 0 !important; max-height: 90dvh !important; }
+  .dialog .content .media{ max-height: 62dvh !important; }
+
+  /* Safe area & footer avoidance (do NOT change existing stepbars, just make room) */
+  .screen, .content, .container, main{ 
+    padding-bottom: max(90px, env(safe-area-inset-bottom, 0px) + 90px) !important; 
+  }
+  .sticky-actions{ 
+    position: sticky !important; 
+    bottom: env(safe-area-inset-bottom, 0px) !important; 
+    z-index: 20 !important; 
+  }
+
+  /* Typography */
+  h1{ font-size: 24px !important; line-height: 1.2 !important; }
+  h2{ font-size: 20px !important; line-height: 1.25 !important; }
+  h3{ font-size: 18px !important; line-height: 1.25 !important; }
+  p, li{ font-size: 16px !important; line-height: 1.45 !important; }
+
+  /* Welcome hero */
+  .welcome .hero{ padding: 16px !important; }
+  .welcome-grid{ grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important; gap: 10px !important; }
+  .welcome-thumb img{ height: 100px !important; }
+
+  /* Misc */
+  .hidden-mobile{ display: none !important; }
+}
 </style>
 
 </head>
@@ -1067,7 +1479,7 @@ body[data-active-screen="welcome"] #mobileFooter { display: none !important; }
 <div class="brand-title"><div class="brand-title-desktop"><div class="brand-line brand-line1">Summit Tractors Product Learning Center</div></div></div>
 <div class="brand-bottom"></div>
 </div>
-<nav class="grow"><div class="steps"><div class="step" data-step="step2">View &amp; Select Equipment</div><div class="step" data-step="saveprint">Save or Print Your Selections</div><div class="step" data-step="contact">Option: Send to a Summit Tractors Product Specialist to Discuss</div></div></nav>
+<nav class="grow"><div class="steps"><div class="step" data-step="step2">View &amp; Select Equipment</div><div class="step" data-step="saveprint">Review, Save or Print Your Selections</div><div class="step" data-step="contact">Option: Send to a Summit Tractors Product Specialist to Discuss</div></div></nav>
 <div class="controls no-print">
 <label class="btn ghost" for="csvInput">Import CSV</label>
 <input accept=".csv" id="csvInput" style="display:none" type="file"/>
@@ -1148,12 +1560,13 @@ body[data-active-screen="welcome"] #mobileFooter { display: none !important; }
 <div class="actions-right">
 <button id="selectAll" type="button">Select All</button>
 <button class="secondary" id="removeAll" type="button">Remove All</button>
+<button class="primary" id="findRetailerToolbar" type="button">Find a Retailer</button>
 </div><div class="instructions"><p>See details about Summit Tractors equipment products and select those that interest you to save, print, or optionally send to a Summit Tractors Product Specialist to discuss. View by All Products or by category. Select All or Remove All products at any time.</p></div>
 </div>
 </div>
 <div class="grid cols-3" id="attachmentsContainer"></div>
 </section><section class="screen" id="screen-saveprint">
-<h2>Save or Print Your Selections</h2>
+<h2>Review, Save or Print Your Selections</h2>
 <div class="print-summary" id="savePrintTarget"></div>
 <div class="toolbar">
 <button id="printBtn" type="button">Print</button>
@@ -1171,13 +1584,12 @@ body[data-active-screen="welcome"] #mobileFooter { display: none !important; }
 </div>
 </section>
 <section class="screen" id="screen-contact-intro">
-<h2>Talk with a Summit Tractors Product Specialist</h2>
+<h2>Send Your Selections To Summit Tractors</h2>
 <div class="card"><div class="body">
 <h3>Why send your selections?</h3>
 <ul class="kfeatures">
 <li><strong>Expert guidance</strong> on best-fit tractor &amp; attachments for your jobs.</li>
-<li><strong>Availability &amp; lead times</strong> at nearby Tractor Supply locations.</li>
-<li><strong>Package pricing</strong> options and current promotions.</li>
+<li><strong>Availability &amp; lead times</strong> at nearby retail locations.</li>
 </ul>
 <h3>What happens next?</h3>
 <ol class="kfeatures">
@@ -1186,8 +1598,9 @@ body[data-active-screen="welcome"] #mobileFooter { display: none !important; }
 <li>You can ask questions, compare options, and plan next steps.</li>
 </ol>
 <div class="toolbar">
-<button id="contactIntroProceed" type="button">Proceed</button>
-<button class="secondary" id="contactIntroLater" type="button">Not Now</button>
+<div id=\"interim-screen\"><div id=\"interim-screen\"><h2>Send Your Selections To Summit Tractors</h2>
+<button id="contactIntroProceed" class="proceed" class=\"proceed\">Proceed</button>
+<button id="contactIntroLater" class="notnow" class=\"notnow\">Not Now</button></div></div>
 </div>
 </div></div>
 </section>
@@ -1197,7 +1610,7 @@ body[data-active-screen="welcome"] #mobileFooter { display: none !important; }
 <div style="display:flex;gap:1rem;align-items:center; margin-bottom:1rem;">
 <img alt="Summit Tractors" height="auto" src="SUMMIT TRACTORS READY TO GO TO WORK LOGO - WHITE ON GREEN BACKGROUND.png" style="border-radius:8px;" width="120"/>
 <div>
-<div style="font-weight:700; font-size:1.25rem;">Talk with a Summit Tractors Product Specialist</div>
+<div style="font-weight:700; font-size:1.25rem;">Send Your Selections To Summit Tractors</div>
 <div style="font-size:0.95rem;color:#555">We’ll review your selections and make sure you get the right configuration, pricing, and next steps.</div>
 </div>
 </div>
@@ -1226,7 +1639,7 @@ body[data-active-screen="welcome"] #mobileFooter { display: none !important; }
 <div class="modal" id="leadModal">
 <div class="dialog">
 <header>
-<div>Send to Summit Product Specialist</div>
+<div>Send to a Summit Tractors Product Specialist</div>
 <button class="secondary" id="leadClose" type="button">Close</button>
 </header>
 <div class="content">
@@ -1252,15 +1665,32 @@ body[data-active-screen="welcome"] #mobileFooter { display: none !important; }
 </label>
 </div></div>
 <div class="card"><div class="body">
+
 <label>Preferred Times<br/>
-<select id="contactTimes" multiple="" size="5">
-<option>Weekdays</option>
-<option>Weekends</option>
-<option>Mornings</option>
-<option>Afternoons</option>
-<option>Evenings</option>
-</select>
+  <!-- Keep original select (hidden) for compatibility with existing JS -->
+  <select id="contactTimes" multiple size="5" style="display:none;">
+    <option>Weekday Mornings</option>
+    <option>Weekday Afternoons</option>
+    <option>Weekday Evenings</option>
+    <option>Saturday Mornings</option>
+  </select>
+
+  <!-- Visible pill group -->
+  <div id="contactTimesPills" class="pill-group" role="group" aria-label="Preferred Times">
+    <input type="checkbox" id="time-weekday-mornings" value="Weekday Mornings" class="btn-check">
+    <label class="btn btn-outline-pill" for="time-weekday-mornings">Weekday Mornings</label>
+
+    <input type="checkbox" id="time-weekday-afternoons" value="Weekday Afternoons" class="btn-check">
+    <label class="btn btn-outline-pill" for="time-weekday-afternoons">Weekday Afternoons</label>
+
+    <input type="checkbox" id="time-weekday-evenings" value="Weekday Evenings" class="btn-check">
+    <label class="btn btn-outline-pill" for="time-weekday-evenings">Weekday Evenings</label>
+
+    <input type="checkbox" id="time-saturday-mornings" value="Saturday Mornings" class="btn-check">
+    <label class="btn btn-outline-pill" for="time-saturday-mornings">Saturday Mornings</label>
+  </div>
 </label>
+
 </div></div>
 <div class="card" style="grid-column: 1/-1;"><div class="body">
 <label>Comments (optional)<br/><textarea id="comments" rows="3"></textarea></label>
@@ -1273,7 +1703,7 @@ body[data-active-screen="welcome"] #mobileFooter { display: none !important; }
 <label><input id="consent" required="" type="checkbox"/> I agree to be contacted by Summit Tractors.</label>
 </div></div>
 <div class="actions" style="grid-column: 1/-1; padding: 8px 0;">
-<button type="submit">Prepare Submission</button>
+<a id="leadSubmit" class="btn btn-primary" href="#">Submit</a><div class="backup-mail-actions" id="backupMailActions" style="display:none;"><a id="backupMailto" href="#">Open email manually</a><a id="downloadEML" href="#" class="secondary">Download email draft (.eml)</a></div>
 <button class="secondary" id="leadCopy" type="button">Copy JSON</button>
 <button class="secondary" id="leadDownload" type="button">Download JSON</button>
 </div>
@@ -1307,16 +1737,7 @@ body[data-active-screen="welcome"] #mobileFooter { display: none !important; }
         st.classList.toggle('active', st.dataset && st.dataset.step === id);
       });
       window.scrollTo(0,0);
-    
-      // TOGGLE_FOOTER_VIS: show footer on non-welcome, hide on welcome
-      try {
-        var footer = document.getElementById('mobileFooter');
-        if (footer) footer.style.display = (id === 'welcome') ? 'none' : '';
-      } catch(_){}
     }
-    // Patch: also mark body with the active screen id
-    try { document.body.setAttribute('data-active-screen', id); } catch(_) {}
-    
 
     const titleCase = (s) => s.replace(/\s+/g,' ').trim().toLowerCase().replace(/(^|[\s\-\'])\S/g, t => t.toUpperCase());
 
@@ -1397,8 +1818,6 @@ els('.step[data-step="contact"]').forEach(function(st){
   });
 });
 
-
-
 // Auto-open PDF when Save/Print is clicked
 els('.step[data-step="saveprint"]').forEach(function(st){
   st.addEventListener('click', function(){
@@ -1406,8 +1825,6 @@ els('.step[data-step="saveprint"]').forEach(function(st){
     if (typeof printSelectionsPDF === 'function') { openSavePrintInline(); }
   });
 });
-
-
 
 // Auto-open PDF when Save/Print menu item is pressed
 els('.step').forEach(function(st){
@@ -1419,7 +1836,6 @@ els('.step').forEach(function(st){
     }
   });
 });
-
 
       // Steps
       els('.step').forEach(st => st.addEventListener('click', () => setActiveStep(st.dataset.step)));
@@ -1465,7 +1881,7 @@ function buildDetailCard(p) {
         <h4>Detailed Description</h4><p style="margin-top:8px;">${p.DescriptionLong || ''}</p>
         <div class="actions"><button class="secondary" type="button" data-modal="seasonal-uses" data-id="${p.ProductID}">Seasonal Uses</button> 
           ${p.VideoURL ? `<button class="secondary" data-video="${p.ProductID}" type="button">Watch Video</button>`: ''}
-          ${p.BrochureURL ? `<button class="secondary" data-brochure="${p.ProductID}" type="button">View Brochure</button>`: ''}
+          ${p.BrochureURL ? `<button class="secondary" data-brochure="${p.ProductID}" type="button">View Specifications</button>`: ''}
           ${p.ManualURL ? `<button class="secondary" data-manual="${p.ProductID}" type="button">View Manual</button>`: ''}
         </div>
       </div>
@@ -1548,7 +1964,6 @@ function renderTractorCarousel() {
       });
     }
   } catch(e) {}
-
 
   if (!items || !items.length) {
     container.innerHTML = `<div class="muted" style="padding:12px">No products to display.</div>`;
@@ -1639,7 +2054,7 @@ function renderTractorCarousel() {
               <h4>Detailed Description</h4><p style="margin-top:8px;">${p.DescriptionLong || ''}</p>
               <div class="actions"><button class="secondary" type="button" data-action="seasonal-uses" data-id="${p.ProductID}">Seasonal Uses</button> 
                 ${p.VideoURL ? `<button class="secondary" data-video="${p.ProductID}" type="button">Watch Video</button>`: ''}
-                ${p.BrochureURL ? `<button class="secondary" data-brochure="${p.ProductID}" type="button">View Brochure</button>`: ''}
+                ${p.BrochureURL ? `<button class="secondary" data-brochure="${p.ProductID}" type="button">View Specifications</button>`: ''}
                 ${p.ManualURL ? `<button class="secondary" data-manual="${p.ProductID}" type="button">View Manual</button>`: ''}
               </div>
             </div>
@@ -1762,7 +2177,7 @@ function renderTractorCarousel() {
         selectedConfiguration: selectedProducts().map(p => ({ productId: p.ProductID, name: p.ProductName, sku: p.SKU })),
         leadSource: 'Product Learning Center App'
       };
-      el('#leadStatus').textContent = 'Submission prepared. You can copy or download the JSON now. (Wire your Salesforce Web-to-Lead endpoint to POST this payload.)';
+      el('#leadStatus').textContent = 'Submission ready. You can copy or download the JSON now. (Wire your Salesforce Web-to-Lead endpoint to POST this payload.)';
       el('#leadStatus').dataset.payload = JSON.stringify(payload, null, 2);
     }
 
@@ -1889,7 +2304,6 @@ window.addEventListener('load', function(){
         const embed = toYouTubeEmbed(url);
         const iframeSrc = embed || url;
         content.innerHTML = `
-          <button class="player-close" type="button" aria-label="Close">×</button>
           <div style="position:relative;padding-top:56.25%;">
             <iframe
               src="${iframeSrc}"
@@ -1902,16 +2316,13 @@ window.addEventListener('load', function(){
           </div>`;
       } else if (isMP4) {
         content.innerHTML = `
-          <button class="player-close" type="button" aria-label="Close">×</button>
           <video src="${url}" controls playsinline style="width:100%;max-height:70vh;"></video>`;
       } else {
         content.innerHTML = `
-          <button class="player-close" type="button" aria-label="Close">×</button>
           <iframe src="${url}" style="width:100%;height:70vh;border:0;"></iframe>`;
       }
 
-      const closeBtn = content.querySelector('.player-close');
-      if (closeBtn) closeBtn.onclick = () => { modal.style.display = 'none'; };
+      const closeBtn = content.querySelector('/* removed .player-close style */;
 
       modal.style.display = 'flex';
       const escHandler = (e) => { if (e.key === 'Escape') { modal.style.display='none'; document.removeEventListener('keydown', escHandler); } };
@@ -1942,22 +2353,7 @@ window.addEventListener('load', function(){
     const content = document.getElementById('modalContent');
     if (!modal || !content) return;
 
-    function ensureInlineClose(){
-      // If there's already an inline button, skip
-      if (content.querySelector('.player-close')) return;
-      // If there is an iframe or object (PDF) or video, add the button at the top
-      const hasViewer = content.querySelector('iframe,object,embed,video');
-      if (!hasViewer) return;
-
-      const btn = document.createElement('button');
-      btn.className = 'player-close';
-      btn.type = 'button';
-      btn.setAttribute('aria-label','Close');
-      btn.textContent = '×';
-      btn.addEventListener('click', () => {
-        if (typeof window.stopViewer === 'function') window.stopViewer();
-        modal.style.display = 'none';
-      });
+    function ensureInlineClose(){ /* disabled: remove floating X close button */ });
       // Ensure positioning context
       content.style.position = content.style.position || 'relative';
       content.prepend(btn);
@@ -2011,13 +2407,11 @@ window.addEventListener('load', function(){
 
       if (!uses.length){
         content.innerHTML = `
-          <button class="player-close" type="button" aria-label="Close">×</button>
           <div style="padding:12px;">
             <p>No seasonal uses are listed for this product.</p>
           </div>`;
       } else {
         content.innerHTML = `
-          <button class="player-close" type="button" aria-label="Close">×</button>
           <div style="padding:12px;">
             <h3 style="margin-top:0;">Seasonal Uses</h3>
             <ul style="margin:8px 0 0 18px; line-height:1.5;">
@@ -2026,8 +2420,7 @@ window.addEventListener('load', function(){
           </div>`;
       }
 
-      const closeBtn = content.querySelector('.player-close');
-      if (closeBtn) closeBtn.onclick = () => { content.innerHTML = ''; modal.style.display = 'none'; };
+      const closeBtn = content.querySelector('/* removed .player-close style */;
 
       modal.style.display = 'flex';
       const escHandler = (e) => { if (e.key === 'Escape') { content.innerHTML=''; modal.style.display='none'; document.removeEventListener('keydown', escHandler); } };
@@ -2077,10 +2470,9 @@ window.addEventListener('load', function(){
 
       if (!prod){
         titleEl.textContent = 'Seasonal Uses';
-        content.innerHTML = `<button class="player-close" type="button" aria-label="Close">×</button>
-          <div style="padding:12px;"><p>Sorry — no product selected.</p></div>`;
+        content.innerHTML = `<div style="padding:12px;"><p>Sorry — no product selected.</p></div>`;
         modal.style.display = 'flex';
-        content.querySelector('.player-close').onclick = () => { content.innerHTML=''; modal.style.display='none'; };
+        /* removed player-close handler */ modal.style.display='none'; };
         return;
       }
 
@@ -2088,8 +2480,7 @@ window.addEventListener('load', function(){
       titleEl.textContent = (prod.ProductName || 'Seasonal Uses');
 
       if (!seasons || !Object.keys(seasons).length){
-        content.innerHTML = `<button class="player-close" type="button" aria-label="Close">×</button>
-          <div style="padding:12px;"><p>No Seasonal Uses are listed for this product.</p></div>`;
+        content.innerHTML = `<div style="padding:12px;"><p>No Seasonal Uses are listed for this product.</p></div>`;
       } else {
         const blocks = Object.entries(seasons).map(([season, items]) => `
           <section style="margin:8px 0 12px;">
@@ -2099,15 +2490,13 @@ window.addEventListener('load', function(){
             </ul>
           </section>
         `).join('');
-        content.innerHTML = `<button class="player-close" type="button" aria-label="Close">×</button>
-          <div style="padding:12px;">
+        content.innerHTML = `<div style="padding:12px;">
             <h3 style="margin-top:0;">Seasonal Uses</h3>
             ${blocks}
           </div>`;
       }
 
-      const closeBtn = content.querySelector('.player-close');
-      if (closeBtn) closeBtn.onclick = () => { content.innerHTML=''; modal.style.display='none'; };
+      const closeBtn = content.querySelector('/* removed .player-close style */;
       modal.style.display = 'flex';
 
       const escHandler = (e) => { if (e.key === 'Escape') { content.innerHTML=''; modal.style.display='none'; document.removeEventListener('keydown', escHandler); } };
@@ -2365,10 +2754,10 @@ window.addEventListener('load', function(){
 <script>
 // === Add "Find A Retailer" button to every product card ===
 (function installRetailerButtons(){
-  var RETAILER_URL = "https://summittractors.bullseyelocations.com/local/TRACTORSUPPLYALLSTORES";
+  var RETAILER_URL = "https://summittractors.bullseyelocations.com/local/ALLSUMMITLOCATIONS";
   function addButtons(root){
     (root || document).querySelectorAll('.card .actions').forEach(function(actions){
-      if (actions.querySelector('[data-retailer]')) return;
+      if (actions.closest && actions.closest('#modalContent')) return; if (actions.querySelector('[data-retailer]')) return;
       var btn = document.createElement('button');
       btn.type = "button";
       btn.textContent = "Find A Retailer";
@@ -2612,8 +3001,8 @@ function printSelectionsPDF() {
     var name = p.ProductName || p.Name || 'Product';
     var price = (p.Price || '').toString().trim();
     var video = p.VideoURL ? '<a href="'+p.VideoURL+'"  rel="noopener">Watch Video</a>' : '';
-    var brochure = p.BrochureURL ? '<a href="'+p.BrochureURL+'"  rel="noopener">View Brochure</a>' : '';
-    var retailer = '<a href="'+retailerUrl+'"  rel="noopener">Find a Tractor Supply Location</a>';
+    var brochure = p.BrochureURL ? '<a href="'+p.BrochureURL+'"  rel="noopener">View Specifications</a>' : '';
+    var retailer = '<a href="'+retailerUrl+'"  rel="noopener">Find a retail Location</a>';
     return (
       '<div class="pdf-card pdf-page">'
     );
@@ -2671,7 +3060,9 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
 }
 
 /* Desktop keeps existing layout */
-/* removed rule hiding .mobile-stepbar on wide screens */
+@media (min-width: 1025px) {
+  .mobile-stepbar { display: none !important; }
+}
 
 /* Footer button labels/wrapper */
 .mobile-stepbar {
@@ -2704,7 +3095,6 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
 }
 </style>
 
-
 <style>
   /* Default: hide the mobile/tablet footer menu on large screens */
   .mobile-stepbar { display: none; }
@@ -2716,9 +3106,10 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
   }
 
   /* Desktop (≥1025px): ensure footer menu never shows */
-  /* removed rule hiding .mobile-stepbar on wide screens */
+  @media (min-width: 1025px) {
+    .mobile-stepbar { display: none !important; }
+  }
 </style>
-
 
 <!-- MOBILE_TABLET_OVERRIDES START -->
 <style>
@@ -2748,7 +3139,9 @@ button.see-details:focus{ outline:2px solid var(--ring, rgba(37,99,235,.35)); ou
   }
 
   /* Desktop (≥1025px): ensure footer never shows */
-  /* removed rule hiding .mobile-stepbar on wide screens */
+  @media (min-width: 1025px) {
+    .mobile-stepbar { display: none !important; }
+  }
 </style>
 <!-- MOBILE_TABLET_OVERRIDES END -->
 
@@ -2824,7 +3217,6 @@ header.appbar {
   }
 </style>
 
-
 <style>
   /* === Scoped styles for the PDF/Viewer modal (#modal) === */
   #modal {
@@ -2861,19 +3253,17 @@ header.appbar {
   }
 </style>
 
-
 <style>
   /* Hide the instructional header steps across all breakpoints */
   header .steps, header nav .steps { display: none !important; }
 </style>
-
 
 <style>
 /* Print-friendly rules */
 @media print {
   @page { size: Letter; margin: 12mm; }
   body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  header.appbar, .footer, .controls.no-print, .no-print, .modal .player-close { display:none !important; }
+  header.appbar, .footer, .controls.no-print, .no-print, .modal /* removed .player-close style */
   /* Ensure the inline print area uses full width */
   #printArea { page-break-inside: auto; }
   #printArea table { page-break-inside: auto; }
@@ -2881,7 +3271,6 @@ header.appbar {
 /* Make welcome screen scrollable on all devices */
 .screen.welcome { min-height: 100svh; overflow:auto; -webkit-overflow-scrolling: touch; }
 </style>
-
 
 <style>
 /* --- Universal scrollability for all screens on all devices --- */
@@ -3142,13 +3531,17 @@ header [role="button"]:hover {
 
         var items = selectedProducts();
         titleEl.textContent = 'Your Selections — Save or Print';
-        if (!items.length){
-          content.innerHTML = '<button class="player-close" type="button" aria-label="Close">×</button><div style="padding:12px;"><p>No products selected yet.</p></div>';
-          var closeBtn = content.querySelector('.player-close');
-          if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; };
-          modal.style.display = 'flex';
-          return;
-        }
+        if (!items.length) {
+  try {
+    if (typeof window.returnToStep2 === 'function') { window.returnToStep2(); }
+    else if (typeof setActiveStep === 'function') { setActiveStep('step2'); }
+    else if (typeof setStep === 'function') { setStep(2); }
+    else if (typeof showStep === 'function') { showStep(2); }
+  } catch(e){}
+  try { if (typeof __setFooterActiveByScreen === 'function') __setFooterActiveByScreen('step2'); } catch(e){}
+  try { if (typeof showToast === 'function') showToast('No products selected yet'); } catch(e){}
+  return;
+}
 
         var currency = (n) => (isFinite(n) ? n.toLocaleString(undefined,{style:'currency',currency:'USD'}) : '');
         var toNum = (s) => { try { return parseFloat(String(s||'').replace(/[^0-9.\-]/g,'')) || 0; } catch(e){ return 0; } };
@@ -3172,8 +3565,7 @@ header [role="button"]:hover {
         content.innerHTML = ''
 
         // Wire controls
-        var closeBtn = content.querySelector('.player-close');
-        if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; };
+        var closeBtn = content.querySelector('/* removed .player-close style */ catch(e){} };
         var btnPrint = content.querySelector('#sp_print');
         if (btnPrint) btnPrint.onclick = function(){ window.print(); };
         var btnCSV = content.querySelector('#sp_csv');
@@ -3385,10 +3777,10 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 </script>
 <!-- 3-Button Footer for Tablet & Mobile -->
-<div class="mobile-stepbar" id="mobileFooter" style="display:none">
-<button class="primary" id="btnGoStep2" type="button">View Equipment</button>
+<div class="mobile-stepbar" id="mobileFooter">
+<button class="primary" id="btnGoStep2" type="button">View &amp; Select Equipment</button>
 <button id="btnGoSavePrint" type="button">Review Selections</button>
-<button id="btnGoContact" type="button">Discuss With Summit</button>
+<button id="btnGoContact" type="button">Send Selections to Summit Tractors</button>
 </div>
 <script>
 (function(){
@@ -3601,10 +3993,7 @@ function returnToStep2() {
     var t = e.target;
     if (!t) return;
     // bubble up to find a close control
-    var btn = t.closest('.modal-close, [data-close], [data-dismiss], [aria-label="Close"], [data-action="close"], #modalClose');
-    if (btn) {
-      setTimeout(returnToStep2, 0);
-    }
+    var btn = t.closest('.modal-close, /* removed .player-close style */
   }, true);
 
   // Escape key closing
@@ -3676,31 +4065,7 @@ function returnToStep2() {
     // Delegate close buttons
     const closeSelectors = [
       '.modal-close',
-      '[data-close]',
-      '[aria-label="Close"]',
-      '#savePrintClose',
-      '[data-action="close-saveprint"]',
-      'button'
-    ];
-
-    containers.forEach(container => {
-      // Avoid attaching multiple times
-      if (container.__lc7_close_wired__) return;
-      container.__lc7_close_wired__ = true;
-
-      container.addEventListener('click', function(ev){
-        const t = ev.target;
-        // If it's a button-like element with "close" intent or matching selectors
-        const isCloseIntent =
-          (t.matches && closeSelectors.some(sel => t.matches(sel))) ||
-          (t.closest && closeSelectors.some(sel => t.closest(sel))) ||
-          /close/i.test((t.getAttribute && (t.getAttribute('aria-label')||'')) || '') ||
-          /close|done|back/i.test((t.textContent||'').trim());
-
-        if (isCloseIntent){
-          // Defer to allow any existing handlers to run first
-          setTimeout(returnToStep2, 0);
-        }
+      '/* removed .player-close style */
       }, true);
 
       // Observe display/hide changes to route back when the panel is dismissed
@@ -4877,149 +5242,2562 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <script>try{window.RAW_DATA = window.SUMMIT_PRODUCTS; window.RAW_DATA_ALIAS_INSTALLED=true;}catch(e){}</script>
 
-<!-- Added desktop/tablet footers -->
-<div class="desktop-stepbar" id="desktopFooter">
-<button class="primary" id="btnGoStep2" type="button">View Equipment</button>
-<button id="btnGoSavePrint" type="button">Review Selections</button>
-<button id="btnGoContact" type="button">Discuss With Summit</button>
-</div>
-<div class="tablet-stepbar" id="tabletFooter">
-<button class="primary" id="btnGoStep2" type="button">View Equipment</button>
-<button id="btnGoSavePrint" type="button">Review Selections</button>
-<button id="btnGoContact" type="button">Discuss With Summit</button>
-</div>
-
 <script>
 (function(){
-  function toggleFooterForStep(){
+  // Remove footer from DOM while on Welcome; re-insert after leaving Welcome.
+  function onReady(fn){ if (document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+
+  onReady(function(){
     var footer = document.getElementById('mobileFooter');
     if (!footer) return;
-    var welcomeActive = document.querySelector('#screen-welcome.active, section[data-screen="welcome"].active');
-    if (welcomeActive){ footer.style.display = 'none'; }
-    else { footer.style.display = ''; }
-  }
-  document.addEventListener('DOMContentLoaded', toggleFooterForStep);
-  document.addEventListener('click', toggleFooterForStep);
-  // Also watch for step changes
-  const mo = new MutationObserver(toggleFooterForStep);
-  mo.observe(document.body, { attributes:true, subtree:true, attributeFilter:['class','style'] });
-})();
-</script>
 
-
-<script>
-// Hide footer on Welcome; show it for other screens
-(function(){
-  function isVisible(el){
-    if (!el) return false;
-    const cs = window.getComputedStyle(el);
-    if (cs.display === 'none' || cs.visibility === 'hidden' || cs.opacity === '0') return false;
-    // Also consider if any ancestor is hidden
-    for (let p = el; p; p = p.parentElement){
-      const csp = window.getComputedStyle(p);
-      if (csp.display === 'none' || csp.visibility === 'hidden') return false;
+    // Create a placeholder to restore position
+    var placeholder = document.createComment('footer-placeholder');
+    if (!footer.__placeholderInserted){
+      footer.parentNode.insertBefore(placeholder, footer);
+      footer.__placeholderInserted = true;
     }
-    return true;
-  }
-  const footer = document.getElementById('mobileFooter');
-  function updateFooter(){
-    const welcome = document.getElementById('screen-welcome') || document.querySelector('section[data-screen="welcome"]');
-    const onWelcome = welcome && isVisible(welcome);
-    if (footer){
-      footer.style.display = onWelcome ? 'none' : '';
-    }
-  }
-  // Run immediately
-  document.addEventListener('DOMContentLoaded', updateFooter);
-  // Wrap common step/navigation functions to ensure footer toggles
-  ['setStep','showStep','setActiveStep','openStep2'].forEach(function(name){
-    const orig = window[name];
-    if (typeof orig === 'function'){
-      window[name] = function(){
-        const r = orig.apply(this, arguments);
-        try { updateFooter(); } catch(_) {}
-        return r;
-      };
-    }
-  });
-  // Also react to Enter key on Welcome screen
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Enter') {
-      setTimeout(updateFooter, 0);
-    }
-  });
-  // Observe DOM changes in case screens toggle via class/style changes
-  const mo = new MutationObserver(function(){ updateFooter(); });
-  mo.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
-  // Final pass after a short delay to catch late renders
-  setTimeout(updateFooter, 100);
-})();
-</script>
 
-
-<script>
-(function(){
-  function setInitialActiveScreen(){
-    var active = document.querySelector('.screen.active');
-    var id = active && active.id ? active.id.replace(/^screen-/, '') : 'welcome';
-    try { document.body.setAttribute('data-active-screen', id); } catch(_) {}
-  }
-  if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', setInitialActiveScreen);
-  } else {
-    setInitialActiveScreen();
-  }
-})();
-</script>
-
-
-<script>
-(function(){
-  const footer = document.getElementById('mobileFooter');
-  function updateFooterVisibility(){
-    const welcome = document.getElementById('screen-welcome');
-    if (!footer || !welcome) return;
-    if (welcome.classList.contains('active')){
-      footer.style.display = 'none';
+    // Stash footer globally and remove initially
+    if (!window.__footerStoreEl){
+      window.__footerStoreEl = footer;
+      try { window.__footerStoreEl.style.display = ''; } catch(_) {}
+      try { footer.remove(); } catch(_) {}
     } else {
-      footer.style.display = '';
+      // If a duplicate footer exists, remove it as well
+      try { footer.remove(); } catch(_){}
+    }
+
+    function ensureFooterVisible(show){
+      var exists = document.getElementById('mobileFooter');
+      if (show){
+        if (!exists && window.__footerStoreEl){
+          // Reinsert in the original place
+          if (placeholder && placeholder.parentNode){
+            placeholder.parentNode.insertBefore(window.__footerStoreEl, placeholder.nextSibling);
+           try { if (typeof setFooterActiveByScreen==='function'){ var act=document.querySelector('.screen.active'); var id=act&&act.id?act.id.replace(/^screen-/,''):'step2'; setFooterActiveByScreen(id); } } catch(_){ } } else {
+            document.body.appendChild(window.__footerStoreEl);
+          }
+        }
+        try { window.__footerStoreEl.style.display = ''; } catch(_){}
+      } else {
+        if (exists){
+          try { window.__footerStoreEl.remove(); } catch(_){}
+        }
+      }
+    }
+
+    function isWelcomeActive(){
+      var welcome = document.getElementById('screen-welcome');
+      if (!welcome) return false;
+      // Active if it has .active OR if no other .screen.active exists and welcome is visible
+      var anyActive = document.querySelector('.screen.active');
+      var welcomeActive = welcome.classList.contains('active') || !anyActive;
+      return welcomeActive;
+    }
+
+    function update(){
+      ensureFooterVisible(!isWelcomeActive());
+    }
+
+    // Initial run
+    update();
+
+    // Patch common navigation functions
+    ['setStep','showStep','setActiveStep','openStep2'].forEach(function(name){
+      var orig = window[name];
+      if (typeof orig === 'function' && !orig.__footerWrapped){
+        var wrapped = function(){
+          var r = orig.apply(this, arguments);
+          try { update(); } catch(_){}
+          return r;
+        };
+        wrapped.__footerWrapped = true;
+        window[name] = wrapped;
+      }
+    });
+
+    // Also listen for Enter on Welcome
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') setTimeout(update, 0);
+    });
+
+    // Observe DOM changes to detect screen swaps
+    var mo = new MutationObserver(function(){ update(); });
+    mo.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style'] });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  function setActiveScreenAttr(){
+    var active = document.querySelector('.screen.active');
+    var id = active && active.id ? active.id.replace(/^screen-/, '') : 'welcome';
+    document.body.setAttribute('data-active-screen', id);
+  }
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', setActiveScreenAttr);
+  } else {
+    setActiveScreenAttr();
+  }
+  // Patch setActiveStep to also update the body attribute
+  if (typeof window.setActiveStep === 'function' && !window.setActiveStep.__patched){
+    const orig = window.setActiveStep;
+    window.setActiveStep = function(id){
+      const r = orig.apply(this, arguments);
+      try { document.body.setAttribute('data-active-screen', id); } catch(_){}
+      return r;
+    };
+    window.setActiveStep.__patched = true;
+  }
+})();
+</script>
+
+
+
+<script>
+(function(){
+  function idForButton(btnId){
+    if (btnId === 'btnGoStep2') return 'step2';
+    if (btnId === 'btnGoSavePrint') return 'saveprint';
+    if (btnId === 'btnGoContact') return 'contact';
+    return null;
+  }
+  function btnIdForScreen(id){
+    if (id === 'step2') return 'btnGoStep2';
+    if (id === 'saveprint') return 'btnGoSavePrint';
+    if (id === 'contact') return 'btnGoContact';
+    return null;
+  }
+  function setFooterActiveByScreen(id){
+    var activeBtnId = btnIdForScreen(id);
+    var ids = ['btnGoStep2','btnGoSavePrint','btnGoContact'];
+    ids.forEach(function(i){
+      var b = document.getElementById(i);
+      if (!b) return;
+      b.classList.toggle('footer-active', i === activeBtnId);
+    });
+  }
+  function wireFooterButtons(){
+    ['btnGoStep2','btnGoSavePrint','btnGoContact'].forEach(function(i){
+      var b = document.getElementById(i);
+      if (!b || b.__footerActiveWired) return;
+      b.__footerActiveWired = true;
+      b.addEventListener('click', function(){
+        var scr = idForButton(i);
+        if (scr) setFooterActiveByScreen(scr);
+      });
+    });
+  }
+  function initActiveFromCurrentScreen(){
+    var active = document.querySelector('.screen.active');
+    var id = active && active.id ? active.id.replace(/^screen-/, '') : 'welcome';
+    setFooterActiveByScreen(id);
+  }
+
+  // Patch setActiveStep so active state follows programmatic navigation
+  if (typeof window.setActiveStep === 'function' && !window.setActiveStep.__activePatch){
+    const orig = window.setActiveStep;
+    window.setActiveStep = function(id){
+      const r = orig.apply(this, arguments);
+      try { setFooterActiveByScreen(id); } catch(_){}
+      return r;
+    };
+    window.setActiveStep.__activePatch = true;
+  }
+
+  // When pressing Enter on Welcome, after navigation to step2, mark View Equipment active
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Enter'){
+      var welcome = document.getElementById('screen-welcome');
+      if (welcome && welcome.classList.contains('active')){
+        setTimeout(function(){ setFooterActiveByScreen('step2'); }, 0);
+      }
+    }
+  });
+
+  // Also run on DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', function(){
+    wireFooterButtons();
+    initActiveFromCurrentScreen();
+  });
+
+  // Observe for button renders
+  const mo = new MutationObserver(function(){
+    wireFooterButtons();
+  });
+  mo.observe(document.body, { childList:true, subtree:true });
+})();
+</script>
+
+<script>
+(function(){
+  // If our helper exists, extend it; otherwise define a minimal version.
+  function __normalizeScreen(id){
+    if (id == null) return null;
+    if (typeof id === 'number') id = String(id);
+    var s = (id+'').toLowerCase().trim();
+    if (s === '2' || s === 'step2') return 'step2';
+    if (s === '3' || s === 'save' || s === 'saveprint' || s === 'review' || s === 'review selections') return 'saveprint';
+    if (s === '4' || s === 'contact' || s.indexOf('summit')>=0) return 'contact';
+    if (s === '1' || s === 'welcome') return 'welcome';
+    return s;
+  }
+  function __setFooterActiveByScreen(id){
+    var scr = __normalizeScreen(id);
+    var map = { step2:'btnGoStep2', saveprint:'btnGoSavePrint', contact:'btnGoContact' };
+    var ids = ['btnGoStep2','btnGoSavePrint','btnGoContact'];
+    ids.forEach(function(bid){
+      var b = document.getElementById(bid);
+      if (!b) return;
+      b.classList.toggle('footer-active', bid === map[scr]);
+    });
+  }
+  // Expose globally for other patches we added earlier
+  window.setFooterActiveByScreen = __setFooterActiveByScreen;
+
+  // Ensure Enter key from Welcome sets active on View Equipment
+  document.addEventListener('keydown', function(e){
+    try{
+      var welcome = document.getElementById('screen-welcome');
+      if (e.key === 'Enter' && welcome && welcome.classList.contains('active')){
+        // After the app navigates, set the active button to step2
+        setTimeout(function(){ __setFooterActiveByScreen('step2'); }, 0);
+      }
+    }catch(_){}
+  });
+
+  // Ensure clicking the visible Enter button does the same
+  function wireEnter(){
+    var enterBtn = document.getElementById('enterBtn');
+    if (enterBtn && !enterBtn.__wiredFooterActive){
+      enterBtn.__wiredFooterActive = true;
+      enterBtn.addEventListener('click', function(){
+        setTimeout(function(){ __setFooterActiveByScreen('step2'); }, 0);
+      });
     }
   }
-  document.addEventListener('DOMContentLoaded', updateFooterVisibility);
-  ['setStep','showStep','setActiveStep','openStep2'].forEach(function(name){
-    const orig = window[name];
-    if (typeof orig === 'function'){
-      window[name] = function(){
-        const r = orig.apply(this, arguments);
-        updateFooterVisibility();
+  document.addEventListener('DOMContentLoaded', wireEnter);
+  new MutationObserver(wireEnter).observe(document.body, {childList:true, subtree:true});
+
+  // Patch all nav functions to follow programmatic navigation
+  function wrapNav(name){
+    var orig = window[name];
+    if (typeof orig === 'function' && !orig.__footerActivePatched){
+      var wrapped = function(){
+        var r = orig.apply(this, arguments);
+        try{
+          var id = arguments && arguments[0];
+          __setFooterActiveByScreen(id);
+        }catch(_){}
         return r;
       };
+      wrapped.__footerActivePatched = true;
+      window[name] = wrapped;
     }
+  }
+  ['setActiveStep','setStep','showStep','openStep2'].forEach(wrapNav);
+
+  // Also run at load to sync initial state
+  document.addEventListener('DOMContentLoaded', function(){
+    var active = document.querySelector('.screen.active');
+    var id = active && active.id ? active.id.replace(/^screen-/, '') : 'welcome';
+    __setFooterActiveByScreen(id);
   });
-  // Also re-check after pressing Enter on Welcome
+})();
+</script>
+
+<script>
+(function(){
+  var enterBtn = document.getElementById('enterBtn');
+  if (enterBtn && !enterBtn.__activeHook){
+    enterBtn.__activeHook = true;
+    enterBtn.addEventListener('click', function(){
+      setTimeout(function(){
+        try {
+          if (typeof setFooterActiveByScreen==='function') setFooterActiveByScreen('step2');
+        } catch(_){}
+      }, 50);
+    });
+  }
+})();
+</script>
+
+<script>
+(function(){
+  function bindRetailerToolbar(){
+    var btn = document.getElementById('findRetailerToolbar');
+    if (!btn || btn.__wired) return;
+    btn.__wired = true;
+    btn.addEventListener('click', function(){
+      var url = 'https://summittractors.bullseyelocations.com/local/ALLSUMMITLOCATIONS';
+      try { openViewer('Find A Retailer', url); }
+      catch(_){
+        try { window.open(url, '_blank', 'noopener'); } catch(_){}
+      }
+    });
+  }
+  document.addEventListener('DOMContentLoaded', bindRetailerToolbar);
+  var mo = new MutationObserver(function(){ bindRetailerToolbar(); });
+  mo.observe(document.body, { childList: true, subtree: true });
+  if (typeof window.setActiveStep === 'function' && !window.setActiveStep.__retailPatch) {
+    var orig = window.setActiveStep;
+    window.setActiveStep = function(id){
+      var r = orig.apply(this, arguments);
+      try { bindRetailerToolbar(); } catch(_){}
+      return r;
+    };
+    window.setActiveStep.__retailPatch = true;
+  }
+})();
+</script>
+
+
+<script>
+function handleReviewSelections() {
+  const selectedItems = document.querySelectorAll('.product.selected'); // adjust selector if needed
+  if (selectedItems.length === 0) {
+    document.getElementById('step3Screen').style.display = 'none';
+    document.getElementById('noSelectionMessage').style.display = 'block';
+  } else {
+    document.getElementById('noSelectionMessage').style.display = 'none';
+    document.getElementById('step3Screen').style.display = 'block';
+  }
+}
+
+function goToStep2() {
+  document.getElementById('noSelectionMessage').style.display = 'none';
+  document.getElementById('step2Screen').style.display = 'block';
+  document.getElementById('step3Screen').style.display = 'none';
+}
+</script>
+
+
+
+
+
+<script>
+(function() {
+  // Robust selection check across common patterns
+  function hasAnySelection() {
+    const byClassSelected = document.querySelectorAll('.product.selected').length;
+    const byCheckbox = document.querySelectorAll('.product-select:checked, input[type="checkbox"][name*="select"]:checked').length;
+    const byDataAttr = document.querySelectorAll('[data-selected="true"]').length;
+    const anyGenericSelected = (document.getElementById('step2Screen') || document).querySelectorAll('.selected').length;
+    return (byClassSelected + byCheckbox + byDataAttr + anyGenericSelected) > 0;
+  }
+
+  function ensureContainers() {
+    // Try to find Step 2 and Step 3 containers; if not found, use reasonable fallbacks
+    var step2 = document.getElementById('step2Screen') || document.querySelector('[data-step="2"]') || document.querySelector('#step2');
+    var step3 = document.getElementById('step3Screen') || document.querySelector('[data-step="3"]') || document.querySelector('#step3');
+    return { step2: step2, step3: step3 };
+  }
+
+  window.handleReviewSelections = function() {
+    var containers = ensureContainers();
+    if (!hasAnySelection()) {
+      // Show friendly message if present; else alert as a fallback
+      var msg = document.getElementById('noSelectionMessage');
+      if (msg) {
+        if (containers.step3) containers.step3.style.display = 'none';
+        msg.style.display = 'block';
+        // Try to scroll into view for visibility
+        try { msg.scrollIntoView({behavior: 'smooth', block: 'center'}); } catch(e) {}
+      } else {
+        if (typeof showToast==="function") try{showToast("No products selected yet");}catch(e){}; if (typeof returnToStep2==="function") returnToStep2(); else if (typeof setActiveStep==="function") setActiveStep("step2"); else if (typeof setStep==="function") setStep(2); else if (typeof showStep==="function") showStep(2);
+      }
+      return false;
+    } else {
+      // proceed to step 3 if containers exist
+      var msg = document.getElementById('noSelectionMessage');
+      if (msg) msg.style.display = 'none';
+      if (containers.step3) containers.step3.style.display = 'block';
+      return true;
+    }
+  };
+
+  window.goToStep2 = function() {
+  var step2 = document.getElementById('screen-step2');
+  var toolbar = document.getElementById('step2Toolbar');
+  var step3 = document.getElementById('step3Screen');
+
+  // Hide Step 3 if visible
+  if (step3) step3.style.display = 'none';
+
+  // Show Step 2
+  if (step2) step2.style.display = 'block';
+
+  // Scroll to toolbar if available, else scroll to step2 container
+  var target = toolbar || step2;
+  if (target) {
+    try { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(e) {}
+    try {
+      target.classList.add('highlight-step');
+      setTimeout(function(){ target.classList.remove('highlight-step'); }, 1200);
+    } catch(e) {}
+  }
+};
+
+  // Event delegation: intercept clicks on anything that looks like "Review Selections"
+  document.addEventListener('click', function(e) {
+    var el = e.target.closest('button, a, [role="button"]');
+    if (!el) return;
+    var text = (el.textContent || '').trim().toLowerCase();
+    var isReview = el.id === 'reviewSelectionsBtn' ||
+                   el.getAttribute('data-action') === 'review-selections' ||
+                   text === 'review selections';
+    if (isReview) {
+      e.preventDefault();
+      handleReviewSelections();
+    }
+  }, true);
+})();
+</script>
+<style>
+/* Subtle highlight when sending user back to step 2 */
+.highlight-step { box-shadow: 0 0 0 3px rgba(37,74,79,.25) inset; transition: box-shadow .2s; }
+</style>
+
+
+
+
+
+<script>
+(function(){
+  function showNoSelection() {
+    var overlay = document.getElementById('noSelectionOverlay');
+    var modal = document.getElementById('noSelectionMessage');
+    if (overlay) overlay.classList.add('show');
+    if (modal) {
+      modal.classList.add('show');
+      var primary = document.getElementById('btnReturnToStep2') || modal.querySelector('button');
+      if (primary) { try { primary.focus(); } catch(e){} }
+    }
+  }
+  window.closeNoSelection = function() {
+    var overlay = document.getElementById('noSelectionOverlay');
+    var modal = document.getElementById('noSelectionMessage');
+    if (modal) modal.classList.remove('show');
+    if (overlay) overlay.classList.remove('show');
+  };
+
+  // Hook into existing handler
+  var _origHandle = window.handleReviewSelections;
+  window.handleReviewSelections = function(){
+    try {
+      if (typeof _origHandle === 'function') {
+        var ok = _origHandle();
+        if (ok === true) return true;
+      }
+    } catch(e){}
+    showNoSelection();
+    return false;
+  };
+
+  // Close on overlay click or ESC
+  document.addEventListener('click', function(e){
+    var overlay = document.getElementById('noSelectionOverlay');
+    if (overlay && e.target === overlay) closeNoSelection();
+  });
   document.addEventListener('keydown', function(e){
-    if (e.key === 'Enter') setTimeout(updateFooterVisibility, 50);
+    if (e.key === 'Escape') closeNoSelection();
   });
+})();
+</script>
+
+
+<script id="contactTimesPillSync">
+(function(){
+  function syncPillsFromSelect(){
+    try{
+      var sel = document.getElementById('contactTimes');
+      var group = document.getElementById('contactTimesPills');
+      if (!sel || !group) return;
+      var selected = Array.from(sel.options).filter(o => o.selected).map(o => o.textContent.trim());
+      group.querySelectorAll('input.btn-check').forEach(function(cb){
+        cb.checked = selected.indexOf(cb.value) >= 0;
+      });
+    }catch(e){}
+  }
+  function syncSelectFromPills(){
+    try{
+      var sel = document.getElementById('contactTimes');
+      var group = document.getElementById('contactTimesPills');
+      if (!sel || !group) return;
+      var chosen = Array.from(group.querySelectorAll('input.btn-check:checked')).map(cb => cb.value);
+      Array.from(sel.options).forEach(function(opt){
+        opt.selected = chosen.indexOf(opt.textContent.trim()) >= 0;
+      });
+    }catch(e){}
+  }
+  function bindPillHandlers(){
+    var group = document.getElementById('contactTimesPills');
+    if (!group || group.__wired) return;
+    group.__wired = true;
+    group.addEventListener('change', function(e){
+      if (e.target && e.target.classList && e.target.classList.contains('btn-check')){
+        syncSelectFromPills();
+      }
+    }, true);
+  }
+  // Keep hidden select in sync before form submit
+  function bindFormSubmit(){
+    var form = document.getElementById('leadForm');
+    if (!form || form.__pillSync) return;
+    form.__pillSync = true;
+    form.addEventListener('submit', function(){
+      syncSelectFromPills();
+    }, true);
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){
+      bindPillHandlers(); bindFormSubmit(); syncPillsFromSelect();
+    });
+  } else {
+    bindPillHandlers(); bindFormSubmit(); syncPillsFromSelect();
+  }
+
+  // In case the modal content re-renders dynamically
+  var mo = new MutationObserver(function(){ bindPillHandlers(); bindFormSubmit(); });
+  try { mo.observe(document.body, { childList:true, subtree:true }); } catch(_){}
+})();
+</script>
+
+<script id="leadFormHandler">
+(function(){
+  // utility: simple validators
+  function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v||'').trim()); }
+  function isPhone(v){ return /^[0-9\-\+\(\)\s\.]{7,}$/.test((v||'').trim()); }
+
+  function getSelectedTimes(){
+    var sel = document.getElementById('contactTimes');
+    if (!sel) return [];
+    return Array.from(sel.options).filter(o => o.selected).map(o => o.textContent.trim());
+  }
+
+  // add invalid styles
+  function markInvalid(el, msg){
+    try{
+      el.classList.add('invalid');
+      el.setAttribute('aria-invalid','true');
+      el.setAttribute('title', msg || 'Please fill out this field.');
+      el.style.borderColor = '#b00020';
+      el.style.boxShadow = '0 0 0 3px rgba(176,0,32,0.15)';
+    }catch(_){}
+  }
+  function clearInvalid(el){
+    try{
+      el.classList.remove('invalid');
+      el.removeAttribute('aria-invalid');
+      el.removeAttribute('title');
+      el.style.borderColor = '';
+      el.style.boxShadow = '';
+    }catch(_){}
+  }
+
+  function buildPayload(){
+    var payload = {
+      firstName: (document.getElementById('firstName')||{}).value || '',
+      lastName:  (document.getElementById('lastName')||{}).value || '',
+      email:     (document.getElementById('email')||{}).value || '',
+      phone:     (document.getElementById('phone')||{}).value || '',
+      contactMethod: (document.getElementById('contactMethod')||{}).value || '',
+      preferredTimes: getSelectedTimes(),
+      comments:  (document.getElementById('comments')||{}).value || '',
+      consent:   !!(document.getElementById('consent')||{}).checked,
+      captchaAnswer: (document.getElementById('captchaA')||{}).value || '',
+      submittedAt: new Date().toISOString()
+    };
+    // If app has a selection state, include selected product names/ids
+    try {
+      if (window.state && state.data) {
+        var selectedIds = [];
+        if (state.attachments && typeof state.attachments.has === 'function'){
+          selectedIds = state.data.filter(p => state.attachments.has(p.ProductID)).map(p => p.ProductID);
+        } else {
+          // fallback: look for cards with .selected
+          selectedIds = Array.from(document.querySelectorAll('.card.selected [data-prod]')).map(el => el.getAttribute('data-prod'));
+        }
+        payload.selectedProductIDs = selectedIds;
+      }
+    } catch(e){}
+    return payload;
+  }
+
+  function showSummary(payload, ok){
+    var el = document.getElementById('leadStatus');
+    if (!el) return;
+    var times = (payload.preferredTimes||[]).join(', ') || '—';
+    var lines = [
+      ok ? '<strong>Submission ready.</strong> Review below or copy/download JSON.'
+         : '<strong>Please correct the highlighted fields.</strong>',
+      '<div style="margin-top:.5rem"></div>',
+      '<div><strong>Name:</strong> ' + (payload.firstName+' '+payload.lastName).trim() + '</div>',
+      '<div><strong>Email:</strong> ' + payload.email + '</div>',
+      '<div><strong>Phone:</strong> ' + payload.phone + '</div>',
+      '<div><strong>Preferred Method:</strong> ' + payload.contactMethod + '</div>',
+      '<div><strong>Preferred Times:</strong> ' + times + '</div>',
+      payload.comments ? ('<div><strong>Comments:</strong> ' + payload.comments.replace(/</g,'&lt;') + '</div>') : '',
+      '<div class="muted" style="margin-top:.5rem">Prepared at ' + new Date(payload.submittedAt).toLocaleString() + '</div>',
+      '<pre style="margin-top:.5rem;max-height:200px;overflow:auto;background:#fafafa;border:1px solid rgba(0,0,0,.08);padding:.5rem;border-radius:8px;">'
+        + JSON.stringify(payload, null, 2).replace(/</g,'&lt;') + '</pre>'
+    ].join('');
+    el.innerHTML = lines;
+    try { el.scrollIntoView({behavior:'smooth', block:'center'}); } catch(_){}
+  }
+
+  function wireCopyAndDownload(getter){
+    var btnCopy = document.getElementById('leadCopy');
+    var btnDown = document.getElementById('leadDownload');
+    if (btnCopy && !btnCopy.__wired){
+      btnCopy.__wired = true;
+      btnCopy.addEventListener('click', function(){
+        var payload = getter();
+        var text = JSON.stringify(payload, null, 2);
+        try {
+          navigator.clipboard.writeText(text).then(function(){
+            var s = document.getElementById('leadStatus'); if (s) s.innerHTML += '<div class="muted">JSON copied to clipboard.</div>';
+          });
+        } catch(e){
+          alert('Unable to copy to clipboard.');
+        }
+      });
+    }
+    if (btnDown && !btnDown.__wired){
+      btnDown.__wired = true;
+      btnDown.addEventListener('click', function(){
+        var payload = getter();
+        var text = JSON.stringify(payload, null, 2);
+        var blob = new Blob([text], {type:'application/json'});
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'summit_lead_'+ Date.now() + '.json';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 0);
+      });
+    }
+  }
+
+  function bindForm(){
+    var form = document.getElementById('leadForm');
+    if (!form || form.__wired) return;
+    form.__wired = true;
+
+    // on submit: validate, build payload, show summary
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+
+      var f = document.getElementById('firstName');
+      var l = document.getElementById('lastName');
+      var e = document.getElementById('email');
+      var p = document.getElementById('phone');
+      var c = document.getElementById('consent');
+      var cap = document.getElementById('captchaA');
+
+      // clear previous marks
+      [f,l,e,p,c,cap].forEach(function(el){ if (el) clearInvalid(el); });
+
+      var ok = true;
+      if (!f || !f.value.trim()){ ok = false; markInvalid(f, 'First name is required'); }
+      if (!l || !l.value.trim()){ ok = false; markInvalid(l, 'Last name is required'); }
+      if (!e || !isEmail(e.value)){ ok = false; markInvalid(e, 'Enter a valid email'); }
+      if (!p || !isPhone(p.value)){ ok = false; markInvalid(p, 'Enter a valid phone'); }
+      if (!c || !c.checked){ ok = false; markInvalid(c, 'Consent is required'); }
+      if (!cap || !cap.value.trim()){ ok = false; markInvalid(cap, 'Please answer the captcha'); }
+
+      // ensure pill selections are reflected in hidden select (if converter installed)
+      try {
+        var group = document.getElementById('contactTimesPills');
+        if (group) {
+          // trigger sync select from pills
+          var evChange = new Event('change', {bubbles:true});
+          group.dispatchEvent(evChange);
+        }
+      } catch(_){}
+
+      var payload = buildPayload();
+      showSummary(payload, ok);
+      window.__summitLeadPayload = payload; // for external access
+    }, true);
+
+    // wire copy/download with live payload getter
+    wireCopyAndDownload(function(){ return window.__summitLeadPayload || buildPayload(); });
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', bindForm);
+  } else {
+    bindForm();
+  }
+
+  // If DOM re-renders, rebind
+  var mo = new MutationObserver(function(){ bindForm(); });
+  try { mo.observe(document.body, {childList:true, subtree:true}); } catch(_){}
+})();
+</script>
+
+<script id="leadFormEmailPatch">
+(function(){
+  // Build a plain-English summary for email body
+  function buildPlainSummary(p){
+    try{
+      var lines = [];
+      lines.push("New Summit Tractors web lead");
+      lines.push("");
+      lines.push("Name: " + (p.firstName + " " + p.lastName).trim());
+      lines.push("Email: " + p.email);
+      lines.push("Phone: " + p.phone);
+      lines.push("Preferred contact method: " + (p.contactMethod || "—"));
+      lines.push("Preferred times: " + ((p.preferredTimes && p.preferredTimes.length) ? p.preferredTimes.join(", ") : "—"));
+      if (p.comments) lines.push("Comments: " + p.comments);
+      lines.push("Consent to be contacted: " + (p.consent ? "Yes" : "No"));
+      if (p.selectedProducts && p.selectedProducts.length){
+        lines.push("");
+        lines.push("Selected products:");
+        p.selectedProducts.forEach(function(sp, i){
+          lines.push("  " + (i+1) + ". " + (sp.name || sp.id || "Product") + (sp.id ? " ("+sp.id+")" : ""));
+        });
+      }
+      lines.push("");
+      lines.push("Submitted at: " + new Date(p.submittedAt).toLocaleString());
+      return lines.join("\n");
+    }catch(_){ return ""; }
+  }
+
+  // Extend existing payload to include product NAMES, not just IDs
+  function extendPayloadWithNames(payload){
+    try{
+      var names = [];
+      // Prefer state if available
+      if (window.state && state.data){
+        var selected = [];
+        if (state.attachments && typeof state.attachments.has === 'function'){
+          selected = state.data.filter(p => state.attachments.has(p.ProductID));
+        } else {
+          // DOM fallback: cards with .selected
+          selected = Array.from(document.querySelectorAll('.card.selected')).map(function(card){
+            var h = card.querySelector('h3');
+            var t = h ? (h.textContent||'').trim() : '';
+            var id = card.getAttribute('data-prod') || '';
+            return { ProductID: id, ProductName: t };
+          });
+        }
+        payload.selectedProducts = selected.map(function(p){
+          return { id: p.ProductID, name: p.ProductName || p.ProductName };
+        });
+      } else {
+        // DOM-only fallback
+        var cards = Array.from(document.querySelectorAll('.card.selected'));
+        payload.selectedProducts = cards.map(function(card){
+          var h = card.querySelector('h3');
+          var t = h ? (h.textContent||'').trim() : '';
+          var id = card.getAttribute('data-prod') || '';
+          return { id: id, name: t };
+        });
+      }
+    }catch(_){}
+    return payload;
+  }
+
+  // Patch into the existing handler after it builds payload
+  function installEmailOnSubmit(){
+    var form = document.getElementById('leadForm');
+    if (!form || form.__emailPatch) return;
+    form.__emailPatch = true;
+    form.addEventListener('submit', function(ev){
+      try{
+        // Only proceed if prior validation likely succeeded (no elements with .invalid)
+        var invalids = form.querySelectorAll('.invalid');
+        if (invalids.length) return;
+        // Use prepared payload if available, else rebuild
+        var p = window.__summitLeadPayload || {};
+        // ensure names attached
+        p = extendPayloadWithNames(p);
+        var subject = "New Summit Web Lead - " + (p.firstName||"") + " " + (p.lastName||"");
+        var body = buildPlainSummary(p);
+        // Compose mailto link
+        var href = "mailto:doug.rehor@summittractors.com"
+          + "?subject=" + encodeURIComponent(subject.trim())
+          + "&body=" + encodeURIComponent(body);
+        // Open email draft
+        window.location.href = href;
+        // Also update status text to reflect submission intent
+        var el = document.getElementById('leadStatus');
+        if (el){
+          el.innerHTML = '<strong>Submission ready.</strong> Your email client should open a draft to send.';
+        }
+      }catch(_){}
+    }, true);
+  }
+
+  // Update status copy phrase wherever we wrote "Submission prepared."
+  try{
+    var s = document.currentScript;
+    var prev = document.getElementById('leadFormHandler');
+    // no-op: the text is generated dynamically; handled above
+  }catch(_){}
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', installEmailOnSubmit);
+  } else {
+    installEmailOnSubmit();
+  }
+
+  // In case modal or form re-renders
+  var mo = new MutationObserver(function(){ installEmailOnSubmit(); });
+  try { mo.observe(document.body, { childList:true, subtree:true }); } catch(_){}
+})();
+</script>
+
+<script id="leadSubmitClickMailto">
+(function(){
+  function collectSelectedProducts(){
+    try{
+      if (window.state && state.data && state.attachments && typeof state.attachments.has === 'function'){
+        return state.data.filter(p => state.attachments.has(p.ProductID))
+                         .map(p => ({ id: p.ProductID, name: p.ProductName || p.Model || p.ProductID }));
+      }
+      // DOM fallback
+      return Array.from(document.querySelectorAll('.card.selected')).map(function(card){
+        var h = card.querySelector('h3');
+        var t = h ? (h.textContent||'').trim() : '';
+        var id = card.getAttribute('data-prod') || '';
+        return { id: id, name: t };
+      });
+    }catch(_){ return []; }
+  }
+
+  function buildPayloadFromDOM(){
+    var p = {
+      firstName: (document.getElementById('firstName')||{}).value || '',
+      lastName:  (document.getElementById('lastName')||{}).value || '',
+      email:     (document.getElementById('email')||{}).value || '',
+      phone:     (document.getElementById('phone')||{}).value || '',
+      contactMethod: (document.getElementById('contactMethod')||{}).value || '',
+      preferredTimes: Array.from((document.getElementById('contactTimes')||{}).options||[]).filter(o=>o.selected).map(o=>o.textContent.trim()),
+      comments:  (document.getElementById('comments')||{}).value || '',
+      consent:   !!(document.getElementById('consent')||{}).checked,
+      submittedAt: new Date().toISOString(),
+      selectedProducts: collectSelectedProducts()
+    };
+    return p;
+  }
+
+  function buildPlainSummary(p){
+    var lines = [];
+    lines.push("New Summit Tractors web lead");
+    lines.push("");
+    lines.push("Name: " + (p.firstName + " " + p.lastName).trim());
+    lines.push("Email: " + p.email);
+    lines.push("Phone: " + p.phone);
+    lines.push("Preferred contact method: " + (p.contactMethod || "—"));
+    lines.push("Preferred times: " + ((p.preferredTimes && p.preferredTimes.length) ? p.preferredTimes.join(", ") : "—"));
+    if (p.comments) lines.push("Comments: " + p.comments);
+    lines.push("Consent to be contacted: " + (p.consent ? "Yes" : "No"));
+    if (p.selectedProducts && p.selectedProducts.length){
+      lines.push("");
+      lines.push("Selected products:");
+      p.selectedProducts.forEach(function(sp, i){
+        lines.push("  " + (i+1) + ". " + (sp.name || sp.id || "Product") + (sp.id ? " ("+sp.id+")" : ""));
+      });
+    }
+    lines.push("");
+    lines.push("Submitted at: " + new Date(p.submittedAt).toLocaleString());
+    return lines.join("\n");
+  }
+
+  function openMailto(p){
+    var subject = "New Summit Web Lead - " + (p.firstName||"") + " " + (p.lastName||"");
+    var body = buildPlainSummary(p);
+    var href = "mailto:doug.rehor@summittractors.com"
+      + "?subject=" + encodeURIComponent(subject.trim())
+      + "&body=" + encodeURIComponent(body);
+    window.location.href = href;
+  }
+
+  function ensurePillSync(){
+    try {
+      var group = document.getElementById('contactTimesPills');
+      if (group) {
+        var event = new Event('change', {bubbles:true});
+        group.dispatchEvent(event);
+      }
+    } catch(_){}
+  }
+
+  function bindClick(){
+    var form = document.getElementById('leadForm');
+    if (!form) return;
+    var btn = form.querySelector('button[type="submit"]');
+    if (!btn || btn.__mailtoBound) return;
+    btn.__mailtoBound = true;
+    btn.addEventListener('click', function(ev){
+      // Let built-in validation run first
+      if (typeof form.reportValidity === 'function' && !form.reportValidity()){
+        return; // browser will highlight invalid fields
+      }
+      // Keep hidden select in sync
+      ensurePillSync();
+      // Use payload from previous handler if present; else collect now
+      var p = window.__summitLeadPayload || buildPayloadFromDOM();
+      // Defer to end of click stack so other handlers run (e.g., summary UI)
+      setTimeout(function(){ openMailto(p); }, 0);
+    }, true);
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', bindClick);
+  } else {
+    bindClick();
+  }
+  // Rebind if UI re-renders
+  var mo = new MutationObserver(function(){ bindClick(); });
+  try { mo.observe(document.body, { childList:true, subtree:true }); } catch(_){}
+})();
+</script>
+
+<script id="leadSubmitOverride" data-version="1">
+(function(){
+  function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v||'').trim()); }
+  function isPhone(v){ return /^[0-9\-\+\(\)\s\.]{7,}$/.test((v||'').trim()); }
+
+  function ensurePillSync(){
+    try {
+      var group = document.getElementById('contactTimesPills');
+      if (group) group.dispatchEvent(new Event('change', {bubbles:true}));
+    } catch(_){}
+  }
+
+  function collectSelectedProducts(){
+    try{
+      if (window.state && state.data && state.attachments && typeof state.attachments.has === 'function'){
+        return state.data.filter(p => state.attachments.has(p.ProductID))
+                         .map(p => ({ id: p.ProductID, name: p.ProductName || p.Model || p.ProductID }));
+      }
+      return Array.from(document.querySelectorAll('.card.selected')).map(function(card){
+        var h = card.querySelector('h3');
+        var t = h ? (h.textContent||'').trim() : '';
+        var id = card.getAttribute('data-prod') || '';
+        return { id: id, name: t };
+      });
+    }catch(_){ return []; }
+  }
+
+  function buildPayload(){
+    var p = {
+      firstName: (document.getElementById('firstName')||{}).value || '',
+      lastName:  (document.getElementById('lastName')||{}).value || '',
+      email:     (document.getElementById('email')||{}).value || '',
+      phone:     (document.getElementById('phone')||{}).value || '',
+      contactMethod: (document.getElementById('contactMethod')||{}).value || '',
+      preferredTimes: Array.from((document.getElementById('contactTimes')||{}).options||[]).filter(o=>o.selected).map(o=>o.textContent.trim()),
+      comments:  (document.getElementById('comments')||{}).value || '',
+      consent:   !!(document.getElementById('consent')||{}).checked,
+      captchaAnswer: (document.getElementById('captchaA')||{}).value || '',
+      submittedAt: new Date().toISOString(),
+      selectedProducts: collectSelectedProducts()
+    };
+    return p;
+  }
+
+  function buildPlainSummary(p){
+    var lines = [];
+    lines.push("New Summit Tractors web lead");
+    lines.push("");
+    lines.push("Name: " + (p.firstName + " " + p.lastName).trim());
+    lines.push("Email: " + p.email);
+    lines.push("Phone: " + p.phone);
+    lines.push("Preferred contact method: " + (p.contactMethod || "—"));
+    lines.push("Preferred times: " + ((p.preferredTimes && p.preferredTimes.length) ? p.preferredTimes.join(", ") : "—"));
+    if (p.comments) lines.push("Comments: " + p.comments);
+    lines.push("Consent to be contacted: " + (p.consent ? "Yes" : "No"));
+    if (p.selectedProducts && p.selectedProducts.length){
+      lines.push("");
+      lines.push("Selected products:");
+      p.selectedProducts.forEach(function(sp, i){
+        lines.push("  " + (i+1) + ". " + (sp.name || sp.id || "Product") + (sp.id ? " ("+sp.id+")" : ""));
+      });
+    }
+    lines.push("");
+    lines.push("Submitted at: " + new Date(p.submittedAt).toLocaleString());
+    return lines.join("\n");
+  }
+
+  function markInvalid(el, msg){
+    if (!el) return;
+    el.classList.add('invalid');
+    el.setAttribute('aria-invalid','true');
+    if (msg) el.setAttribute('title', msg);
+    el.style.borderColor = '#b00020';
+    el.style.boxShadow = '0 0 0 3px rgba(176,0,32,0.15)';
+  }
+  function clearInvalid(el){
+    if (!el) return;
+    el.classList.remove('invalid');
+    el.removeAttribute('aria-invalid');
+    el.removeAttribute('title');
+    el.style.borderColor = '';
+    el.style.boxShadow = '';
+  }
+
+  function validate(){
+    var f = document.getElementById('firstName');
+    var l = document.getElementById('lastName');
+    var e = document.getElementById('email');
+    var p = document.getElementById('phone');
+    var c = document.getElementById('consent');
+    var cap = document.getElementById('captchaA');
+
+    [f,l,e,p,c,cap].forEach(clearInvalid);
+
+    var ok = true;
+    if (!f || !f.value.trim()){ ok = false; markInvalid(f, 'First name is required'); }
+    if (!l || !l.value.trim()){ ok = false; markInvalid(l, 'Last name is required'); }
+    if (!e || !isEmail(e.value)){ ok = false; markInvalid(e, 'Enter a valid email'); }
+    if (!p || !isPhone(p.value)){ ok = false; markInvalid(p, 'Enter a valid phone'); }
+    if (!c || !c.checked){ ok = false; markInvalid(c, 'Consent is required'); }
+    if (!cap || !cap.value.trim()){ ok = false; markInvalid(cap, 'Please answer the captcha'); }
+
+    if (!ok && typeof (document.getElementById('leadForm')||{}).reportValidity === 'function'){
+      (document.getElementById('leadForm')).reportValidity();
+    }
+    return ok;
+  }
+
+  function openMailto(p){
+    var subject = "New Summit Web Lead - " + (p.firstName||"") + " " + (p.lastName||"");
+    var body = buildPlainSummary(p);
+    var href = "mailto:doug.rehor@summittractors.com"
+      + "?subject=" + encodeURIComponent(subject.trim())
+      + "&body=" + encodeURIComponent(body);
+    window.location.href = href;
+  }
+
+  function showStatus(msg){
+    var el = document.getElementById('leadStatus');
+    if (el) el.innerHTML = '<strong>' + msg + '</strong>';
+  }
+
+  function installOverride(){
+    var form = document.getElementById('leadForm');
+    if (!form || form.__submitOverride) return;
+    form.__submitOverride = true;
+
+    form.addEventListener('submit', function(ev){
+      // STOP other submit handlers from preventing navigation
+      ev.stopImmediatePropagation();
+      ev.preventDefault();
+
+      ensurePillSync();
+
+      if (!validate()){
+        showStatus('Please correct the highlighted fields.');
+        return;
+      }
+      var payload = buildPayload();
+      // expose payload in case the app reads it
+      window.__summitLeadPayload = payload;
+      showStatus('Opening your email client with a pre-filled draft…');
+      openMailto(payload);
+    }, true); // capture: run before other handlers
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', installOverride);
+  } else {
+    installOverride();
+  }
+
+  var mo = new MutationObserver(function(){ installOverride(); });
+  try { mo.observe(document.body, {childList:true, subtree:true}); } catch(_){}
+})();
+</script>
+
+<script id="leadSubmitLinkHandler">
+(function(){
+  function ensurePillSync(){
+    try {
+      var group = document.getElementById('contactTimesPills');
+      if (group) group.dispatchEvent(new Event('change', {bubbles:true}));
+    } catch(_){}
+  }
+  function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v||'').trim()); }
+  function isPhone(v){ return /^[0-9\-\+\(\)\s\.]{7,}$/.test((v||'').trim()); }
+  function markInvalid(el, msg){
+    if (!el) return;
+    el.classList.add('invalid');
+    el.setAttribute('aria-invalid','true');
+    if (msg) el.setAttribute('title', msg);
+    el.style.borderColor = '#b00020';
+    el.style.boxShadow = '0 0 0 3px rgba(176,0,32,0.15)';
+  }
+  function clearInvalid(el){
+    if (!el) return;
+    el.classList.remove('invalid');
+    el.removeAttribute('aria-invalid');
+    el.removeAttribute('title');
+    el.style.borderColor = '';
+    el.style.boxShadow = '';
+  }
+  function validate(){
+    var f = document.getElementById('firstName');
+    var l = document.getElementById('lastName');
+    var e = document.getElementById('email');
+    var p = document.getElementById('phone');
+    var c = document.getElementById('consent');
+    var cap = document.getElementById('captchaA');
+    [f,l,e,p,c,cap].forEach(clearInvalid);
+    var ok = true;
+    if (!f || !f.value.trim()){ ok = false; markInvalid(f, 'First name is required'); }
+    if (!l || !l.value.trim()){ ok = false; markInvalid(l, 'Last name is required'); }
+    if (!e || !isEmail(e.value)){ ok = false; markInvalid(e, 'Enter a valid email'); }
+    if (!p || !isPhone(p.value)){ ok = false; markInvalid(p, 'Enter a valid phone'); }
+    if (!c || !c.checked){ ok = false; markInvalid(c, 'Consent is required'); }
+    if (!cap || !cap.value.trim()){ ok = false; markInvalid(cap, 'Please answer the captcha'); }
+    try { var form = document.getElementById('leadForm'); if (form && form.reportValidity) form.reportValidity(); } catch(_){}
+    return ok;
+  }
+  function buildPayload(){
+    var p = {
+      firstName: (document.getElementById('firstName')||{}).value || '',
+      lastName:  (document.getElementById('lastName')||{}).value || '',
+      email:     (document.getElementById('email')||{}).value || '',
+      phone:     (document.getElementById('phone')||{}).value || '',
+      contactMethod: (document.getElementById('contactMethod')||{}).value || '',
+      preferredTimes: Array.from((document.getElementById('contactTimes')||{}).options||[]).filter(o=>o.selected).map(o=>o.textContent.trim()),
+      comments:  (document.getElementById('comments')||{}).value || '',
+      consent:   !!(document.getElementById('consent')||{}).checked,
+      submittedAt: new Date().toISOString(),
+      selectedProducts: (function(){
+        try{
+          if (window.state && state.data && state.attachments && typeof state.attachments.has === 'function'){
+            return state.data.filter(p => state.attachments.has(p.ProductID)).map(p => ({ id: p.ProductID, name: p.ProductName || p.Model || p.ProductID }));
+          }
+          return Array.from(document.querySelectorAll('.card.selected')).map(function(card){
+            var h = card.querySelector('h3');
+            var t = h ? (h.textContent||'').trim() : '';
+            var id = card.getAttribute('data-prod') || '';
+            return { id: id, name: t };
+          });
+        }catch(_){ return []; }
+      })()
+    };
+    return p;
+  }
+  function buildPlainSummary(p){
+    var lines = [];
+    lines.push("New Summit Tractors web lead");
+    lines.push("");
+    lines.push("Name: " + (p.firstName + " " + p.lastName).trim());
+    lines.push("Email: " + p.email);
+    lines.push("Phone: " + p.phone);
+    lines.push("Preferred contact method: " + (p.contactMethod || "—"));
+    lines.push("Preferred times: " + ((p.preferredTimes && p.preferredTimes.length) ? p.preferredTimes.join(", ") : "—"));
+    if (p.comments) lines.push("Comments: " + p.comments);
+    lines.push("Consent to be contacted: " + (p.consent ? "Yes" : "No"));
+    if (p.selectedProducts && p.selectedProducts.length){
+      lines.push("");
+      lines.push("Selected products:");
+      p.selectedProducts.forEach(function(sp, i){
+        lines.push("  " + (i+1) + ". " + (sp.name || sp.id || "Product") + (sp.id ? " ("+sp.id+")" : ""));
+      });
+    }
+    lines.push("");
+    lines.push("Submitted at: " + new Date(p.submittedAt).toLocaleString());
+    return lines.join("\n");
+  }
+  function openMailtoViaLink(href){
+    // Create a temporary anchor and click it to ensure native navigation
+    var a = document.createElement('a');
+    a.href = href;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ document.body.removeChild(a); }, 0);
+  }
+  function bind(){
+    var link = document.getElementById('leadSubmit');
+    if (!link || link.__bound) return;
+    link.__bound = true;
+    link.addEventListener('click', function(ev){
+      ev.preventDefault(); // we will set href dynamically
+      ensurePillSync();
+      if (!validate()) return;
+      var p = buildPayload();
+      var subject = "New Summit Web Lead - " + (p.firstName||"") + " " + (p.lastName||"");
+      var body = buildPlainSummary(p);
+      var href = "mailto:doug.rehor@summittractors.com"
+        + "?subject=" + encodeURIComponent(subject.trim())
+        + "&body=" + encodeURIComponent(body);
+      // set link href for accessibility (copy link, long-press, etc.)
+      link.setAttribute('href', href);
+      // and open natively
+      openMailtoViaLink(href);
+      // status UI
+      var s = document.getElementById('leadStatus');
+      if (s) s.innerHTML = '<strong>Opening your email client with a pre-filled draft…</strong>';
+    }, true);
+  }
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', bind);
+  } else {
+    bind();
+  }
+  var mo = new MutationObserver(function(){ bind(); });
+  try { mo.observe(document.body, { childList:true, subtree:true }); } catch(_){}
+})();
+</script>
+
+<script id="leadSubmitFallbacks">
+(function(){
+  function buildEML(subject, body, to){
+    var lines = [];
+    lines.push("To: " + (to || "doug.rehor@summittractors.com"));
+    lines.push("Subject: " + subject);
+    lines.push("MIME-Version: 1.0");
+    lines.push("Content-Type: text/plain; charset=UTF-8");
+    lines.push("");
+    lines.push(body);
+    return lines.join("\r\n");
+  }
+
+  function openMail(href){
+    try {
+      // try native navigation
+      window.location.href = href;
+      // attempt window.open as well (some environments require it)
+      setTimeout(function(){
+        try { window.open(href, "_self"); } catch(_){}
+      }, 50);
+    } catch(_){}
+  }
+
+  function showBackups(href, subject, body){
+    var cont = document.getElementById('backupMailActions');
+    if (!cont) return;
+    cont.style.display = 'flex';
+    var manual = document.getElementById('backupMailto');
+    if (manual){
+      manual.setAttribute('href', href);
+      manual.onclick = function(e){ /* allow native click */ };
+    }
+    var dl = document.getElementById('downloadEML');
+    if (dl){
+      dl.addEventListener('click', function(ev){
+        ev.preventDefault();
+        var eml = buildEML(subject, body, "doug.rehor@summittractors.com");
+        var blob = new Blob([eml], {type: 'message/rfc822'});
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'summit_lead.eml';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 0);
+      }, { once: true });
+    }
+  }
+
+  // Hook into the existing link handler to add backups when needed
+  var link = document.getElementById('leadSubmit');
+  if (!link) return;
+
+  var orig = link.__boundClick || null;
+  link.__boundClick = true;
+
+  link.addEventListener('click', function(ev){
+    // The primary handler already sets href and opens it.
+    // After a brief delay, reveal backups so users can tap manually if nothing opened.
+    setTimeout(function(){
+      try{
+        var href = link.getAttribute('href') || '#';
+        // Rebuild subject/body from the current payload if available
+        var p = window.__summitLeadPayload || {};
+        var subject = "New Summit Web Lead - " + (p.firstName||"") + " " + (p.lastName||"");
+        var body = (function(){
+          if (typeof buildPlainSummary === 'function') return buildPlainSummary(p);
+          return "Lead prepared.";
+        })();
+        showBackups(href, subject.trim(), body);
+        // Also try a second open attempt
+        openMail(href);
+      } catch(_){}
+    }, 300);
+  }, true);
+})();
+</script>
+
+<script>
+(function(){
+  if (window.__selectionGuardInstalled__) return;
+  window.__selectionGuardInstalled__ = true;
+
+  function hasSelections(){
+    try {
+      if (typeof selectedProducts === 'function') {
+        var items = selectedProducts();
+        if (Array.isArray(items)) return items.length > 0;
+      }
+    } catch(e){}
+    // Fallback: infer from state object used elsewhere in the app
+    try {
+      if (window.state) {
+        if (state.attachments && state.attachments.size) return true;
+        if (state.tractors && state.tractors.size) return true;
+        if (Array.isArray(state.data)) {
+          // Some flows store a selected flag
+          var any = state.data.some(function(p){ return p && (p.selected || p.__selected); });
+          if (any) return true;
+        }
+      }
+    } catch(e){}
+    return false;
+  }
+
+  function bounceToStep2(){
+    try {
+      if (typeof window.returnToStep2 === 'function') { window.returnToStep2(); }
+      else if (typeof setActiveStep === 'function') { setActiveStep('step2'); }
+      else if (typeof setStep === 'function') { setStep(2); }
+      else if (typeof showStep === 'function') { showStep(2); }
+    } catch(e){}
+    try { if (typeof __setFooterActiveByScreen === 'function') __setFooterActiveByScreen('step2'); } catch(e){}
+    try { if (typeof showToast === 'function') showToast('No products selected yet'); } catch(e){}
+  }
+
+  // Wrap common navigation APIs to enforce guard
+  function wrap(fnName, transformArgs){
+    var orig = window[fnName];
+    if (typeof orig !== 'function' || orig.__selGuard) return;
+    window[fnName] = function(){
+      try {
+        var args = Array.prototype.slice.call(arguments);
+        var target = transformArgs ? transformArgs.apply(null, args) : (args[0] || '');
+        var normalize = function(v){
+          v = String(v||'').toLowerCase().trim();
+          if (v === '2' || v === 'step2') return 'step2';
+          if (v === '3' || v === 'saveprint' || v === 'save/print' || v === 'save-print') return 'saveprint';
+          if (v === 'contact' || v === 'step4') return 'contact';
+          return v;
+        };
+        var dest = normalize(target);
+        if ((dest === 'saveprint' || dest === 'contact') && !hasSelections()){
+          bounceToStep2();
+          return;
+        }
+      } catch(e){ /* fall through to original */ }
+      return orig.apply(this, arguments);
+    };
+    window[fnName].__selGuard = true;
+  }
+
+  wrap('setActiveStep');
+  wrap('setStep', function(n){ return n; });
+  wrap('showStep', function(n){ return n; });
+  wrap('gotoStep', function(n){ return n; });
+  wrap('goToViewSelect', function(){ return 'step2'; });
+  wrap('openSavePrint', function(){ return 'saveprint'; });
+  wrap('openSavePrintInline', function(){ return 'saveprint'; });
+
+  // Intercept direct clicks on known save/print triggers
+  function interceptClicks(){
+    var selectors = [
+      '#btnGoSavePrint', '#msbStep2',
+      '[data-step="saveprint"]', '.js-save-print', '#savePrint'
+    ];
+    document.querySelectorAll(selectors.join(',')).forEach(function(el){
+      if (el.__selGuard) return;
+      el.__selGuard = true;
+      el.addEventListener('click', function(e){
+        if (!hasSelections()){
+          try { e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation(); } catch(_){}
+          bounceToStep2();
+        }
+      }, true);
+    });
+  }
+
+  if (document.readyState !== 'loading') interceptClicks();
+  else document.addEventListener('DOMContentLoaded', interceptClicks);
+
+  // Re-run on DOM changes in case buttons re-render
+  var mo = new MutationObserver(interceptClicks);
+  try { mo.observe(document.body, { childList: true, subtree: true }); } catch(e){}
+})();
+</script>
+
+
+<style>
+/* View Equipment selected state */
+.has-selection {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.ve-count-badge {
+  display: inline-block;
+  min-width: 1.2em;
+  padding: 0 .35em;
+  margin-left: .4em;
+  border-radius: 999px;
+  font-size: .85em;
+  line-height: 1.4;
+  text-align: center;
+  font-weight: 600;
+  background: currentColor;
+  color: #fff;
+}
+</style>
+<script>
+(function(){
+  if (window.__viewEquipEnhancerInstalled__) return;
+  window.__viewEquipEnhancerInstalled__ = true;
+
+  function countSelections(){
+    // Prefer app helper
+    try {
+      if (typeof selectedProducts === 'function') {
+        var arr = selectedProducts();
+        if (Array.isArray(arr)) return arr.length;
+      }
+    } catch(e){}
+    // Fallback heuristics
+    var n = 0;
+    try {
+      if (window.state) {
+        if (state.tractors && state.tractors.size) n += state.tractors.size;
+        if (state.attachments && state.attachments.size) n += state.attachments.size;
+        if (!n && Array.isArray(state.data)) {
+          n = state.data.filter(function(p){ return p && (p.selected || p.__selected); }).length;
+        }
+      }
+    } catch(e){}
+    return n || 0;
+  }
+
+  function setButtonLabel(btn, baseLabel, count){
+    if (!btn) return;
+    // store original for zero state
+    if (!btn.__baseLabel) {
+      btn.__baseLabel = baseLabel || (btn.textContent || '').trim() || 'View Equipment';
+    }
+    if (count > 0) {
+      btn.classList && btn.classList.add('has-selection');
+      btn.setAttribute('aria-label', btn.__baseLabel + ' — ' + count + ' selected');
+      // Render label + badge using innerHTML
+      btn.innerHTML = '';
+      btn.appendChild(document.createTextNode(btn.__baseLabel));
+      var b = document.createElement('span');
+      b.className = 've-count-badge';
+      b.textContent = String(count);
+      btn.appendChild(b);
+    } else {
+      btn.classList && btn.classList.remove('has-selection');
+      btn.setAttribute('aria-label', btn.__baseLabel);
+      btn.textContent = btn.__baseLabel;
+    }
+  }
+
+  function updateViewEquipmentButtons(){
+    var count = countSelections();
+    var msb = document.getElementById('msbStep1');      // mobile bar
+    var desk = document.getElementById('btnGoStep2');   // desktop footer
+    // Detect base labels once
+    var msbLabel = msb ? (msb.__baseLabel || (msb.textContent || '').trim()) : 'View Equipment';
+    var deskLabel = desk ? (desk.__baseLabel || (desk.textContent || '').trim()) : 'View Equipment';
+    setButtonLabel(msb, msbLabel, count);
+    setButtonLabel(desk, deskLabel, count);
+  }
+
+  // Update regularly (in case selections change via various UI paths)
+  var iv = setInterval(updateViewEquipmentButtons, 700);
+  // Also update on DOM ready
+  if (document.readyState !== 'loading') updateViewEquipmentButtons();
+  else document.addEventListener('DOMContentLoaded', updateViewEquipmentButtons);
+
+  // If the app exposes selection events, hook them (best effort)
+  ['selectionchange','click','change'].forEach(function(evt){
+    document.addEventListener(evt, function(){ setTimeout(updateViewEquipmentButtons, 0); }, true);
+  });
+
+  // Expose for debugging
+  window.__updateViewEquipmentButtons = updateViewEquipmentButtons;
+})();
+</script>
+
+
+<style>
+/* Invert colors for visibility when selections exist */
+.has-selection {
+  background: #fff !important;
+  color: #254A4F !important;
+  border: 2px solid #254A4F !important;
+}
+.has-selection .ve-count-badge {
+  background: #254A4F !important;
+  color: #fff !important;
+}
+</style>
+
+
+<script>
+(function(){
+  if (window.__viewEquipLabelPatchInstalled__) return;
+  window.__viewEquipLabelPatchInstalled__ = true;
+
+  function countSelections(){
+    try {
+      if (typeof selectedProducts === 'function') {
+        var arr = selectedProducts();
+        if (Array.isArray(arr)) return arr.length;
+      }
+    } catch(e){}
+    var n = 0;
+    try {
+      if (window.state) {
+        if (state.tractors && state.tractors.size) n += state.tractors.size;
+        if (state.attachments && state.attachments.size) n += state.attachments.size;
+        if (!n && Array.isArray(state.data)) {
+          n = state.data.filter(function(p){ return p && (p.selected || p.__selected); }).length;
+        }
+      }
+    } catch(e){}
+    return n || 0;
+  }
+
+  function updateLabels(){
+    var count = countSelections();
+    var buttons = [document.getElementById('msbStep1'), document.getElementById('btnGoStep2')];
+    buttons.forEach(function(btn){
+      if (!btn) return;
+      if (count > 0) {
+        btn.classList && btn.classList.add('has-selection');
+        btn.setAttribute('aria-label', 'Selected Equipment — ' + count);
+        btn.innerHTML = '';
+        btn.appendChild(document.createTextNode('Selected Equipment'));
+        var b = document.createElement('span');
+        b.className = 've-count-badge';
+        b.textContent = String(count);
+        btn.appendChild(b);
+      } else {
+        btn.classList && btn.classList.remove('has-selection');
+        btn.setAttribute('aria-label', 'View Equipment');
+        btn.textContent = 'View Equipment';
+      }
+    });
+  }
+
+  setInterval(updateLabels, 700);
+  if (document.readyState !== 'loading') updateLabels();
+  else document.addEventListener('DOMContentLoaded', updateLabels);
+  ['selectionchange','click','change'].forEach(function(evt){
+    document.addEventListener(evt, function(){ setTimeout(updateLabels, 0); }, true);
+  });
+  window.__updateViewEquipmentLabels = updateLabels;
+})();
+</script>
+
+
+<style>
+.video-fallback {
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:12px;
+  min-height:50vh; padding:24px; text-align:center;
+  background:#f6f7f8; border:1px solid #d6d9dc; border-radius:10px;
+}
+.video-fallback .actions a {
+  display:inline-block; padding:10px 14px; border-radius:8px;
+  background:#254A4F; color:#fff; text-decoration:none; font-weight:600;
+}
+.video-fallback .note { color:#333; font-size:.95rem; }
+</style>
+<script>
+(function(){
+  if (window.__videoEmbedResilienceInstalled__) return;
+  window.__videoEmbedResilienceInstalled__ = true;
+
+  function toEmbedURL(url){
+    try {
+      var u = new URL(url, location.href);
+      var host = u.hostname.replace(/^www\./,'');
+      // YouTube watch -> embed
+      if (host.endsWith('youtube.com')) {
+        if (u.pathname === '/watch' && u.searchParams.get('v')) {
+          var id = u.searchParams.get('v');
+          return 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1&playsinline=1';
+        }
+        if (u.pathname.startsWith('/shorts/') || u.pathname.startsWith('/live/')) {
+          var id2 = u.pathname.split('/')[2] || '';
+          if (id2) return 'https://www.youtube.com/embed/' + id2 + '?rel=0&modestbranding=1&playsinline=1';
+        }
+      }
+      // youtu.be short links
+      if (host === 'youtu.be') {
+        var id3 = u.pathname.replace('/','');
+        if (id3) return 'https://www.youtube.com/embed/' + id3 + '?rel=0&modestbranding=1&playsinline=1';
+      }
+      // Vimeo page -> player
+      if (host.endsWith('vimeo.com')) {
+        var seg = u.pathname.split('/').filter(Boolean)[0];
+        if (/^\d+$/.test(seg)) return 'https://player.vimeo.com/video/' + seg;
+      }
+      return url; // leave as-is
+    } catch(e){
+      return url;
+    }
+  }
+
+  function enhanceIframe(iframe){
+    if (!iframe || iframe.__enhanced) return;
+    iframe.__enhanced = true;
+    // Upgrade URL for common providers
+    if (iframe.src) iframe.src = toEmbedURL(iframe.src);
+    // Add permissive attributes for media
+    try {
+      iframe.setAttribute('allowfullscreen','');
+      var allow = iframe.getAttribute('allow') || '';
+      var needed = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.setAttribute('allow', (allow ? allow + '; ' : '') + needed);
+    } catch(e){}
+
+    // If blocked by XFO/frame-ancestors, show fallback
+    var fallbackTimer = setTimeout(function(){
+      try {
+        var blocked = !iframe.contentWindow;
+        if (blocked) {
+          var url = iframe.getAttribute('src') || '#';
+          var panel = document.createElement('div');
+          panel.className = 'video-fallback';
+          panel.innerHTML = '<div class="note">This site prevents embedding the video here.</div>' +
+                            '<div class="actions"><a target="_blank" rel="noopener noreferrer">Open video in a new tab</a></div>';
+          panel.querySelector('a').href = url;
+          iframe.replaceWith(panel);
+        }
+      } catch(e){}
+    }, 900);
+
+    iframe.addEventListener('load', function(){ try { clearTimeout(fallbackTimer); } catch(_){}});
+  }
+
+  function observeModal(){
+    var host = document.getElementById('modalContent');
+    if (!host) return;
+    host.querySelectorAll('iframe').forEach(enhanceIframe);
+    var mo = new MutationObserver(function(muts){
+      muts.forEach(function(m){
+        m.addedNodes && Array.from(m.addedNodes).forEach(function(n){
+          if (n.tagName === 'IFRAME') enhanceIframe(n);
+          else if (n.querySelectorAll) n.querySelectorAll('iframe').forEach(enhanceIframe);
+        });
+      });
+    });
+    try { mo.observe(host, {childList: true, subtree: true}); } catch(e){}
+  }
+
+  if (document.readyState !== 'loading') observeModal();
+  else document.addEventListener('DOMContentLoaded', observeModal);
+})();
+</script>
+
+
+<style>
+/* Keep badge space but hide visually at zero to avoid flicker */
+.ve-label { display: inline-block; vertical-align: middle; }
+.ve-count-badge {
+  display: inline-block; vertical-align: middle;
+  min-width: 2.2ch; padding: 0 .45em;
+  border-radius: 999px; line-height: 1.3;
+  font-variant-numeric: tabular-nums; text-align: center;
+}
+.ve-count-badge.is-zero { opacity: 0; visibility: hidden; }
+</style>
+<script>
+(function(){
+  if (window.__badgeOnlyPatchInstalled__) return;
+  window.__badgeOnlyPatchInstalled__ = true;
+
+  function getCount(){
+    try {
+      if (typeof selectedProducts === 'function') {
+        var a = selectedProducts();
+        if (Array.isArray(a)) return a.length;
+      }
+    } catch(e){}
+    var n = 0;
+    try {
+      if (window.state) {
+        if (state.tractors && state.tractors.size) n += state.tractors.size;
+        if (state.attachments && state.attachments.size) n += state.attachments.size;
+        if (!n && Array.isArray(state.data)) {
+          n = state.data.filter(function(p){ return p && (p.selected || p.__selected); }).length;
+        }
+      }
+    } catch(e){}
+    return n || 0;
+  }
+
+  function ensure(btn){
+    if (!btn) return null;
+    if (btn.__veStructured) return {label: btn.querySelector('.ve-label'), badge: btn.querySelector('.ve-count-badge')};
+    var base = 'View Equipment';
+    btn.innerHTML = '';
+    var label = document.createElement('span');
+    label.className = 've-label';
+    label.textContent = base;
+    var badge = document.createElement('span');
+    badge.className = 've-count-badge is-zero';
+    badge.textContent = '0';
+    badge.setAttribute('aria-hidden','true');
+    btn.appendChild(label);
+    btn.appendChild(badge);
+    btn.__veStructured = true;
+    // Guard against other scripts changing label text
+    var mo = new MutationObserver(function(){
+      if (label.textContent !== base) label.textContent = base;
+    });
+    try { mo.observe(label, {characterData: true, subtree: true, childList: true}); } catch(e){}
+    return {label: label, badge: badge};
+  }
+
+  function update(){
+    var count = getCount();
+    [document.getElementById('msbStep1'), document.getElementById('btnGoStep2')].forEach(function(btn){
+      var parts = ensure(btn);
+      if (!parts) return;
+      if (btn.__prevCount === count) return;
+      btn.__prevCount = count;
+      parts.badge.textContent = String(count);
+      if (count > 0){
+        parts.badge.classList.remove('is-zero');
+        parts.badge.removeAttribute('aria-hidden');
+        btn.setAttribute('aria-label', 'View Equipment — ' + count + ' selected');
+        btn.classList && btn.classList.add('has-selection');
+      } else {
+        parts.badge.classList.add('is-zero');
+        parts.badge.setAttribute('aria-hidden','true');
+        btn.setAttribute('aria-label', 'View Equipment');
+        btn.classList && btn.classList.remove('has-selection');
+      }
+    });
+  }
+
+  var raf;
+  function schedule(){ if (raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }
+
+  // Initial & event-driven updates
+  if (document.readyState !== 'loading') schedule();
+  else document.addEventListener('DOMContentLoaded', schedule);
+  ['click','change','input','selectionchange'].forEach(function(evt){ document.addEventListener(evt, schedule, true); });
+  try {
+    var host = document.querySelector('#screen-step2') || document.body;
+    var mo = new MutationObserver(schedule);
+    mo.observe(host, {childList:true, subtree:true, attributes:true, attributeFilter:['class','aria-selected','aria-checked']});
+  } catch(e){}
 })();
 </script>
 
 
 <script>
 (function(){
-  function initFooterVis(){
-    var footer = document.getElementById('mobileFooter');
-    if (!footer) return;
-    var active = document.querySelector('.screen.active');
-    var id = active && active.id ? active.id.replace(/^screen-/, '') : 'welcome';
-    footer.style.display = (id === 'welcome') ? 'none' : '';
+  if (window.__globalRemoveRestoreBadgeHookInstalled__) return;
+  window.__globalRemoveRestoreBadgeHookInstalled__ = true;
+
+  // Helper: trigger badge refresh using any available updater,
+  // or by dispatching a 'selectionchange' event as a universal signal.
+  function triggerBadgeRefresh(){
+    try {
+      if (typeof window.__updateViewEquipmentButtons === 'function') { window.__updateViewEquipmentButtons(); return; }
+      if (typeof window.__updateViewEquipmentLabels === 'function') { window.__updateViewEquipmentLabels(); return; }
+    } catch(e){}
+    try {
+      var evt = new Event('selectionchange', {bubbles:true});
+      document.dispatchEvent(evt);
+    } catch(e){}
   }
-  if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', initFooterVis);
-  } else {
-    initFooterVis();
+
+  function isRemoveOrRestore(el){
+    if (!el) return false;
+    // Check attributes / classes
+    var sel = '[data-remove],[data-restore],[data-action="remove"],[data-action="restore"],.remove,.restore,.btn-remove,.btn-restore';
+    if (el.matches && el.matches(sel)) return true;
+    // Check text content
+    var txt = (el.textContent || '').trim().toLowerCase();
+    if (txt === 'remove' || txt === 'restore' || txt.includes('remove item') || txt.includes('restore item')) return true;
+    return false;
   }
+
+  // Capture clicks globally; if the click is on a remove/restore control,
+  // schedule a refresh (immediate + slight delay for async state updates).
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    // walk up in case the icon is inside the button
+    var btn = t && t.closest ? t.closest('[data-remove],[data-restore],[data-action="remove"],[data-action="restore"],.remove,.restore,.btn-remove,.btn-restore,button,a') : null;
+    if (!btn) return;
+    if (!isRemoveOrRestore(btn)) return;
+    setTimeout(triggerBadgeRefresh, 0);
+    setTimeout(triggerBadgeRefresh, 150);
+    setTimeout(triggerBadgeRefresh, 400);
+  }, true);
+
+  // Keyboard activation (Enter/Space) on focused remove/restore buttons
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var a = document.activeElement;
+    if (!a) return;
+    var btn = a.closest && a.closest('[data-remove],[data-restore],[data-action="remove"],[data-action="restore"],.remove,.restore,.btn-remove,.btn-restore,button,a');
+    if (!btn || !isRemoveOrRestore(btn)) return;
+    setTimeout(triggerBadgeRefresh, 0);
+    setTimeout(triggerBadgeRefresh, 150);
+    setTimeout(triggerBadgeRefresh, 400);
+  }, true);
+
+  // Listen for custom app events (if emitted)
+  ['item-removed','item-restored','selection-updated','cart-changed','selections-changed'].forEach(function(evt){
+    document.addEventListener(evt, function(){ setTimeout(triggerBadgeRefresh, 0); });
+  });
+
+  // Observe the Review Selections screen for row removals/restores
+  try {
+    var host = document.getElementById('modalContent') || document.body;
+    var mo = new MutationObserver(function(muts){
+      var changed = muts.some(function(m){ return (m.removedNodes && m.removedNodes.length) || (m.addedNodes && m.addedNodes.length); });
+      if (changed) setTimeout(triggerBadgeRefresh, 0);
+    });
+    mo.observe(host, {childList:true, subtree:true});
+  } catch(e){}
 })();
 </script>
+
+<script>(function(){if(window.__badgeModalAwarePatchInstalled__)return;window.__badgeModalAwarePatchInstalled__=true;
+function getCountFromState(){try{if(typeof selectedProducts==='function'){var a=selectedProducts();if(Array.isArray(a))return a.length;}}catch(e){}var n=0;try{if(window.state){if(state.tractors&&state.tractors.size)n+=state.tractors.size;if(state.attachments&&state.attachments.size)n+=state.attachments.size;if(!n&&Array.isArray(state.data)){n=state.data.filter(function(p){return p&&(p.selected||p.__selected);}).length;}}}catch(e){}return n||0;}
+function getCountFromModal(){try{var modal=document.getElementById('modal');var host=document.getElementById('modalContent');if(!modal||!host)return null;var visible=modal.style.display&&modal.style.display!=='none';if(!visible){visible=modal.getAttribute('aria-hidden')!=='true';}if(!visible)return null;var tbody=host.querySelector('table tbody');var rows=[];if(tbody)rows=Array.from(tbody.querySelectorAll('tr'));else rows=Array.from(host.querySelectorAll('table tr'));rows=rows.filter(function(r){return !r.querySelector('th');});rows=rows.filter(function(r){return !/no\s+products/i.test(r.textContent||'');});return rows.length;}catch(e){return null;}}
+function refreshBadge(){var count=getCountFromState();var modalCount=getCountFromModal();if(typeof modalCount==='number')count=modalCount;var btns=[document.getElementById('msbStep1'),document.getElementById('btnGoStep2')];btns.forEach(function(btn){if(!btn)return;var label=btn.querySelector('.ve-label');var badge=btn.querySelector('.ve-count-badge');if(!label||!badge){var base='View Equipment';btn.innerHTML='';label=document.createElement('span');label.className='ve-label';label.textContent=base;badge=document.createElement('span');badge.className='ve-count-badge is-zero';badge.textContent='0';badge.setAttribute('aria-hidden','true');btn.appendChild(label);btn.appendChild(badge);}if(btn.__prevCount===count)return;btn.__prevCount=count;badge.textContent=String(count);if(count>0){badge.classList.remove('is-zero');badge.removeAttribute('aria-hidden');btn.classList&&btn.classList.add('has-selection');btn.setAttribute('aria-label','View Equipment — '+count+' selected');}else{badge.classList.add('is-zero');badge.setAttribute('aria-hidden','true');btn.classList&&btn.classList.remove('has-selection');btn.setAttribute('aria-label','View Equipment');}});}
+window.__updateViewEquipmentButtons=refreshBadge;window.__updateViewEquipmentLabels=refreshBadge;
+function hookModal(){var host=document.getElementById('modalContent');if(!host)return;var mo=new MutationObserver(function(){setTimeout(refreshBadge,0);});try{mo.observe(host,{childList:true,subtree:true});}catch(e){}host.addEventListener('click',function(e){var t=e.target;var btn=t.closest&&t.closest('button,a');if(!btn)return;var txt=(btn.textContent||'').trim().toLowerCase();if(btn.matches('[data-remove],[data-restore],[data-action=\"remove\"],[data-action=\"restore\"],.remove,.restore,.btn-remove,.btn-restore')||txt==='remove'||txt==='restore'||txt.includes('remove item')||txt.includes('restore item')){setTimeout(refreshBadge,150);setTimeout(refreshBadge,400);}},true);}
+if(document.readyState!=='loading'){hookModal();refreshBadge();}else document.addEventListener('DOMContentLoaded',function(){hookModal();refreshBadge();});
+['click','change','input','selectionchange'].forEach(function(evt){document.addEventListener(evt,function(){setTimeout(refreshBadge,0);},true);});
+var moRoot=new MutationObserver(function(){hookModal();});try{moRoot.observe(document.body,{childList:true,subtree:true});}catch(e){}
+})();</script>
+<script>(function(){if(window.__modalRemoveRestoreStateBridgeInstalled__)return;window.__modalRemoveRestoreStateBridgeInstalled__=true;
+window.__removedSelectionBuckets=window.__removedSelectionBuckets||new Map();
+function N(v){return String(v||'').trim();}
+function findId(row){if(!row)return null;var id=row.getAttribute('data-product-id')||row.getAttribute('data-id')||(row.dataset&&(row.dataset.productId||row.dataset.id));if(id)return N(id);var txt=(row.textContent||'').replace(/\s+/g,' ').trim();var m=txt.match(/\b[A-Z0-9][A-Z0-9_-]{3,}\b/gi);if(m&&m.length){for(var i=0;i<m.length;i++){var cand=N(m[i]);try{if(typeof window.getProd==='function'){var prod=window.getProd(cand);if(prod)return N(prod.ProductID||prod.Id||prod.SKU||cand);}}catch(e){}}ret...
+function removeFromState(id){var bucket=null;try{if(window.state){if(state.tractors&&state.tractors.has&&state.tractors.has(id)){state.tractors.delete(id);bucket='tractors';}if(state.attachments&&state.attachments.has&&state.attachments.has(id)){state.attachments.delete(id);bucket=bucket||'attachments';}}}catch(e){}try{if(typeof window.deselectProduct==='function'){window.deselectProduct(id);}}catch(e){}try{if(typeof window.removeSelection==='function'){window.removeSelection(id);}}catch(e){}if(bucket)w...
+function restoreToState(id){var bucket=window.__removedSelectionBuckets.get(id)||null;try{if(window.state){if(bucket==='tractors'){if(state.tractors&&state.tractors.add)state.tractors.add(id);}else{if(state.attachments&&state.attachments.add)state.attachments.add(id);}}}catch(e){}try{if(typeof window.selectProduct==='function'){window.selectProduct(id);}}catch(e){}try{if(typeof window.addSelection==='function'){window.addSelection(id);}}catch(e){}}
+function refreshUI(){try{if(typeof window.__updateViewEquipmentButtons==='function'){window.__updateViewEquipmentButtons();}if(typeof window.__updateViewEquipmentLabels==='function'){window.__updateViewEquipmentLabels();}}catch(e){}try{var evt=new Event('selectionchange',{bubbles:true});document.dispatchEvent(evt);}catch(e){}try{if(typeof window.refreshStep2Grid==='function')window.refreshStep2Grid();}catch(e){}try{if(typeof window.renderStep2==='function')window.renderStep2();}catch(e){}}
+function onModalClick(e){var t=e.target;var btn=t&&t.closest&&t.closest('button,a');if(!btn)return;var txt=(btn.textContent||'').trim().toLowerCase();var isRemove=btn.matches('[data-remove],[data-action=\"remove\"],.remove,.btn-remove')||txt==='remove'||txt.includes('remove item');var isRestore=btn.matches('[data-restore],[data-action=\"restore\"],.restore,.btn-restore')||txt==='restore'||txt.includes('restore item');if(!isRemove&&!isRestore)return;var row=btn.closest('tr')||btn.closest('[data-product-id],[data-id],.select...
+function hookModal(){var host=document.getElementById('modalContent');if(!host||host.__removeRestoreHooked)return;host.__removeRestoreHooked=true;host.addEventListener('click',onModalClick,true);}
+if(document.readyState!=='loading')hookModal();else document.addEventListener('DOMContentLoaded',hookModal);
+var mo=new MutationObserver(hookModal);try{mo.observe(document.body,{childList:true,subtree:true});}catch(e){}
+})();</script>
+
+<style>
+/* Ensure stable structure for label + badge */
+.ve-label { display:inline-block; vertical-align:middle; }
+.ve-count-badge {
+  display:inline-block; vertical-align:middle;
+  min-width: 2.2ch; padding: 0 .45em;
+  border-radius: 999px; line-height: 1.3;
+  font-variant-numeric: tabular-nums; text-align: center;
+}
+.ve-count-badge.is-zero { opacity:0; visibility:hidden; }
+</style>
+<script>
+(function(){
+  if (window.__forceViewEquipmentLabelInstalled__) return;
+  window.__forceViewEquipmentLabelInstalled__ = true;
+
+  var BASE_TEXT = 'View Equipment';
+
+  function getCount(){
+    try {
+      if (typeof selectedProducts === 'function') {
+        var a = selectedProducts();
+        if (Array.isArray(a)) return a.length;
+      }
+    } catch(e){}
+    var n = 0;
+    try {
+      if (window.state) {
+        if (state.tractors && state.tractors.size) n += state.tractors.size;
+        if (state.attachments && state.attachments.size) n += state.attachments.size;
+        if (!n && Array.isArray(state.data)) {
+          n = state.data.filter(function(p){ return p && (p.selected || p.__selected); }).length;
+        }
+      }
+    } catch(e){}
+    return n || 0;
+  }
+
+  function buildStructure(btn){
+    if (!btn) return null;
+    var label = btn.querySelector && btn.querySelector('.ve-label');
+    var badge = btn.querySelector && btn.querySelector('.ve-count-badge');
+    if (label && badge) return {label, badge};
+    // Rebuild cleanly
+    var count = btn.__vePrevCount || 0;
+    btn.innerHTML = '';
+    label = document.createElement('span');
+    label.className = 've-label';
+    label.textContent = BASE_TEXT;
+    badge = document.createElement('span');
+    badge.className = 've-count-badge' + (count>0 ? '' : ' is-zero');
+    badge.textContent = String(count);
+    if (!count) badge.setAttribute('aria-hidden','true');
+    btn.appendChild(label);
+    btn.appendChild(badge);
+    return {label, badge};
+  }
+
+  function enforceLabel(btn){
+    if (!btn) return;
+    var parts = buildStructure(btn);
+    if (!parts) return;
+    if (parts.label.textContent !== BASE_TEXT) {
+      parts.label.textContent = BASE_TEXT;
+    }
+  }
+
+  function updateBadge(btn){
+    if (!btn) return;
+    var parts = buildStructure(btn);
+    if (!parts) return;
+    var count = getCount();
+    if (btn.__vePrevCount === count) return;
+    btn.__vePrevCount = count;
+    parts.badge.textContent = String(count);
+    if (count > 0){
+      parts.badge.classList.remove('is-zero');
+      parts.badge.removeAttribute('aria-hidden');
+      btn.classList && btn.classList.add('has-selection');
+      btn.setAttribute('aria-label', BASE_TEXT + ' — ' + count + ' selected');
+    } else {
+      parts.badge.classList.add('is-zero');
+      parts.badge.setAttribute('aria-hidden','true');
+      btn.classList && btn.classList.remove('has-selection');
+      btn.setAttribute('aria-label', BASE_TEXT);
+    }
+  }
+
+  function applyAll(){
+    ['msbStep1','btnGoStep2'].forEach(function(id){
+      var btn = document.getElementById(id);
+      if (!btn) return;
+      enforceLabel(btn);
+      updateBadge(btn);
+    });
+  }
+
+  // MutationObservers to *force* the label back if any script changes it
+  function watch(btn){
+    if (!btn || btn.__veWatcher) return;
+    btn.__veWatcher = true;
+    var mo = new MutationObserver(function(){
+      enforceLabel(btn);
+      updateBadge(btn);
+    });
+    try { mo.observe(btn, {childList:true, subtree:true, characterData:true}); } catch(e){}
+  }
+
+  function init(){
+    applyAll();
+    ['msbStep1','btnGoStep2'].forEach(function(id){ var b=document.getElementById(id); if (b) watch(b); });
+  }
+
+  // Wrap/override any prior updaters so they cannot change the label
+  var prevBtns = window.__updateViewEquipmentButtons;
+  window.__updateViewEquipmentButtons = function(){ if (typeof prevBtns==='function') try{prevBtns();}catch(e){} applyAll(); };
+  var prevLbls = window.__updateViewEquipmentLabels;
+  window.__updateViewEquipmentLabels = function(){ if (typeof prevLbls==='function') try{prevLbls();}catch(e){} applyAll(); };
+
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+
+  // Keep it in sync on common events & modal/grid changes
+  ['click','change','input','selectionchange'].forEach(function(evt){
+    document.addEventListener(evt, function(){ requestAnimationFrame(applyAll); }, true);
+  });
+  try {
+    var mo = new MutationObserver(function(){ requestAnimationFrame(applyAll); });
+    mo.observe(document.body, {childList:true, subtree:true});
+  } catch(e){}
+})();
+</script>
+
+<script>(function(){if(window.__toggleAwareBadgePatchInstalled__)return;window.__toggleAwareBadgePatchInstalled__=true;
+function getModalActiveRowCount(){try{var modal=document.getElementById('modal');var host=document.getElementById('modalContent');if(!modal||!host)return null;var visible=(modal.style.display&&modal.style.display!=='none')||(modal.getAttribute('aria-hidden')!=='true');if(!visible)return null;var tbody=host.querySelector('table tbody');var rows=tbody?Array.from(tbody.querySelectorAll('tr')):Array.from(host.querySelectorAll('table tr'));rows=rows.filter(function(r){if(r.querySelector('th'))return false;var txt=(r.textContent||'').trim();if(!txt)return false;if(/no\s+products/i.test(txt))return false;return true;});function rowIsActive(r){if(r.matches('[data-removed=\"true\"], .removed, .inactive, .is-removed'))return false;var sw=r.querySelector('[role=\"switch\"], input[type=\"checkbox\"], .switch, .toggle, [aria-pressed]');if(sw){if(sw.hasAttribute('aria-pressed')){var pressed=(sw.getAttribute('aria-pressed')||'').toLowerCase()==='true';if(pressed)return false;}if(sw.type==='checkbox'){if(sw.checked)return false;}if(sw.matches('[data-removed=\"true\"], .removed, .inactive, .is-removed'))return false;}var btn=r.querySelector('button, a');if(btn){var t=(btn.textContent||'').toLowerCase();if(/\brestore\b/.test(t))return false;if(/\bremove\b/.test(t))return true;}return true;}var active=rows.filter(rowIsActive);return active.length;}catch(e){return null;}}
+(function(){var prev=window.__updateViewEquipmentButtons;window.__updateViewEquipmentButtons=function(){var c=getModalActiveRowCount();if(typeof c==='number'){['msbStep1','btnGoStep2'].forEach(function(id){var btn=document.getElementById(id);if(!btn)return;var badge=btn.querySelector('.ve-count-badge');if(!badge){btn.innerHTML='<span class=\"ve-label\">View Equipment</span><span class=\"ve-count-badge is-zero\">0</span>';badge=btn.querySelector('.ve-count-badge');}if(btn.__vePrevCount!==c){btn.__vePrevCount=c;badge.textContent=String(c);if(c>0){badge.classList.remove('is-zero');badge.removeAttribute('aria-hidden');btn.classList&&btn.classList.add('has-selection');btn.setAttribute('aria-label','View Equipment — '+c+' selected');}else{badge.classList.add('is-zero');badge.setAttribute('aria-hidden','true');btn.classList&&btn.classList.remove('has-selection');btn.setAttribute('aria-label','View Equipment');}}});}if(typeof prev==='function'){try{prev();}catch(e){}}};})();function hookModalToggles(){var host=document.getElementById('modalContent');if(!host||host.__toggleAwareHooked)return;host.__toggleAwareHooked=true;function schedule(){setTimeout(function(){try{window.__updateViewEquipmentButtons();}catch(e){}},0);setTimeout(function(){try{window.__updateViewEquipmentButtons();}catch(e){}},120);setTimeout(function(){try{window.__updateViewEquipmentButtons();}catch(e){}},360);}host.addEventListener('click',function(e){var t=e.target;var ctrl=t&&t.closest&&t.closest('[role=\"switch\"], input[type=\"checkbox\"], .switch, .toggle, [aria-pressed], button, a');if(!ctrl)return;schedule();},true);host.addEventListener('change',function(e){var t=e.target;if(!t)return;if(t.matches('[role=\"switch\"], input[type=\"checkbox\"], .switch, .toggle, [aria-pressed]')){schedule();}},true);var mo=new MutationObserver(function(){schedule();});try{mo.observe(host,{childList:true,subtree:true,attributes:true,attributeFilter:['class','aria-pressed','data-removed','checked']});}catch(e){}}if(document.readyState!=='loading')hookModalToggles();else document.addEventListener('DOMContentLoaded',hookModalToggles);var rootMo=new MutationObserver(hookModalToggles);try{rootMo.observe(document.body,{childList:true,subtree:true});}catch(e){}})();</script>
+
+<script>
+(function(){
+  if (window.__bindRemoveRestoreToBadgeInstalled__) return;
+  window.__bindRemoveRestoreToBadgeInstalled__ = true;
+
+  function refreshBadgeNow(){
+    try { if (typeof window.__updateViewEquipmentButtons === 'function') window.__updateViewEquipmentButtons(); } catch(e){}
+    try { if (typeof window.__updateViewEquipmentLabels === 'function') window.__updateViewEquipmentLabels(); } catch(e){}
+  }
+
+  function isRemoveRestoreButton(el){
+    if (!el) return false;
+    if (el.matches('[data-action="remove"],[data-action="restore"],.btn-remove,.btn-restore,.remove,.restore')) return true;
+    var txt = (el.textContent || '').trim().toLowerCase();
+    return txt === 'remove' || txt === 'restore';
+  }
+
+  function bindInModal(){
+    var host = document.getElementById('modalContent');
+    if (!host || host.__removeRestoreBound) return;
+    host.__removeRestoreBound = true;
+
+    // Clicks
+    host.addEventListener('click', function(e){
+      var btn = e.target && e.target.closest && e.target.closest('button, a');
+      if (!btn || !isRemoveRestoreButton(btn)) return;
+      // Run after the app toggles the row
+      setTimeout(refreshBadgeNow, 0);
+      setTimeout(refreshBadgeNow, 120);
+      setTimeout(refreshBadgeNow, 360);
+    }, true);
+
+    // Keyboard activation on focused button (Enter/Space)
+    host.addEventListener('keydown', function(e){
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var el = document.activeElement;
+      if (!el) return;
+      var btn = el.closest && el.closest('button, a');
+      if (!btn || !isRemoveRestoreButton(btn)) return;
+      setTimeout(refreshBadgeNow, 0);
+      setTimeout(refreshBadgeNow, 120);
+      setTimeout(refreshBadgeNow, 360);
+    }, true);
+
+    // Also watch for label flips between Remove/Restore and update
+    var mo = new MutationObserver(function(muts){
+      var changed = muts.some(function(m){
+        return m.type === 'childList' || (m.type === 'characterData');
+      });
+      if (changed) setTimeout(refreshBadgeNow, 0);
+    });
+    try { mo.observe(host, {subtree:true, childList:true, characterData:true}); } catch(e){}
+  }
+
+  if (document.readyState !== 'loading') bindInModal();
+  else document.addEventListener('DOMContentLoaded', bindInModal);
+
+  // Re-bind if modal is re-rendered
+  var rootMo = new MutationObserver(bindInModal);
+  try { rootMo.observe(document.body, {childList:true, subtree:true}); } catch(e){}
+})();
+</script>
+
+<script>(function(){if(window.__bindRemoveRestoreToTotalInstalled__)return;window.__bindRemoveRestoreToTotalInstalled__=true;
+function safeUpdateTotal(){try{if(typeof updateTotal==='function')updateTotal();}catch(e){}try{var host=document.getElementById('modalContent');var out=document.getElementById('savePrintTotal');if(!host||!out)return;var tbody=host.querySelector('table tbody');var rows=tbody?Array.from(tbody.querySelectorAll('tr')):Array.from(host.querySelectorAll('table tr'));rows=rows.filter(function(r){return !r.querySelector('th');});var total=0;rows.forEach(function(r){var isRemoved=r.classList.contains('soft-re...
+function refreshBadge(){try{if(typeof window.__updateViewEquipmentButtons==='function')window.__updateViewEquipmentButtons();}catch(e){}try{if(typeof window.__updateViewEquipmentLabels==='function')window.__updateViewEquipmentLabels();}catch(e){}}
+function scheduleAll(){setTimeout(function(){safeUpdateTotal();refreshBadge();},0);setTimeout(function(){safeUpdateTotal();refreshBadge();},120);setTimeout(function(){safeUpdateTotal();refreshBadge();},360);}
+function bindInModal(){var host=document.getElementById('modalContent');if(!host||host.__totalAndBadgeBound)return;host.__totalAndBadgeBound=true;function isRemoveRestore(el){if(!el)return false;if(el.matches('[data-action=\"remove\"],[data-action=\"restore\"],.btn-remove,.btn-restore,.remove,.restore'))return true;var t=(el.textContent||'').trim().toLowerCase();return t==='remove'||t==='restore';}
+host.addEventListener('click',function(e){var btn=e.target&&e.target.closest&&e.target.closest('button,a');if(!btn||!isRemoveRestore(btn))return;scheduleAll();},true);
+host.addEventListener('change',function(e){var el=e.target;if(!el)return;if(el.matches('[role=\"switch\"], input[type=\"checkbox\"], .switch, .toggle, [aria-pressed]'))scheduleAll();},true);
+var mo=new MutationObserver(function(muts){scheduleAll();});try{mo.observe(host,{childList:true,subtree:true,attributes:true,attributeFilter:['class','aria-pressed','data-removed','checked']});}catch(e){}}
+if(document.readyState!=='loading')bindInModal();else document.addEventListener('DOMContentLoaded',bindInModal);
+var rootMo=new MutationObserver(bindInModal);try{rootMo.observe(document.body,{childList:true,subtree:true});}catch(e){}
+})();</script>
+<script>(function(){if(window.__badgeSyncToTotalInstalled__)return;window.__badgeSyncToTotalInstalled__=true;
+function modalVisible(){var modal=document.getElementById('modal');return !!(modal&&((modal.style.display&&modal.style.display!=='none')||(modal.getAttribute('aria-hidden')!=='true')));}
+function countActiveRowsInModal(){try{var host=document.getElementById('modalContent');if(!host)return null;var tbody=host.querySelector('table tbody');var rows=tbody?Array.from(tbody.querySelectorAll('tr')):Array.from(host.querySelectorAll('table tr'));rows=rows.filter(function(r){if(r.querySelector('th'))return false;var txt=(r.textContent||'').trim();if(!txt)return false;if(/no\s+products/i.test(txt))return false;return true;});function rowIsActive(r){if(r.matches('[data-removed=\"true\"], .removed, .inactive, .is-removed, .soft-removed'))return false;var btn=r.querySelector('button,a');if(btn){var t=(btn.textContent||'').toLowerCase();if(/\brestore\b/.test(t))return false;}var sw=r.querySelector('[role=\"switch\"], input[type=\"checkbox\"], .switch, .toggle, [aria-pressed]');if(sw){if(sw.hasAttribute('aria-pressed')){var pressed=(sw.getAttribute('aria-pressed')||'').toLowerCase()==='true';if(pressed)return false;}if(sw.type==='checkbox'&&sw.checked)return false;}return true;}return rows.filter(rowIsActive).length;}catch(e){return null;}}
+function pushCountToBadge(count){['msbStep1','btnGoStep2'].forEach(function(id){var btn=document.getElementById(id);if(!btn)return;var badge=btn.querySelector('.ve-count-badge');var label=btn.querySelector('.ve-label');if(!badge||!label){btn.innerHTML='<span class=\"ve-label\">View Equipment</span><span class=\"ve-count-badge is-zero\">0</span>';label=btn.querySelector('.ve-label');badge=btn.querySelector('.ve-count-badge');}if(btn.__vePrevCount===count)return;btn.__vePrevCount=count;badge.textContent=String(count);if(count>0){badge.classList.remove('is-zero');badge.removeAttribute('aria-hidden');btn.classList&&btn.classList.add('has-selection');btn.setAttribute('aria-label','View Equipment — '+count+' selected');}else{badge.classList.add('is-zero');badge.setAttribute('aria-hidden','true');btn.classList&&btn.classList.remove('has-selection');btn.setAttribute('aria-label','View Equipment');}});}
+function refreshFromModal(){if(!modalVisible())return;var c=countActiveRowsInModal();if(typeof c==='number')pushCountToBadge(c);}
+function watchTotal(){var out=document.getElementById('savePrintTotal');if(!out||out.__badgeSyncObserved)return;out.__badgeSyncObserved=true;var mo=new MutationObserver(function(){setTimeout(refreshFromModal,0);});try{mo.observe(out,{childList:true,characterData:true,subtree:true});}catch(e){}}
+function watchModal(){var host=document.getElementById('modalContent');if(!host||host.__badgeSyncModalObserved)return;host.__badgeSyncModalObserved=true;var mo=new MutationObserver(function(){setTimeout(refreshFromModal,0);});try{mo.observe(host,{childList:true,subtree:true,attributes:true,attributeFilter:['class','aria-pressed','data-removed','checked']});}catch(e){}}
+function init(){watchTotal();watchModal();setTimeout(refreshFromModal,0);setTimeout(refreshFromModal,150);}
+if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);
+var rootMo=new MutationObserver(init);try{rootMo.observe(document.body,{childList:true,subtree:true});}catch(e){}
+})();</script>
+
+<script>
+(function(){
+  if (window.__removeRestoreDominantCounterInstalled__) return;
+  window.__removeRestoreDominantCounterInstalled__ = true;
+
+  // Count items in the modal purely by the row's action button text.
+  // Active items show a button labeled "Remove". Removed items show "Restore".
+  function countActiveByButton(){
+    var host = document.getElementById('modalContent');
+    if (!host) return null;
+    var modal = document.getElementById('modal');
+    var visible = modal && ((modal.style.display && modal.style.display !== 'none') || (modal.getAttribute('aria-hidden') !== 'true'));
+    if (!visible) return null;
+
+    // Each item can be a row or card. Strategy:
+    // Count containers that currently contain a button/link whose text includes "Remove".
+    var nodes = host.querySelectorAll('tr, .selection-row, .saveprint-row, .sp-row, .sp-item, .review-row, .review-item, .saveprint-item, .card, .row');
+    if (!nodes.length) nodes = host.children; // fallback: top-level direct children
+
+    var active = 0;
+    Array.from(nodes).forEach(function(n){
+      // Look for a clickable control within this node
+      var ctrl = n.querySelector('button, a');
+      if (!ctrl) return;
+      var txt = (ctrl.textContent || '').toLowerCase();
+      if (txt.includes('remove')) active += 1;
+    });
+    // If we couldn't find any nodes with explicit remove buttons but there ARE restore buttons,
+    // infer zero active and let other heuristics kick in from earlier patches.
+    return active;
+  }
+
+  function pushCountToBadge(count){
+    ['msbStep1','btnGoStep2'].forEach(function(id){
+      var btn = document.getElementById(id);
+      if (!btn) return;
+      var badge = btn.querySelector('.ve-count-badge');
+      var label = btn.querySelector('.ve-label');
+      if (!badge || !label){
+        btn.innerHTML = '<span class="ve-label">View Equipment</span><span class="ve-count-badge is-zero">0</span>';
+        label = btn.querySelector('.ve-label');
+        badge = btn.querySelector('.ve-count-badge');
+      }
+      if (btn.__vePrevCount === count) return;
+      btn.__vePrevCount = count;
+      badge.textContent = String(count);
+      if (count > 0){
+        badge.classList.remove('is-zero');
+        badge.removeAttribute('aria-hidden');
+        btn.classList && btn.classList.add('has-selection');
+        btn.setAttribute('aria-label', 'View Equipment — ' + count + ' selected');
+      } else {
+        badge.classList.add('is-zero');
+        badge.setAttribute('aria-hidden','true');
+        btn.classList && btn.classList.remove('has-selection');
+        btn.setAttribute('aria-label', 'View Equipment');
+      }
+    });
+  }
+
+  function applyModalButtonCount(){
+    var n = countActiveByButton();
+    if (typeof n === 'number') pushCountToBadge(n);
+  }
+
+  // Hook into existing update signals (clicks/mutations/total changes already installed earlier)
+  // and also recompute based purely on the button text which matches your UI.
+  var host = document.getElementById('modalContent');
+  if (host){
+    host.addEventListener('click', function(e){
+      var t = e.target;
+      var btn = t && t.closest && t.closest('button,a');
+      if (!btn) return;
+      var text = (btn.textContent || '').toLowerCase();
+      if (text.includes('remove') || text.includes('restore')){
+        setTimeout(applyModalButtonCount, 0);
+        setTimeout(applyModalButtonCount, 120);
+        setTimeout(applyModalButtonCount, 360);
+      }
+    }, true);
+
+    var mo = new MutationObserver(function(){
+      setTimeout(applyModalButtonCount, 0);
+    });
+    try { mo.observe(host, {childList:true, subtree:true, characterData:true, attributes:true}); } catch(e){}
+  }
+
+  // Also run when the total changes (from earlier binding)
+  var out = document.getElementById('savePrintTotal');
+  if (out && !out.__rrdcb__) {
+    out.__rrdcb__ = true;
+    var mo2 = new MutationObserver(function(){ setTimeout(applyModalButtonCount, 0); });
+    try { mo2.observe(out, {childList:true, characterData:true, subtree:true}); } catch(e){}
+  }
+
+  // Initial pass
+  if (document.readyState !== 'loading') { setTimeout(applyModalButtonCount, 0); setTimeout(applyModalButtonCount, 150); }
+  else document.addEventListener('DOMContentLoaded', function(){ setTimeout(applyModalButtonCount, 0); setTimeout(applyModalButtonCount, 150); });
+
+  // Re-attach if modal re-renders
+  var rootMo = new MutationObserver(function(){ setTimeout(applyModalButtonCount, 0); });
+  try { rootMo.observe(document.body, {childList:true, subtree:true}); } catch(e){}
+})();
+</script>
+
+<script>(function(){
+  if (window.__saveprintFooterStickyPatchInstalled__) return;
+  window.__saveprintFooterStickyPatchInstalled__ = true;
+
+  function setFooterSavePrintActive(){
+    try {
+      if (typeof window.__setFooterActiveByScreen === 'function') {
+        window.__setFooterActiveByScreen('saveprint');
+        return;
+      }
+      if (typeof window.setActiveStep === 'function') {
+        // Do NOT navigate; just set the visual state if function supports it
+        try { setActiveStep('saveprint'); } catch(e) {}
+      }
+      // Add active class manually on known buttons
+      var rs = document.getElementById('msbStep2') || document.querySelector('[data-step="saveprint"], #msbStep2, #btnGoSavePrint');
+      if (rs && rs.classList) {
+        rs.classList.add('active','is-active','selected'); // whichever your CSS uses
+      }
+    } catch(e){}
+  }
+
+  function refreshBadge(){
+    try { if (typeof window.__updateViewEquipmentButtons === 'function') window.__updateViewEquipmentButtons(); } catch(e){}
+    try { if (typeof window.__updateViewEquipmentLabels === 'function') window.__updateViewEquipmentLabels(); } catch(e){}
+  }
+
+  function keepUserOnSavePrint(e, el){
+    // If it's an anchor with href="#"/"" or javascript:, block navigation
+    try {
+      if (!el) return;
+      if (el.tagName === 'A') {
+        var href = (el.getAttribute('href') || '').trim();
+        if (!href || href === '#' || href.toLowerCase().startsWith('javascript:')) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+        }
+      }
+    } catch(_){}
+  }
+
+  function bind(){
+    var host = document.getElementById('modalContent');
+    if (!host || host.__footerStickyBound) return;
+    host.__footerStickyBound = true;
+
+    host.addEventListener('click', function(e){
+      var btn = e.target && e.target.closest && e.target.closest('button, a');
+      if (!btn) return;
+      var label = (btn.textContent || '').toLowerCase();
+      var isRR = label.includes('remove') || label.includes('restore') || btn.matches('.remove,.restore,.btn-remove,.btn-restore,[data-action="remove"],[data-action="restore"]');
+      if (!isRR) return;
+
+      keepUserOnSavePrint(e, btn);
+
+      // After the app toggles the row, reassert the footer active state and refresh the badge
+      setTimeout(setFooterSavePrintActive, 0);
+      setTimeout(refreshBadge, 0);
+      setTimeout(setFooterSavePrintActive, 120);
+      setTimeout(refreshBadge, 120);
+      setTimeout(setFooterSavePrintActive, 360);
+      setTimeout(refreshBadge, 360);
+    }, true);
+
+    // If something programmatically flips rows and causes focus/blur, keep footer active
+    ['change','input'].forEach(function(evt){
+      host.addEventListener(evt, function(){ setTimeout(setFooterSavePrintActive, 0); }, true);
+    });
+  }
+
+  if (document.readyState !== 'loading') bind();
+  else document.addEventListener('DOMContentLoaded', bind);
+
+  var mo = new MutationObserver(bind);
+  try { mo.observe(document.body, {childList:true, subtree:true}); } catch(e){}
+})();</script>
+
+<script>
+(function(){
+  if (window.__leadDirectSendInstalled__) return;
+  window.__leadDirectSendInstalled__ = true;
+
+  // Endpoint can be replaced without touching code:
+  window.CONTACT_ENDPOINT = window.CONTACT_ENDPOINT || "https://formsubmit.co/ajax/doug.rehor@summittractors.com";
+
+  function buildPayloadFromDOM(){
+    function el(q){ return document.querySelector(q); }
+    return {
+      firstName: (el('#firstName')?.value||'').trim(),
+      lastName:  (el('#lastName')?.value||'').trim(),
+      email:     (el('#email')?.value||'').trim(),
+      phone:     (el('#phone')?.value||'').trim(),
+      zipcode:   (el('#zipcode')?.value||'').trim(),
+      city:      (el('#city')?.value||'').trim(),
+      state:     (el('#state')?.value||'').trim(),
+      method:    (el('#contactMethod')?.value||'').trim(),
+      times:     Array.from(el('#contactTimes')?.selectedOptions||[]).map(o=>o.value).join(', '),
+      comments:  (el('#comments')?.value||'').trim(),
+      selections: (typeof window.selectedProducts === 'function') ? JSON.stringify(selectedProducts()) : ''
+    };
+  }
+
+  function buildEmailText(p){
+    return [
+      'First Name: ' + (p.firstName||''),
+      'Last Name: ' + (p.lastName||''),
+      'Email: ' + (p.email||''),
+      'Phone: ' + (p.phone||''),
+      'Zip: ' + (p.zipcode||''),
+      'City/State: ' + (p.city||'') + (p.state?(', ' + p.state):''),
+      'Preferred Method: ' + (p.method||''),
+      'Best Times: ' + (p.times||''),
+      '',
+      'Comments:',
+      (p.comments||''),
+      '',
+      'Selections:',
+      (p.selections||'')
+    ].join('\n');
+  }
+
+  function showToast(msg, ok){
+    try {
+      var t = document.getElementById('toast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = 'toast';
+        t.style.position='fixed'; t.style.right='16px'; t.style.bottom='16px';
+        t.style.padding='12px 14px'; t.style.borderRadius='8px'; t.style.zIndex='99999';
+        t.style.boxShadow='0 4px 20px rgba(0,0,0,.18)';
+        t.style.background = ok ? '#165a33' : '#742a2a';
+        t.style.color = '#fff';
+        document.body.appendChild(t);
+      }
+      t.textContent = msg;
+      t.style.display='block';
+      setTimeout(()=>{ t.style.display='none'; }, 4000);
+    } catch(e){ alert(msg); }
+  }
+
+  async function sendDirect(p){
+    var formData = new FormData();
+    // FormSubmit expects keys; we put everything into message
+    formData.append('subject', 'New Summit Web Lead - ' + (p.firstName||'') + ' ' + (p.lastName||''));
+    formData.append('message', buildEmailText(p));
+    formData.append('_captcha', 'false');
+
+    try {
+      var res = await fetch(window.CONTACT_ENDPOINT, { method:'POST', body: formData });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      showToast('Thanks! Your message was sent.', true);
+      try { document.getElementById('leadModal')?.classList?.add('closing'); } catch(_){}
+      try { document.getElementById('leadClose')?.click(); } catch(_){}
+    } catch(err){
+      console.error('Direct send failed:', err);
+      showToast('Could not send right now. Please try again.', false);
+    }
+  }
+
+  // Replace the old mailto opener with a direct send
+  function openMailto(p){
+    // previous code navigated to mailto:. We now send directly.
+    sendDirect(p || buildPayloadFromDOM());
+  }
+
+  // Also intercept the submit button if present
+  (function bind(){
+    var btn = document.getElementById('leadSubmit') || document.querySelector('#leadModal [type="submit"], #leadModal .send');
+    if (!btn || btn.__directSendBound) return;
+    btn.__directSendBound = true;
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var p = buildPayloadFromDOM();
+      openMailto(p);
+    }, true);
+  })();
+})();
+</script>
+
+
+<script>
+(function(){
+  if (window.__killMailtoInstalled__) return;
+  window.__killMailtoInstalled__ = true;
+
+  // Reuse builder/sender if defined earlier; otherwise define light versions
+  function buildPayloadFromDOM(){
+    function el(q){ return document.querySelector(q); }
+    return {
+      firstName: (el('#firstName')?.value||'').trim(),
+      lastName:  (el('#lastName')?.value||'').trim(),
+      email:     (el('#email')?.value||'').trim(),
+      phone:     (el('#phone')?.value||'').trim(),
+      zipcode:   (el('#zipcode')?.value||'').trim(),
+      city:      (el('#city')?.value||'').trim(),
+      state:     (el('#state')?.value||'').trim(),
+      method:    (el('#contactMethod')?.value||'').trim(),
+      times:     Array.from(el('#contactTimes')?.selectedOptions||[]).map(o=>o.value).join(', '),
+      comments:  (el('#comments')?.value||'').trim(),
+      selections: (typeof window.selectedProducts === 'function') ? JSON.stringify(selectedProducts()) : ''
+    };
+  }
+
+  async function sendDirect(p){
+    try {
+      var formData = new FormData();
+      formData.append('subject', 'New Summit Web Lead - ' + (p.firstName||'') + ' ' + (p.lastName||''));
+      var msg = [
+        'First Name: ' + (p.firstName||''),
+        'Last Name: ' + (p.lastName||''),
+        'Email: ' + (p.email||''),
+        'Phone: ' + (p.phone||''),
+        'Zip: ' + (p.zipcode||''),
+        'City/State: ' + (p.city||'') + (p.state?(', ' + p.state):''),
+        'Preferred Method: ' + (p.method||''),
+        'Best Times: ' + (p.times||''),
+        '',
+        'Comments:',
+        (p.comments||''),
+        '',
+        'Selections:',
+        (p.selections||'')
+      ].join('\n');
+      formData.append('message', msg);
+      formData.append('_captcha', 'false');
+      var endpoint = window.CONTACT_ENDPOINT || "https://formsubmit.co/ajax/doug.rehor@summittractors.com";
+      await fetch(endpoint, { method:'POST', body: formData });
+    } catch(e) {
+      console.warn('Direct send error:', e);
+    }
+  }
+
+  function interceptAndSend(e){
+    e?.preventDefault?.();
+    e?.stopPropagation?.();
+    var p = buildPayloadFromDOM();
+    try { sendDirect(p); } catch(_){}
+    return false;
+  }
+
+  // 1) Intercept clicks on any anchor with mailto:
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest && e.target.closest('a[href^="mailto:"]');
+    if (!a) return;
+    interceptAndSend(e);
+  }, true);
+
+  // 2) Intercept forms with mailto: action
+  document.addEventListener('submit', function(e){
+    var f = e.target;
+    if (!f || !f.action) return;
+    if (/^mailto:/i.test(f.action)) interceptAndSend(e);
+  }, true);
+
+  // 3) Intercept programmatic navigations to mailto:
+  (function(){
+    try {
+      var L = window.location;
+      var origAssign = L.assign.bind(L);
+      var origReplace = L.replace.bind(L);
+      L.assign = function(url){
+        if (String(url||'').toLowerCase().startsWith('mailto:')) return interceptAndSend();
+        return origAssign(url);
+      };
+      L.replace = function(url){
+        if (String(url||'').toLowerCase().startsWith('mailto:')) return interceptAndSend();
+        return origReplace(url);
+      };
+    } catch(_){}
+    try {
+      var origOpen = window.open;
+      window.open = function(url, name, specs){
+        if (String(url||'').toLowerCase().startsWith('mailto:')) return interceptAndSend();
+        return origOpen ? origOpen(url, name, specs) : null;
+      };
+    } catch(_){}
+  })();
+})();
+</script>
+
+
+<script>
+(function(){
+  if (window.__forceDirectMailHandlersInstalled__) return;
+  window.__forceDirectMailHandlersInstalled__ = true;
+
+  function buildPayloadFromDOM(){
+    function el(q){ return document.querySelector(q); }
+    return {
+      firstName: (el('#firstName')?.value||'').trim(),
+      lastName:  (el('#lastName')?.value||'').trim(),
+      email:     (el('#email')?.value||'').trim(),
+      phone:     (el('#phone')?.value||'').trim(),
+      zipcode:   (el('#zipcode')?.value||'').trim(),
+      city:      (el('#city')?.value||'').trim(),
+      state:     (el('#state')?.value||'').trim(),
+      method:    (el('#contactMethod')?.value||'').trim(),
+      times:     Array.from(el('#contactTimes')?.selectedOptions||[]).map(o=>o.value).join(', '),
+      comments:  (el('#comments')?.value||'').trim(),
+      selections: (typeof window.selectedProducts === 'function') ? JSON.stringify(selectedProducts()) : ''
+    };
+  }
+
+  async function sendDirect(p){
+    try {
+      var formData = new FormData();
+      formData.append('subject', 'New Summit Web Lead - ' + (p.firstName||'') + ' ' + (p.lastName||''));
+      var msg = [
+        'First Name: ' + (p.firstName||''),
+        'Last Name: ' + (p.lastName||''),
+        'Email: ' + (p.email||''),
+        'Phone: ' + (p.phone||''),
+        'Zip: ' + (p.zipcode||''),
+        'City/State: ' + (p.city||'') + (p.state?(', ' + p.state):''),
+        'Preferred Method: ' + (p.method||''),
+        'Best Times: ' + (p.times||''),
+        '',
+        'Comments:',
+        (p.comments||''),
+        '',
+        'Selections:',
+        (p.selections||'')
+      ].join('\\n');
+      formData.append('message', msg);
+      formData.append('_captcha', 'false');
+      var endpoint = window.CONTACT_ENDPOINT || "https://formsubmit.co/ajax/doug.rehor@summittractors.com";
+      await fetch(endpoint, { method:'POST', body: formData });
+      try {
+        var t = document.getElementById('toast'); if (!t){ t=document.createElement('div'); t.id='toast'; t.style.cssText='position:fixed;right:16px;bottom:16px;padding:12px 14px;border-radius:8px;background:#165a33;color:#fff;z-index:99999'; document.body.appendChild(t); }
+        t.textContent='Thanks! Your message was sent.'; t.style.display='block'; setTimeout(()=>t.style.display='none', 4000);
+      } catch(_){}
+    } catch(e) {
+      console.warn('Direct send error:', e);
+      try {
+        var t = document.getElementById('toast'); if (!t){ t=document.createElement('div'); t.id='toast'; t.style.cssText='position:fixed;right:16px;bottom:16px;padding:12px 14px;border-radius:8px;background:#742a2a;color:#fff;z-index:99999'; document.body.appendChild(t); }
+        t.textContent='Could not send right now.'; t.style.display='block'; setTimeout(()=>t.style.display='none', 4000);
+      } catch(_){}
+    }
+  }
+
+  // Hard override any global mail helpers
+  window.openMail = function(payload){ return sendDirect(payload || buildPayloadFromDOM()); };
+  window.openMailto = function(payload){ return sendDirect(payload || buildPayloadFromDOM()); };
+
+  // Bind the contact form submit to direct send (prevents default navigation)
+  function bindForm(){
+    var form = document.getElementById('contactForm') || document.querySelector('#leadModal form, form[action^="mailto:"]');
+    if (!form || form.__directHooked) return;
+    form.__directHooked = true;
+    form.addEventListener('submit', function(e){
+      e.preventDefault(); e.stopPropagation();
+      var p = buildPayloadFromDOM();
+      sendDirect(p);
+      return false;
+    }, true);
+    // Also bind a visible submit button
+    var btn = document.getElementById('leadSubmit') || form.querySelector('[type="submit"], .send');
+    if (btn && !btn.__directHooked){
+      btn.__directHooked = true;
+      btn.addEventListener('click', function(e){
+        e.preventDefault(); e.stopPropagation();
+        var p = buildPayloadFromDOM();
+        sendDirect(p);
+        return false;
+      }, true);
+    }
+  }
+
+  if (document.readyState !== 'loading') bindForm();
+  else document.addEventListener('DOMContentLoaded', bindForm);
+
+  // Rebind if modal DOM changes
+  var mo = new MutationObserver(bindForm);
+  try { mo.observe(document.body, {childList:true, subtree:true}); } catch(e){}
+})();</script>
 
 </body>
 <script id="csv-persistence">
@@ -5135,9 +7913,8 @@ document.addEventListener('DOMContentLoaded', function(){
         var items = selectedProducts();
         titleEl.textContent = 'Your Selections — Save or Print';
         if (!items.length){
-          content.innerHTML = '<button class="player-close" type="button" aria-label="Close">×</button><div style="padding:12px;"><p>No products selected yet.</p></div>';
-          var closeBtn = content.querySelector('.player-close');
-          if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; };
+          content.innerHTML = '<div style="padding:12px;"><p>No products selected yet.</p></div>';
+          var closeBtn = content.querySelector('/* removed .player-close style */ catch(e){} };
           modal.style.display = 'flex';
           return;
         }
@@ -5157,8 +7934,7 @@ document.addEventListener('DOMContentLoaded', function(){
         content.innerHTML = ''
 
         // Wire controls
-        var closeBtn = content.querySelector('.player-close');
-        if (closeBtn) closeBtn.onclick = function(){ modal.style.display='none'; };
+        var closeBtn = content.querySelector('/* removed .player-close style */ catch(e){} };
         var btnPrint = content.querySelector('#sp_print');
         if (btnPrint) btnPrint.onclick = function(){ window.print(); };
         var btnCSV = content.querySelector('#sp_csv');
@@ -5251,12 +8027,7 @@ document.addEventListener('DOMContentLoaded', function(){
   function bindInternalViewer(){
     // Common ids/classes used earlier in this project
     var modal = document.getElementById("pdfViewerModal") || document.getElementById("modal");
-    var closeBtn = document.getElementById("pdfCloseBtn") || (modal ? modal.querySelector(".player-close, .modal-close") : null);
-    var printBtn = document.getElementById("pdfPrintBtn") || document.getElementById("sp_print");
-
-    if (closeBtn && !closeBtn.dataset._returnBound){
-      closeBtn.dataset._returnBound = "1";
-      closeBtn.addEventListener("click", function(){ setTimeout(goToViewSelect, 0); });
+    var closeBtn = document.getElementById("pdfCloseBtn") || (modal ? modal.querySelector("/* removed .player-close style */);
     }
     if (printBtn && !printBtn.dataset._returnBound){
       printBtn.dataset._returnBound = "1";
@@ -5438,7 +8209,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isYouTube){
         const src = toEmbed(url) || url;
         content.innerHTML = `
-          <button class="player-close" type="button" aria-label="Close">×</button>
           <div style="position:relative;padding-top:56.25%;">
             <iframe
               src="${src}"
@@ -5451,24 +8221,13 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>`;
       } else if (isMP4){
         content.innerHTML = `
-          <button class="player-close" type="button" aria-label="Close">×</button>
           <video src="${url}" controls playsinline style="width:100%;max-height:70vh;"></video>`;
       } else {
         content.innerHTML = `
-          <button class="player-close" type="button" aria-label="Close">×</button>
           <iframe src="${url}" style="width:100%;height:70vh;border:0;"></iframe>`;
       }
 
-      const x = content.querySelector('.player-close');
-      if (x) x.addEventListener('click', closeAll);
-
-      modal.style.display = 'flex';
-
-      const escHandler = (e) => {
-        if (e.key === 'Escape') {
-          closeAll();
-          document.removeEventListener('keydown', escHandler);
-        }
+      const x = content.querySelector('/* removed .player-close style */
       };
       document.addEventListener('keydown', escHandler, { once: true });
 
@@ -5487,85 +8246,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 </script>
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  function bindOpenStep2(){
-    const candidates = [
-      document.getElementById('viewSelectEquipment'),
-      document.getElementById('nextToStep2'),
-      document.querySelector('[data-action="view-select-equipment"]'),
-      document.querySelector('button[title="View & Select Equipment"]')
-    ].filter(Boolean);
 
-    // Also find by text content
-    document.querySelectorAll('button, a.btn, .btn').forEach(el => {
-      if (!el) return;
-      const t = (el.textContent || '').trim();
-      if (/view\s*&?\s*select\s*equipment/i.test(t)) candidates.push(el);
-    });
-
-    candidates.forEach(btn => {
-      if (!btn.__wiredOpenStep2){
-        btn.__wiredOpenStep2 = true;
-        btn.addEventListener('click', function(ev){
-          if (typeof openStep2 === 'function') openStep2();
-          else if (typeof setActiveStep === 'function') setActiveStep('step2');
-          // ensure render
-          if (typeof renderAttachments === 'function') renderAttachments();
-        });
-      }
-    });
-  }
-  bindOpenStep2();
-});
-
-// Ensure Lead Form "Close" returns user to View & Select Equipment (Step 2)
-(function(){
-  const leadClose = document.getElementById('leadClose');
-  if (leadClose){
-    leadClose.addEventListener('click', function(){
-      try {
-        var lm = document.getElementById('leadModal');
-        if (lm) lm.style.display = 'none';
-        if (typeof setActiveStep === 'function') setActiveStep('step2');
-      } catch(e){ console.warn('leadClose error:', e); }
-    });
-  }
-})();
-</script>
-<script>
-document.addEventListener('click', function(e){
-  const btn = e.target.closest('[data-action="printSelections"]');
-  if (!btn) return;
-
-  // Collect selected items from existing dataset (fallback mapper)
-  function getImage(p){ try{ return p.Image || p.Thumbnail || p.img || (p.Images && p.Images[0]) || ''; }catch(e){ return ''; } }
-  function esc(s){ return String(s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',\"'\":'&#39;' }[m])); }
-  function toNum(s){ try { return parseFloat(String(s||'').replace(/[^0-9.\-]/g,''))||0; } catch(e){ return 0; } }
-
-  // Heuristic: look for a global 'cart' or selected items in DOM; as a fallback, gather items with data-selected
-  let items = (window.cart && Array.isArray(window.cart) ? window.cart : []);
-  if (!items.length) {
-    items = Array.from(document.querySelectorAll('[data-selected="true"]')).map(el => ({
-      ProductName: el.getAttribute('data-name') || (el.querySelector('.name')?.textContent?.trim()||''),
-      SKU: el.getAttribute('data-part') || el.getAttribute('data-sku') || '',
-      Price: el.getAttribute('data-price') || (el.querySelector('.price')?.textContent?.trim()||''),
-      Image: el.querySelector('img')?.getAttribute('src') || ''
-    }));
-  }
-
-  const rows = items.map((p, idx) => ({
-    name: p.ProductName || p.Name || '',
-    sku:  p.SKU || p.Part || '',
-    price: p.Price || '',
-    priceStr: (p.Price!=null ? String(p.Price) : ''),
-    priceNum: toNum(p.Price),
-    img: getImage(p)
-  }));
-
-  showPrintPreview(rows);
-});
-</script>
 <script>
 function showPrintPreview(rows, opts = {}) {
   const modal = document.querySelector('#modal');
@@ -5609,7 +8290,6 @@ function buildPrintDocument(rows, opts = {}) {
   }).join('');
 
   const doc = '<!DOCTYPE html><html><head><meta charset="utf-8">'
-
 
 <style>
 /* --- Universal scrollability for all screens on all devices --- */
