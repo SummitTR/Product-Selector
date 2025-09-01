@@ -492,6 +492,7 @@ let CAPTCHA = { a: 2+Math.floor(Math.random()*7), b: 2+Math.floor(Math.random()*
 
 /* ---------- Init ---------- */
 window.addEventListener("DOMContentLoaded", () => {
+  try{ localStorage.removeItem('summit:selected'); localStorage.removeItem('summit:removedForPrint'); SELECTED = new Set(); REMOVED_FOR_PRINT = new Set(); showToast('Selections cleared'); }catch{};
   // nav
   $$('nav button').forEach(btn=> btn.addEventListener('click',()=> gotoStep(Number(btn.dataset.step))));
   $('#btnAdmin').addEventListener('click', () => {
@@ -516,7 +517,16 @@ function gotoStep(step){
   if(step===4) { $('#sendPhasePitch').classList.remove('hidden'); $('#leadForm').classList.add('hidden'); $('#leadThanks').classList.add('hidden'); }
 }
 
-function closeApp(){ alert('This would close an overlay or navigate away in production.'); }
+function closeApp(){
+  try{
+    localStorage.removeItem('summit:selected');
+    localStorage.removeItem('summit:removedForPrint');
+    SELECTED = new Set();
+    REMOVED_FOR_PRINT = new Set();
+    updateHeaderCounters();
+  }catch{}
+  showToast('Selections cleared'); alert('This would close an overlay or navigate away in production.');
+}
 
 /* ---------- Filtering / Rendering ---------- */
 function refreshFilterOptions(){
@@ -765,12 +775,9 @@ function toCSV(rows){
   return rows.map(r => r.map(esc).join(',')).join('\n');
 }
 
-/* ---------- CSV Import (Admin) ---------- */
-async function onCSVChosen(e){
-  const file = e.target.files?.[0];
-  if(!file) return;
-  const text = await file.text();
-  const rows = parseCSV(text).filter(r => r.Active);
+
+/* ---------- CSV Persist Helpers ---------- */
+function setProductsFromRows(rows, versionLabel, loadedLabel){
   const mapped = rows.map(r => ({
     ProductID: r.ProductID,
     Category: r.Category,
@@ -796,12 +803,53 @@ async function onCSVChosen(e){
   refreshFilterOptions();
   renderList();
   updateHeaderCounters();
-  $('#csvVersion').textContent = file.name;
-  $('#csvLoaded').textContent = new Date().toLocaleString();
+  if($('#csvVersion')) $('#csvVersion').textContent = versionLabel || 'Last Import';
+  if($('#csvLoaded')) $('#csvLoaded').textContent = loadedLabel || new Date().toLocaleString();
+}
+
+function tryRestoreLastCSV(){
+  try{
+    const saved = localStorage.getItem('summit:lastCSV');
+    if(!saved) return false;
+    const meta = JSON.parse(localStorage.getItem('summit:lastCSV_meta')||'{}');
+    const rows = parseCSV(saved).filter(r => r.Active);
+    if(!rows.length) return false;
+    setProductsFromRows(rows, meta.name ? meta.name : 'Last Import', (meta.when ? (new Date(meta.when).toLocaleString()) : new Date().toLocaleString()) + ' (restored)');
+    return true;
+  }catch(e){ console.warn('Restore failed', e); return false;}
+}
+
+/* ---------- CSV Import (Admin) ---------- */
+
+async function onCSVChosen(e){
+  const file = e.target.files?.[0];
+  if(!file) return;
+  const text = await file.text();
+  // persist raw CSV + meta
+  try{
+    localStorage.setItem('summit:lastCSV', text);
+    localStorage.setItem('summit:lastCSV_meta', JSON.stringify({ name: file.name, when: Date.now() }));
+  }catch{ /* storage may fail */ }
+
+  const rows = parseCSV(text).filter(r => r.Active);
+  setProductsFromRows(rows, file.name, new Date().toLocaleString());
+}
+
+
+
+/* ---------- Toast Helper ---------- */
+function showToast(msg){
+  const t = $('#toast');
+  if(!t) return;
+  t.textContent = msg;
+  t.style.opacity = '1';
+  setTimeout(()=>{ t.style.opacity = '0'; }, 2500);
 }
 
 /* ---------- Helpers ---------- */
 function escapeHtml(str){ return String(str||'').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
 </script>
+
+<div id="toast" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#254a4f;color:#fff;padding:10px 16px;border-radius:8px;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .4s"></div>
 </body>
 </html>
